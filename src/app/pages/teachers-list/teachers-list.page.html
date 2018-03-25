@@ -1,0 +1,31 @@
+<div class="page">
+  <app-header [activeSection]="'TEACHERS'"></app-header>
+
+  <div class="list-header">
+    <div class="teachers-list-header-search">
+      <div class="input-group list-header-input">
+        <span class="input-group-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <input class="form-control" placeholder="Имя" (keyup)="onSearchChange($event.target.value)">
+      </div>
+    </div>
+
+    <div class="teachers-list-header-add-new">
+      <button class="btn btn-primary pull-right" (click)="openNewTeacherPage()">
+        Добавить
+      </button>
+    </div>
+  </div>
+
+  <div class="list-content">
+    <div class="page-loading" *ngIf="loadingInProgress">
+      <fa name="spinner" class="loading-sign" animation="spin"></fa>
+    </div>
+
+    <div *ngFor="let teacher of teachers" class="list-row-clickable" (click)="openTeacherPage(teacher.id)">
+      {{teacher.name}}
+    </div>
+  </div>
+</div>

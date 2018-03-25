@@ -1,0 +1,81 @@
+@import "colors.less";
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.page-elements {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.page-left-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-gray-2;
+}
+
+.page-left-menu-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid @color-gray-4;
+}
+
+.page-left-menu-item-active {
+  .page-left-menu-item;
+
+  color: @color-primary-normal-1;
+}
+
+.page-left-menu-item-inactive {
+  .page-left-menu-item;
+
+  cursor: pointer;
+}
+
+.page-left-menu-item-inactive:hover {
+  opacity: 0.7;
+}
+
+.page-right-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-gray-2;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.page-content-with-footer {
+  .page-content;
+
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 70%;
+  height: 60px;
+  margin-left: 15%;
+  padding: 10px 20px;
+  background: @color-gray-1;
+  border-top: 1px solid @color-gray-3;
+}
+
+.page-loading {
+  width: 100%;
+  margin-top: 10%;
+  text-align: center;
+  font-size: 30px;
+  color: @color-primary-normal-1;
+}

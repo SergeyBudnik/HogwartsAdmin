@@ -1,0 +1,160 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu">
+    </div>
+
+    <div class="page-content-with-footer">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 *ngIf="!!student.id">
+          Редактирование информации об ученике '{{student.name}}'
+        </h3>
+
+        <h3 *ngIf="!student.id">
+          Добавление информации об ученика
+        </h3>
+
+        <br>
+
+        <form>
+          <div class="form-group">
+            <app-field-validation-sign [valid]="!!student.name && student.name.indexOf('?') === -1"></app-field-validation-sign>
+
+            <label for="name">Имя:</label>
+            <input id="name" name="name" class="form-control" required minlength="1" [(ngModel)]="student.name" #name="ngModel"/>
+          </div>
+
+          <div class="form-group">
+            <app-field-validation-sign [valid]="student.phones.length !== 0 || student.emails.length !== 0"></app-field-validation-sign>
+
+            <label for="phones">Телефоны:</label>
+            <tag-input id="phones" class="form-control" name="phones" [(ngModel)]="student.phones"
+                       [modelAsStrings]="true"
+                       [separatorKeyCodes]="[9, 14, 32]"
+                       [placeholder]="'Введите телефон'"
+                       [secondaryPlaceholder]="'Введите телефон'">
+            </tag-input>
+          </div>
+
+          <div class="form-group">
+            <app-field-validation-sign [valid]="student.phones.length !== 0 || student.emails.length !== 0"></app-field-validation-sign>
+
+            <label for="emails">Email:</label>
+            <tag-input id="emails" class="form-control" name="emails" [(ngModel)]="student.emails"
+                       [modelAsStrings]="true"
+                       [separatorKeyCodes]="[9, 14, 32]"
+                       [placeholder]="'Введите email'"
+                       [secondaryPlaceholder]="'Введите email'">
+            </tag-input>
+          </div>
+
+          <div class="form-group">
+            <label for="educationLevel">
+              <app-field-validation-sign [valid]="student.educationLevel !== 'UNKNOWN'"></app-field-validation-sign>
+
+              Уровень подготовки:
+            </label>
+            <select id="educationLevel" class="form-control" name="educationLevel" [(ngModel)]="student.educationLevel" (change)="onEducationLevelChange($event.target.value)">
+              <option *ngFor="let educationLevel of educationLevels" value="{{educationLevel}}">
+                {{getEducationLevelTranslation(educationLevel)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="referralSource">
+              <app-field-validation-sign [valid]="student.referralSource !== 'UNKNOWN'"></app-field-validation-sign>
+
+              Откуда узнал:
+            </label>
+            <select id="referralSource" class="form-control" name="referralSource" [(ngModel)]="student.referralSource" (change)="onReferralSourceChange($event.target.value)">
+              <option *ngFor="let referralSource of referralSources" value="{{referralSource}}">
+                {{getStudentReferralSourceTranslation(referralSource)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="age">
+              <app-field-validation-sign [valid]="student.age !== 'UNKNOWN'"></app-field-validation-sign>
+
+              Возраст:
+            </label>
+            <select id="age" class="form-control" name="age" [(ngModel)]="student.age" (change)="onAgeChange($event.target.value)">
+              <option *ngFor="let age of ages" value="{{age}}">
+                {{getAgeTranslationAsGroup(age)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="status">
+              <app-field-validation-sign [valid]="true"></app-field-validation-sign>
+
+              Статус:
+            </label>
+            <select id="status" class="form-control" name="status" [(ngModel)]="student.statusType" (change)="onStatusTypeChange($event.target.value)">
+              <option *ngFor="let status of statuses" value="{{status}}">
+                {{getStudentStatusTypeTranslation(status)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="h-full">
+              <app-field-validation-sign [valid]="true"></app-field-validation-sign>
+
+              Группы:
+
+              <!--<span class="pull-right">Подходящих групп: <b>({{suitableGroups.length}})</b></span>-->
+            </label>
+
+            <div *ngFor="let groupId of student.groupIds; let i = index" style="margin-bottom: 5px" class="student-group-container">
+              <select id="{{'group_' + groupId}}" class="form-control" style="width: 80%" name="{{'group_' + groupId}}"
+                      [(ngModel)]="student.groupIds[i]"
+                      [disabled]="suitableGroups.length === 0">
+                <option *ngFor="let suitableGroup of suitableGroups" value="{{suitableGroup.id}}">
+                  {{suitableGroup.name}}
+                </option>
+              </select>
+
+              <span *ngIf="!!groupId" style="width: 20%" class="pull-right">
+                <span class="student-group-link pull-right horizontal-item"
+                   (click)="removeGroup(i)">Удалить</span>
+
+                <a class="student-group-link pull-right horizontal-item"
+                   href="{{'#/groups/' + groupId + '/information'}}">Перейти</a>
+              </span>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" (click)="addGroup()">Добавить группу</button>
+
+          <br>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="loadingInProgress || actionInProgress || !student.id"
+            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
+    </button>
+
+    <button [disabled]="loadingInProgress || actionInProgress"
+            class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
+    </button>
+  </div>
+</div>

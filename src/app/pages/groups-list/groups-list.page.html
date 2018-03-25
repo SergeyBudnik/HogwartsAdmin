@@ -1,0 +1,93 @@
+<div class="page">
+  <app-header [activeSection]="'GROUPS'"></app-header>
+
+  <div class="list-header">
+    <div class="groups-list-header-color"></div>
+
+    <div class="groups-list-header-search">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <input class="form-control" placeholder="Название" (keyup)="onNameFilterChange($event.target.value)">
+      </div>
+    </div>
+
+    <div class="groups-list-header-search">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <select class="form-control" (change)="onAgeFilterChange($event.target.value)">
+          <option *ngFor="let age of ages" value="{{age}}">
+            {{age === 'UNKNOWN' ? 'Все возрастные категории' : getAgeTranslationAsGroup(age)}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="groups-list-header-search">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <select class="form-control" (change)="onEducationLevelFilterChange($event.target.value)">
+          <option *ngFor="let educationLevel of educationLevels" value="{{educationLevel}}">
+            {{educationLevel === 'UNKNOWN' ? 'Все уровни' : getEducationLevelTranslation(educationLevel)}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="groups-list-header-search">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+
+        <select class="form-control" (change)="onCabinetFilterChange($event.target.value)">
+          <option value="{{null}}">Все отделения</option>
+          <option *ngFor="let cabinet of cabinets" value="{{cabinet.id}}">
+            {{cabinet.name}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="groups-list-header-add-new">
+      <button class="btn btn-primary pull-right" (click)="openNewGroupPage()">
+        Добавить
+      </button>
+    </div>
+  </div>
+
+  <div class="list-content">
+    <div class="page-loading" *ngIf="loadingInProgress">
+      <fa name="spinner" class="loading-sign" animation="spin"></fa>
+    </div>
+
+    <div *ngFor="let group of groups" class="list-row-clickable" (click)="openGroupPage(group.id)">
+      <div class="groups-list-item-color">
+        <div class="groups-list-item-color-circle" [style.background-color]="group.color">
+        </div>
+      </div>
+      <div class="groups-list-item-search">
+        {{group.name}}
+      </div>
+      <div class="groups-list-item-search">
+        {{getAgeTranslationAsGroup(group.age)}}
+      </div>
+      <div class="groups-list-item-search">
+        {{getEducationLevelTranslation(group.educationLevel)}}
+      </div>
+      <div class="groups-list-item-search">
+        {{'Офис Хогвартс. Приморская'}}
+      </div>
+      <div style="width: 14%">
+      </div>
+    </div>
+  </div>
+</div>

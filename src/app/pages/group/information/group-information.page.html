@@ -1,0 +1,134 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'INFORMATION'"></div>
+
+    <div class="page-content-with-footer">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 *ngIf="!!group.id">
+          Группа '{{group.name}}'
+        </h3>
+
+        <h3 *ngIf="!group.id">
+          Добавление группы
+        </h3>
+
+        <br>
+
+        <form>
+          <h5>Информация</h5>
+
+          <br>
+
+          <div class="form-group">
+            <label for="color">Цвет:</label>
+            <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Название:</label>
+            <input id="name" class="form-control" name="name" placeholder="Название" [(ngModel)]="group.name">
+          </div>
+
+          <div class="form-group">
+            <label for="bookName">Название учебника:</label>
+            <input id="bookName" class="form-control" name="bookName" placeholder="Название учебника" [(ngModel)]="group.bookName">
+          </div>
+
+          <div class="form-group">
+            <label for="educationLevels">Уровень подготовки:</label>
+            <select id="educationLevels" class="form-control" name="educationLevel" [(ngModel)]="group.educationLevel">
+              <option value="{{educationLevel}}" *ngFor="let educationLevel of educationLevels">
+                {{getEducationLevelTranslation(educationLevel)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="ages">Возрастная категория:</label>
+            <select id="ages" class="form-control" name="age" [(ngModel)]="group.age">
+              <option value="{{age}}" *ngFor="let age of ages">
+                {{getAgeTranslationAsGroup(age)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cabinetId">Кабинет:</label>
+            <select id="cabinetId" class="form-control" name="cabinetId" [(ngModel)]="group.cabinetId">
+              <option value="{{cabinet.id}}" *ngFor="let cabinet of cabinets">
+                {{cabinet.name}}
+              </option>
+            </select>
+          </div>
+
+          <br>
+
+          <h5>Занятия:</h5>
+
+          <div *ngIf="group.lessons.length === 0">
+            <br>
+
+            Занятия не назначены
+
+            <br>
+            <br>
+          </div>
+
+          <br>
+
+          <ng-container *ngFor="let dayOfWeek of daysOfWeek;">
+            <ng-container *ngIf="getDayLessons(dayOfWeek).length !== 0">
+              <div *ngFor="let dayLesson of getDayLessons(dayOfWeek); let i = index" class="group-lesson-row">
+                <div style="width: 10%">
+                  {{getDayOfWeekTranslation(dayOfWeek)}}
+                </div>
+                <div style="width: 40%">
+                  {{getTimeTranslation(dayLesson.startTime)}} - {{getTimeTranslation(dayLesson.finishTime)}}
+                </div>
+                <div style="width: 40%">
+                  {{getTeacher(dayLesson.teacherId).name}}
+                </div>
+                <div style="width: 10%">
+                  <i class="fa fa-remove pull-right clickable" (click)="removeLesson(dayLesson.day, dayLesson.startTime)"></i>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <br>
+
+          <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Добавить занятие
+          </button>
+
+          <br>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+
+    <app-assign-lesson-popup [group]="group"></app-assign-lesson-popup>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="loadingInProgress || actionInProgress || !group.id"
+            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
+    </button>
+
+    <button [disabled]="loadingInProgress || actionInProgress"
+            class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
+    </button>
+  </div>
+</div>

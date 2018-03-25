@@ -1,0 +1,49 @@
+<div class="header">
+  <div style="flex-grow: 1">
+    <span class="header-title">Hogwarts Admin v1.0.3</span>
+  </div>
+
+  <div style="flex-grow: 5">
+    <span (click)="navigate('/students')"
+         [class.menu-element-active]="activeSection === 'STUDENTS'"
+         [class.menu-element-inactive]="activeSection !== 'STUDENTS'">
+
+      <i class="fa fa-user menu-element-icon" aria-hidden="true"></i>
+
+      Студенты
+    </span>
+
+    <span (click)="navigate('/groups')"
+         [class.menu-element-active]="activeSection === 'GROUPS'"
+         [class.menu-element-inactive]="activeSection !== 'GROUPS'">
+
+      <i class="fa fa-users menu-element-icon" aria-hidden="true"></i>
+
+      Группы
+    </span>
+
+    <span (click)="navigate('/teachers')"
+         [class.menu-element-active]="activeSection === 'TEACHERS'"
+         [class.menu-element-inactive]="activeSection !== 'TEACHERS'">
+
+      <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
+
+      Учителя
+    </span>
+
+    <span (click)="navigate('/cabinets')"
+         [class.menu-element-active]="activeSection === 'CABINETS'"
+         [class.menu-element-inactive]="activeSection !== 'CABINETS'">
+
+      <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
+
+      Кабинеты
+    </span>
+  </div>
+
+  <div style="flex-grow: 1">
+    <button class="btn btn-primary pull-right header-logout-button" (click)="logOff()">Выйти</button>
+    <span class="pull-right header-login">Сергей Будник</span>
+    <i class="fa fa-user header-login-icon pull-right" aria-hidden="true"></i>
+  </div>
+</div>

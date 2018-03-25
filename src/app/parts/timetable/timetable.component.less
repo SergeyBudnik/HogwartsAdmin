@@ -1,0 +1,47 @@
+@import '../../../styles.less';
+
+.timetable-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background: @color-gray-2;
+  border: 1px solid @color-gray-4;
+}
+
+.timetable-header-item {
+  text-align: center;
+  width: 14.28%;
+  padding: 5px 0;
+}
+
+.timetable-body {
+  border-left: 1px solid @color-gray-4;
+  border-right: 1px solid @color-gray-4;
+  border-bottom: 1px solid @color-gray-4;
+}
+
+.timetable-body-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.timetable-body-row-item {
+  text-align: center;
+  width: 14.28%;
+  padding: 5px 0;
+}
+
+.timetable-current-day {
+  border-left: 1px solid @color-primary-normal-1;
+  border-right: 1px solid @color-primary-normal-1;
+}
+
+.timetable-current-time {
+  border-top: 1px solid @color-primary-normal-1;
+  border-bottom: 1px solid @color-primary-normal-1;
+}
+
+.timetable-current-time-clickable:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}

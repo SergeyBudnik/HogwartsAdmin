@@ -1,0 +1,36 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'STUDENTS'"></div>
+
+    <div class="page-content-with-footer no-padding">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 class="group-students-header">
+          Группа '{{group.name}}'
+        </h3>
+
+        <br>
+
+        <div *ngFor="let student of students" class="list-row-clickable" (click)="openStudent(student.id)">
+          <app-field-validation-sign [valid]="isStudentValid(student)"></app-field-validation-sign>
+
+          <span class="horizontal-item">{{student.name}}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="btn btn-primary pull-right" (click)="addNewStudent()">
+      Добавить ученика
+    </button>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+@import "colors.less";
+
+.table-header-container {
+  padding: 10px 20px;
+  background-color: @color-gray-2;
+  border-bottom: 1px solid @color-gray-4;
+}
+
+.table-content-container {
+  overflow-y: scroll;
+  margin: 0 0 0 100px;
+  border-left: 1px solid @color-gray-4;
+  border-bottom: 1px solid @color-gray-4;
+  background: @color-gray-1;
+}
+
+.table-header-item-search-icon {
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+.table-header-item-control {
+  min-height: 34px;
+  max-height: 34px;
+  font-size: 14px;
+}
+
+.table-header-item-search {
+  .table-header-item-control;
+}
+
+.table-header-item-filter {
+  .table-header-item-control;
+}
+
+.table-header-item-search:focus {
+  background: @color-white;
+}
+
+table {
+  box-sizing: content-box;
+}
+
+td {
+  vertical-align: text-top;
+  padding: 10px 20px;
+}
+
+thead {
+  background: @color-gray-2;
+  border-right: 1px solid @color-gray-4;
+}
+
+tbody tr:hover td {
+  background: @color-gray-2;
+  cursor: pointer;
+}
+
+tbody td {
+  border-bottom: 1px solid @color-gray-4;
+  background: @color-white;
+}

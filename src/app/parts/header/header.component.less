@@ -1,0 +1,58 @@
+@import "../../../styles/colors.less";
+
+.header {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  padding: 0 20px;
+  line-height: 50px;
+  background: @color-primary-normal-1;
+}
+
+.header-title {
+  color: @color-white;
+}
+
+.header-login-icon {
+  color: @color-white;
+  line-height: 50px;
+  margin-right: 10px;
+}
+
+.header-login {
+  color: @color-white;
+  margin-right: 20px;
+}
+
+.header-logout-button {
+  margin-top: 5px;
+}
+
+.menu-element {
+  padding: 0 20px;
+  line-height: 50px;
+  color: @color-white;
+}
+
+.menu-element-inactive {
+  .menu-element;
+
+  opacity: 0.8;
+}
+
+.menu-element-inactive:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.menu-element-active {
+  .menu-element;
+
+  opacity: 1;
+}
+
+.menu-element-icon {
+  width: 20px;
+  margin-right: 10px;
+  text-align: center;
+}

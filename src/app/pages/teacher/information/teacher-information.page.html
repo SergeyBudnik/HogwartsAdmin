@@ -1,0 +1,84 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-teacher-menu [teacherId]="teacher.id" [currentTab]="'INFORMATION'"></div>
+
+    <div class="page-content-with-footer">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 *ngIf="!!teacher.id">
+          Учитель '{{teacher.name}}'
+        </h3>
+
+        <h3 *ngIf="!teacher.id">
+          Добавление учителя
+        </h3>
+
+        <br>
+
+        <form>
+          <h5>Информация</h5>
+
+          <br>
+
+          <div class="form-group">
+            <label for="name">Имя:</label>
+            <input id="name" class="form-control" name="name" required minlength="1" [(ngModel)]="teacher.name" #name="ngModel"/>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Тип:</label>
+            <select id="type" class="form-control" name="type" required minlength="1" [(ngModel)]="teacher.type" #type="ngModel">
+              <option *ngFor="let teacherType of teacherTypes" value="{{teacherType}}">
+                {{getTeacherTypeTranslation(teacherType)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="phones">Телефоны:</label>
+            <tag-input id="phones" class="form-control" name="phones" [(ngModel)]="teacher.phones"
+                       [modelAsStrings]="true"
+                       [separatorKeyCodes]="[9, 14, 32]"
+                       [placeholder]="'Введите телефон'"
+                       [secondaryPlaceholder]="'Введите телефон'">
+            </tag-input>
+          </div>
+
+          <div class="form-group">
+            <label for="emails">Email:</label>
+            <tag-input id="emails" class="form-control" name="emails" [(ngModel)]="teacher.emails"
+                       [modelAsStrings]="true"
+                       [separatorKeyCodes]="[9, 14, 32]"
+                       [placeholder]="'Введите email'"
+                       [secondaryPlaceholder]="'Введите email'">
+            </tag-input>
+          </div>
+
+          <br>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="loadingInProgress || actionInProgress || !teacher.id"
+            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
+    </button>
+
+    <button [disabled]="loadingInProgress || actionInProgress"
+            class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
+    </button>
+  </div>
+</div>
