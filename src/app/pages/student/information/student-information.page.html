@@ -6,7 +6,7 @@
 
     <div class="page-content-with-footer">
       <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+        <fa name="spinner" animation="spin"></fa>
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
@@ -21,96 +21,64 @@
         <br>
 
         <form>
-          <div class="form-group">
-            <app-field-validation-sign [valid]="!!student.name && student.name.indexOf('?') === -1"></app-field-validation-sign>
+          <div app-form-text-input-control class="form-group"
+               [name]="'name'"
+               [label]="'Имя'"
+               [placeholder]="'Введите имя'"
+               [valid]="!!student.name && student.name.indexOf('?') === -1"
+               [valueRef]="nameReference"></div>
 
-            <label for="name">Имя:</label>
-            <input id="name" name="name" class="form-control" required minlength="1" [(ngModel)]="student.name" #name="ngModel"/>
-          </div>
+          <div app-form-tag-control class="form-group"
+               [name]="'telephones'"
+               [label]="'Телефоны'"
+               [placeholder]="'Введите телефон'"
+               [valid]="student.phones.length !== 0 || student.emails.length !== 0"
+               [valueRef]="telephonesReference"></div>
 
-          <div class="form-group">
-            <app-field-validation-sign [valid]="student.phones.length !== 0 || student.emails.length !== 0"></app-field-validation-sign>
+          <div app-form-tag-control class="form-group"
+               [name]="'emails'"
+               [label]="'Email'"
+               [placeholder]="'Введите email'"
+               [valid]="student.phones.length !== 0 || student.emails.length !== 0"
+               [valueRef]="emailsReference"></div>
 
-            <label for="phones">Телефоны:</label>
-            <tag-input id="phones" class="form-control" name="phones" [(ngModel)]="student.phones"
-                       [modelAsStrings]="true"
-                       [separatorKeyCodes]="[9, 14, 32]"
-                       [placeholder]="'Введите телефон'"
-                       [secondaryPlaceholder]="'Введите телефон'">
-            </tag-input>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'educationLevel'"
+               [label]="'Уровень подготовки'"
+               [valid]="student.educationLevel !== 'UNKNOWN'"
+               [valueRef]="educationLevelReference"
+               [items]="getEducationLevelItems()"
+               (onChange)="onEducationLevelChange($event)"></div>
 
-          <div class="form-group">
-            <app-field-validation-sign [valid]="student.phones.length !== 0 || student.emails.length !== 0"></app-field-validation-sign>
+          <div app-form-select-control class="form-group"
+               [name]="'referralSource'"
+               [label]="'Откуда узнал'"
+               [valid]="student.referralSource !== 'UNKNOWN'"
+               [valueRef]="referralSourceReference"
+               [items]="getReferralSourceItems()"
+               (onChange)="onReferralSourceChange($event)"></div>
 
-            <label for="emails">Email:</label>
-            <tag-input id="emails" class="form-control" name="emails" [(ngModel)]="student.emails"
-                       [modelAsStrings]="true"
-                       [separatorKeyCodes]="[9, 14, 32]"
-                       [placeholder]="'Введите email'"
-                       [secondaryPlaceholder]="'Введите email'">
-            </tag-input>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'age'"
+               [label]="'Возраст'"
+               [valid]="student.age !== 'UNKNOWN'"
+               [valueRef]="ageReference"
+               [items]="getAgeItems()"
+               (onChange)="onAgeChange($event)"></div>
 
-          <div class="form-group">
-            <label for="educationLevel">
-              <app-field-validation-sign [valid]="student.educationLevel !== 'UNKNOWN'"></app-field-validation-sign>
-
-              Уровень подготовки:
-            </label>
-            <select id="educationLevel" class="form-control" name="educationLevel" [(ngModel)]="student.educationLevel" (change)="onEducationLevelChange($event.target.value)">
-              <option *ngFor="let educationLevel of educationLevels" value="{{educationLevel}}">
-                {{getEducationLevelTranslation(educationLevel)}}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="referralSource">
-              <app-field-validation-sign [valid]="student.referralSource !== 'UNKNOWN'"></app-field-validation-sign>
-
-              Откуда узнал:
-            </label>
-            <select id="referralSource" class="form-control" name="referralSource" [(ngModel)]="student.referralSource" (change)="onReferralSourceChange($event.target.value)">
-              <option *ngFor="let referralSource of referralSources" value="{{referralSource}}">
-                {{getStudentReferralSourceTranslation(referralSource)}}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="age">
-              <app-field-validation-sign [valid]="student.age !== 'UNKNOWN'"></app-field-validation-sign>
-
-              Возраст:
-            </label>
-            <select id="age" class="form-control" name="age" [(ngModel)]="student.age" (change)="onAgeChange($event.target.value)">
-              <option *ngFor="let age of ages" value="{{age}}">
-                {{getAgeTranslationAsGroup(age)}}
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="status">
-              <app-field-validation-sign [valid]="true"></app-field-validation-sign>
-
-              Статус:
-            </label>
-            <select id="status" class="form-control" name="status" [(ngModel)]="student.statusType" (change)="onStatusTypeChange($event.target.value)">
-              <option *ngFor="let status of statuses" value="{{status}}">
-                {{getStudentStatusTypeTranslation(status)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'status'"
+               [label]="'Статус'"
+               [valid]="student.statusType !== 'UNKNOWN'"
+               [valueRef]="statusReference"
+               [items]="getStatusItems()"
+               (onChange)="onStatusTypeChange($event)"></div>
 
           <div class="form-group">
             <label class="h-full">
               <app-field-validation-sign [valid]="true"></app-field-validation-sign>
 
               Группы:
-
-              <!--<span class="pull-right">Подходящих групп: <b>({{suitableGroups.length}})</b></span>-->
             </label>
 
             <div *ngFor="let groupId of student.groupIds; let i = index" style="margin-bottom: 5px" class="student-group-container">

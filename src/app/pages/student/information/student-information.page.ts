@@ -7,6 +7,9 @@ import {
   EducationLevel, EducationLevelUtils, Group, Age, AgeUtils, StudentStatusTypeUtils
 } from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
+import {SelectItem} from '../../../controls/select-item';
+import {StringReference} from '../../../controls/string-reference';
+import {StringArrayReference} from '../../../controls/string-array-reference';
 
 @Component({
   selector: 'app-student-information-page',
@@ -14,16 +17,19 @@ import {ToastsManager} from 'ng2-toastr';
   styleUrls: ['./student-information.page.less']
 })
 export class StudentInformationPageComponent extends TranslatableComponent {
-  public educationLevels: Array<EducationLevel> = EducationLevelUtils.values;
-  public ages: Array<Age> = AgeUtils.values;
-  public referralSources: Array<StudentReferralSource> = StudentReferralSourceUtils.values;
-  public statuses: Array<StudentStatusType> = StudentStatusTypeUtils.values;
-
   public student: Student = new Student();
   public suitableGroups: Array<Group> = [];
 
   public loadingInProgress = true;
   public actionInProgress = false;
+
+  public nameReference: StringReference;
+  public telephonesReference: StringArrayReference;
+  public emailsReference: StringArrayReference;
+  public referralSourceReference: StringReference;
+  public educationLevelReference: StringReference;
+  public ageReference: StringReference;
+  public statusReference: StringReference;
 
   private requestedGroupId: number;
 
@@ -67,9 +73,21 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     }
   }
 
+  public getAgeItems(): Array<SelectItem> {
+    return AgeUtils.values.map(it => new SelectItem(
+      this.getAgeTranslationAsGroup(it), it
+    ));
+  }
+
   public onAgeChange(age: Age): void {
     this.student.age = age;
     this.initMatchingGroups();
+  }
+
+  public getEducationLevelItems(): Array<SelectItem> {
+    return EducationLevelUtils.values.map(it => new SelectItem(
+      this.getEducationLevelTranslation(it), it
+    ));
   }
 
   public onEducationLevelChange(educationLevel: EducationLevel): void {
@@ -77,8 +95,20 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     this.initMatchingGroups();
   }
 
+  public getReferralSourceItems(): Array<SelectItem> {
+    return StudentReferralSourceUtils.values.map(it => new SelectItem(
+      this.getStudentReferralSourceTranslation(it), it
+    ))
+  }
+
   public onReferralSourceChange(referralSource: StudentReferralSource): void {
     this.student.referralSource = referralSource;
+  }
+
+  public getStatusItems(): Array<SelectItem> {
+    return StudentStatusTypeUtils.values.map(it => new SelectItem(
+      this.getStudentStatusTypeTranslation(it), it
+    ));
   }
 
   public onStatusTypeChange(statusType: StudentStatusType): void {
@@ -137,7 +167,19 @@ export class StudentInformationPageComponent extends TranslatableComponent {
       });
   }
 
+  private initReferences(): void {
+    this.nameReference = new StringReference(this.student.name);
+    this.telephonesReference = new StringArrayReference(this.student.phones);
+    this.emailsReference = new StringArrayReference(this.student.emails);
+    this.referralSourceReference = new StringReference(this.student.referralSource);
+    this.educationLevelReference = new StringReference(this.student.educationLevel);
+    this.ageReference = new StringReference(this.student.age);
+    this.statusReference = new StringReference(this.student.statusType);
+  }
+
   private initExisting(studentId: number): void {
+    this.student.id = studentId;
+
     this.studentsService.getStudent(studentId).then(student => {
       this.student = student;
 
@@ -166,6 +208,8 @@ export class StudentInformationPageComponent extends TranslatableComponent {
         this.suitableGroups = groups;
 
         this.loadingInProgress = false;
+
+        this.initReferences();
       });
   }
 }

@@ -1,0 +1,9 @@
+<app-field-validation-sign [valid]="valid"></app-field-validation-sign>
+
+<label for="{{name}}">{{label}}:</label>
+<tag-input id="{{name}}" name="{{name}}" class="form-control" [(ngModel)]="valueRef.value"
+           [modelAsStrings]="true"
+           [separatorKeyCodes]="[9, 14, 32]"
+           [placeholder]="placeholder"
+           [secondaryPlaceholder]="placeholder">
+</tag-input>

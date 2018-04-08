@@ -22,7 +22,7 @@
     </div>
 
     <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="openCabinetPage(cabinet.id)">
-      {{cabinet.name}}
+      <div class="list-row-item">{{cabinet.name}}</div>
     </div>
   </div>
 </div>

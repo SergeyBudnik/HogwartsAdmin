@@ -88,7 +88,10 @@ const appRoutes: Routes = [
     Pages.GroupsListPageComponent,
 
     Controls.SearchSelectControl,
-    Controls.SearchTextInputControl
+    Controls.SearchTextInputControl,
+    Controls.FormSelectControl,
+    Controls.FormTagControl,
+    Controls.FormTextControl
   ],
   imports: [
     TagInputModule,
