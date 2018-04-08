@@ -1,60 +1,25 @@
 <div class="page">
   <app-header [activeSection]="'GROUPS'"></app-header>
 
-  <div class="list-header">
-    <div class="groups-list-header-color"></div>
+  <div class="list-header-container">
+    <div class="list-header">
+      <div class="groups-list-header-color"></div>
 
-    <div class="groups-list-header-search">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </span>
+      <div app-search-text-input-control class="groups-list-header-search groups-name-column"
+           [placeholder]="'Название'"
+           (onChange)="onNameFilterChange($event)"></div>
 
-        <input class="form-control" placeholder="Название" (keyup)="onNameFilterChange($event.target.value)">
-      </div>
-    </div>
+      <div app-search-select-control class="groups-list-header-search groups-education-level-column"
+           [items]="getEducationLevelItems()"
+           (onChange)="onEducationLevelFilterChange($event)"></div>
 
-    <div class="groups-list-header-search">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </span>
+      <div app-search-select-control class="groups-list-header-search groups-age-column"
+           [items]="getAgeItems()"
+           (onChange)="onAgeFilterChange($event)"></div>
 
-        <select class="form-control" (change)="onAgeFilterChange($event.target.value)">
-          <option *ngFor="let age of ages" value="{{age}}">
-            {{age === 'UNKNOWN' ? 'Все возрастные категории' : getAgeTranslationAsGroup(age)}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="groups-list-header-search">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </span>
-
-        <select class="form-control" (change)="onEducationLevelFilterChange($event.target.value)">
-          <option *ngFor="let educationLevel of educationLevels" value="{{educationLevel}}">
-            {{educationLevel === 'UNKNOWN' ? 'Все уровни' : getEducationLevelTranslation(educationLevel)}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <div class="groups-list-header-search">
-      <div class="input-group">
-        <span class="input-group-addon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </span>
-
-        <select class="form-control" (change)="onCabinetFilterChange($event.target.value)">
-          <option value="{{null}}">Все отделения</option>
-          <option *ngFor="let cabinet of cabinets" value="{{cabinet.id}}">
-            {{cabinet.name}}
-          </option>
-        </select>
-      </div>
+      <div app-search-select-control class="groups-list-header-search groups-cabinets-column"
+           [items]="getCabinetItems()"
+           (onChange)="onCabinetFilterChange($event)"></div>
     </div>
 
     <div class="groups-list-header-add-new">
@@ -74,19 +39,17 @@
         <div class="groups-list-item-color-circle" [style.background-color]="group.color">
         </div>
       </div>
-      <div class="groups-list-item-search">
+      <div class="list-row-item groups-name-column">
         {{group.name}}
       </div>
-      <div class="groups-list-item-search">
-        {{getAgeTranslationAsGroup(group.age)}}
-      </div>
-      <div class="groups-list-item-search">
+      <div class="list-row-item groups-education-level-column">
         {{getEducationLevelTranslation(group.educationLevel)}}
       </div>
-      <div class="groups-list-item-search">
-        {{'Офис Хогвартс. Приморская'}}
+      <div class="list-row-item groups-age-column">
+        {{getAgeTranslationAsGroup(group.age)}}
       </div>
-      <div style="width: 14%">
+      <div class="list-row-item groups-cabinets-column">
+        {{'Офис Хогвартс. Приморская'}}
       </div>
     </div>
   </div>

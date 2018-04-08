@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils, EducationLevel, EducationLevelUtils} from '../../data';
 import {LoginService} from '../../service';
+import {SelectItem} from '../../controls/select-item';
 
 @Component({
   selector: 'app-students-list-page',
@@ -16,16 +17,12 @@ export class StudentsListPageComponent extends TranslatableComponent {
 
   public students: Array<Student> = [];
 
-  public ages: Array<Age> = AgeUtils.values;
-  public educationLevels: Array<EducationLevel> = EducationLevelUtils.values;
-  public statuses: Array<StudentStatusType> = StudentStatusTypeUtils.values;
-
   public loadingInProgress = true;
 
   private nameFilter: string = '';
   private educationLevelFilter: EducationLevel = 'UNKNOWN';
   private ageFilter: Age = 'UNKNOWN';
-  private statusFilter: StudentStatusType = null;
+  private statusFilter: StudentStatusType = 'UNKNOWN';
 
   public constructor(
     private router: Router,
@@ -52,16 +49,34 @@ export class StudentsListPageComponent extends TranslatableComponent {
     this.students = this.getFilteredStudents();
   }
 
+  public getEducationLevelItems(): Array<SelectItem> {
+    return EducationLevelUtils.values.map(it =>
+      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getEducationLevelTranslation(it), it)
+    );
+  }
+
   public onEducationLevelFilterChange(educationLevelFilter: EducationLevel) {
     this.educationLevelFilter = educationLevelFilter;
 
     this.students = this.getFilteredStudents();
   }
 
+  public getAgeItems(): Array<SelectItem> {
+    return AgeUtils.values.map(it =>
+      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getAgeTranslationAsGroup(it), it)
+    );
+  }
+
   public onAgeFilterChange(ageFilter: Age) {
     this.ageFilter = ageFilter;
 
     this.students = this.getFilteredStudents();
+  }
+
+  public getStatusItems(): Array<SelectItem> {
+    return StudentStatusTypeUtils.values.map(it =>
+      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getStudentStatusTypeTranslation(it), it)
+    );
   }
 
   public onStatusFilterChange(statusFilter: StudentStatusType): void {
@@ -71,11 +86,11 @@ export class StudentsListPageComponent extends TranslatableComponent {
   }
 
   public openStudentPage(studentId: number) {
-    this.router.navigate([`/students/${studentId}`]);
+    this.router.navigate([`/students/${studentId}/information`]);
   }
 
   public openNewStudentPage() {
-    this.router.navigate([`/students/new`]);
+    this.router.navigate([`/students/new/information`]);
   }
 
   public isStudentFilled(student: Student): boolean {
@@ -87,7 +102,7 @@ export class StudentsListPageComponent extends TranslatableComponent {
       .filter(it => it.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1)
       .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
       .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
-      .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
+      .filter(it => this.statusFilter === 'UNKNOWN' || it.statusType === this.statusFilter)
       .sort((o1, o2) => o1.id - o2.id);
   }
 }

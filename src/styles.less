@@ -5,6 +5,7 @@
 @import "styles/table.less";
 @import "styles/buttons.less";
 @import "styles/tag-input.less";
+@import "styles/controls.less";
 
 .no-padding {
   padding: 0 !important;
@@ -76,7 +77,13 @@
 }
 
 .link {
+  .clickable;
+
   color: @color-primary-normal-1;
+}
+
+.link:hover {
+  color: @color-primary-normal-2;
 }
 
 .link:hover {

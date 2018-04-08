@@ -1,0 +1,52 @@
+<div class="modal fade" id="addAttendance" tabindex="-1" role="dialog" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAttendanceLabel">Добавление информации</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="date">Дата:</label>
+            <my-date-picker id="date" name="date"
+                            [(ngModel)]="date"
+                            [options]="{dateFormat: 'dd.mm.yyyy'}"
+                            (dateChanged)="onDateChange($event)"></my-date-picker>
+          </div>
+
+          <div class="form-group">
+            <label for="lesson">Занятие:</label>
+            <select id="lesson" class="form-control" name="lesson" [(ngModel)]="currentLessonId"
+                    required minlength="1" #lesson="ngModel">
+              <option *ngFor="let lesson of currentLessons" value="{{currentLessonId}}">
+                {{getTimeTranslation(lesson.startTime)}} - {{getTimeTranslation(lesson.finishTime)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Статус:</label>
+            <select id="type" class="form-control" name="type" [(ngModel)]="type"
+                    required minlength="1" #attendanceType="ngModel">
+              <option *ngFor="let type of attendanceTypes" value="{{type}}">
+                {{getStudentAttendanceTypeTranslation(type)}}
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Отмена
+        </button>
+
+        <button type="button" class="btn btn-primary" [disabled]="lesson.invalid || attendanceType.invalid">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

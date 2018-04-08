@@ -1,15 +1,11 @@
 <div class="page">
   <app-header [activeSection]="'TEACHERS'"></app-header>
 
-  <div class="list-header">
-    <div class="teachers-list-header-search">
-      <div class="input-group list-header-input">
-        <span class="input-group-addon">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </span>
-
-        <input class="form-control" placeholder="Имя" (keyup)="onSearchChange($event.target.value)">
-      </div>
+  <div class="list-header-container">
+    <div class="list-header">
+      <div app-search-text-input-control class="teachers-list-header-search"
+           [placeholder]="'Имя'"
+           (onChange)="onSearchChange($event)"></div>
     </div>
 
     <div class="teachers-list-header-add-new">
@@ -25,7 +21,7 @@
     </div>
 
     <div *ngFor="let teacher of teachers" class="list-row-clickable" (click)="openTeacherPage(teacher.id)">
-      {{teacher.name}}
+      <div class="list-row-item">{{teacher.name}}</div>
     </div>
   </div>
 </div>

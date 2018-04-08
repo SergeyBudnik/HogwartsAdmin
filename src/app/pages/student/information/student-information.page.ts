@@ -120,7 +120,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
           if (!!this.requestedGroupId) {
             this.router.navigate([`/groups/${this.requestedGroupId}/students`]);
           } else {
-            this.router.navigate([`/students/${it}`]);
+            this.router.navigate([`/students/${it}/information`]);
           }
         });
     }

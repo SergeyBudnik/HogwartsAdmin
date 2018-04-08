@@ -15,6 +15,9 @@ export * from './group/assign-lesson/assign-lesson.popup';
 export * from './groups-list/groups-list.page';
 
 export * from './student/information/student-information.page';
+export * from './student/attendance/student-attendance.page';
+export * from './student/attendance/student-add-attendance/student-add-attendance.popup';
+export * from './student/menu/student-menu.component';
 export * from './students-list/students-list.page';
 
 export * from './teacher/information/teacher-information.page';

@@ -7,6 +7,7 @@ import {
   StudentReferralSource, StudentReferralSourceUtils, StudentStatusType, StudentStatusTypeUtils, TeacherType,
   TeacherTypeUtils
 } from '../data';
+import {StudentAttendanceType, StudentAttendanceTypeUtils} from '../data/student-attendance';
 
 export abstract class TranslatableComponent {
   public getStudentReferralSourceTranslation(studentReferralSource: StudentReferralSource): string {
@@ -39,5 +40,9 @@ export abstract class TranslatableComponent {
 
   public getTeacherTypeTranslation(teacherType: TeacherType): string {
     return TeacherTypeUtils.getTranslation(teacherType);
+  }
+
+  public getStudentAttendanceTypeTranslation(type: StudentAttendanceType): string {
+    return StudentAttendanceTypeUtils.getTranslation(type);
   }
 }

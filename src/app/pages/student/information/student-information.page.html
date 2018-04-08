@@ -2,8 +2,7 @@
   <app-header></app-header>
 
   <div class="page-elements">
-    <div class="page-left-menu">
-    </div>
+    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'INFORMATION'"></div>
 
     <div class="page-content-with-footer">
       <div *ngIf="loadingInProgress" class="page-loading">

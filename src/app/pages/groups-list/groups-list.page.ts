@@ -6,6 +6,7 @@ import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils} from '../../data';
 import {EducationLevel, EducationLevelUtils} from '../../data';
 import {Cabinet} from '../../data';
+import {SelectItem} from '../../controls/select-item';
 
 @Component({
   selector: 'app-groups-list-page',
@@ -15,9 +16,6 @@ import {Cabinet} from '../../data';
 export class GroupsListPageComponent extends TranslatableComponent {
   public groups: Array<Group> = [];
   public cabinets: Array<Cabinet> = [];
-
-  public ages: Array<Age> = AgeUtils.values;
-  public educationLevels: Array<EducationLevel> = EducationLevelUtils.values;
 
   public nameFilter: string = '';
   public ageFilter: Age = 'UNKNOWN';
@@ -53,14 +51,34 @@ export class GroupsListPageComponent extends TranslatableComponent {
     }
   }
 
+  public getCabinetItems(): Array<SelectItem> {
+    const res = [new SelectItem('Все', null)];
+
+    this.cabinets.forEach(it => res.push(new SelectItem(it.name, String(it.id))));
+
+    return res;
+  }
+
   public onNameFilterChange(nameFilter: string): void {
     this.nameFilter = nameFilter;
     this.groups = this.getFilteredGroups();
   }
 
+  public getAgeItems(): Array<SelectItem> {
+    return AgeUtils.values.map(it =>
+      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getAgeTranslationAsGroup(it), it)
+    );
+  }
+
   public onAgeFilterChange(ageFilter: Age): void {
     this.ageFilter = ageFilter;
     this.groups = this.getFilteredGroups();
+  }
+
+  public getEducationLevelItems(): Array<SelectItem> {
+    return EducationLevelUtils.values.map(it =>
+      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getEducationLevelTranslation(it), it)
+    );
   }
 
   public onEducationLevelFilterChange(educationLevelFilter: EducationLevel): void {

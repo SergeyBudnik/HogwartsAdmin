@@ -16,11 +16,21 @@
 
         <br>
 
-        <div *ngFor="let student of students" class="list-row-clickable" (click)="openStudent(student.id)">
-          <app-field-validation-sign [valid]="isStudentValid(student)"></app-field-validation-sign>
+        <div *ngFor="let student of students" class="list-row">
+          <app-field-validation-sign style="width: 10%" [valid]="isStudentValid(student)"></app-field-validation-sign>
 
-          <span class="horizontal-item">{{student.name}}</span>
+          <span style="width: 60%" class="horizontal-item" (click)="openStudent(student.id)">
+            {{student.name}}
+          </span>
+
+          <span style="width: 30%">
+            <button style="margin-top: 5px" class="btn btn-secondary pull-right" (click)="addAttendance(student.id)" data-toggle="modal" data-target="#addAttendance">
+              Отметить посещаемость
+            </button>
+          </span>
         </div>
+
+        <app-student-add-attendance-popup [studentId]="attendanceStudentId"></app-student-add-attendance-popup>
       </ng-container>
     </div>
 

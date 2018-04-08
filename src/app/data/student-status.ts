@@ -1,12 +1,14 @@
 export type StudentStatusType =
-  'REQUEST' | 'TEST_ASSIGNED' | 'FREE_LESSON_ASSIGNED' | 'GROUP_ASSIGNED' | 'TEMPORARILY_STOPPED' | 'LEFT';
+  'UNKNOWN' | 'REQUEST' | 'TEST_ASSIGNED' | 'FREE_LESSON_ASSIGNED' | 'GROUP_ASSIGNED' | 'TEMPORARILY_STOPPED' | 'LEFT';
 
 export class StudentStatusTypeUtils {
   public static values: Array<StudentStatusType> =
-    ['REQUEST', 'TEST_ASSIGNED', 'FREE_LESSON_ASSIGNED', 'GROUP_ASSIGNED', 'TEMPORARILY_STOPPED', 'LEFT'];
+    ['UNKNOWN', 'REQUEST', 'TEST_ASSIGNED', 'FREE_LESSON_ASSIGNED', 'GROUP_ASSIGNED', 'TEMPORARILY_STOPPED', 'LEFT'];
 
   public static getStudentStatusTypeTranslation(studentStatus: StudentStatusType): string {
     switch (studentStatus) {
+      case 'UNKNOWN':
+        return 'Не известно';
       case 'REQUEST':
         return 'Оставил заявку';
       case 'TEST_ASSIGNED':

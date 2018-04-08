@@ -1,0 +1,11 @@
+<div class="input-group">
+  <span class="input-group-addon">
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </span>
+
+  <select class="form-control app-select" (change)="onValueChange($event.target.value)">
+    <option *ngFor="let item of items" value="{{item.value}}" [attr.selected]="currentValue === item.value ? 'selected': null">
+      {{item.name}}
+    </option>
+  </select>
+</div>

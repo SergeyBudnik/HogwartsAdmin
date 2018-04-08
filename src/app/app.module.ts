@@ -25,6 +25,9 @@ import * as Https from './http';
 
 import 'rxjs/Rx';
 import {FieldValidationSignComponent} from './parts/field-validation-sign/field-validation-sign.component';
+import {MyDatePickerModule} from 'mydatepicker';
+
+import * as Controls from './controls';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -34,7 +37,8 @@ const appRoutes: Routes = [
   { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
 
   { path: 'students', component: Pages.StudentsListPageComponent },
-  { path: 'students/:id', component: Pages.StudentInformationPageComponent },
+  { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
+  { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
 
   { path: 'cabinets', component: Pages.CabinetsListPageComponent },
   { path: 'cabinets/:id/information', component: Pages.CabinetInformationPageComponent },
@@ -65,6 +69,9 @@ const appRoutes: Routes = [
     Pages.TeachersListPageComponent,
 
     Pages.StudentInformationPageComponent,
+    Pages.StudentAttendancePageComponent,
+    Pages.StudentAddAttendancePopup,
+    Pages.StudentMenuPageComponent,
     Pages.StudentsListPageComponent,
 
     Pages.CabinetInformationPageComponent,
@@ -79,6 +86,9 @@ const appRoutes: Routes = [
     Pages.AssignLessonPopupComponent,
 
     Pages.GroupsListPageComponent,
+
+    Controls.SearchSelectControl,
+    Controls.SearchTextInputControl
   ],
   imports: [
     TagInputModule,
@@ -89,7 +99,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     AngularFontAwesomeModule,
     ToastModule.forRoot(),
-    RouterModule.forRoot(appRoutes, {useHash: true})
+    RouterModule.forRoot(appRoutes, {useHash: true}),
+    MyDatePickerModule
   ],
   providers: [
     {
@@ -106,12 +117,14 @@ const appRoutes: Routes = [
     Services.TeachersService,
     Services.CabinetsService,
     Services.LessonsService,
+    Services.StudentActionsService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,
     Https.GroupsHttp,
     Https.StudentsHttp,
-    Https.TeachersHttp
+    Https.TeachersHttp,
+    Https.StudentActionsHttp
   ],
   bootstrap: [
     AppComponent

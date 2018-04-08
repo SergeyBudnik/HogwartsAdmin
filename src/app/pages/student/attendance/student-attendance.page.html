@@ -1,0 +1,38 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'ATTENDANCE'"></div>
+
+    <div class="page-content-with-footer no-padding">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 class="student-attendance-header">
+          Студент '{{student.name}}'
+        </h3>
+
+        <br>
+
+        <!--<div *ngFor="let student of students" class="list-row-clickable" (click)="openStudent(student.id)">-->
+          <!--<app-field-validation-sign [valid]="isStudentValid(student)"></app-field-validation-sign>-->
+
+          <!--<span class="horizontal-item">{{student.name}}</span>-->
+        <!--</div>-->
+
+        <app-student-add-attendance-popup [studentId]="student.id"></app-student-add-attendance-popup>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+  </div>
+
+  <div class="footer">
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addAttendance">
+      Добавить информацию
+    </button>
+  </div>
+</div>

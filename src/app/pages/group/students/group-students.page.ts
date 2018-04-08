@@ -15,6 +15,8 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
 
   public loadingInProgress = true;
 
+  public attendanceStudentId: number = null;
+
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -43,12 +45,16 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
     }
   }
 
+  public addAttendance(studentId: number): void {
+    this.attendanceStudentId = studentId;
+  }
+
   public openStudent(studentId: number): void {
-    this.router.navigate([`/students/${studentId}`]);
+    this.router.navigate([`/students/${studentId}/information`]);
   }
 
   public addNewStudent(): void {
-    this.router.navigate([`/students/new`], {queryParams: {groupId: this.group.id}});
+    this.router.navigate([`/students/new/information`], {queryParams: {groupId: this.group.id}});
   }
 
   public isStudentValid(student: Student): boolean {

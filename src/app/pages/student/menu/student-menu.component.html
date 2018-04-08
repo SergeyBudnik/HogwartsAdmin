@@ -1,0 +1,22 @@
+<div [class.page-left-menu-item-active]="currentTab === 'INFORMATION'"
+     [class.page-left-menu-item-inactive]="currentTab !== 'INFORMATION'"
+     (click)="navigateTo('information')">
+  <i class="fa fa-info-circle" aria-hidden="true"></i>
+  <span class="horizontal-item">Информация</span>
+</div>
+
+<div *ngIf="!!studentId"
+     [class.page-left-menu-item-active]="currentTab === 'ATTENDANCE'"
+     [class.page-left-menu-item-inactive]="currentTab !== 'ATTENDANCE'"
+     (click)="navigateTo('attendance')">
+  <i class="fa fa-users" aria-hidden="true"></i>
+  <span class="horizontal-item">Посещаемость</span>
+</div>
+
+<div *ngIf="!!studentId"
+     [class.page-left-menu-item-active]="currentTab === 'PAYMENT'"
+     [class.page-left-menu-item-inactive]="currentTab !== 'PAYMENT'"
+     (click)="navigateTo('payment')">
+  <i class="fa fa-clock-o" aria-hidden="true"></i>
+  <span class="horizontal-item">Оплата</span>
+</div>
