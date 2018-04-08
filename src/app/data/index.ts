@@ -6,6 +6,8 @@ export * from './education-level';
 export * from './group';
 export * from './lesson';
 export * from './student';
+export * from './student-attendance';
+export * from './student-payment';
 export * from './student-status';
 export * from './teacher';
 export * from './time';

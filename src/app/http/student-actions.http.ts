@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {StudentAttendance, StudentAttendanceType} from '../data/student-attendance';
+import {StudentPayment, StudentAttendance, StudentAttendanceType} from '../data';
 
 @Injectable()
 export class StudentActionsHttp {
@@ -19,6 +19,19 @@ export class StudentActionsHttp {
   public addAttendance(studentId: number, type: StudentAttendanceType, time: number): Promise<void> {
     return this.http
       .post(`${this.root}/${studentId}/attencance`, {type: type, time: time})
+      .toPromise()
+      .then(() => {});
+  }
+
+  public getPayments(studentId: number): Promise<Array<StudentPayment>> {
+    return this.http
+      .get<Array<StudentPayment>>(`${this.root}/${studentId}/payment`)
+      .toPromise()
+  }
+
+  public addPayment(studentId: number, amount: number, time: number): Promise<void> {
+    return this.http
+      .post(`${this.root}/${studentId}/payment`, {amount: amount, time: time})
       .toPromise()
       .then(() => {});
   }

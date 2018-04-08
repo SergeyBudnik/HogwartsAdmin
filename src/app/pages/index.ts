@@ -16,6 +16,7 @@ export * from './groups-list/groups-list.page';
 
 export * from './student/information/student-information.page';
 export * from './student/attendance/student-attendance.page';
+export * from './student/payment/student-payment.page';
 export * from './student/attendance/student-add-attendance/student-add-attendance.popup';
 export * from './student/menu/student-menu.component';
 export * from './students-list/students-list.page';

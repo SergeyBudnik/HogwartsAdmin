@@ -14,4 +14,8 @@ export class FormTextControl {
   @Input() valid: boolean;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
+
+  public onValueChange(value: string): void {
+    this.onChange.emit(value);
+  }
 }

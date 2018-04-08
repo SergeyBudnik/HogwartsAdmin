@@ -4,4 +4,7 @@
   {{label}}:
 </label>
 
-<input id="{{name}}" name="{{name}}" class="form-control" required minlength="1" [(ngModel)]="valueRef.value" #name="ngModel"/>
+<input id="{{name}}" name="{{name}}" class="form-control"
+       required minlength="1"
+       [(ngModel)]="valueRef.value" #name="ngModel"
+       (keyup)="onValueChange($event.target.value)"/>

@@ -28,6 +28,8 @@ import {FieldValidationSignComponent} from './parts/field-validation-sign/field-
 import {MyDatePickerModule} from 'mydatepicker';
 
 import * as Controls from './controls';
+import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
+import {ModalTemplateComponent} from './templates/modal/modal.template';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -39,6 +41,7 @@ const appRoutes: Routes = [
   { path: 'students', component: Pages.StudentsListPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
   { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
+  { path: 'students/:id/payment', component: Pages.StudentPaymentPageComponent },
 
   { path: 'cabinets', component: Pages.CabinetsListPageComponent },
   { path: 'cabinets/:id/information', component: Pages.CabinetInformationPageComponent },
@@ -71,6 +74,7 @@ const appRoutes: Routes = [
     Pages.StudentInformationPageComponent,
     Pages.StudentAttendancePageComponent,
     Pages.StudentAddAttendancePopup,
+    Pages.StudentPaymentPageComponent,
     Pages.StudentMenuPageComponent,
     Pages.StudentsListPageComponent,
 
@@ -86,6 +90,10 @@ const appRoutes: Routes = [
     Pages.AssignLessonPopupComponent,
 
     Pages.GroupsListPageComponent,
+
+    StudentPaymentModal,
+
+    ModalTemplateComponent,
 
     Controls.SearchSelectControl,
     Controls.SearchTextInputControl,
