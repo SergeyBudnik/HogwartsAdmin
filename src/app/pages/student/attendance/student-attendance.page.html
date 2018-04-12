@@ -4,26 +4,23 @@
   <div class="page-elements">
     <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'ATTENDANCE'"></div>
 
-    <div class="page-content-with-footer no-padding">
+    <div class="page-content-with-footer">
       <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
+        <fa name="spinner" animation="spin"></fa>
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="student-attendance-header">
-          Студент '{{student.name}}'
+        <h3 *ngIf="!!student.id">
+          Информация о посещаемости - '{{student.name}}'
         </h3>
 
         <br>
 
-        <!--<div *ngFor="let student of students" class="list-row-clickable" (click)="openStudent(student.id)">-->
-          <!--<app-field-validation-sign [valid]="isStudentValid(student)"></app-field-validation-sign>-->
-
-          <!--<span class="horizontal-item">{{student.name}}</span>-->
-        <!--</div>-->
-
-        <app-student-add-attendance-popup [studentId]="student.id"></app-student-add-attendance-popup>
+        <div app-student-attendance-row *ngFor="let attendance of attendances" class="list-row"
+             [attendance]="attendance" (attendanceDeleted)="onAttendanceDeleted($event)"></div>
       </ng-container>
+
+      <app-student-attendance-modal [studentId]="student.id" (attendanceAdded)="onAttendanceAdded($event)"></app-student-attendance-modal>
     </div>
 
     <div class="page-right-menu">
@@ -31,8 +28,8 @@
   </div>
 
   <div class="footer">
-    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addAttendance">
-      Добавить информацию
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#studentAttendance">
+      Добавить посещаемость
     </button>
   </div>
 </div>

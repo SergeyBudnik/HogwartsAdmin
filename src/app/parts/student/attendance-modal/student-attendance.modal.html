@@ -1,0 +1,32 @@
+<app-modal-template [id]="'studentAttendance'" [title]="'Добавление посещаемости'" [modalVisible]="modalVisible">
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="date">Дата:</label>
+        <my-date-picker id="date" name="date"
+                        [(ngModel)]="date"
+                        [options]="{dateFormat: 'dd.mm.yyyy'}"
+                        (dateChanged)="onDateChange($event)"></my-date-picker>
+      </div>
+
+      <div app-form-select-control class="form-group"
+          [id]="'attendanceType'"
+          [label]="'Статус'"
+          [valid]="true"
+          [valueRef]="attendanceTypeReference"
+          [items]="getAttendanceTypeItems()"></div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close() ">
+      Отмена
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="addAttendance()">
+      Добавить
+
+      <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
+    </button>
+  </div>
+</app-modal-template>

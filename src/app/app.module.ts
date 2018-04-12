@@ -31,6 +31,8 @@ import * as Controls from './controls';
 import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
 import {ModalTemplateComponent} from './templates/modal/modal.template';
 import {StudentPaymentRowComponent} from './pages/student/payment/payment-row/student-payment.row';
+import {StudentAttendanceModal} from './parts/student/attendance-modal/student-attendance.modal';
+import {StudentAttendanceRowComponent} from './pages/student/attendance/attendance-row/student-attendance.row';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -74,7 +76,6 @@ const appRoutes: Routes = [
 
     Pages.StudentInformationPageComponent,
     Pages.StudentAttendancePageComponent,
-    Pages.StudentAddAttendancePopup,
     Pages.StudentPaymentPageComponent,
     Pages.StudentMenuPageComponent,
     Pages.StudentsListPageComponent,
@@ -93,8 +94,10 @@ const appRoutes: Routes = [
     Pages.GroupsListPageComponent,
 
     StudentPaymentRowComponent,
+    StudentAttendanceRowComponent,
 
     StudentPaymentModal,
+    StudentAttendanceModal,
 
     ModalTemplateComponent,
 
@@ -137,7 +140,7 @@ const appRoutes: Routes = [
     Services.TeachersService,
     Services.CabinetsService,
     Services.LessonsService,
-    Services.StudentActionsService,
+    Services.StudentAttendanceService,
     Services.StudentPaymentService,
 
     Https.LoginHttp,
@@ -145,7 +148,7 @@ const appRoutes: Routes = [
     Https.GroupsHttp,
     Https.StudentsHttp,
     Https.TeachersHttp,
-    Https.StudentActionsHttp,
+    Https.StudentAttendanceHttp,
     Https.StudentPaymentHttp
   ],
   bootstrap: [

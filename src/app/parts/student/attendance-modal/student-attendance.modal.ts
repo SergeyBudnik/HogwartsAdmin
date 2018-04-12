@@ -1,35 +1,35 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {StudentPayment} from '../../../data';
-import {StudentPaymentService} from '../../../service';
+import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} from '../../../data';
+import {StudentAttendanceService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
+import {SelectItem} from '../../../controls/select-item';
 import {StringReference} from '../../../controls/string-reference';
 
 @Component({
-  selector: 'app-student-payment-modal',
-  templateUrl: './student-payment.modal.html',
-  styleUrls: ['./student-payment.modal.less']
+  selector: 'app-student-attendance-modal',
+  templateUrl: './student-attendance.modal.html',
+  styleUrls: ['./student-attendance.modal.less']
 })
-export class StudentPaymentModal extends TranslatableComponent {
-  @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
+export class StudentAttendanceModal extends TranslatableComponent {
+  @Output() public attendanceAdded: EventEmitter<StudentAttendance> = new EventEmitter<StudentAttendance>();
 
   public modalVisible = true;
 
   public studentId;
 
   public date = {date: {year: 0, month: 0, day: 0}};
-  public time: number;
 
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  private amountString: string = '';
+  public attendanceTypeReference = new StringReference(() => this.attendanceType, value => this.attendanceType = value);
 
-  public amount: number = null;
-  public amountReference = new StringReference(() => this.amountString, value => this.amountString = value);
+  private attendanceType: StudentAttendanceType = 'VISITED';
+  private time: number;
 
   public constructor(
-    private studentPaymentService: StudentPaymentService
+    private studentAttendanceService: StudentAttendanceService
   ) {
     super();
 
@@ -48,29 +48,19 @@ export class StudentPaymentModal extends TranslatableComponent {
     }
   }
 
-  public onAmountChange(amountString: string): void {
-    const amount = Number.parseInt(amountString);
-
-    if (!!amount && amount > 0) {
-      this.amount = amount;
-    } else {
-      this.amount = null;
-    }
-  }
-
   public onDateChange(event: IMyDateModel): void {
     this.time = this.getTime(event);
   }
 
-  public addPayment(): void {
+  public addAttendance(): void {
     this.actionInProgress = true;
 
-    this.studentPaymentService.addPayment(
+    this.studentAttendanceService.addAttendance(
       this.studentId,
-      this.amount,
+      this.attendanceType,
       this.time
-    ).then(paymentId => {
-      this.paymentAdded.emit(new StudentPayment(paymentId, this.studentId, this.amount, this.time));
+    ).then(attendanceId => {
+      this.attendanceAdded.emit(new StudentAttendance(attendanceId, this.studentId, this.attendanceType, this.time));
 
       this.hideModal();
 
@@ -80,6 +70,12 @@ export class StudentPaymentModal extends TranslatableComponent {
 
   public close(): void {
     this.hideModal();
+  }
+
+  public getAttendanceTypeItems(): Array<SelectItem> {
+    return StudentAttendanceTypeUtils
+      .values
+      .map(it => new SelectItem(this.getStudentAttendanceTypeTranslation(it), it));
   }
 
   private hideModal(): void {

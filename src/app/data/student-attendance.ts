@@ -1,13 +1,13 @@
-export type StudentAttendanceType = 'VISIT' | 'SKIP_VALID' | 'SKIP_INVALID';
+export type StudentAttendanceType = 'VISITED' | 'SKIP_VALID' | 'SKIP_INVALID';
 
 export class StudentAttendanceTypeUtils {
   public static values: Array<StudentAttendanceType> = [
-    'VISIT', 'SKIP_VALID', 'SKIP_INVALID'
+    'VISITED', 'SKIP_VALID', 'SKIP_INVALID'
   ];
 
   public static getTranslation(type: StudentAttendanceType) {
     switch (type) {
-      case 'VISIT':
+      case 'VISITED':
         return 'Посещено';
       case 'SKIP_VALID':
         return 'Уважительный пропуск';

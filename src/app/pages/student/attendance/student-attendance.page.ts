@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student} from '../../../data';
-import {StudentActionsService, GroupsService, LoginService, StudentsService} from '../../../service';
+import {Student, StudentAttendance, StudentPayment} from '../../../data';
+import {GroupsService, LoginService, StudentAttendanceService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -13,13 +13,15 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
   public student: Student = new Student();
   public loadingInProgress = true;
 
+  public attendances: Array<StudentAttendance> = [];
+
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private studentActionsService: StudentActionsService
+    private studentAttendanceService: StudentAttendanceService
   ) {
     super();
 
@@ -31,13 +33,22 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
 
         Promise.all([
           this.studentsService.getStudent(this.student.id),
-          this.studentActionsService.getAttendances(this.student.id)
+          this.studentAttendanceService.getAttendances(this.student.id)
         ]).then(it => {
           this.student = it[0];
+          this.attendances = it[1];
 
           this.loadingInProgress = false;
         });
       });
     }
+  }
+
+  public onAttendanceAdded(attendance: StudentAttendance): void {
+    this.attendances.push(attendance);
+  }
+
+  public onAttendanceDeleted(attendanceId: number): void {
+    this.attendances = this.attendances.filter(it => it.id !== attendanceId);
   }
 }

@@ -5,4 +5,4 @@ export * from './login.service';
 export * from './student-payment.service';
 export * from './students.service';
 export * from './teachers.service';
-export * from './student-actions.service';
+export * from './student-attendance.service';
