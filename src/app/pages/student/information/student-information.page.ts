@@ -168,13 +168,13 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   private initReferences(): void {
-    this.nameReference = new StringReference(this.student.name);
-    this.telephonesReference = new StringArrayReference(this.student.phones);
-    this.emailsReference = new StringArrayReference(this.student.emails);
-    this.referralSourceReference = new StringReference(this.student.referralSource);
-    this.educationLevelReference = new StringReference(this.student.educationLevel);
-    this.ageReference = new StringReference(this.student.age);
-    this.statusReference = new StringReference(this.student.statusType);
+    this.nameReference = new StringReference(() => this.student.name, value => this.student.name = value);
+    this.telephonesReference = new StringArrayReference(() => this.student.phones, value => this.student.phones = value);
+    this.emailsReference = new StringArrayReference(() => this.student.emails, value => this.student.emails = value);
+    this.referralSourceReference = new StringReference(() => this.student.referralSource, value => this.student.referralSource = value);
+    this.educationLevelReference = new StringReference(() => this.student.educationLevel, value => this.student.educationLevel = value);
+    this.ageReference = new StringReference(() => this.student.age, value => this.student.age = value);
+    this.statusReference = new StringReference(() => this.student.statusType, value => this.student.statusType = value);
   }
 
   private initExisting(studentId: number): void {

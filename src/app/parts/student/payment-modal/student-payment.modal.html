@@ -1,10 +1,4 @@
-<app-modal-template>
-  <div class="modal-header">
-    <h5 class="modal-title" id="addAttendanceLabel">Добавление оплаты</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+<app-modal-template [id]="'studentPayment'" [title]="'Добавление оплаты'" [modalVisible]="modalVisible">
   <div class="modal-body">
     <form>
       <div class="form-group">
@@ -25,13 +19,16 @@
       </div>
     </form>
   </div>
+
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+    <button type="button" class="btn btn-secondary" (click)="close() ">
       Отмена
     </button>
 
     <button [disabled]="!amount" type="button" class="btn btn-primary" (click)="addPayment()">
       Добавить
+
+      <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
     </button>
   </div>
 </app-modal-template>

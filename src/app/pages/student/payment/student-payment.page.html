@@ -16,19 +16,11 @@
 
         <br>
 
-        <div class="payments-list-content">
-          <div *ngFor="let payment of payments" class="list-row">
-            <div class="list-row-item" style="width: 50%">
-              {{payment.time | date: 'dd.MM.yyyy'}}
-            </div>
-            <div class="list-row-item" style="width: 50%">
-              {{payment.amount}}₽
-            </div>
-          </div>
-        </div>
+        <div app-student-payment-row *ngFor="let payment of payments" class="list-row"
+             [payment]="payment" (paymentDeleted)="onPaymentDeleted($event)"></div>
       </ng-container>
 
-      <app-student-payment-modal [studentId]="student.id"></app-student-payment-modal>
+      <app-student-payment-modal [studentId]="student.id" (paymentAdded)="onPaymentAdded($event)"></app-student-payment-modal>
     </div>
 
     <div class="page-right-menu">
@@ -36,9 +28,8 @@
   </div>
 
   <div class="footer">
-    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#addAttendance">
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#studentPayment">
       Добавить оплату
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
     </button>
   </div>
 </div>

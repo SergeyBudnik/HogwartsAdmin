@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentPayment} from '../../../data';
-import {StudentActionsService, GroupsService, LoginService, StudentsService} from '../../../service';
+import {GroupsService, LoginService, StudentsService, StudentPaymentService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -21,7 +21,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private studentActionsService: StudentActionsService
+    private studentPaymentService: StudentPaymentService
   ) {
     super();
 
@@ -33,7 +33,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
 
         Promise.all([
           this.studentsService.getStudent(this.student.id),
-          this.studentActionsService.getPayments(this.student.id)
+          this.studentPaymentService.getPayments(this.student.id)
         ]).then(it => {
           this.student = it[0];
           this.payments = it[1];
@@ -42,5 +42,13 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
         });
       });
     }
+  }
+
+  public onPaymentAdded(payment: StudentPayment) {
+    this.payments.push(payment);
+  }
+
+  public onPaymentDeleted(paymentId: number): void {
+    this.payments = this.payments.filter(it => it.id !== paymentId);
   }
 }

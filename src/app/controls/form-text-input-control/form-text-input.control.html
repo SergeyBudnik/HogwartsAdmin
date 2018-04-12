@@ -6,5 +6,5 @@
 
 <input id="{{name}}" name="{{name}}" class="form-control"
        required minlength="1"
-       [(ngModel)]="valueRef.value" #name="ngModel"
+       [value]="valueRef.getValue()"
        (keyup)="onValueChange($event.target.value)"/>

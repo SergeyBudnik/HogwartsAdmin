@@ -13,5 +13,30 @@ export class FormTagControl {
   @Input() valueRef: StringArrayReference;
   @Input() valid: boolean;
 
-  @Output() public onChange: EventEmitter<string> = new EventEmitter();
+  @Output() public onChange: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
+
+  public onValueAdded(value: any): void {
+    const res: Array<string> = [value.value];
+
+    this.valueRef
+      .getValue()
+      .forEach(it => res.push(it));
+
+    this.valueRef.setValue(res);
+
+    this.onChange.emit(res);
+  }
+
+  public onValueRemoved(value: any): void {
+    const res: Array<string> = [];
+
+    this.valueRef
+      .getValue()
+      .filter(it => it !== value)
+      .forEach(it => res.push(it));
+
+    this.valueRef.setValue(res);
+
+    this.onChange.emit(res);
+  }
 }

@@ -4,7 +4,7 @@ import {StudentPayment, StudentAttendance, StudentAttendanceType} from '../data'
 
 @Injectable()
 export class StudentActionsHttp {
-  private root = 'http://34.216.34.197:8080/HogwartsAPI/student-actions';
+  private root = 'http://34.216.34.197:8080/HogwartsAPI/student-payment';
 
   public constructor(
     readonly http: HttpClient
@@ -19,19 +19,6 @@ export class StudentActionsHttp {
   public addAttendance(studentId: number, type: StudentAttendanceType, time: number): Promise<void> {
     return this.http
       .post(`${this.root}/${studentId}/attencance`, {type: type, time: time})
-      .toPromise()
-      .then(() => {});
-  }
-
-  public getPayments(studentId: number): Promise<Array<StudentPayment>> {
-    return this.http
-      .get<Array<StudentPayment>>(`${this.root}/${studentId}/payment`)
-      .toPromise()
-  }
-
-  public addPayment(studentId: number, amount: number, time: number): Promise<void> {
-    return this.http
-      .post(`${this.root}/${studentId}/payment`, {amount: amount, time: time})
       .toPromise()
       .then(() => {});
   }

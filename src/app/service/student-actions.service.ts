@@ -16,12 +16,4 @@ export class StudentActionsService {
   public addAttendance(studentId: number, type: StudentAttendanceType, time: number): Promise<void> {
     return this.studentActionsHttp.addAttendance(studentId, type, time);
   }
-
-  public getPayments(studentId: number): Promise<Array<StudentPayment>> {
-    return this.studentActionsHttp.getPayments(studentId);
-  }
-
-  public addPayment(studentId: number, amount: number, time: number): Promise<void> {
-    return this.studentActionsHttp.addPayment(studentId, amount, time);
-  }
 }

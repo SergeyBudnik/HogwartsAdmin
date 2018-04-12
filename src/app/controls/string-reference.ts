@@ -1,5 +1,6 @@
 export class StringReference {
   public constructor(
-    public value: string
+    public getValue: () => string,
+    public setValue: (string) => {}
   ) {}
 }

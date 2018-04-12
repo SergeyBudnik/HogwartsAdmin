@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student} from '../../../data';
-import {StudentActionsService, StudentsService} from '../../../service';
+import {StudentPayment} from '../../../data';
+import {StudentPaymentService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
 import {StringReference} from '../../../controls/string-reference';
 
@@ -11,6 +11,10 @@ import {StringReference} from '../../../controls/string-reference';
   styleUrls: ['./student-payment.modal.less']
 })
 export class StudentPaymentModal extends TranslatableComponent {
+  @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
+
+  public modalVisible = true;
+
   public studentId;
 
   public date = {date: {year: 0, month: 0, day: 0}};
@@ -22,11 +26,10 @@ export class StudentPaymentModal extends TranslatableComponent {
   private amountString: string;
 
   public amount: number = null;
-  public amountReference = new StringReference(this.amountString);
+  public amountReference = new StringReference(() => this.amountString, value => this.amountReference = value);
 
   public constructor(
-    private studentsService: StudentsService,
-    private studentActionsService: StudentActionsService
+    private studentPaymentService: StudentPaymentService
   ) {
     super();
 
@@ -35,19 +38,13 @@ export class StudentPaymentModal extends TranslatableComponent {
     this.date.date.year = date.getFullYear();
     this.date.date.month = date.getMonth() + 1;
     this.date.date.day = date.getDate();
+
+    this.time = this.getTime(this.date);
   }
 
   @Input('studentId') public set setStudentId(studentId: number) {
     if (!!studentId) {
       this.studentId = studentId;
-
-      Promise.all([
-        this.studentsService.getStudent(this.studentId)
-      ]).then(it => {
-        const student: Student = it[0];
-
-        this.loadingInProgress = false;
-      })
     }
   }
 
@@ -62,23 +59,39 @@ export class StudentPaymentModal extends TranslatableComponent {
   }
 
   public onDateChange(event: IMyDateModel): void {
-    this.time = new Date(
-      event.date.year,
-      event.date.month - 1,
-      event.date.day,
-      0, 0, 0, 0
-    ).getTime();
+    this.time = this.getTime(event);
   }
 
   public addPayment(): void {
     this.actionInProgress = true;
 
-    this.studentActionsService.addPayment(
+    this.studentPaymentService.addPayment(
       this.studentId,
       this.amount,
       this.time
-    ).then(() => {
+    ).then(paymentId => {
+      this.paymentAdded.emit(new StudentPayment(paymentId, this.studentId, this.amount, this.time));
+
+      this.hideModal();
+
       this.actionInProgress = false;
-    })
+    });
+  }
+
+  public close(): void {
+    this.hideModal();
+  }
+
+  private hideModal(): void {
+    this.modalVisible = !this.modalVisible;
+  }
+
+  private getTime(event: any): number {
+    return new Date(
+      event.date.year,
+      event.date.month - 1,
+      event.date.day,
+      0, 0, 0, 0
+    ).getTime();
   }
 }

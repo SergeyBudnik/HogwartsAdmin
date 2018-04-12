@@ -17,6 +17,8 @@ export class FormSelectControl {
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
   public onValueChange(value: string) {
+    this.valueRef.setValue(value);
+
     this.onChange.emit(value);
   }
 }

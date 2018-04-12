@@ -1,0 +1,13 @@
+<div class="payments-date-column">
+  {{payment.time | date: 'dd.MM.yyyy'}}
+</div>
+<div class="payments-date-column">
+  {{payment.amount}}₽
+</div>
+<div class="payments-actions-column">
+  <button class="btn btn-danger" (click)="deletePayment()">
+    Удалить
+
+    <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
+  </button>
+</div>

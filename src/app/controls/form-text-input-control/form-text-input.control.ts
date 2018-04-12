@@ -16,6 +16,8 @@ export class FormTextControl {
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
   public onValueChange(value: string): void {
+    this.valueRef.setValue(value);
+
     this.onChange.emit(value);
   }
 }

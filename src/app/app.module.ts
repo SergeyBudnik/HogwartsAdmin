@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {TagInputModule} from 'ngx-chips';
@@ -17,7 +17,7 @@ import {HeaderComponent} from './parts/header/header.component';
 import {MenuComponent} from './parts/menu/menu.component';
 import {TimetableComponent} from './parts/timetable/timetable.component';
 
-import {CookieService} from 'angular2-cookie/core';
+import {CookieOptions, CookieService} from 'angular2-cookie/core';
 
 import * as Pages from './pages';
 import * as Services from './service';
@@ -30,6 +30,7 @@ import {MyDatePickerModule} from 'mydatepicker';
 import * as Controls from './controls';
 import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
 import {ModalTemplateComponent} from './templates/modal/modal.template';
+import {StudentPaymentRowComponent} from './pages/student/payment/payment-row/student-payment.row';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -91,6 +92,8 @@ const appRoutes: Routes = [
 
     Pages.GroupsListPageComponent,
 
+    StudentPaymentRowComponent,
+
     StudentPaymentModal,
 
     ModalTemplateComponent,
@@ -111,7 +114,8 @@ const appRoutes: Routes = [
     AngularFontAwesomeModule,
     ToastModule.forRoot(),
     RouterModule.forRoot(appRoutes, {useHash: true}),
-    MyDatePickerModule
+    MyDatePickerModule,
+    ReactiveFormsModule
   ],
   providers: [
     {
@@ -122,6 +126,11 @@ const appRoutes: Routes = [
 
     CookieService,
 
+    {
+      provide: CookieOptions,
+      useValue: {}
+    },
+
     Services.LoginService,
     Services.GroupsService,
     Services.StudentsService,
@@ -129,13 +138,15 @@ const appRoutes: Routes = [
     Services.CabinetsService,
     Services.LessonsService,
     Services.StudentActionsService,
+    Services.StudentPaymentService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,
     Https.GroupsHttp,
     Https.StudentsHttp,
     Https.TeachersHttp,
-    Https.StudentActionsHttp
+    Https.StudentActionsHttp,
+    Https.StudentPaymentHttp
   ],
   bootstrap: [
     AppComponent
