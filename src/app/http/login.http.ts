@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {HttpConfig} from './http-config';
 
 class Credentials {
   public constructor(
@@ -17,7 +18,7 @@ class AuthInfo {
 
 @Injectable()
 export class LoginHttp {
-  private root = `http://34.216.34.197:8080/HogwartsAPI/login`;
+  private root = `${HttpConfig.getBackendRoot()}/login`;
 
   public constructor(
     private http: HttpClient

@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Cabinet} from '../data';
 import {HttpClient} from '@angular/common/http';
+import {HttpConfig} from './http-config';
 
 @Injectable()
 export class CabinetsHttp {
-  private root = `http://34.216.34.197:8080/HogwartsAPI/cabinets`;
+  private root = `${HttpConfig.getBackendRoot()}/cabinets`;
 
   public constructor(
     private http: HttpClient

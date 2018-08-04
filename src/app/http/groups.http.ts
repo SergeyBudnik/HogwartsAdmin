@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Group} from '../data';
 import {HttpClient} from '@angular/common/http';
+import {HttpConfig} from './http-config';
 
 @Injectable()
 export class GroupsHttp {
-  private root = `http://34.216.34.197:8080/HogwartsAPI/groups`;
+  private root = `${HttpConfig.getBackendRoot()}/groups`;
 
   public constructor(
     private http: HttpClient

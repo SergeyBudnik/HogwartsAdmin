@@ -35,7 +35,7 @@
       <fa name="spinner" class="loading-sign" animation="spin"></fa>
     </div>
 
-    <div *ngFor="let student of students" class="list-row-clickable" (click)="openStudentPage(student.id)">
+    <div *ngFor="let student of students" (click)="openStudentPage(student.id)" class="list-row-clickable">
       <div class="list-row-item student-validation-column">
         <app-field-validation-sign [valid]="isStudentFilled(student)"></app-field-validation-sign>
       </div>

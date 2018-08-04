@@ -12,7 +12,7 @@ import {TranslatableComponent} from '../../../translation/translation.component'
 export class TeacherInformationPageComponent extends TranslatableComponent {
   public teacherTypes = TeacherTypeUtils.values;
 
-  public teacher: Teacher = new Teacher(null, null, null, [], [], []);
+  public teacher: Teacher = new Teacher();
 
   public groups: Array<Group> = [];
   public lessons: Array<Lesson> = [];

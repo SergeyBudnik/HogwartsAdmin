@@ -31,6 +31,11 @@
           </div>
 
           <div class="form-group">
+            <label for="login">Логин:</label>
+            <input id="login" class="form-control" name="login" required minlength="1" [(ngModel)]="teacher.login" #name="ngModel"/>
+          </div>
+
+          <div class="form-group">
             <label for="type">Тип:</label>
             <select id="type" class="form-control" name="type" required minlength="1" [(ngModel)]="teacher.type" #type="ngModel">
               <option *ngFor="let teacherType of teacherTypes" value="{{teacherType}}">

@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Teacher} from '../data';
 import {HttpClient} from '@angular/common/http';
+import {HttpConfig} from './http-config';
 
 @Injectable()
 export class TeachersHttp {
-  private root = 'http://34.216.34.197:8080/HogwartsAPI/teachers';
+  private root = `${HttpConfig.getBackendRoot()}/teachers`;
 
   public constructor(
     readonly http: HttpClient
@@ -15,7 +16,7 @@ export class TeachersHttp {
   }
 
   public getTeacher(teacherId: number): Promise<Teacher> {
-    return this.http.get<Teacher>(`${this.root}/${teacherId}`).toPromise();
+    return this.http.get<Teacher>(`${this.root}/id/${teacherId}`).toPromise();
   }
 
   public createTeacher(teacher: Teacher): Promise<number> {

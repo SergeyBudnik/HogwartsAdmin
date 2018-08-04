@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {StudentPayment} from '../data';
+import {HttpConfig} from './http-config';
 
 @Injectable()
 export class StudentPaymentHttp {
-  private root = 'http://34.216.34.197:8080/HogwartsAPI/student-payment';
+  private root = `${HttpConfig.getBackendRoot()}/student-payment`;
 
   public constructor(
     readonly http: HttpClient
