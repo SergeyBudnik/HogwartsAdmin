@@ -51,7 +51,7 @@ export class StudentsListPageComponent extends TranslatableComponent {
 
   public getEducationLevelItems(): Array<SelectItem> {
     return EducationLevelUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getEducationLevelTranslation(it), it)
+      new SelectItem(it === 'UNKNOWN' ? 'Все уровни' : this.getEducationLevelTranslation(it), it)
     );
   }
 
@@ -63,7 +63,7 @@ export class StudentsListPageComponent extends TranslatableComponent {
 
   public getAgeItems(): Array<SelectItem> {
     return AgeUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getAgeTranslationAsGroup(it), it)
+      new SelectItem(it === 'UNKNOWN' ? 'Все возрасты' : this.getAgeTranslationAsGroup(it), it)
     );
   }
 
@@ -75,7 +75,7 @@ export class StudentsListPageComponent extends TranslatableComponent {
 
   public getStatusItems(): Array<SelectItem> {
     return StudentStatusTypeUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getStudentStatusTypeTranslation(it), it)
+      new SelectItem(it === 'UNKNOWN' ? 'Все статусы' : this.getStudentStatusTypeTranslation(it), it)
     );
   }
 
@@ -103,6 +103,7 @@ export class StudentsListPageComponent extends TranslatableComponent {
       .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
       .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
       .filter(it => this.statusFilter === 'UNKNOWN' || it.statusType === this.statusFilter)
-      .sort((o1, o2) => o1.id - o2.id);
+      .sort((o1, o2) => o1.id - o2.id)
+      .sort((o1, o2) => StudentStatusTypeUtils.compare(o1.statusType, o2.statusType));
   }
 }

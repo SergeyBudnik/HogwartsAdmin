@@ -49,7 +49,14 @@
         {{getAgeTranslationAsGroup(student.age)}}
       </div>
       <div class="list-row-item student-status-column">
-        {{getStudentStatusTypeTranslation(student.statusType)}}
+        <span
+          [class.student-status-label-request]="student.statusType == 'REQUEST'"
+          [class.student-status-label-test-assigned]="student.statusType == 'TEST_ASSIGNED'"
+          [class.student-status-label-free-lesson-assigned]="student.statusType == 'FREE_LESSON_ASSIGNED'"
+          [class.student-status-label-group-assigned]="student.statusType == 'GROUP_ASSIGNED'"
+          [class.student-status-label-temporarily-stopped]="student.statusType == 'TEMPORARILY_STOPPED'">
+          {{getStudentStatusTypeTranslation(student.statusType)}}
+        </span>
       </div>
     </div>
   </div>
