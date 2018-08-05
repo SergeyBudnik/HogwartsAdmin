@@ -56,6 +56,12 @@ export class GroupsListPageComponent extends TranslatableComponent {
     }
   }
 
+  public getGroupCabinet(groupId: number): Cabinet {
+    let group = this.groups.find(group => group.id === groupId);
+
+    return this.cabinets.find(cabinet => cabinet.id === group.cabinetId);
+  }
+
   public groupHasActiveStudents(groupId: number): boolean {
     let amountOfActiveStudents = this.students
       .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
