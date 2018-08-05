@@ -41,6 +41,15 @@
           </div>
 
           <div class="form-group">
+            <label for="groupType">Тип:</label>
+            <select id="groupType" class="form-control" name="groupType" [(ngModel)]="group.type">
+              <option *ngFor="let groupType of groupTypes" value="{{groupType}}">
+                {{getGroupTypeTranslation(groupType)}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="educationLevels">Уровень подготовки:</label>
             <select id="educationLevels" class="form-control" name="educationLevel" [(ngModel)]="group.educationLevel">
               <option value="{{educationLevel}}" *ngFor="let educationLevel of educationLevels">

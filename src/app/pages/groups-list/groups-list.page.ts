@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Group, Student} from '../../data';
+import {Group, GroupType, GroupTypeUtils, Student} from '../../data';
 import {CabinetsService, GroupsService, LoginService, StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
@@ -19,6 +19,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   public groups: Array<Group> = [];
   public cabinets: Array<Cabinet> = [];
 
+  public groupTypeFilter: GroupType = null;
   public nameFilter: string = '';
   public ageFilter: Age = 'UNKNOWN';
   public educationLevelFilter: EducationLevel = 'UNKNOWN';
@@ -56,6 +57,16 @@ export class GroupsListPageComponent extends TranslatableComponent {
     }
   }
 
+  public getGroupStudentsString(groupId: number): string {
+    let studentsString = '';
+
+    this.students
+      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId === groupId))
+      .forEach(student => studentsString += student.name + '; ');
+
+    return studentsString;
+  }
+
   public getGroupCabinet(groupId: number): Cabinet {
     let group = this.groups.find(group => group.id === groupId);
 
@@ -77,6 +88,19 @@ export class GroupsListPageComponent extends TranslatableComponent {
     this.cabinets.forEach(it => res.push(new SelectItem(it.name, String(it.id))));
 
     return res;
+  }
+
+  public getGroupTypeItems(): Array<SelectItem> {
+    let items = [new SelectItem('Все', '')];
+
+    GroupTypeUtils.values.forEach(it => items.push(new SelectItem(this.getGroupTypeTranslation(it), it)));
+
+    return items;
+  }
+
+  public onGroupTypeFilterChange(groupTypeFilter: GroupType): void {
+    this.groupTypeFilter = groupTypeFilter;
+    this.groups = this.getFilteredGroups();
   }
 
   public onNameFilterChange(nameFilter: string): void {
@@ -121,7 +145,8 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
   private getFilteredGroups(): Array<Group> {
     return this.unfilteredGroups
-      .filter(it => it.name.indexOf(this.nameFilter) !== -1)
+      .filter(it => !this.groupTypeFilter || it.type === this.groupTypeFilter)
+      .filter(it => it.bookName.indexOf(this.nameFilter) !== -1)
       .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
       .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
       .filter(it => !this.cabinetFilter || it.cabinetId === this.cabinetFilter)

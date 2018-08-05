@@ -4,6 +4,7 @@ import {DayOfWeek, DayOfWeekUtils} from '../data/day-of-week';
 import {Time, TimeUtils} from '../data/time';
 import {CabinetType, CabinetTypeUtils} from '../data/cabinet';
 import {
+  GroupType, GroupTypeUtils,
   StudentReferralSource, StudentReferralSourceUtils, StudentStatusType, StudentStatusTypeUtils, TeacherType,
   TeacherTypeUtils
 } from '../data';
@@ -44,5 +45,9 @@ export abstract class TranslatableComponent {
 
   public getStudentAttendanceTypeTranslation(type: StudentAttendanceType): string {
     return StudentAttendanceTypeUtils.getTranslation(type);
+  }
+
+  public getGroupTypeTranslation(groupType: GroupType): string {
+    return GroupTypeUtils.getTranslation(groupType);
   }
 }
