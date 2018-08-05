@@ -5,9 +5,13 @@
     <div class="list-header">
       <div class="groups-list-header-color"></div>
 
-      <div app-search-text-input-control class="groups-list-header-search groups-name-column"
-           [placeholder]="'Название'"
-           (onChange)="onNameFilterChange($event)"></div>
+      <div app-search-select-control class="groups-list-header-search groups-type-column"
+           [items]="getGroupTypeItems()"
+           (onChange)="onGroupTypeFilterChange($event)"></div>
+
+      <div app-search-select-control class="groups-list-header-search groups-book-name-column"
+           [items]="getManagerItems()"
+           (onChange)="onManagerFilterChange($event)"></div>
 
       <div app-search-select-control class="groups-list-header-search groups-education-level-column"
            [items]="getEducationLevelItems()"
@@ -34,13 +38,20 @@
       <fa name="spinner" class="loading-sign" animation="spin"></fa>
     </div>
 
-    <div *ngFor="let group of groups" class="list-row-clickable" (click)="openGroupPage(group.id)">
+    <div *ngFor="let group of groups"
+         class="list-row-clickable"
+         [class.group-list-row-inactive]="!groupHasActiveStudents(group.id)"
+         (click)="openGroupPage(group.id)">
+
       <div class="groups-list-item-color">
         <div class="groups-list-item-color-circle" [style.background-color]="group.color">
         </div>
       </div>
-      <div class="list-row-item groups-name-column">
-        {{group.name}}
+      <div class="list-row-item groups-type-column">
+        {{getGroupTypeTranslation(group.type)}}
+      </div>
+      <div class="list-row-item groups-book-name-column">
+        {{getGroupManager(group.id).name}}
       </div>
       <div class="list-row-item groups-education-level-column">
         {{getEducationLevelTranslation(group.educationLevel)}}
@@ -49,7 +60,10 @@
         {{getAgeTranslationAsGroup(group.age)}}
       </div>
       <div class="list-row-item groups-cabinets-column">
-        {{'Офис Хогвартс. Приморская'}}
+        {{getGroupCabinet(group.id).name}}
+      </div>
+      <div class="list-row-item groups-students-column">
+        {{getGroupStudentsString(group.id)}}
       </div>
     </div>
   </div>
