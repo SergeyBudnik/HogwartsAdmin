@@ -3,7 +3,7 @@ import {TeachersService, GroupsService, StudentsService, CabinetsService, LoginS
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, TimeUtils,
-  Time
+  Time, GroupTypeUtils
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 
@@ -17,6 +17,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   public educationLevels = EducationLevelUtils.values;
   public ages = AgeUtils.values;
+  public groupTypes = GroupTypeUtils.values;
 
   public group: Group = new Group();
   public students: Array<Student> = [];
