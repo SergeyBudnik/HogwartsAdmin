@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Group} from '../../data';
-import {CabinetsService, GroupsService, LoginService} from '../../service';
+import {Group, Student} from '../../data';
+import {CabinetsService, GroupsService, LoginService, StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils} from '../../data';
@@ -14,6 +14,8 @@ import {SelectItem} from '../../controls/select-item';
   styleUrls: ['./groups-list.page.less']
 })
 export class GroupsListPageComponent extends TranslatableComponent {
+  private students: Array<Student> = [];
+
   public groups: Array<Group> = [];
   public cabinets: Array<Cabinet> = [];
 
@@ -30,7 +32,8 @@ export class GroupsListPageComponent extends TranslatableComponent {
     private router: Router,
     private loginService: LoginService,
     private groupsService: GroupsService,
-    private cabinetsService: CabinetsService
+    private cabinetsService: CabinetsService,
+    private studentsService: StudentsService
   ) {
     super();
 
@@ -39,16 +42,27 @@ export class GroupsListPageComponent extends TranslatableComponent {
     } else {
       Promise.all([
         this.groupsService.getAllGroups(),
-        this.cabinetsService.getAllCabinets()
+        this.cabinetsService.getAllCabinets(),
+        this.studentsService.getAllStudents()
       ]).then(it => {
         this.unfilteredGroups = it[0];
         this.cabinets = it[1];
+        this.students = it[2];
 
         this.loadingInProgress = false;
 
         this.groups = this.getFilteredGroups();
       });
     }
+  }
+
+  public groupHasActiveStudents(groupId: number): boolean {
+    let amountOfActiveStudents = this.students
+      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
+      .filter(student => student.statusType == 'GROUP_ASSIGNED')
+      .length;
+
+    return amountOfActiveStudents !== 0;
   }
 
   public getCabinetItems(): Array<SelectItem> {
