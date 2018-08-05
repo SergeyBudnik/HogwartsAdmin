@@ -11,7 +11,7 @@
 
       <ng-container *ngIf="!loadingInProgress">
         <h3 *ngIf="!!group.id">
-          Группа '{{group.name}}'
+          Группа '{{group.id}}'
         </h3>
 
         <h3 *ngIf="!group.id">
@@ -31,8 +31,12 @@
           </div>
 
           <div class="form-group">
-            <label for="name">Название:</label>
-            <input id="name" class="form-control" name="name" placeholder="Название" [(ngModel)]="group.name">
+            <label for="manager">Мэнеджер:</label>
+            <select id="manager" class="form-control" name="manager" [(ngModel)]="group.managerId">
+              <option *ngFor="let teacher of getTeachers()" value="{{teacher.id}}">
+                {{teacher.name}}
+              </option>
+            </select>
           </div>
 
           <div class="form-group">

@@ -98,6 +98,10 @@ export class GroupInformationPageComponent extends TranslatableComponent {
       .sort((o1, o2) => TimeUtils.earlier(o1.startTime, o2.startTime) ? -1 : 1);
   }
 
+  public getTeachers(): Array<Teacher> {
+    return this.teachers;
+  }
+
   public getTeacher(teacherId: number): Teacher {
     return this.teachers.find(it => it.id === teacherId);
   }
