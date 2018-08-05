@@ -9,9 +9,9 @@
            [items]="getGroupTypeItems()"
            (onChange)="onGroupTypeFilterChange($event)"></div>
 
-      <div app-search-text-input-control class="groups-list-header-search groups-book-name-column"
-           [placeholder]="'Название книги'"
-           (onChange)="onNameFilterChange($event)"></div>
+      <div app-search-select-control class="groups-list-header-search groups-book-name-column"
+           [items]="getManagerItems()"
+           (onChange)="onManagerFilterChange($event)"></div>
 
       <div app-search-select-control class="groups-list-header-search groups-education-level-column"
            [items]="getEducationLevelItems()"
@@ -51,7 +51,7 @@
         {{getGroupTypeTranslation(group.type)}}
       </div>
       <div class="list-row-item groups-book-name-column">
-        {{group.bookName}}
+        {{getGroupManager(group.id).name}}
       </div>
       <div class="list-row-item groups-education-level-column">
         {{getEducationLevelTranslation(group.educationLevel)}}

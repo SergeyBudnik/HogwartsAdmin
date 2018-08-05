@@ -7,7 +7,7 @@ export class Group {
   public constructor(
     public id: number = null,
     public cabinetId: number = null,
-    public name: string = null,
+    public managerId: number = null,
     public bookName: string = null,
     public type: GroupType = null,
     public lessons: Array<Lesson> = [],
