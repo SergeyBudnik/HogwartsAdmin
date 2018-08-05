@@ -34,7 +34,11 @@
       <fa name="spinner" class="loading-sign" animation="spin"></fa>
     </div>
 
-    <div *ngFor="let group of groups" class="list-row-clickable" (click)="openGroupPage(group.id)">
+    <div *ngFor="let group of groups"
+         class="list-row-clickable"
+         [class.group-list-row-inactive]="!groupHasActiveStudents(group.id)"
+         (click)="openGroupPage(group.id)">
+
       <div class="groups-list-item-color">
         <div class="groups-list-item-color-circle" [style.background-color]="group.color">
         </div>
