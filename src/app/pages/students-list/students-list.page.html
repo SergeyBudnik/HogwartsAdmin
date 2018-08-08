@@ -54,7 +54,8 @@
           [class.student-status-label-test-assigned]="student.statusType == 'TEST_ASSIGNED'"
           [class.student-status-label-free-lesson-assigned]="student.statusType == 'FREE_LESSON_ASSIGNED'"
           [class.student-status-label-group-assigned]="student.statusType == 'GROUP_ASSIGNED'"
-          [class.student-status-label-temporarily-stopped]="student.statusType == 'TEMPORARILY_STOPPED'">
+          [class.student-status-label-temporarily-stopped]="student.statusType == 'TEMPORARILY_STOPPED'"
+          [class.student-status-label-left]="student.statusType == 'LEFT'">
           {{getStudentStatusTypeTranslation(student.statusType)}}
         </span>
       </div>
