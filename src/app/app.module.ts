@@ -33,6 +33,7 @@ import {ModalTemplateComponent} from './templates/modal/modal.template';
 import {StudentPaymentRowComponent} from './pages/student/payment/payment-row/student-payment.row';
 import {StudentAttendanceModal} from './parts/student/attendance-modal/student-attendance.modal';
 import {StudentAttendanceRowComponent} from './pages/student/attendance/attendance-row/student-attendance.row';
+import {ClipboardModule} from 'ngx-clipboard';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -118,7 +119,8 @@ const appRoutes: Routes = [
     ToastModule.forRoot(),
     RouterModule.forRoot(appRoutes, {useHash: true}),
     MyDatePickerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ClipboardModule
   ],
   providers: [
     {
