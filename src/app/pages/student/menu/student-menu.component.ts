@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
-type Tab = 'INFORMATION' | 'ATTENDANCE' | 'PAYMENT';
+type Tab = 'INFORMATION' | 'STATUS' | 'ATTENDANCE' | 'PAYMENT';
 
 @Component({
   selector: '[app-student-menu]',

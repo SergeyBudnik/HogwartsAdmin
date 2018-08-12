@@ -1,0 +1,102 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'STATUS'"></div>
+
+    <div class="page-content-with-footer">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3>
+          Статус ученика '{{student.name}}'
+        </h3>
+
+        <br>
+
+        <form>
+          <div [class.student-status-label-request]="currentStudentStatus.status == 'REQUEST'"
+               [class.student-status-label-test-assigned]="currentStudentStatus.status == 'TEST_ASSIGNED'"
+               [class.student-status-label-free-lesson-assigned]="currentStudentStatus.status == 'FREE_LESSON_ASSIGNED'"
+               [class.student-status-label-group-assigned]="currentStudentStatus.status == 'GROUP_ASSIGNED'"
+               [class.student-status-label-temporarily-stopped]="currentStudentStatus.status == 'TEMPORARILY_STOPPED'"
+               [class.student-status-label-left]="currentStudentStatus.status == 'LEFT'">
+            {{getStudentStatusTypeTranslation(currentStudentStatus.status)}}
+          </div>
+
+          <br>
+
+          <div app-form-text-input-control class="form-group"
+               [name]="'currentActionDate'"
+               [label]="'Дата тестирования'"
+               [placeholder]="''"
+               [valid]="true"></div>
+
+          <!-- Status update buttons -->
+
+          <div *ngIf="currentStudentStatus.status === 'REQUEST'">
+            <button class="btn btn-primary">
+              Назначить тестирование
+            </button>
+
+            <button class="btn btn-warning">
+              Перезвонить
+            </button>
+
+            <button class="btn btn-danger">
+              Студент отказался от занятий
+            </button>
+          </div>
+
+          <div *ngIf="currentStudentStatus.status === 'TEST_ASSIGNED'">
+            <button class="btn btn-primary">
+              Тестирование проведено
+            </button>
+
+            <button class="btn btn-warning">
+              Тестирование перенесено
+            </button>
+
+            <button class="btn btn-danger">
+              Студент отказался от тестирования
+            </button>
+          </div>
+
+          <br>
+
+          <!-- History -->
+
+          <h3>История:</h3>
+
+          <br>
+
+          <div class="list-content">
+            <div *ngFor="let studentStatus of studentStatuses" class="list-row-clickable">
+              <div class="list-row-item" style="width: 80%;">
+                {{studentStatus.creationTime | date: 'dd.MM.yyyy'}}
+              </div>
+              <div class="list-row-item" style="width: 20%;">
+                <div [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
+                     [class.student-status-label-test-assigned]="studentStatus.status == 'TEST_ASSIGNED'"
+                     [class.student-status-label-free-lesson-assigned]="studentStatus.status == 'FREE_LESSON_ASSIGNED'"
+                     [class.student-status-label-group-assigned]="studentStatus.status == 'GROUP_ASSIGNED'"
+                     [class.student-status-label-temporarily-stopped]="studentStatus.status == 'TEMPORARILY_STOPPED'"
+                     [class.student-status-label-left]="studentStatus.status == 'LEFT'">
+                  {{getStudentStatusTypeTranslation(studentStatus.status)}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+  </div>
+
+  <div class="footer">
+  </div>
+</div>

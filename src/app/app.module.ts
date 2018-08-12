@@ -44,6 +44,7 @@ const appRoutes: Routes = [
 
   { path: 'students', component: Pages.StudentsListPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
+  { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
   { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
   { path: 'students/:id/payment', component: Pages.StudentPaymentPageComponent },
 
@@ -76,6 +77,7 @@ const appRoutes: Routes = [
     Pages.TeachersListPageComponent,
 
     Pages.StudentInformationPageComponent,
+    Pages.StudentStatusPageComponent,
     Pages.StudentAttendancePageComponent,
     Pages.StudentPaymentPageComponent,
     Pages.StudentMenuPageComponent,
@@ -144,6 +146,7 @@ const appRoutes: Routes = [
     Services.LessonsService,
     Services.StudentAttendanceService,
     Services.StudentPaymentService,
+    Services.StudentStatusService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,
@@ -151,7 +154,8 @@ const appRoutes: Routes = [
     Https.StudentsHttp,
     Https.TeachersHttp,
     Https.StudentAttendanceHttp,
-    Https.StudentPaymentHttp
+    Https.StudentPaymentHttp,
+    Https.StudentStatusHttp
   ],
   bootstrap: [
     AppComponent

@@ -36,9 +36,9 @@ export class StudentStatusTypeUtils {
 
 export class StudentStatus {
   public constructor(
-    id: number,
-    studentId: number,
-    status: StudentStatusType,
-    creationTime: number
+    public id: number,
+    public studentId: number,
+    public status: StudentStatusType,
+    public creationTime: number
   ) {}
 }
