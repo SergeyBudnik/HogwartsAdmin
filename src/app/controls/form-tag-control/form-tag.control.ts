@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {StringArrayReference} from '../string-array-reference';
+import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
   selector: '[app-form-tag-control]',
@@ -14,6 +15,10 @@ export class FormTagControl {
   @Input() valid: boolean;
 
   @Output() public onChange: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
+
+  public constructor(
+    private clipboardService: ClipboardService
+  ) {}
 
   public onValueAdded(value: any): void {
     const res: Array<string> = [value.value];
@@ -38,5 +43,9 @@ export class FormTagControl {
     this.valueRef.setValue(res);
 
     this.onChange.emit(res);
+  }
+
+  public onValueSelected(value: any) {
+    this.clipboardService.copyFromContent(value)
   }
 }

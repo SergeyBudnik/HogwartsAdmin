@@ -19,7 +19,7 @@ export class StudentPaymentHttp {
 
   public addPayment(studentId: number, amount: number, time: number): Promise<number> {
     return this.http
-      .post(`${this.root}/${studentId}`, {amount: amount, time: time})
+      .post(`${this.root}`, {studentId: studentId, amount: amount, time: time})
       .toPromise()
       .then(it => Number(it));
   }
