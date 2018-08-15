@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {StudentPayment, StudentStatusType} from '../../../data';
+import {StudentStatusType} from '../../../data';
 import {StudentStatusService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
 
@@ -58,9 +58,7 @@ export class StudentStatusModal extends TranslatableComponent {
   }
 
   @Input('hasAction') public set setHasAction(hasAction: boolean) {
-    if (hasAction) {
-      this.hasAction = hasAction;
-    }
+    this.hasAction = hasAction;
   }
 
   public onDateChange(event: IMyDateModel): void {

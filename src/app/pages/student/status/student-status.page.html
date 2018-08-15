@@ -42,11 +42,11 @@
               Назначить тестирование
             </button>
 
-            <button class="btn btn-warning" (click)="setNewStudentStatus('REQUEST')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('REQUEST')" data-toggle="modal" data-target="#studentStatus">
               Перезвонить
             </button>
 
-            <button class="btn btn-danger" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Студент отказался от занятий
             </button>
           </div>
@@ -56,11 +56,11 @@
               Тестирование проведено
             </button>
 
-            <button class="btn btn-warning" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
               Тестирование перенесено
             </button>
 
-            <button class="btn btn-danger" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Студент отказался от тестирования
             </button>
           </div>
@@ -70,11 +70,11 @@
               Бесплатное занятие проведено
             </button>
 
-            <button class="btn btn-warning" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-default" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
               Бесплатное занятие перенесено
             </button>
 
-            <button class="btn btn-danger" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Студент отказался от бесплатного занятия
             </button>
           </div>
@@ -84,7 +84,7 @@
               Временно приостановил
             </button>
 
-            <button class="btn btn-danger" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Покинул
             </button>
           </div>
@@ -94,7 +94,7 @@
               Возобновил занятия
             </button>
 
-            <button class="btn btn-danger" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Покинул
             </button>
           </div>
@@ -107,10 +107,36 @@
 
           <br>
 
+          <div class="list-header-container">
+            <div class="list-header">
+              <div style="width: 35%; margin-top: 10px; margin-left: 10px">
+                <b>Дата изменения</b>
+              </div>
+              <div style="width: 35%; margin-top: 10px; margin-left: 10px">
+                <b>Дата действия</b>
+              </div>
+              <div style="width: 30%">
+              </div>
+            </div>
+          </div>
+
           <div class="list-content" style="overflow: visible">
-            <div *ngFor="let studentStatus of studentStatuses" class="list-row-clickable">
-              <div class="list-row-item" style="width: 70%;">
-                {{studentStatus.creationTime | date: 'dd.MM.yyyy'}}
+            <div *ngFor="let studentStatus of studentStatuses" class="list-row">
+              <div class="list-row-item" style="width: 35%;">
+                <span *ngIf="studentStatus.creationTime === -1">
+                  -
+                </span>
+                <span *ngIf="studentStatus.creationTime !== -1">
+                  {{studentStatus.creationTime | date: 'dd.MM.yyyy'}}
+                </span>
+              </div>
+              <div class="list-row-item" style="width: 35%;">
+                <span *ngIf="studentStatus.actionTime === -1">
+                  -
+                </span>
+                <span *ngIf="studentStatus.actionTime !== -1">
+                  {{studentStatus.actionTime | date: 'dd.MM.yyyy'}}
+                </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
                 <div [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
@@ -128,6 +154,7 @@
       </ng-container>
 
       <app-student-status-modal
+        *ngIf="!loadingInProgress"
         [studentId]="student.id"
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
