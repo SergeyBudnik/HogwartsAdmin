@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StringReference} from '../string-reference';
 import {SelectItem} from '../select-item';
 
 @Component({
@@ -10,14 +9,14 @@ import {SelectItem} from '../select-item';
 export class FormSelectControl {
   @Input() name: string;
   @Input() label: string;
-  @Input() valueRef: StringReference = null;
+  @Input() value: string = null;
   @Input() items: Array<SelectItem> = [];
   @Input() valid: boolean = false;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
   public onValueChange(value: string) {
-    this.valueRef.setValue(value);
+    this.value = value;
 
     this.onChange.emit(value);
   }

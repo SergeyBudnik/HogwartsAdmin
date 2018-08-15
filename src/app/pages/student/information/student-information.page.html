@@ -26,27 +26,30 @@
                [label]="'Имя'"
                [placeholder]="'Введите имя'"
                [valid]="!!student.name && student.name.indexOf('?') === -1"
-               [valueRef]="nameReference"></div>
+               [value]="student.name"
+               (onChange)="student.name = $event"></div>
 
           <div app-form-tag-control class="form-group"
                [name]="'telephones'"
                [label]="'Телефоны'"
                [placeholder]="'Введите телефон'"
                [valid]="student.phones.length !== 0 || student.emails.length !== 0"
-               [valueRef]="telephonesReference"></div>
+               [value]="student.phones"
+               (onChange)="student.phones = $event"></div>
 
           <div app-form-tag-control class="form-group"
                [name]="'emails'"
                [label]="'Email'"
                [placeholder]="'Введите email'"
                [valid]="student.phones.length !== 0 || student.emails.length !== 0"
-               [valueRef]="emailsReference"></div>
+               [value]="student.emails"
+               (onChange)="student.emails = $event"></div>
 
           <div app-form-select-control class="form-group"
                [name]="'educationLevel'"
                [label]="'Уровень подготовки'"
                [valid]="student.educationLevel !== 'UNKNOWN'"
-               [valueRef]="educationLevelReference"
+               [value]="student.educationLevel"
                [items]="getEducationLevelItems()"
                (onChange)="onEducationLevelChange($event)"></div>
 
@@ -54,7 +57,7 @@
                [name]="'referralSource'"
                [label]="'Откуда узнал'"
                [valid]="student.referralSource !== 'UNKNOWN'"
-               [valueRef]="referralSourceReference"
+               [value]="student.referralSource"
                [items]="getReferralSourceItems()"
                (onChange)="onReferralSourceChange($event)"></div>
 
@@ -62,7 +65,7 @@
                [name]="'age'"
                [label]="'Возраст'"
                [valid]="student.age !== 'UNKNOWN'"
-               [valueRef]="ageReference"
+               [value]="student.age"
                [items]="getAgeItems()"
                (onChange)="onAgeChange($event)"></div>
 
@@ -70,7 +73,7 @@
                [name]="'status'"
                [label]="'Статус'"
                [valid]="student.statusType !== 'UNKNOWN'"
-               [valueRef]="statusReference"
+               [value]="student.statusType"
                [items]="getStatusItems()"
                (onChange)="onStatusTypeChange($event)"></div>
 
