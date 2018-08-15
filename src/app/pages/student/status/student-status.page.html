@@ -28,11 +28,15 @@
 
           <br>
 
-          <div app-form-text-input-control class="form-group"
-               [name]="'currentActionDate'"
-               [label]="'Дата тестирования'"
-               [placeholder]="''"
-               [valid]="true"></div>
+          <div *ngIf="currentStudentStatus.status == 'REQUEST'">
+            <div app-form-text-input-control class="form-group"
+                 [name]="'currentActionDate'"
+                 [label]="'Перезвонить'"
+                 [valueRef]="nameReference"
+                 [placeholder]="''"
+                 [valid]="true"></div>
+          </div>
+
 
           <!-- Status update buttons -->
 
@@ -61,6 +65,20 @@
 
             <button class="btn btn-danger">
               Студент отказался от тестирования
+            </button>
+          </div>
+
+          <div *ngIf="currentStudentStatus.status === 'FREE_LESSON_ASSIGNED'">
+            <button class="btn btn-primary">
+              Бесплатное занятие проведено
+            </button>
+
+            <button class="btn btn-warning">
+              Бесплатное занятие перенесено
+            </button>
+
+            <button class="btn btn-danger">
+              Студент отказался от бесплатного занятия
             </button>
           </div>
 

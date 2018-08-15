@@ -46,10 +46,6 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     }
   }
 
-  public getCurrentStatus(): StudentStatus {
-    return this.studentStatuses[0];
-  }
-
   private init(studentId: number): void {
     this.student.id = studentId;
 
@@ -62,6 +58,8 @@ export class StudentStatusPageComponent extends TranslatableComponent {
       this.currentStudentStatus = this.studentStatuses[0];
 
       this.loadingInProgress = false;
+
+      this.nameReference = new StringReference(() => this.student.name, value => this.student.name = value);
     });
   }
 }
