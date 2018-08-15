@@ -74,8 +74,15 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     this.newStudentStatus = status;
   }
 
-  public onStatusSaved() {
-    window.location.reload();
+  public onStatusSaved(studentStatus: StudentStatus) {
+    this.currentStudentStatus = studentStatus;
+
+    let newStudentStatuses = [];
+
+    newStudentStatuses.push(studentStatus);
+    this.studentStatuses.forEach(status => newStudentStatuses.push(status));
+
+    this.studentStatuses = newStudentStatuses;
   }
 
   private init(studentId: number): void {

@@ -159,7 +159,7 @@
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
         [hasAction]="hasAction(newStudentStatus)"
-        (statusSaved)="onStatusSaved()">
+        (statusSaved)="onStatusSaved($event)">
       </app-student-status-modal>
     </div>
 
