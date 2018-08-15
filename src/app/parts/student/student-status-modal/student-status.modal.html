@@ -1,21 +1,13 @@
-<app-modal-template [id]="'studentAttendance'" [title]="'Добавление посещаемости'" [modalVisible]="modalVisible">
+<app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'" [modalVisible]="modalVisible">
   <div class="modal-body">
     <form>
-      <div class="form-group">
+      <div class="form-group" *ngIf="hasAction">
         <label for="date">Дата:</label>
         <my-date-picker id="date" name="date"
                         [(ngModel)]="date"
                         [options]="{dateFormat: 'dd.mm.yyyy'}"
                         (dateChanged)="onDateChange($event)"></my-date-picker>
       </div>
-
-      <div app-form-select-control class="form-group"
-          [id]="'attendanceType'"
-          [label]="'Статус'"
-          [valid]="true"
-          [value]="attendanceType"
-          [items]="getAttendanceTypeItems()"
-          (onChange)="attendanceType = $event"></div>
     </form>
   </div>
 
@@ -24,8 +16,8 @@
       Отмена
     </button>
 
-    <button type="button" class="btn btn-primary" (click)="addAttendance()">
-      Добавить
+    <button [disabled]="!date" type="button" class="btn btn-primary" (click)="changeStudentStatus()">
+      Сохранить
 
       <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
     </button>

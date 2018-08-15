@@ -4,7 +4,6 @@ import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} fr
 import {StudentAttendanceService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
 import {SelectItem} from '../../../controls/select-item';
-import {StringReference} from '../../../controls/string-reference';
 
 @Component({
   selector: 'app-student-attendance-modal',
@@ -23,9 +22,7 @@ export class StudentAttendanceModal extends TranslatableComponent {
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  public attendanceTypeReference = new StringReference(() => this.attendanceType, value => this.attendanceType = value);
-
-  private attendanceType: StudentAttendanceType = 'VISITED';
+  public attendanceType: StudentAttendanceType = 'VISITED';
   private time: number;
 
   public constructor(

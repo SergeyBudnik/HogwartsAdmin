@@ -4,7 +4,7 @@
   {{label}}:
 </label>
 <select id="status" class="form-control" name="status" (change)="onValueChange($event.target.value)">
-  <option *ngFor="let item of items" value="{{item.value}}" [attr.selected]="valueRef.getValue() === item.value ? 'selected' : null">
+  <option *ngFor="let item of items" value="{{item.value}}" [attr.selected]="value === item.value ? 'selected' : null">
     {{item.name}}
   </option>
 </select>

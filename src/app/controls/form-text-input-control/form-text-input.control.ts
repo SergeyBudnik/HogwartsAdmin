@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StringReference} from '../string-reference';
 
 @Component({
   selector: '[app-form-text-input-control]',
@@ -10,13 +9,13 @@ export class FormTextControl {
   @Input() name: string;
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() valueRef: StringReference;
+  @Input() value: String;
   @Input() valid: boolean;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
   public onValueChange(value: string): void {
-    this.valueRef.setValue(value);
+    this.value = value;
 
     this.onChange.emit(value);
   }

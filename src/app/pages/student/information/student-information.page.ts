@@ -8,8 +8,6 @@ import {
 } from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
-import {StringReference} from '../../../controls/string-reference';
-import {StringArrayReference} from '../../../controls/string-array-reference';
 
 @Component({
   selector: 'app-student-information-page',
@@ -22,14 +20,6 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
   public loadingInProgress = true;
   public actionInProgress = false;
-
-  public nameReference: StringReference;
-  public telephonesReference: StringArrayReference;
-  public emailsReference: StringArrayReference;
-  public referralSourceReference: StringReference;
-  public educationLevelReference: StringReference;
-  public ageReference: StringReference;
-  public statusReference: StringReference;
 
   private requestedGroupId: number;
 
@@ -167,16 +157,6 @@ export class StudentInformationPageComponent extends TranslatableComponent {
       });
   }
 
-  private initReferences(): void {
-    this.nameReference = new StringReference(() => this.student.name, value => this.student.name = value);
-    this.telephonesReference = new StringArrayReference(() => this.student.phones, value => this.student.phones = value);
-    this.emailsReference = new StringArrayReference(() => this.student.emails, value => this.student.emails = value);
-    this.referralSourceReference = new StringReference(() => this.student.referralSource, value => this.student.referralSource = value);
-    this.educationLevelReference = new StringReference(() => this.student.educationLevel, value => this.student.educationLevel = value);
-    this.ageReference = new StringReference(() => this.student.age, value => this.student.age = value);
-    this.statusReference = new StringReference(() => this.student.statusType, value => this.student.statusType = value);
-  }
-
   private initExisting(studentId: number): void {
     this.student.id = studentId;
 
@@ -208,8 +188,6 @@ export class StudentInformationPageComponent extends TranslatableComponent {
         this.suitableGroups = groups;
 
         this.loadingInProgress = false;
-
-        this.initReferences();
       });
   }
 }

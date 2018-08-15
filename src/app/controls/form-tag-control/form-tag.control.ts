@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StringArrayReference} from '../string-array-reference';
 import {ClipboardService} from 'ngx-clipboard';
 
 @Component({
@@ -11,7 +10,7 @@ export class FormTagControl {
   @Input() name: string;
   @Input() label: string;
   @Input() placeholder: string;
-  @Input() valueRef: StringArrayReference;
+  @Input() value: Array<string>;
   @Input() valid: boolean;
 
   @Output() public onChange: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
@@ -20,29 +19,29 @@ export class FormTagControl {
     private clipboardService: ClipboardService
   ) {}
 
-  public onValueAdded(value: any): void {
-    const res: Array<string> = [value.value];
+  public onValueAdded(addedItem: any): void {
+    const newValue = [];
 
-    this.valueRef
-      .getValue()
-      .forEach(it => res.push(it));
+    this.value
+      .forEach(it => newValue.push(it));
 
-    this.valueRef.setValue(res);
+    newValue.push(addedItem.value);
 
-    this.onChange.emit(res);
+    this.value = newValue;
+
+    this.onChange.emit(this.value);
   }
 
-  public onValueRemoved(value: any): void {
-    const res: Array<string> = [];
+  public onValueRemoved(removedItem: any): void {
+    const newValue = [];
 
-    this.valueRef
-      .getValue()
-      .filter(it => it !== value)
-      .forEach(it => res.push(it));
+    this.value
+      .filter(it => it != removedItem)
+      .forEach(it => newValue.push(it));
 
-    this.valueRef.setValue(res);
+    this.value = newValue;
 
-    this.onChange.emit(res);
+    this.onChange.emit(this.value);
   }
 
   public onValueSelected(value: any) {
