@@ -23,7 +23,6 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  public nameReference: StringReference;
   public telephonesReference: StringArrayReference;
   public emailsReference: StringArrayReference;
   public referralSourceReference: StringReference;
@@ -168,7 +167,6 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   private initReferences(): void {
-    this.nameReference = new StringReference(() => this.student.name, value => this.student.name = value);
     this.telephonesReference = new StringArrayReference(() => this.student.phones, value => this.student.phones = value);
     this.emailsReference = new StringArrayReference(() => this.student.emails, value => this.student.emails = value);
     this.referralSourceReference = new StringReference(() => this.student.referralSource, value => this.student.referralSource = value);
