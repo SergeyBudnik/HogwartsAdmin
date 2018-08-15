@@ -3,7 +3,6 @@ import {TranslatableComponent} from '../../../translation/translation.component'
 import {StudentPayment} from '../../../data';
 import {StudentPaymentService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
-import {StringReference} from '../../../controls/string-reference';
 
 @Component({
   selector: 'app-student-payment-modal',
@@ -23,10 +22,8 @@ export class StudentPaymentModal extends TranslatableComponent {
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  private amountString: string = '';
-
+  public amountString: string = '';
   public amount: number = null;
-  public amountReference = new StringReference(() => this.amountString, value => this.amountString = value);
 
   public constructor(
     private studentPaymentService: StudentPaymentService
@@ -49,6 +46,8 @@ export class StudentPaymentModal extends TranslatableComponent {
   }
 
   public onAmountChange(amountString: string): void {
+    this.amountString = amountString;
+
     const amount = Number.parseInt(amountString);
 
     if (!!amount && amount > 0) {

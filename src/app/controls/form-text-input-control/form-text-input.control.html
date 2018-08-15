@@ -6,5 +6,5 @@
 
 <input id="{{name}}" name="{{name}}" class="form-control"
        required minlength="1"
-       [value]="valueRef.getValue()"
+       [value]="value"
        (keyup)="onValueChange($event.target.value)"/>
