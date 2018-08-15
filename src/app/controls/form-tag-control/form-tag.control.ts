@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StringArrayReference} from '../string-array-reference';
 import {ClipboardService} from 'ngx-clipboard';
 
 @Component({

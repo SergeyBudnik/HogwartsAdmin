@@ -13,8 +13,9 @@
           [id]="'attendanceType'"
           [label]="'Статус'"
           [valid]="true"
-          [valueRef]="attendanceTypeReference"
-          [items]="getAttendanceTypeItems()"></div>
+          [value]="attendanceType"
+          [items]="getAttendanceTypeItems()"
+          (onChange)="attendanceType = $event"></div>
     </form>
   </div>
 

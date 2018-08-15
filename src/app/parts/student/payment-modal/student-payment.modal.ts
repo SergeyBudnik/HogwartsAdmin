@@ -3,7 +3,6 @@ import {TranslatableComponent} from '../../../translation/translation.component'
 import {StudentPayment} from '../../../data';
 import {StudentPaymentService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
-import {StringReference} from '../../../controls/string-reference';
 
 @Component({
   selector: 'app-student-payment-modal',
