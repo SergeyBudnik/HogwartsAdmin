@@ -6,6 +6,14 @@
 </div>
 
 <div *ngIf="!!studentId"
+     [class.page-left-menu-item-active]="currentTab === 'STATUS'"
+     [class.page-left-menu-item-inactive]="currentTab !== 'STATUS'"
+     (click)="navigateTo('status')">
+  <i class="fa fa-users menu-item-icon" aria-hidden="true"></i>
+  <span class="horizontal-item">Статус</span>
+</div>
+
+<div *ngIf="!!studentId"
      [class.page-left-menu-item-active]="currentTab === 'ATTENDANCE'"
      [class.page-left-menu-item-inactive]="currentTab !== 'ATTENDANCE'"
      (click)="navigateTo('attendance')">
