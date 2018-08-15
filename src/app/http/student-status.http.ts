@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpConfig} from './http-config';
 import {HttpClient} from '@angular/common/http';
-import {StudentStatus} from '../data';
+import {StudentStatus, StudentStatusType} from '../data';
 
 @Injectable()
 export class StudentStatusHttp {
@@ -10,6 +10,13 @@ export class StudentStatusHttp {
   public constructor(
     readonly http: HttpClient
   ) {}
+
+  public changeStudentStatus(studentId: number, status: StudentStatusType, actionTime: number): Promise<any> {
+    return this.http
+      .put(`${this.root}/${studentId}/${status}`, actionTime)
+      .toPromise()
+      .then(() => {});
+  }
 
   public getStatuses(studentId: number): Promise<Array<StudentStatus>> {
     return this.http

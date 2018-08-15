@@ -2,9 +2,8 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService, GroupsService, StudentStatusService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentStatus} from '../../../data';
+import {Student, StudentStatus, StudentStatusType} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
-import {StringReference} from '../../../controls/string-reference';
 
 @Component({
   selector: 'app-student-status-page',
@@ -16,10 +15,10 @@ export class StudentStatusPageComponent extends TranslatableComponent {
   public studentStatuses: Array<StudentStatus> = [];
   public currentStudentStatus: StudentStatus;
 
+  public newStudentStatus: StudentStatusType;
+
   public loadingInProgress = true;
   public actionInProgress = false;
-
-  public nameReference: StringReference;
 
   public constructor(
     private router: Router,
@@ -46,6 +45,39 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     }
   }
 
+  public hasAction(status: StudentStatusType): boolean {
+    switch (status) {
+      case 'GROUP_ASSIGNED':
+      case 'LEFT':
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  public getActionLabel(): string {
+    switch (this.currentStudentStatus.status) {
+      case 'REQUEST':
+        return 'Перезвонить';
+      case 'TEST_ASSIGNED':
+        return 'Дата тестирования';
+      case 'FREE_LESSON_ASSIGNED':
+        return 'Дата бесплатного занятия';
+      case 'TEMPORARILY_STOPPED':
+        return 'Временно приостановил';
+      default:
+        throw Error(`Unexpected status ${this.currentStudentStatus.status}`)
+    }
+  }
+
+  public setNewStudentStatus(status: StudentStatusType) {
+    this.newStudentStatus = status;
+  }
+
+  public onStatusSaved() {
+    window.location.reload();
+  }
+
   private init(studentId: number): void {
     this.student.id = studentId;
 
@@ -58,8 +90,6 @@ export class StudentStatusPageComponent extends TranslatableComponent {
       this.currentStudentStatus = this.studentStatuses[0];
 
       this.loadingInProgress = false;
-
-      this.nameReference = new StringReference(() => this.student.name, value => this.student.name = value);
     });
   }
 }

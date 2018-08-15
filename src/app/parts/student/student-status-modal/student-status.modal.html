@@ -1,0 +1,29 @@
+<app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'" [modalVisible]="modalVisible">
+  <div class="modal-body">
+    <form>
+      <div>{{studentId}}</div>
+      <div>{{previousStatus}}</div>
+      <div>{{newStatus}}</div>
+
+      <div class="form-group" *ngIf="hasAction">
+        <label for="date">Дата:</label>
+        <my-date-picker id="date" name="date"
+                        [(ngModel)]="date"
+                        [options]="{dateFormat: 'dd.mm.yyyy'}"
+                        (dateChanged)="onDateChange($event)"></my-date-picker>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close() ">
+      Отмена
+    </button>
+
+    <button [disabled]="!date" type="button" class="btn btn-primary" (click)="changeStudentStatus()">
+      Сохранить
+
+      <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
+    </button>
+  </div>
+</app-modal-template>

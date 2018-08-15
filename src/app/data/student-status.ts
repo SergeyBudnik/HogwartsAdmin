@@ -39,6 +39,7 @@ export class StudentStatus {
     public id: number,
     public studentId: number,
     public status: StudentStatusType,
-    public creationTime: number
+    public creationTime: number,
+    public actionTime: number
   ) {}
 }
