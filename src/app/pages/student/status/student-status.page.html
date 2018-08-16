@@ -31,7 +31,7 @@
           <div *ngIf="hasAction(currentStudentStatus.status)" app-form-text-input-control class="form-group"
                [name]="'currentActionDate'"
                [label]="getActionLabel()"
-               [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy'"
+               [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'"
                [placeholder]="''"
                [valid]="true"></div>
 
@@ -127,7 +127,7 @@
                   -
                 </span>
                 <span *ngIf="studentStatus.creationTime !== -1">
-                  {{studentStatus.creationTime | date: 'dd.MM.yyyy'}}
+                  {{studentStatus.creationTime | date: 'dd.MM.yyyy HH:mm'}}
                 </span>
               </div>
               <div class="list-row-item" style="width: 35%;">
@@ -135,7 +135,7 @@
                   -
                 </span>
                 <span *ngIf="studentStatus.actionTime !== -1">
-                  {{studentStatus.actionTime | date: 'dd.MM.yyyy'}}
+                  {{studentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'}}
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">

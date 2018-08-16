@@ -8,6 +8,14 @@
                         [options]="{dateFormat: 'dd.mm.yyyy'}"
                         (dateChanged)="onDateChange($event)"></my-date-picker>
       </div>
+
+      <div *ngIf="hasAction" app-form-select-control class="form-group"
+           [name]="'actionTime'"
+           [label]="'Время'"
+           [valid]="true"
+           [value]="actionTime"
+           [items]="actionTimeItems"
+           (onChange)="actionTime = $event"></div>
     </form>
   </div>
 
