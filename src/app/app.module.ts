@@ -110,7 +110,8 @@ const appRoutes: Routes = [
     Controls.SearchTextInputControl,
     Controls.FormSelectControl,
     Controls.FormTagControl,
-    Controls.FormTextControl
+    Controls.FormTextControl,
+    Controls.FormDateControl
   ],
   imports: [
     TagInputModule,
