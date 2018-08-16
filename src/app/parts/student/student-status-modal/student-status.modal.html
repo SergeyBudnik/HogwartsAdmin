@@ -1,13 +1,11 @@
 <app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'" [modalVisible]="modalVisible">
   <div class="modal-body">
     <form>
-      <div class="form-group" *ngIf="hasAction">
-        <label for="date">Дата:</label>
-        <my-date-picker id="date" name="date"
-                        [(ngModel)]="date"
-                        [options]="{dateFormat: 'dd.mm.yyyy'}"
-                        (dateChanged)="onDateChange($event)"></my-date-picker>
-      </div>
+      <div *ngIf="hasAction" app-form-date-control
+           [label]="'Дата'"
+           [dateFormat]="'dd.mm.yyyy'"
+           [value]="actionDateTime"
+           (onChange)="actionDateTime = $event"></div>
 
       <div *ngIf="hasAction" app-form-select-control class="form-group"
            [name]="'actionTime'"
@@ -24,7 +22,7 @@
       Отмена
     </button>
 
-    <button [disabled]="!date" type="button" class="btn btn-primary" (click)="changeStudentStatus()">
+    <button type="button" class="btn btn-primary" (click)="changeStudentStatus()">
       Сохранить
 
       <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>

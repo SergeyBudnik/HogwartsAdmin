@@ -1,3 +1,4 @@
+export * from './form-date-control/form-date.control'
 export * from './form-select-control/form-select.control';
 export * from './form-tag-control/form-tag.control';
 export * from './form-text-input-control/form-text-input.control';

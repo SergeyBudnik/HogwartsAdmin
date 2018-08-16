@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../data';
 import {StudentStatusService} from '../../../service';
-import {IMyDateModel} from 'mydatepicker';
 import {SelectItem} from '../../../controls/select-item';
 
 @Component({
@@ -20,10 +19,8 @@ export class StudentStatusModal extends TranslatableComponent {
   public newStatus: StudentStatusType;
   public hasAction: boolean;
 
-  public date = {date: {year: 0, month: 0, day: 0}};
-  public actionTime: Time = 'T_08_00';
-
   public actionDateTime: number;
+  public actionTime: Time = 'T_08_00';
 
   public loadingInProgress = true;
   public actionInProgress = false;
@@ -39,11 +36,12 @@ export class StudentStatusModal extends TranslatableComponent {
 
     const date: Date = new Date();
 
-    this.date.date.year = date.getFullYear();
-    this.date.date.month = date.getMonth() + 1;
-    this.date.date.day = date.getDate();
-
-    this.actionDateTime = this.getTime(this.date);
+    this.actionDateTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      0, 0, 0, 0
+    ).getTime();
   }
 
   @Input('studentId') public set setStudentId(studentId: number) {
@@ -68,10 +66,6 @@ export class StudentStatusModal extends TranslatableComponent {
     this.hasAction = hasAction;
   }
 
-  public onDateChange(event: IMyDateModel): void {
-    this.actionDateTime = this.getTime(event);
-  }
-
   public close(): void {
     this.hideModal();
   }
@@ -93,14 +87,5 @@ export class StudentStatusModal extends TranslatableComponent {
 
   private hideModal(): void {
     this.modalVisible = !this.modalVisible;
-  }
-
-  private getTime(event: any): number {
-    return new Date(
-      event.date.year,
-      event.date.month - 1,
-      event.date.day,
-      0, 0, 0, 0
-    ).getTime();
   }
 }
