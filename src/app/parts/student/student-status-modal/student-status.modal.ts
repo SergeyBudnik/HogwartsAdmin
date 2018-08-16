@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {StudentStatus, StudentStatusType} from '../../../data';
+import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../data';
 import {StudentStatusService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
+import {SelectItem} from '../../../controls/select-item';
 
 @Component({
   selector: 'app-student-status-modal',
@@ -20,10 +21,16 @@ export class StudentStatusModal extends TranslatableComponent {
   public hasAction: boolean;
 
   public date = {date: {year: 0, month: 0, day: 0}};
-  public time: number;
+  public actionTime: Time = 'T_08_00';
+
+  public actionDateTime: number;
 
   public loadingInProgress = true;
   public actionInProgress = false;
+
+  public actionTimeItems = TimeUtils.values.map(it => new SelectItem(
+      this.getTimeTranslation(it), it
+  ));
 
   public constructor(
     private studentStatusService: StudentStatusService
@@ -36,7 +43,7 @@ export class StudentStatusModal extends TranslatableComponent {
     this.date.date.month = date.getMonth() + 1;
     this.date.date.day = date.getDate();
 
-    this.time = this.getTime(this.date);
+    this.actionDateTime = this.getTime(this.date);
   }
 
   @Input('studentId') public set setStudentId(studentId: number) {
@@ -62,7 +69,7 @@ export class StudentStatusModal extends TranslatableComponent {
   }
 
   public onDateChange(event: IMyDateModel): void {
-    this.time = this.getTime(event);
+    this.actionDateTime = this.getTime(event);
   }
 
   public close(): void {
@@ -72,13 +79,14 @@ export class StudentStatusModal extends TranslatableComponent {
   public changeStudentStatus() {
     this.actionInProgress = true;
 
+    let totalActionTimeValue = this.actionDateTime + TimeUtils.getTimeMills(this.actionTime);
+
     this.studentStatusService
-      .changeStudentStatus(this.studentId, this.newStatus, this.time)
+      .changeStudentStatus(this.studentId, this.newStatus, totalActionTimeValue)
       .then(() => {
         this.actionInProgress = false;
-
         // ToDo: fix id
-        this.statusSaved.emit(new StudentStatus(null, this.studentId, this.newStatus, new Date().getTime(), this.time));
+        this.statusSaved.emit(new StudentStatus(null, this.studentId, this.newStatus, new Date().getTime(), totalActionTimeValue));
         this.close();
       });
   }
