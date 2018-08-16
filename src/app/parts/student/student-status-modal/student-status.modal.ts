@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {StudentStatusType} from '../../../data';
+import {StudentStatus, StudentStatusType} from '../../../data';
 import {StudentStatusService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
 
@@ -10,7 +10,7 @@ import {IMyDateModel} from 'mydatepicker';
   styleUrls: ['./student-status.modal.less']
 })
 export class StudentStatusModal extends TranslatableComponent {
-  @Output() public statusSaved: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public statusSaved: EventEmitter<StudentStatus> = new EventEmitter<StudentStatus>();
 
   public modalVisible = true;
 
@@ -77,7 +77,8 @@ export class StudentStatusModal extends TranslatableComponent {
       .then(() => {
         this.actionInProgress = false;
 
-        this.statusSaved.emit(null);
+        // ToDo: fix id
+        this.statusSaved.emit(new StudentStatus(null, this.studentId, this.newStatus, new Date().getTime(), this.time));
         this.close();
       });
   }
