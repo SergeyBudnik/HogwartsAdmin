@@ -20,21 +20,38 @@
   height: 40px !important;
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+.btn-primary, .btn-primary:active, .btn-primary:visited {
   background-color: @color-primary-light-1;
+  color: @color-white;
   font-family: hogwartsRegular;
 }
 
-.btn-default, .btn-default:hover, .btn-default:active, .btn-default:visited {
+.btn-primary:hover {
+  background-color: @color-primary-light-2;
+  color: @color-white;
+}
+
+.btn-default, .btn-default:active, .btn-default:visited {
   background-color: @color-primary-light-3;
   border: 1px solid @color-primary-light-1;
   color: @color-white;
   font-family: hogwartsRegular;
 }
 
-.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
+.btn-default:hover {
+  background-color: @color-primary-light-2;
+  border: 1px solid @color-primary-light-1;
+  color: @color-white;
+}
+
+.btn-info, .btn-info:active, .btn-info:visited {
   background-color: @color-white;
-  border: 1px solid @color-primary-normal-1;
+  border: 1px solid @color-primary-light-1;
   color: @color-primary-normal-1;
   font-family: hogwartsRegular;
+}
+
+.btn-info:hover {
+  background-color: @color-primary-light-3;
+  color: @color-primary-normal-1;
 }

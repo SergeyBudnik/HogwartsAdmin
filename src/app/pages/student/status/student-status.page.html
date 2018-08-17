@@ -31,7 +31,7 @@
           <div *ngIf="hasAction(currentStudentStatus.status)" app-form-text-input-control class="form-group"
                [name]="'currentActionDate'"
                [label]="getActionLabel()"
-               [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy'"
+               [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'"
                [placeholder]="''"
                [valid]="true"></div>
 
@@ -70,11 +70,11 @@
               Бесплатное занятие проведено
             </button>
 
-            <button class="btn btn-default" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
               Бесплатное занятие перенесено
             </button>
 
-            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Студент отказался от бесплатного занятия
             </button>
           </div>
@@ -84,7 +84,7 @@
               Временно приостановил
             </button>
 
-            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Покинул
             </button>
           </div>
@@ -94,7 +94,7 @@
               Возобновил занятия
             </button>
 
-            <button class="btn btn-default" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
+            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
               Покинул
             </button>
           </div>
@@ -127,7 +127,7 @@
                   -
                 </span>
                 <span *ngIf="studentStatus.creationTime !== -1">
-                  {{studentStatus.creationTime | date: 'dd.MM.yyyy'}}
+                  {{studentStatus.creationTime | date: 'dd.MM.yyyy HH:mm'}}
                 </span>
               </div>
               <div class="list-row-item" style="width: 35%;">
@@ -135,7 +135,7 @@
                   -
                 </span>
                 <span *ngIf="studentStatus.actionTime !== -1">
-                  {{studentStatus.actionTime | date: 'dd.MM.yyyy'}}
+                  {{studentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'}}
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
@@ -159,7 +159,7 @@
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
         [hasAction]="hasAction(newStudentStatus)"
-        (statusSaved)="onStatusSaved()">
+        (statusSaved)="onStatusSaved($event)">
       </app-student-status-modal>
     </div>
 
