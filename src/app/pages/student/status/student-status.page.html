@@ -17,12 +17,13 @@
         <br>
 
         <form>
+          <!-- ToDo -->
           <div [class.student-status-label-request]="currentStudentStatus.status == 'REQUEST'"
                [class.student-status-label-test-assigned]="currentStudentStatus.status == 'TEST_ASSIGNED'"
                [class.student-status-label-free-lesson-assigned]="currentStudentStatus.status == 'FREE_LESSON_ASSIGNED'"
-               [class.student-status-label-group-assigned]="currentStudentStatus.status == 'GROUP_ASSIGNED'"
-               [class.student-status-label-temporarily-stopped]="currentStudentStatus.status == 'TEMPORARILY_STOPPED'"
-               [class.student-status-label-left]="currentStudentStatus.status == 'LEFT'">
+               [class.student-status-label-group-assigned]="currentStudentStatus.status == 'STUDYING'"
+               [class.student-status-label-temporarily-stopped]="currentStudentStatus.status == 'STOPPED_STUDYING'"
+               [class.student-status-label-left]="currentStudentStatus.status == 'LEFT_STUDYING'">
             {{getStudentStatusTypeTranslation(currentStudentStatus.status)}}
           </div>
 
@@ -37,67 +38,67 @@
 
           <!-- Status update buttons -->
 
-          <div *ngIf="currentStudentStatus.status === 'REQUEST'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Назначить тестирование
-            </button>
+          <!--<div *ngIf="currentStudentStatus.status === 'REQUEST'">-->
+            <!--<button class="btn btn-primary" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Назначить тестирование-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('REQUEST')" data-toggle="modal" data-target="#studentStatus">
-              Перезвонить
-            </button>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('REQUEST')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Перезвонить-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от занятий
-            </button>
-          </div>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Студент отказался от занятий-->
+            <!--</button>-->
+          <!--</div>-->
 
-          <div *ngIf="currentStudentStatus.status === 'TEST_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Тестирование проведено
-            </button>
+          <!--<div *ngIf="currentStudentStatus.status === 'TEST_ASSIGNED'">-->
+            <!--<button class="btn btn-primary" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Тестирование проведено-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Тестирование перенесено
-            </button>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Тестирование перенесено-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от тестирования
-            </button>
-          </div>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Студент отказался от тестирования-->
+            <!--</button>-->
+          <!--</div>-->
 
-          <div *ngIf="currentStudentStatus.status === 'FREE_LESSON_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Бесплатное занятие проведено
-            </button>
+          <!--<div *ngIf="currentStudentStatus.status === 'FREE_LESSON'">-->
+            <!--<button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Бесплатное занятие проведено-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Бесплатное занятие перенесено
-            </button>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Бесплатное занятие перенесено-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от бесплатного занятия
-            </button>
-          </div>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Студент отказался от бесплатного занятия-->
+            <!--</button>-->
+          <!--</div>-->
 
-          <div *ngIf="currentStudentStatus.status === 'GROUP_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('TEMPORARILY_STOPPED')" data-toggle="modal" data-target="#studentStatus">
-              Временно приостановил
-            </button>
+          <!--<div *ngIf="currentStudentStatus.status === 'STUDYING'">-->
+            <!--<button class="btn btn-primary" (click)="setNewStudentStatus('TEMPORARILY_STOPPED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Временно приостановил-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Покинул
-            </button>
-          </div>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Покинул-->
+            <!--</button>-->
+          <!--</div>-->
 
-          <div *ngIf="currentStudentStatus.status === 'TEMPORARILY_STOPPED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Возобновил занятия
-            </button>
+          <!--<div *ngIf="currentStudentStatus.status === 'TEMPORARILY_STOPPED'">-->
+            <!--<button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Возобновил занятия-->
+            <!--</button>-->
 
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Покинул
-            </button>
-          </div>
+            <!--<button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">-->
+              <!--Покинул-->
+            <!--</button>-->
+          <!--</div>-->
 
           <br>
 
@@ -139,12 +140,13 @@
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
+                <!-- ToDo -->
                 <div [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
                      [class.student-status-label-test-assigned]="studentStatus.status == 'TEST_ASSIGNED'"
                      [class.student-status-label-free-lesson-assigned]="studentStatus.status == 'FREE_LESSON_ASSIGNED'"
-                     [class.student-status-label-group-assigned]="studentStatus.status == 'GROUP_ASSIGNED'"
-                     [class.student-status-label-temporarily-stopped]="studentStatus.status == 'TEMPORARILY_STOPPED'"
-                     [class.student-status-label-left]="studentStatus.status == 'LEFT'">
+                     [class.student-status-label-group-assigned]="studentStatus.status == 'STUDYING'"
+                     [class.student-status-label-temporarily-stopped]="studentStatus.status == 'STOPPED_STUDYING'"
+                     [class.student-status-label-left]="studentStatus.status == 'LEFT_STUDYING'">
                   {{getStudentStatusTypeTranslation(studentStatus.status)}}
                 </div>
               </div>

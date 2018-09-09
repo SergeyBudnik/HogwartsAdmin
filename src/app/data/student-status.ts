@@ -1,9 +1,39 @@
 export type StudentStatusType =
-  'UNKNOWN' | 'REQUEST' | 'TEST_ASSIGNED' | 'FREE_LESSON_ASSIGNED' | 'GROUP_ASSIGNED' | 'TEMPORARILY_STOPPED' | 'LEFT';
+  'UNKNOWN' |
+  'REQUEST' |
+  'TEST_LEFT_BEFORE' |
+  'TEST' |
+  'TEST_STOPPED_AFTER' |
+  'TEST_LEFT_AFTER' |
+  'FREE_LESSON_DISCUSS_TIME' |
+  'FREE_LESSON' |
+  'FREE_LESSON_STOPPED_AFTER' |
+  'FREE_LESSON_LEFT_AFTER' |
+  'AWAITING_GROUP' |
+  'AWAITING_GROUP_STOPPED' |
+  'AWAITING_GROUP_LEFT' |
+  'STUDYING' |
+  'STUDYING_LEFT'
 
 export class StudentStatusTypeUtils {
   public static values: Array<StudentStatusType> =
-    ['UNKNOWN', 'REQUEST', 'TEST_ASSIGNED', 'FREE_LESSON_ASSIGNED', 'GROUP_ASSIGNED', 'TEMPORARILY_STOPPED', 'LEFT'];
+    [
+      'UNKNOWN',
+      'REQUEST',
+      'TEST_LEFT_BEFORE',
+      'TEST',
+      'TEST_STOPPED_AFTER',
+      'TEST_LEFT_AFTER',
+      'FREE_LESSON_DISCUSS_TIME',
+      'FREE_LESSON',
+      'FREE_LESSON_STOPPED_AFTER',
+      'FREE_LESSON_LEFT_AFTER',
+      'AWAITING_GROUP',
+      'AWAITING_GROUP_STOPPED',
+      'AWAITING_GROUP_LEFT',
+      'STUDYING',
+      'STUDYING_LEFT'
+    ];
 
   public static getStudentStatusTypeTranslation(studentStatus: StudentStatusType): string {
     switch (studentStatus) {
@@ -11,16 +41,32 @@ export class StudentStatusTypeUtils {
         return 'Не известно';
       case 'REQUEST':
         return 'Оставил заявку';
-      case 'TEST_ASSIGNED':
-        return 'Записан на тестирование';
-      case 'FREE_LESSON_ASSIGNED':
-        return 'Записан на бесплатный урок';
-      case 'GROUP_ASSIGNED':
+      case 'TEST_LEFT_BEFORE':
+        return 'Покинул до теста';
+      case 'TEST':
+        return 'Тест назначен';
+      case 'TEST_STOPPED_AFTER':
+        return 'Приостановил после теста';
+      case 'TEST_LEFT_AFTER':
+        return 'Покинул после теста';
+      case 'FREE_LESSON_DISCUSS_TIME':
+        return 'Обсудить время бесплатного занятия';
+      case 'FREE_LESSON':
+        return 'Бесплатное занятие назначено';
+      case 'FREE_LESSON_STOPPED_AFTER':
+        return 'Приостановил после бесплатного занятия';
+      case 'FREE_LESSON_LEFT_AFTER':
+        return 'Покинул после бесплатного занятия';
+      case 'AWAITING_GROUP':
+        return 'Ожидает группу';
+      case 'AWAITING_GROUP_STOPPED':
+        return 'Приостановил в ожидании группы';
+      case 'AWAITING_GROUP_LEFT':
+        return 'Покинул в ожидании группы';
+      case 'STUDYING':
         return 'Занимается';
-      case 'TEMPORARILY_STOPPED':
-        return 'Временно приостановил';
-      case 'LEFT':
-        return 'Покинул занятия';
+      case 'STUDYING_LEFT':
+        return 'Покинул';
       default:
         throw new Error(`Unexpected student status ${studentStatus}`);
     }

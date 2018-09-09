@@ -86,7 +86,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   public groupHasActiveStudents(groupId: number): boolean {
     let amountOfActiveStudents = this.students
       .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
-      .filter(student => student.statusType == 'GROUP_ASSIGNED')
+      .filter(student => student.statusType == 'STUDYING')
       .length;
 
     return amountOfActiveStudents !== 0;

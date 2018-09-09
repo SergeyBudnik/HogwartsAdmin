@@ -47,8 +47,12 @@ export class StudentStatusPageComponent extends TranslatableComponent {
 
   public hasAction(status: StudentStatusType): boolean {
     switch (status) {
-      case 'GROUP_ASSIGNED':
-      case 'LEFT':
+      case 'TEST_LEFT_BEFORE':
+      case 'TEST_LEFT_AFTER':
+      case 'FREE_LESSON_LEFT_AFTER':
+      case 'AWAITING_GROUP_LEFT':
+      case 'STUDYING_LEFT':
+      case 'STUDYING':
         return false;
       default:
         return true;
@@ -58,13 +62,14 @@ export class StudentStatusPageComponent extends TranslatableComponent {
   public getActionLabel(): string {
     switch (this.currentStudentStatus.status) {
       case 'REQUEST':
+      case 'TEST_LEFT_AFTER':
+      case 'FREE_LESSON_STOPPED_AFTER':
+      case 'AWAITING_GROUP':
         return 'Перезвонить';
-      case 'TEST_ASSIGNED':
+      case 'TEST':
         return 'Дата тестирования';
-      case 'FREE_LESSON_ASSIGNED':
+      case 'FREE_LESSON':
         return 'Дата бесплатного занятия';
-      case 'TEMPORARILY_STOPPED':
-        return 'Временно приостановил';
       default:
         throw Error(`Unexpected status ${this.currentStudentStatus.status}`)
     }
