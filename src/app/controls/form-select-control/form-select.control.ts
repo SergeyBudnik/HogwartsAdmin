@@ -8,7 +8,7 @@ import {SelectItem} from '../select-item';
 })
 export class FormSelectControl {
   @Input() name: string;
-  @Input() label: string;
+  @Input() label: string = null;
   @Input() value: string = null;
   @Input() items: Array<SelectItem> = [];
   @Input() valid: boolean = false;

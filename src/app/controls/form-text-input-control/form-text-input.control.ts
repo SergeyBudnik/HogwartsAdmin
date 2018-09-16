@@ -11,6 +11,7 @@ export class FormTextControl {
   @Input() placeholder: string;
   @Input() value: String;
   @Input() valid: boolean;
+  @Input() editable: boolean;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 

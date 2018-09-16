@@ -2,10 +2,7 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService, GroupsService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {
-  Student, StudentReferralSource, StudentReferralSourceUtils, StudentStatusType,
-  EducationLevel, EducationLevelUtils, Group, Age, AgeUtils, StudentStatusTypeUtils
-} from '../../../data';
+import {Student, StudentReferralSource, StudentReferralSourceUtils, EducationLevel, EducationLevelUtils, Group, Age, AgeUtils} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
 
@@ -15,13 +12,18 @@ import {SelectItem} from '../../../controls/select-item';
   styleUrls: ['./student-information.page.less']
 })
 export class StudentInformationPageComponent extends TranslatableComponent {
+  public ageItems = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
+  public educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
+  public referralSourceItems = StudentReferralSourceUtils.values.map(it => new SelectItem(this.getStudentReferralSourceTranslation(it), it));
+
   public student: Student = new Student();
-  public suitableGroups: Array<Group> = [];
 
   public loadingInProgress = true;
-  public actionInProgress = false;
 
   private requestedGroupId: number;
+
+  private allStudents: Array<Student> = [];
+  private allGroups: Array<Group> = [];
 
   public constructor(
     private router: Router,
@@ -39,155 +41,125 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
-      this.route.paramMap.subscribe(params => {
-        const id = params.get('id');
-
-        if (!id || id === 'new') {
-          this.route
-            .queryParams
-            .subscribe(queryParams => {
-              const groupId = queryParams['groupId'];
-
-              if (!!groupId) {
-                this.requestedGroupId = Number(groupId);
-
-                this.initNewStudentWithGroup(this.requestedGroupId);
-              } else {
-                this.initNewStudent();
-              }
-            });
-        } else {
-          this.initExisting(Number(params.get('id')));
-        }
-      });
+      this.parseParams((studentId, groupId) => this.initStudent(studentId, groupId));
     }
-  }
-
-  public getAgeItems(): Array<SelectItem> {
-    return AgeUtils.values.map(it => new SelectItem(
-      this.getAgeTranslationAsGroup(it), it
-    ));
-  }
-
-  public onAgeChange(age: Age): void {
-    this.student.age = age;
-    this.initMatchingGroups();
-  }
-
-  public getEducationLevelItems(): Array<SelectItem> {
-    return EducationLevelUtils.values.map(it => new SelectItem(
-      this.getEducationLevelTranslation(it), it
-    ));
-  }
-
-  public onEducationLevelChange(educationLevel: EducationLevel): void {
-    this.student.educationLevel = educationLevel;
-    this.initMatchingGroups();
-  }
-
-  public getReferralSourceItems(): Array<SelectItem> {
-    return StudentReferralSourceUtils.values.map(it => new SelectItem(
-      this.getStudentReferralSourceTranslation(it), it
-    ))
-  }
-
-  public onReferralSourceChange(referralSource: StudentReferralSource): void {
-    this.student.referralSource = referralSource;
-  }
-
-  public getStatusItems(): Array<SelectItem> {
-    return StudentStatusTypeUtils.values.map(it => new SelectItem(
-      this.getStudentStatusTypeTranslation(it), it
-    ));
-  }
-
-  public onStatusTypeChange(statusType: StudentStatusType): void {
-    this.student.statusType = statusType;
   }
 
   public addGroup(): void {
     this.student.groupIds.push(null);
   }
 
-  public removeGroup(index: number): void {
-    const groupIds = [];
+  public goToStatus() {
+    this.router.navigate([`/students/${this.student.id}/status`]);
+  }
 
-    for (let i = 0; i < this.student.groupIds.length; i++) {
-      if (i !== index) {
-        groupIds.push(this.student.groupIds[i]);
-      }
+  public goToGroup(groupId: number) {
+    if (groupId !== null) {
+      this.router.navigate([`/groups/${groupId}/information`])
     }
+  }
 
-    this.student.groupIds = groupIds;
+  public removeGroup(indexToRemove: number): void {
+    this.student.groupIds = this.student.groupIds.filter((_, index) => index !== indexToRemove);
   }
 
   public save(): void {
-    this.actionInProgress = true;
+    this.loadingInProgress = true;
 
-    if (!!this.student.id) {
-      this.studentsService
-        .editStudent(this.student)
-        .then(() => {
-          this.actionInProgress = false;
-          this.toastr.success(`Студент '${this.student.name}' успешно сохранён.`);
-        });
-    } else {
-      this.studentsService
-        .createStudent(this.student)
-        .then(it => {
-          this.actionInProgress = false;
+    if (this.student.id == null) { this.saveNew()} else { this.saveExisting() }
+  }
 
-          if (!!this.requestedGroupId) {
-            this.router.navigate([`/groups/${this.requestedGroupId}/students`]);
-          } else {
-            this.router.navigate([`/students/${it}/information`]);
-          }
-        });
-    }
+  private saveNew() {
+    this.studentsService.createStudent(this.student).then(studentId => {
+      if (!!this.requestedGroupId) {
+        this.router.navigate([`/groups/${this.requestedGroupId}/students`]);
+      } else {
+        this.router.navigate([`/students/${studentId}/information`]);
+      }
+    });
+  }
+
+  private saveExisting() {
+    this.studentsService.editStudent(this.student).then(() => {
+      this.loadingInProgress = false;
+
+      this.toastr.success(`Студент '${this.student.name}' успешно сохранён.`);
+    });
   }
 
   public delete(): void {
-    this.actionInProgress = true;
+    this.loadingInProgress = true;
 
-    this.studentsService
-      .deleteStudent(this.student.id)
-      .then(() => {
-        this.actionInProgress = false;
-        this.router.navigate([`/students`]);
-      });
-  }
-
-  private initExisting(studentId: number): void {
-    this.student.id = studentId;
-
-    this.studentsService.getStudent(studentId).then(student => {
-      this.student = student;
-
-      this.initMatchingGroups();
+    this.studentsService.deleteStudent(this.student.id).then(() => {
+      this.router.navigate([`/students`]);
     });
   }
 
-  private initNewStudent() {
-    this.initMatchingGroups();
+  public getMatchingGroups(): Array<Group> {
+    return this.allGroups
+      .filter(group => group.age === this.student.age)
+      .filter(group => group.educationLevel === this.student.educationLevel)
   }
 
-  private initNewStudentWithGroup(groupId: number) {
-    this.groupsService.getGroup(groupId).then(group => {
-      this.student.age = group.age;
-      this.student.educationLevel = group.educationLevel;
-      this.student.groupIds = [group.id];
+  public getGroupName(groupId: number): String {
+    let group = this.allGroups.find(it => it.id === groupId);
 
-      this.initMatchingGroups();
+    return `${this.getEducationLevelTranslation(group.educationLevel)} - ${group.bookName} - ${this.getGroupStudentsNames(groupId)}`;
+  }
+
+  private getGroupStudentsNames(groupId: number): String {
+    let students = this.allStudents.filter(it => it.groupIds.indexOf(groupId) !== -1);
+
+    if (students.length == 0) {
+      return 'Нет студентов';
+    } else {
+      return students.map(it => it.name).map(it => it.split(' ')[0]).reduce((n1, n2) => `${n1}; ${n2}`);
+    }
+  }
+
+  private initStudent(studentId: number, groupId: number): void {
+    Promise.all([
+      this.studentsService.getAllStudents(),
+      this.groupsService.getAllGroups(),
+    ]).then(it => {
+      this.allStudents = it[0];
+      this.allGroups = it[1];
+
+      if (studentId == null) {
+        this.student = new Student();
+
+        if (groupId != null) {
+          let group = this.allGroups.find(group => group.id === groupId);
+
+          this.student.age = group.age;
+          this.student.educationLevel = group.educationLevel;
+          this.student.groupIds = [group.id];
+        }
+      } else {
+        this.student = this.allStudents.find(student => student.id === studentId);
+      }
+
+      this.loadingInProgress = false;
+    })
+  }
+
+  private parseParams(onStudent: (studentId: number, groupId: number) => any) {
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+
+      if (id === 'new') {
+        this.route.queryParams.subscribe(queryParams => {
+            const groupId = queryParams['groupId'];
+
+            if (!!groupId) {
+              onStudent(null, Number(groupId));
+            } else {
+              onStudent(null, null);
+            }
+          });
+      } else {
+        onStudent(Number(id), null);
+      }
     });
-  }
-
-  private initMatchingGroups() {
-    this.groupsService
-      .getMatchingGroups(this.student.educationLevel, this.student.age)
-      .then(groups => {
-        this.suitableGroups = groups;
-
-        this.loadingInProgress = false;
-      });
   }
 }

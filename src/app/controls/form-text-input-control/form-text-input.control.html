@@ -7,4 +7,5 @@
 <input id="{{name}}" name="{{name}}" class="form-control"
        required minlength="1"
        [value]="value"
+       [disabled]="!editable"
        (keyup)="onValueChange($event.target.value)"/>

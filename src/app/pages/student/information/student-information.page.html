@@ -27,6 +27,7 @@
                [placeholder]="'Введите имя'"
                [valid]="!!student.name && student.name.indexOf('?') === -1"
                [value]="student.name"
+               [editable]="true"
                (onChange)="student.name = $event"></div>
 
           <div app-form-tag-control class="form-group"
@@ -37,69 +38,61 @@
                [value]="student.phones"
                (onChange)="student.phones = $event"></div>
 
-          <div app-form-tag-control class="form-group"
-               [name]="'emails'"
-               [label]="'Email'"
-               [placeholder]="'Введите email'"
-               [valid]="student.phones.length !== 0 || student.emails.length !== 0"
-               [value]="student.emails"
-               (onChange)="student.emails = $event"></div>
-
           <div app-form-select-control class="form-group"
                [name]="'educationLevel'"
                [label]="'Уровень подготовки'"
                [valid]="student.educationLevel !== 'UNKNOWN'"
                [value]="student.educationLevel"
-               [items]="getEducationLevelItems()"
-               (onChange)="onEducationLevelChange($event)"></div>
+               [items]="educationLevelItems"
+               (onChange)="student.educationLevel = $event"></div>
 
           <div app-form-select-control class="form-group"
                [name]="'referralSource'"
                [label]="'Откуда узнал'"
                [valid]="student.referralSource !== 'UNKNOWN'"
                [value]="student.referralSource"
-               [items]="getReferralSourceItems()"
-               (onChange)="onReferralSourceChange($event)"></div>
+               [items]="referralSourceItems"
+               (onChange)="student.referralSource = $event"></div>
 
           <div app-form-select-control class="form-group"
                [name]="'age'"
                [label]="'Возраст'"
                [valid]="student.age !== 'UNKNOWN'"
                [value]="student.age"
-               [items]="getAgeItems()"
-               (onChange)="onAgeChange($event)"></div>
+               [items]="ageItems"
+               (onChange)="student.age = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'status'"
-               [label]="'Статус'"
-               [valid]="student.statusType !== 'UNKNOWN'"
-               [value]="student.statusType"
-               [items]="getStatusItems()"
-               (onChange)="onStatusTypeChange($event)"></div>
+          <div class="form-group" *ngIf="!!student.id">
+            <label class="h-full">Статус:</label>
+
+            <div class="student-status-container">
+              <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
+
+              <div class="student-action-button student-status-action horizontal-item" (click)="goToStatus()">Изменить статус</div>
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="h-full">
-              <app-field-validation-sign [valid]="true"></app-field-validation-sign>
-
               Группы:
             </label>
 
-            <div *ngFor="let groupId of student.groupIds; let i = index" style="margin-bottom: 5px" class="student-group-container">
-              <select id="{{'group_' + groupId}}" class="form-control" style="width: 80%" name="{{'group_' + groupId}}"
-                      [(ngModel)]="student.groupIds[i]"
-                      [disabled]="suitableGroups.length === 0">
-                <option *ngFor="let suitableGroup of suitableGroups" value="{{suitableGroup.id}}">
-                  {{suitableGroup.name}}
+            <div *ngIf="student.groupIds.length === 0">
+              Студент не назначен в группу
+            </div>
+
+            <div *ngFor="let groupId of student.groupIds; let i = index" class="student-group-container">
+              <select class="form-control" style="width: 80%" name="{{'group_' + groupId}}" [(ngModel)]="student.groupIds[i]">
+                <option *ngFor="let group of getMatchingGroups()" value="{{group.id}}">
+                  {{getGroupName(group.id)}}
                 </option>
               </select>
 
-              <span *ngIf="!!groupId" style="width: 20%" class="pull-right">
-                <span class="student-group-link pull-right horizontal-item"
-                   (click)="removeGroup(i)">Удалить</span>
-
-                <a class="student-group-link pull-right horizontal-item"
-                   href="{{'#/groups/' + groupId + '/information'}}">Перейти</a>
-              </span>
+              <div class="student-action-button student-group-action horizontal-item" (click)="removeGroup(i)">Удалить</div>
+              <div class="student-group-action"
+                   [class.student-action-button]="!!student.groupIds[i]"
+                   [class.student-action-button-disabled]="!student.groupIds[i]"
+                   (click)="goToGroup(student.groupIds[i])">Перейти</div>
             </div>
           </div>
 
@@ -115,16 +108,12 @@
   </div>
 
   <div class="footer">
-    <button [disabled]="loadingInProgress || actionInProgress || !student.id"
-            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+    <button [disabled]="!student.id" class="btn btn-danger pull-right horizontal-item" (click)="delete()">
       Удалить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
     </button>
 
-    <button [disabled]="loadingInProgress || actionInProgress"
-            class="btn btn-primary pull-right" (click)="save()">
+    <button class="btn btn-primary pull-right" (click)="save()">
       Сохранить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign" animation="spin"></fa>
     </button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-<label for="status">
+<label *ngIf="!!label" for="status">
   <app-field-validation-sign [valid]="valid"></app-field-validation-sign>
 
   {{label}}:

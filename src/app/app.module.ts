@@ -35,6 +35,7 @@ import {StudentAttendanceModal} from './parts/student/attendance-modal/student-a
 import {StudentAttendanceRowComponent} from './pages/student/attendance/attendance-row/student-attendance.row';
 import {ClipboardModule} from 'ngx-clipboard';
 import {StudentStatusModal} from './parts/student/student-status-modal/student-status.modal';
+import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -99,6 +100,8 @@ const appRoutes: Routes = [
 
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,
+
+    StudentStatusComponent,
 
     StudentPaymentModal,
     StudentAttendanceModal,

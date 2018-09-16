@@ -3,6 +3,7 @@
 .student-group-container {
   display: flex;
   flex-direction: row;
+  margin-bottom: 5px;
 }
 
 .student-group-link {
@@ -11,4 +12,41 @@
   line-height: 38px;
   color: @color-primary-normal-1;
   cursor: pointer;
+}
+
+.student-status-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.student-status {
+  width: 80%;
+}
+
+.student-status-action {
+  width: 20%;
+  line-height: 30px;
+}
+
+.student-group-action {
+  width: 10%;
+  line-height: 36px;
+}
+
+.student-action-button {
+  border: 1px solid #cccccc;
+  text-align: center;
+  cursor: pointer;
+}
+
+.student-action-button-disabled {
+  border: 1px solid #cccccc;
+  background: #dddddd;
+  color: #999999;
+  text-align: center;
+  cursor: pointer;
+}
+
+.student-action-button:hover {
+  background: #dddddd;
 }

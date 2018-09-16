@@ -37,7 +37,7 @@
 
     <div *ngFor="let student of students" (click)="openStudentPage(student.id)" class="list-row-clickable">
       <div class="list-row-item student-validation-column">
-        <app-field-validation-sign [valid]="isStudentFilled(student)"></app-field-validation-sign>
+        <app-field-validation-sign *ngIf="student.statusType != 'REQUEST_LEFT' && student.statusType != 'TEST_LEFT' && student.statusType != 'FREE_LESSON_LEFT' && student.statusType != 'AWAITING_GROUP_LEFT' && student.statusType != 'STUDYING_LEFT'" [valid]="isStudentFilled(student)"></app-field-validation-sign>
       </div>
       <div class="list-row-item student-name-column">
         {{student.name}}
@@ -49,14 +49,14 @@
         {{getAgeTranslationAsGroup(student.age)}}
       </div>
       <div class="list-row-item student-status-column">
-        <!-- ToDo -->
         <div
           [class.student-status-label-request]="student.statusType == 'REQUEST'"
-          [class.student-status-label-test-assigned]="student.statusType == 'TEST'"
-          [class.student-status-label-free-lesson-assigned]="student.statusType == 'FREE_LESSON'"
-          [class.student-status-label-group-assigned]="student.statusType == 'STUDYING'"
-          [class.student-status-label-temporarily-stopped]="student.statusType == 'AWAITING_GROUP'"
-          [class.student-status-label-left]="student.statusType == 'STUDYING_LEFT'">
+          [class.student-status-label-test]="student.statusType == 'TEST'"
+          [class.student-status-label-free-lesson]="student.statusType == 'FREE_LESSON'"
+          [class.student-status-label-awaiting-group]="student.statusType == 'AWAITING_GROUP'"
+          [class.student-status-label-studying]="student.statusType == 'STUDYING'"
+          [class.student-status-label-stopped]="student.statusType == 'TEST_STOPPED' || student.statusType == 'FREE_LESSON_STOPPED' || student.statusType == 'AWAITING_GROUP_STOPPED' || student.statusType == 'STUDYING_STOPPED'"
+          [class.student-status-label-left]="student.statusType == 'REQUEST_LEFT' || student.statusType == 'TEST_LEFT' || student.statusType == 'FREE_LESSON_LEFT' || student.statusType == 'AWAITING_GROUP_LEFT' || student.statusType == 'STUDYING_LEFT'">
           {{getStudentStatusTypeTranslation(student.statusType)}}
         </div>
       </div>

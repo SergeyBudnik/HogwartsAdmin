@@ -1,18 +1,23 @@
 export type StudentStatusType =
   'UNKNOWN' |
+
   'REQUEST' |
-  'TEST_LEFT_BEFORE' |
+  'REQUEST_LEFT' |
+
   'TEST' |
-  'TEST_STOPPED_AFTER' |
-  'TEST_LEFT_AFTER' |
-  'FREE_LESSON_DISCUSS_TIME' |
+  'TEST_STOPPED' |
+  'TEST_LEFT' |
+
   'FREE_LESSON' |
-  'FREE_LESSON_STOPPED_AFTER' |
-  'FREE_LESSON_LEFT_AFTER' |
+  'FREE_LESSON_STOPPED' |
+  'FREE_LESSON_LEFT' |
+
   'AWAITING_GROUP' |
   'AWAITING_GROUP_STOPPED' |
   'AWAITING_GROUP_LEFT' |
+
   'STUDYING' |
+  'STUDYING_STOPPED' |
   'STUDYING_LEFT'
 
 export class StudentStatusTypeUtils {
@@ -20,18 +25,18 @@ export class StudentStatusTypeUtils {
     [
       'UNKNOWN',
       'REQUEST',
-      'TEST_LEFT_BEFORE',
+      'REQUEST_LEFT',
       'TEST',
-      'TEST_STOPPED_AFTER',
-      'TEST_LEFT_AFTER',
-      'FREE_LESSON_DISCUSS_TIME',
+      'TEST_STOPPED',
+      'TEST_LEFT',
       'FREE_LESSON',
-      'FREE_LESSON_STOPPED_AFTER',
-      'FREE_LESSON_LEFT_AFTER',
+      'FREE_LESSON_STOPPED',
+      'FREE_LESSON_LEFT',
       'AWAITING_GROUP',
       'AWAITING_GROUP_STOPPED',
       'AWAITING_GROUP_LEFT',
       'STUDYING',
+      'STUDYING_STOPPED',
       'STUDYING_LEFT'
     ];
 
@@ -41,21 +46,19 @@ export class StudentStatusTypeUtils {
         return 'Не известно';
       case 'REQUEST':
         return 'Оставил заявку';
-      case 'TEST_LEFT_BEFORE':
+      case 'REQUEST_LEFT':
         return 'Покинул до теста';
       case 'TEST':
         return 'Тест назначен';
-      case 'TEST_STOPPED_AFTER':
+      case 'TEST_STOPPED':
         return 'Приостановил после теста';
-      case 'TEST_LEFT_AFTER':
+      case 'TEST_LEFT':
         return 'Покинул после теста';
-      case 'FREE_LESSON_DISCUSS_TIME':
-        return 'Обсудить время бесплатного занятия';
       case 'FREE_LESSON':
         return 'Бесплатное занятие назначено';
-      case 'FREE_LESSON_STOPPED_AFTER':
+      case 'FREE_LESSON_STOPPED':
         return 'Приостановил после бесплатного занятия';
-      case 'FREE_LESSON_LEFT_AFTER':
+      case 'FREE_LESSON_LEFT':
         return 'Покинул после бесплатного занятия';
       case 'AWAITING_GROUP':
         return 'Ожидает группу';
@@ -65,6 +68,8 @@ export class StudentStatusTypeUtils {
         return 'Покинул в ожидании группы';
       case 'STUDYING':
         return 'Занимается';
+      case 'STUDYING_STOPPED':
+        return 'Приостановил';
       case 'STUDYING_LEFT':
         return 'Покинул';
       default:
