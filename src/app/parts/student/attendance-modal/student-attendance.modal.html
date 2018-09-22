@@ -13,9 +13,9 @@
           [id]="'attendanceType'"
           [label]="'Статус'"
           [valid]="true"
-          [value]="attendanceType"
+           [valueString]="attendanceType"
           [items]="getAttendanceTypeItems()"
-          (onChange)="attendanceType = $event"></div>
+           (onChangeString)="attendanceType = $event"></div>
     </form>
   </div>
 

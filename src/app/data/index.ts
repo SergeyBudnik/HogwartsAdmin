@@ -12,3 +12,4 @@ export * from './student-payment';
 export * from './student-status';
 export * from './teacher';
 export * from './time';
+export * from './speaking-club';

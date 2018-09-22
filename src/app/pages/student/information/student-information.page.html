@@ -42,25 +42,25 @@
                [name]="'educationLevel'"
                [label]="'Уровень подготовки'"
                [valid]="student.educationLevel !== 'UNKNOWN'"
-               [value]="student.educationLevel"
+               [valueString]="student.educationLevel"
                [items]="educationLevelItems"
-               (onChange)="student.educationLevel = $event"></div>
+               (onChangeString)="student.educationLevel = $event"></div>
 
           <div app-form-select-control class="form-group"
                [name]="'referralSource'"
                [label]="'Откуда узнал'"
                [valid]="student.referralSource !== 'UNKNOWN'"
-               [value]="student.referralSource"
+               [valueString]="student.referralSource"
                [items]="referralSourceItems"
-               (onChange)="student.referralSource = $event"></div>
+               (onChangeString)="student.referralSource = $event"></div>
 
           <div app-form-select-control class="form-group"
                [name]="'age'"
                [label]="'Возраст'"
                [valid]="student.age !== 'UNKNOWN'"
-               [value]="student.age"
+               [valueString]="student.age"
                [items]="ageItems"
-               (onChange)="student.age = $event"></div>
+               (onChangeString)="student.age = $event"></div>
 
           <div class="form-group" *ngIf="!!student.id">
             <label class="h-full">Статус:</label>

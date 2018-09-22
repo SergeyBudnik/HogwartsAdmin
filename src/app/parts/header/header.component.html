@@ -39,6 +39,15 @@
 
       Кабинеты
     </span>
+
+    <span  (click)="navigate('/events')"
+         [class.menu-element-active]="activeSection === 'EVENTS'"
+         [class.menu-element-inactive]="activeSection !== 'EVENTS'">
+
+      <i class="fa fa-star menu-element-icon" aria-hidden="true"></i>
+
+      Мероприятия
+    </span>
   </div>
 
   <div style="width: 15%">

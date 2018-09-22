@@ -1,0 +1,42 @@
+<div class="page">
+  <app-header [activeSection]="'EVENTS'"></app-header>
+
+  <div class="list-header-container">
+    <div class="events-add-new">
+      <button class="btn btn-primary pull-right" (click)="addNewEvent()">
+        Добавить
+      </button>
+    </div>
+  </div>
+
+  <div class="list-content">
+    <div class="page-loading" *ngIf="loadingInProgress">
+      <fa name="spinner" class="loading-sign" animation="spin"></fa>
+    </div>
+
+    <div *ngFor="let event of allEvents" class="list-row-clickable" (click)="openEvent(event.id)">
+      <div class="list-row-item events-status-column">
+        <div class="events-status-pending-label">
+          {{'LESSON_PENDING' | translate}}
+        </div>
+      </div>
+      <div class="list-row-item events-type-column">
+        <div class="events-type-speaking-club-label">
+          {{event.type | translate}}
+        </div>
+      </div>
+      <div class="list-row-item events-description-column">
+        {{event.name}}
+      </div>
+      <div class="list-row-item events-teacher-column">
+        {{getTeacher(event.teacherId).name}}
+      </div>
+      <div class="list-row-item events-cabinet-column">
+        {{getCabinet(event.cabinetId).name}}
+      </div>
+      <div class="list-row-item events-time-column">
+        {{event.date | date: 'dd.MM.yyyy'}} - {{getTimeTranslation(event.startTime)}} - {{getTimeTranslation(event.finishTime)}}
+      </div>
+    </div>
+  </div>
+</div>

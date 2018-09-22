@@ -4,8 +4,8 @@
       <!--<div class="col-4">-->
         <!--<div class="form-group">-->
           <!--<label for="educationLevel">Уровень подготовки:</label>-->
-          <!--<select id="educationLevel" class="form-control" name="educationLevel" (change)="onEducationLevelFilterChange($event.target.value)">-->
-            <!--<option *ngFor="let educationLevel of educationLevels" value="{{educationLevel}}">-->
+          <!--<select id="educationLevel" class="form-control" name="educationLevel" (change)="onEducationLevelFilterChange($event.target.valueString)">-->
+            <!--<option *ngFor="let educationLevel of educationLevels" valueString="{{educationLevel}}">-->
               <!--{{educationLevel === 'UNKNOWN' ? 'Любой' : getEducationLevelTranslation(educationLevel)}}-->
             <!--</option>-->
           <!--</select>-->
@@ -15,8 +15,8 @@
       <!--<div class="col-4">-->
         <!--<div class="form-group">-->
           <!--<label for="age">Возрастная категория:</label>-->
-          <!--<select id="age" class="form-control" name="age" (change)="onAgeFilterChange($event.target.value)">-->
-            <!--<option *ngFor="let age of ages" value="{{age}}">-->
+          <!--<select id="age" class="form-control" name="age" (change)="onAgeFilterChange($event.target.valueString)">-->
+            <!--<option *ngFor="let age of ages" valueString="{{age}}">-->
               <!--{{age === 'UNKNOWN' ? 'Любой' : getAgeTranslationAsGroup(age)}}-->
             <!--</option>-->
           <!--</select>-->

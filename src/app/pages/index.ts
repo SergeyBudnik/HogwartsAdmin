@@ -25,3 +25,7 @@ export * from './teacher/information/teacher-information.page';
 export * from './teacher/timetable/teacher-timetable.page';
 export * from './teacher/menu/teacher-menu.component';
 export * from './teachers-list/teachers-list.page';
+
+export * from './events-list/events-list.page';
+
+export * from './event/information/event-information.page';
