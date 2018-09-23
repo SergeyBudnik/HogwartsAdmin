@@ -35,6 +35,9 @@ import {StudentAttendanceModal} from './parts/student/attendance-modal/student-a
 import {StudentAttendanceRowComponent} from './pages/student/attendance/attendance-row/student-attendance.row';
 import {ClipboardModule} from 'ngx-clipboard';
 import {StudentStatusModal} from './parts/student/student-status-modal/student-status.modal';
+import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
+
+import {TranslateModule} from '@ngx-translate/core';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -57,6 +60,10 @@ const appRoutes: Routes = [
   { path: 'groups/:id/information', component: Pages.GroupInformationPageComponent },
   { path: 'groups/:id/students', component: Pages.GroupStudentsPageComponent },
   { path: 'groups/:id/timetable', component: Pages.GroupTimetablePageComponent },
+
+  { path: 'events', component: Pages.EventsListPageComponent },
+  { path: 'events/:id/information', component: Pages.EventInformationPage },
+  { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
 
   { path: '**', component: Pages.TeachersListPageComponent }
 ];
@@ -97,8 +104,15 @@ const appRoutes: Routes = [
 
     Pages.GroupsListPageComponent,
 
+    Pages.EventsListPageComponent,
+    Pages.EventInformationPage,
+    Pages.EventParticipantsPage,
+    Pages.EventMenuPageComponent,
+
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,
+
+    StudentStatusComponent,
 
     StudentPaymentModal,
     StudentAttendanceModal,
@@ -125,7 +139,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, {useHash: true}),
     MyDatePickerModule,
     ReactiveFormsModule,
-    ClipboardModule
+    ClipboardModule,
+    TranslateModule.forRoot()
   ],
   providers: [
     {
@@ -150,6 +165,8 @@ const appRoutes: Routes = [
     Services.StudentAttendanceService,
     Services.StudentPaymentService,
     Services.StudentStatusService,
+    Services.EventsService,
+    Services.EventParticipantsService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,
@@ -158,7 +175,9 @@ const appRoutes: Routes = [
     Https.TeachersHttp,
     Https.StudentAttendanceHttp,
     Https.StudentPaymentHttp,
-    Https.StudentStatusHttp
+    Https.StudentStatusHttp,
+    Https.EventsHttp,
+    Https.EventParticipantsHttp
   ],
   bootstrap: [
     AppComponent

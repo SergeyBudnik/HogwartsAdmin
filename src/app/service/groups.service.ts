@@ -1,4 +1,4 @@
-import {Group, Age, EducationLevel} from '../data';
+import {Group} from '../data';
 import {Injectable} from '@angular/core';
 import {GroupsHttp} from '../http';
 
@@ -10,12 +10,6 @@ export class GroupsService {
 
   public getAllGroups(): Promise<Array<Group>> {
     return this.groupsHttp.getAllGroups();
-  }
-
-  public getMatchingGroups(educationLevel: EducationLevel, age: Age): Promise<Array<Group>> {
-    return this.groupsHttp
-      .getAllGroups()
-      .then(it => it.filter(group => group.educationLevel === educationLevel && group.age === age));
   }
 
   public getGroup(groupId: number): Promise<Group> {

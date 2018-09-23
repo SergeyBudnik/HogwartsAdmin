@@ -1,6 +1,6 @@
 <div class="header">
   <div class="header-title">
-    <span>Hogwarts Admin v1.10.0</span>
+    <span>Hogwarts Admin v1.11.0</span>
   </div>
 
   <div style="width: 70%">
@@ -38,6 +38,15 @@
       <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
 
       Кабинеты
+    </span>
+
+    <span  (click)="navigate('/events')"
+         [class.menu-element-active]="activeSection === 'EVENTS'"
+         [class.menu-element-inactive]="activeSection !== 'EVENTS'">
+
+      <i class="fa fa-star menu-element-icon" aria-hidden="true"></i>
+
+      Мероприятия
     </span>
   </div>
 

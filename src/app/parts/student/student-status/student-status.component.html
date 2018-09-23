@@ -1,0 +1,11 @@
+<div
+  class="no-margin student-status"
+  [class.student-status-label-request]="studentStatusType == 'REQUEST'"
+  [class.student-status-label-test]="studentStatusType == 'TEST'"
+  [class.student-status-label-free-lesson]="studentStatusType == 'FREE_LESSON'"
+  [class.student-status-label-awaiting-group]="studentStatusType == 'AWAITING_GROUP'"
+  [class.student-status-label-studying]="studentStatusType == 'STUDYING'"
+  [class.student-status-label-stopped]="studentStatusType == 'TEST_STOPPED' || studentStatusType == 'FREE_LESSON_STOPPED' || studentStatusType == 'AWAITING_GROUP_STOPPED' || studentStatusType == 'STUDYING_STOPPED'"
+  [class.student-status-label-left]="studentStatusType == 'REQUEST_LEFT' || studentStatusType == 'TEST_LEFT' || studentStatusType == 'FREE_LESSON_LEFT' || studentStatusType == 'AWAITING_GROUP_LEFT' || studentStatusType == 'STUDYING_LEFT'">
+  {{getStudentStatusTypeTranslation(studentStatusType)}}
+</div>

@@ -1,10 +1,10 @@
-<label for="status">
+<label *ngIf="!!label" for="status">
   <app-field-validation-sign [valid]="valid"></app-field-validation-sign>
 
   {{label}}:
 </label>
 <select id="status" class="form-control" name="status" (change)="onValueChange($event.target.value)">
-  <option *ngFor="let item of items" value="{{item.value}}" [attr.selected]="value === item.value ? 'selected' : null">
-    {{item.name}}
+  <option *ngFor="let item of getItems()" value="{{item.value}}" [attr.selected]="getValue() === item.value ? 'selected' : null">
+    {{item.name === null ? (item.value | translate) : item.name}}
   </option>
 </select>

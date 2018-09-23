@@ -6,3 +6,5 @@ export * from './teachers.http';
 export * from './student-attendance.http';
 export * from './student-payment.http';
 export * from './student-status.http';
+export * from './events.http';
+export * from './event-participants.http';

@@ -17,85 +17,37 @@
         <br>
 
         <form>
-          <div [class.student-status-label-request]="currentStudentStatus.status == 'REQUEST'"
-               [class.student-status-label-test-assigned]="currentStudentStatus.status == 'TEST_ASSIGNED'"
-               [class.student-status-label-free-lesson-assigned]="currentStudentStatus.status == 'FREE_LESSON_ASSIGNED'"
-               [class.student-status-label-group-assigned]="currentStudentStatus.status == 'GROUP_ASSIGNED'"
-               [class.student-status-label-temporarily-stopped]="currentStudentStatus.status == 'TEMPORARILY_STOPPED'"
-               [class.student-status-label-left]="currentStudentStatus.status == 'LEFT'">
+          <div
+            [class.student-status-label-request]="currentStudentStatus.status == 'REQUEST'"
+            [class.student-status-label-test]="currentStudentStatus.status == 'TEST'"
+            [class.student-status-label-free-lesson]="currentStudentStatus.status == 'FREE_LESSON'"
+            [class.student-status-label-awaiting-group]="currentStudentStatus.status == 'AWAITING_GROUP'"
+            [class.student-status-label-studying]="currentStudentStatus.status == 'STUDYING'"
+            [class.student-status-label-stopped]="currentStudentStatus.status == 'TEST_STOPPED' || currentStudentStatus.status == 'FREE_LESSON_STOPPED' || currentStudentStatus.status == 'AWAITING_GROUP_STOPPED' || currentStudentStatus.status == 'STUDYING_STOPPED'"
+            [class.student-status-label-left]="currentStudentStatus.status == 'REQUEST_LEFT' || currentStudentStatus.status == 'TEST_LEFT' || currentStudentStatus.status == 'FREE_LESSON_LEFT' || currentStudentStatus.status == 'AWAITING_GROUP_LEFT' || currentStudentStatus.status == 'STUDYING_LEFT'">
             {{getStudentStatusTypeTranslation(currentStudentStatus.status)}}
           </div>
 
           <br>
 
-          <div *ngIf="hasAction(currentStudentStatus.status)" app-form-text-input-control class="form-group"
+          <div *ngIf="hasAction(currentStudentStatus)" app-form-text-input-control class="form-group"
                [name]="'currentActionDate'"
                [label]="getActionLabel()"
                [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'"
+               [editable]="false"
                [placeholder]="''"
                [valid]="true"></div>
 
           <!-- Status update buttons -->
 
-          <div *ngIf="currentStudentStatus.status === 'REQUEST'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Назначить тестирование
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('REQUEST')" data-toggle="modal" data-target="#studentStatus">
-              Перезвонить
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от занятий
-            </button>
-          </div>
-
-          <div *ngIf="currentStudentStatus.status === 'TEST_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Тестирование проведено
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('TEST_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Тестирование перенесено
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от тестирования
-            </button>
-          </div>
-
-          <div *ngIf="currentStudentStatus.status === 'FREE_LESSON_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Бесплатное занятие проведено
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('FREE_LESSON_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Бесплатное занятие перенесено
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Студент отказался от бесплатного занятия
-            </button>
-          </div>
-
-          <div *ngIf="currentStudentStatus.status === 'GROUP_ASSIGNED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('TEMPORARILY_STOPPED')" data-toggle="modal" data-target="#studentStatus">
-              Временно приостановил
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Покинул
-            </button>
-          </div>
-
-          <div *ngIf="currentStudentStatus.status === 'TEMPORARILY_STOPPED'">
-            <button class="btn btn-primary" (click)="setNewStudentStatus('GROUP_ASSIGNED')" data-toggle="modal" data-target="#studentStatus">
-              Возобновил занятия
-            </button>
-
-            <button class="btn btn-info" (click)="setNewStudentStatus('LEFT')" data-toggle="modal" data-target="#studentStatus">
-              Покинул
+          <div>
+            <button *ngFor="let statusAction of getStatusActions(currentStudentStatus.status)"
+                    class="btn horizontal-item"
+                    [class.btn-primary]="statusAction.isPrimary"
+                    [class.btn-secondary]="!statusAction.isPrimary"
+                    (click)="setNewStudentStatus(statusAction.newStatus)"
+                    data-toggle="modal" data-target="#studentStatus">
+              {{statusAction.label}}
             </button>
           </div>
 
@@ -123,7 +75,7 @@
           <div class="list-content" style="overflow: visible">
             <div *ngFor="let studentStatus of studentStatuses" class="list-row">
               <div class="list-row-item" style="width: 35%;">
-                <span *ngIf="studentStatus.creationTime === -1">
+                <span *ngIf="studentStatus.creationTime === 0">
                   -
                 </span>
                 <span *ngIf="studentStatus.creationTime !== -1">
@@ -131,20 +83,22 @@
                 </span>
               </div>
               <div class="list-row-item" style="width: 35%;">
-                <span *ngIf="studentStatus.actionTime === -1">
-                  -
+                <span *ngIf="!hasAction(studentStatus)">
+                  Действие не требуется
                 </span>
-                <span *ngIf="studentStatus.actionTime !== -1">
+                <span *ngIf="hasAction(studentStatus)">
                   {{studentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'}}
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
-                <div [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
-                     [class.student-status-label-test-assigned]="studentStatus.status == 'TEST_ASSIGNED'"
-                     [class.student-status-label-free-lesson-assigned]="studentStatus.status == 'FREE_LESSON_ASSIGNED'"
-                     [class.student-status-label-group-assigned]="studentStatus.status == 'GROUP_ASSIGNED'"
-                     [class.student-status-label-temporarily-stopped]="studentStatus.status == 'TEMPORARILY_STOPPED'"
-                     [class.student-status-label-left]="studentStatus.status == 'LEFT'">
+                <div
+                  [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
+                  [class.student-status-label-test]="studentStatus.status == 'TEST'"
+                  [class.student-status-label-free-lesson]="studentStatus.status == 'FREE_LESSON'"
+                  [class.student-status-label-awaiting-group]="studentStatus.status == 'AWAITING_GROUP'"
+                  [class.student-status-label-studying]="studentStatus.status == 'STUDYING'"
+                  [class.student-status-label-stopped]="studentStatus.status == 'TEST_STOPPED' || studentStatus.status == 'FREE_LESSON_STOPPED' || studentStatus.status == 'AWAITING_GROUP_STOPPED' || studentStatus.status == 'STUDYING_STOPPED'"
+                  [class.student-status-label-left]="studentStatus.status == 'REQUEST_LEFT' || studentStatus.status == 'TEST_LEFT' || studentStatus.status == 'FREE_LESSON_LEFT' || studentStatus.status == 'AWAITING_GROUP_LEFT' || studentStatus.status == 'STUDYING_LEFT'">
                   {{getStudentStatusTypeTranslation(studentStatus.status)}}
                 </div>
               </div>
