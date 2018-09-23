@@ -29,3 +29,5 @@ export * from './teachers-list/teachers-list.page';
 export * from './events-list/events-list.page';
 
 export * from './event/information/event-information.page';
+export * from './event/participants/event-participants.page';
+export * from './event/menu/event-menu.component';

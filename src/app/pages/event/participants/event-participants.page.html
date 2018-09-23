@@ -1,0 +1,35 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-event-menu [eventId]="event?.id" [currentTab]="'PARTICIPANTS'"></div>
+
+    <div class="page-content-with-footer no-padding">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 class="event-participants-header">
+          Участники
+        </h3>
+
+        <br>
+
+        <div *ngFor="let participant of participants" class="list-row">
+          <div class="event-participant-name-column">
+            {{participant.name}}
+          </div>
+          <div class="event-participant-phone-column">
+            {{participant.phone}}
+          </div>
+          <div class="event-participant-status-column">
+            {{participant.status}}
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu"></div>
+  </div>
+</div>

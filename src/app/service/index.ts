@@ -8,3 +8,4 @@ export * from './teachers.service';
 export * from './student-attendance.service';
 export * from './student-status.service';
 export * from './events.service';
+export * from './event-participants.service';
