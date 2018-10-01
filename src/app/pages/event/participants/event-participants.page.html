@@ -16,20 +16,35 @@
 
         <br>
 
-        <div *ngFor="let participant of participants" class="list-row">
+        <div *ngFor="let participant of participants" class="list-row-clickable" (click)="openParticipant(participant.id)">
           <div class="event-participant-name-column">
+            <i class="fa fa-user menu-item-icon" aria-hidden="true"></i>
             {{participant.name}}
           </div>
           <div class="event-participant-phone-column">
+            <i class="fa fa-phone menu-item-icon" aria-hidden="true"></i>
             {{participant.phone}}
           </div>
           <div class="event-participant-status-column">
-            {{participant.status}}
+            <div [class.participant-status-request]="participant.status === 'REQUEST'"
+                 [class.participant-status-early-confirmation]="participant.status === 'EARLY_CONFIRMATION'"
+                 [class.participant-status-late-confirmation]="participant.status === 'LATE_CONFIRMATION'"
+                 [class.participant-status-attended]="participant.status === 'ATTENDED'"
+                 [class.participant-status-not-attended]="participant.status === 'NOT_ATTENDED'"
+                 [class.participant-status-canceled]="participant.status === 'CANCELED'">
+              {{participant.status | translate}}
+            </div>
           </div>
         </div>
       </ng-container>
     </div>
 
     <div class="page-right-menu"></div>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="loadingInProgress" class="btn btn-primary pull-right">
+      Добавить
+    </button>
   </div>
 </div>

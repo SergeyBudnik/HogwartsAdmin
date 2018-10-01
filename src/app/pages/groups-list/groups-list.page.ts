@@ -72,7 +72,9 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
     this.students
       .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId === groupId))
-      .forEach(student => studentsString += student.name + '; ');
+      .map(it => it.name)
+      .map(it => it.split(' ')[0])
+      .forEach(it => studentsString += it + '; ');
 
     return studentsString;
   }

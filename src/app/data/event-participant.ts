@@ -4,11 +4,11 @@ export type EventParticipantStatus = 'REQUEST' | 'EARLY_CONFIRMATION' | 'LATE_CO
 
 export class EventParticipant {
   public constructor(
-    public id: number,
-    public eventId: number,
-    public name: String,
-    public status: EventParticipantStatus,
-    public phone: String,
-    public referralSource: StudentReferralSource
+    public id: number = null,
+    public eventId: number = null,
+    public name: String = null,
+    public status: EventParticipantStatus = null,
+    public phone: String = null,
+    public referralSource: StudentReferralSource = null
   ) {}
 }

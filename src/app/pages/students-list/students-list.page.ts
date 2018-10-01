@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Student, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {StudentsService} from '../../service';
+import {Group, Student, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
+import {GroupsService, StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils, EducationLevel, EducationLevelUtils} from '../../data';
@@ -14,6 +14,7 @@ import {SelectItem} from '../../controls/select-item';
 })
 export class StudentsListPageComponent extends TranslatableComponent {
   private unfilteredStudents: Array<Student> = [];
+  private allGroups: Array<Group> = [];
 
   public students: Array<Student> = [];
 
@@ -27,20 +28,34 @@ export class StudentsListPageComponent extends TranslatableComponent {
   public constructor(
     private router: Router,
     private loginService: LoginService,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private groupsService: GroupsService
   ) {
     super();
 
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
-      this.studentsService.getAllStudents().then(students => {
-        this.unfilteredStudents = students;
+      Promise.all([
+        this.studentsService.getAllStudents(),
+        this.groupsService.getAllGroups()
+      ]).then(it => {
+        this.unfilteredStudents = it[0];
+        this.allGroups = it[1];
+
         this.students = this.getFilteredStudents();
 
         this.loadingInProgress = false;
       });
     }
+  }
+
+  public getGroup(groupId: number): Group {
+    return this.allGroups.find(it => it.id === groupId);
+  }
+
+  public openGroup(groupId: number) {
+    this.router.navigate([`/groups/${groupId}/information`]);
   }
 
   public onNameFilterChange(nameFilter: string) {

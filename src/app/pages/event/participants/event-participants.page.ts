@@ -4,6 +4,7 @@ import {EventParticipantsService, EventsService, LoginService} from '../../../se
 import {ToastsManager} from 'ng2-toastr';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Event, EventParticipant} from '../../../data';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-participants-page',
@@ -22,16 +23,31 @@ export class EventParticipantsPage extends TranslatableComponent {
     private loginService: LoginService,
     private eventService: EventsService,
     private eventParticipantsService: EventParticipantsService,
-    private toastr: ToastsManager,
-    private vcr: ViewContainerRef
+    private translateService: TranslateService
   ) {
     super();
+
+    this.translateService.setDefaultLang('ru');
+    this.translateService.use('ru');
+
+    this.translateService.setTranslation('ru', {
+      REQUEST: 'Оставил заявку',
+      EARLY_CONFIRMATION: 'Подтвердил',
+      LATE_CONFIRMATION: 'Окончательно подтвердил',
+      ATTENDED: 'Посетил',
+      NOT_ATTENDED: 'Не посетил',
+      CANCELED: 'Отменил'
+    });
 
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
       this.parseParams((eventId) => this.init(eventId));
     }
+  }
+
+  public openParticipant(participantId: number) {
+    this.router.navigate([`/events/${this.event.id}/participants/${participantId}`]);
   }
 
   private init(eventId: number) {

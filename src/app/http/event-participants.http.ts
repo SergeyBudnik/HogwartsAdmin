@@ -9,7 +9,15 @@ export class EventParticipantsHttp {
 
   public constructor(private http: HttpClient) {}
 
+  public getAllParticipants(): Promise<Array<EventParticipant>> {
+    return this.http.get<Array<EventParticipant>>(`${this.root}`).toPromise();
+  }
+
+  public getParticipant(eventParticipantId: number): Promise<EventParticipant> {
+    return this.http.get<EventParticipant>(`${this.root}/${eventParticipantId}`).toPromise();
+  }
+
   public getAllEventParticipants(eventId: number): Promise<Array<EventParticipant>> {
-    return this.http.get<Array<EventParticipant>>(`${this.root}/${eventId}`).toPromise();
+    return this.http.get<Array<EventParticipant>>(`${this.root}/event/${eventId}`).toPromise();
   }
 }

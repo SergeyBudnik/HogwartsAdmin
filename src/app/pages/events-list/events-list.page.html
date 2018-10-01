@@ -16,26 +16,48 @@
 
     <div *ngFor="let event of allEvents" class="list-row-clickable" (click)="openEvent(event.id)">
       <div class="list-row-item events-status-column">
-        <div class="events-status-pending-label">
-          {{'LESSON_PENDING' | translate}}
+        <div [class.events-status-pending-label]="getStatus(event) === 'PENDING'"
+             [class.events-status-on-going-label]="getStatus(event) === 'ON_GOING'"
+             [class.events-status-finished-label]="getStatus(event) === 'FINISHED'">
+          {{getStatus(event) | translate}}
         </div>
       </div>
       <div class="list-row-item events-type-column">
         <div class="events-type-speaking-club-label">
-          {{event.type | translate}}
+          {{event.eventType | translate}}
         </div>
       </div>
       <div class="list-row-item events-description-column">
         {{event.name}}
       </div>
       <div class="list-row-item events-teacher-column">
+        <i class="fa fa-graduation-cap menu-item-icon" aria-hidden="true"></i>
         {{getTeacher(event.teacherId).name}}
       </div>
       <div class="list-row-item events-cabinet-column">
+        <i class="fa fa-building menu-item-icon" aria-hidden="true"></i>
         {{getCabinet(event.cabinetId).name}}
       </div>
       <div class="list-row-item events-time-column">
-        {{event.date | date: 'dd.MM.yyyy'}} - {{getTimeTranslation(event.startTime)}} - {{getTimeTranslation(event.finishTime)}}
+        <i class="fa fa-calendar menu-item-icon" aria-hidden="true"></i>
+        {{event.date | date: 'dd.MM.yyyy'}}
+      </div>
+      <div class="list-row-item events-date-column">
+        <i class="fa fa-clock-o menu-item-icon" aria-hidden="true"></i>
+        {{getTimeTranslation(event.startTime)}} - {{getTimeTranslation(event.finishTime)}}
+      </div>
+      <div class="list-row-item events-participants-column">
+        <span class="events-participants-request">{{getParticipantsAmount(event, 'REQUEST')}}</span>
+        /
+        <span class="events-participants-early-confirmation">{{getParticipantsAmount(event, 'EARLY_CONFIRMATION')}}</span>
+        /
+        <span class="events-participants-late-confirmation">{{getParticipantsAmount(event, 'LATE_CONFIRMATION')}}</span>
+        /
+        <span class="events-participants-attended">{{getParticipantsAmount(event, 'ATTENDED')}}</span>
+        /
+        <span class="events-participants-not-attended">{{getParticipantsAmount(event, 'NOT_ATTENDED')}}</span>
+        /
+        <span class="events-participants-canceled">{{getParticipantsAmount(event, 'CANCELED')}}</span>
       </div>
     </div>
   </div>
