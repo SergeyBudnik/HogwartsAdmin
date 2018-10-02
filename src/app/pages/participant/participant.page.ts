@@ -2,8 +2,9 @@ import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EventParticipantsService, LoginService} from '../../service';
-import {EventParticipant} from '../../data';
+import {EventParticipant, EventParticipantStatus} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
+import {EventParticipantsHttp} from '../../http';
 
 @Component({
   selector: 'app-participant-page',
@@ -18,6 +19,7 @@ export class ParticipantPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
+    private eventParticipantsHttp: EventParticipantsHttp,
     private eventParticipantsService: EventParticipantsService,
     private translateService: TranslateService
   ) {
@@ -38,13 +40,40 @@ export class ParticipantPageComponent extends TranslatableComponent {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
-      this.parseParams((participantId) => this.init(participantId));
+      this.parseParams((participantId, eventId) => this.init(participantId, eventId));
     }
   }
 
-  private init(participantId: number) {
+  public onStatusChange(status: EventParticipantStatus) {
+    this.participant.status = status;
+  }
+
+  public save() {
+    this.loadingInProgress = true;
+
+    if (!!this.participant.id) {
+      this.eventParticipantsHttp
+        .updateParticipant(this.participant)
+        .then(() => this.loadingInProgress = false);
+    } else {
+      this.eventParticipantsHttp
+        .createParticipant(this.participant)
+        .then((eventParticipantId) => this.router.navigate([`/events/${this.participant.eventId}/participants/${eventParticipantId}`]));
+    }
+  }
+
+  public delete() {
+    this.loadingInProgress = true;
+
+    this.eventParticipantsHttp
+      .deleteParticipant(this.participant.id)
+      .then(() => this.router.navigate([`/events/${this.participant.eventId}/information`]));
+  }
+
+  private init(participantId: number, eventId: number) {
     if (participantId == null) {
-      this.participant = new EventParticipant();
+      this.participant = new EventParticipant(eventId);
+
       this.loadingInProgress = false;
     } else {
       this.eventParticipantsService
@@ -56,14 +85,15 @@ export class ParticipantPageComponent extends TranslatableComponent {
     }
   }
 
-  private parseParams(onParticipant: (participantId: number) => any) {
+  private parseParams(onParticipant: (participantId: number, eventId: number) => any) {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('participantId');
+      const eventId = params.get('eventId');
+      const participantId = params.get('participantId');
 
-      if (id === 'new') {
-        onParticipant(null);
+      if (participantId === 'new') {
+        onParticipant(null, Number(eventId));
       } else {
-        onParticipant(Number(id));
+        onParticipant(Number(participantId), Number(eventId));
       }
     });
   }

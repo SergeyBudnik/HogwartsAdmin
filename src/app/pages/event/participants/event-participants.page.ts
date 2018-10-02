@@ -50,6 +50,10 @@ export class EventParticipantsPage extends TranslatableComponent {
     this.router.navigate([`/events/${this.event.id}/participants/${participantId}`]);
   }
 
+  public addParticipant() {
+    this.router.navigate([`/events/${this.event.id}/participants/new`]);
+  }
+
   private init(eventId: number) {
     Promise.all([
       this.eventService.getEvent(eventId),

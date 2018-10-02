@@ -53,19 +53,19 @@
           </div>
 
           <div *ngIf="participant.status === 'REQUEST'">
-            <button class="btn btn-primary">Подтвердил</button>
-            <button class="btn btn-secondary">Отменил</button>
+            <button class="btn btn-primary" (click)="onStatusChange('EARLY_CONFIRMATION')">Подтвердил</button>
+            <button class="btn btn-secondary" (click)="onStatusChange('CANCELED')">Отменил</button>
           </div>
 
           <div *ngIf="participant.status === 'EARLY_CONFIRMATION'">
-            <button class="btn btn-primary">Подтвердил повторно</button>
-            <button class="btn btn-secondary">Отменил</button>
+            <button class="btn btn-primary" (click)="onStatusChange('LATE_CONFIRMATION')">Подтвердил повторно</button>
+            <button class="btn btn-secondary" (click)="onStatusChange('CANCELED')">Отменил</button>
           </div>
 
           <div *ngIf="participant.status === 'LATE_CONFIRMATION'">
-            <button class="btn btn-primary">Посетил</button>
-            <button class="btn btn-secondary">Не пришёл</button>
-            <button class="btn btn-secondary">Отменил</button>
+            <button class="btn btn-primary" (click)="onStatusChange('ATTENDED')">Посетил</button>
+            <button class="btn btn-secondary" (click)="onStatusChange('NOT_ATTENDED')">Не пришёл</button>
+            <button class="btn btn-secondary" (click)="onStatusChange('CANCELED')">Отменил</button>
           </div>
         </form>
       </ng-container>
@@ -75,11 +75,11 @@
   </div>
 
   <div class="footer">
-    <button [disabled]="loadingInProgress" class="btn btn-primary pull-right horizontal-item">
+    <button [disabled]="loadingInProgress" class="btn btn-primary pull-right horizontal-item" (click)="save()">
       Сохранить
     </button>
 
-    <button [disabled]="loadingInProgress || !participant.id" class="btn btn-danger pull-right">
+    <button [disabled]="loadingInProgress || !participant.id" class="btn btn-danger pull-right" (click)="delete()">
       Удалить
     </button>
   </div>

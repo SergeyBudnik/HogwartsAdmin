@@ -20,4 +20,16 @@ export class EventParticipantsHttp {
   public getAllEventParticipants(eventId: number): Promise<Array<EventParticipant>> {
     return this.http.get<Array<EventParticipant>>(`${this.root}/event/${eventId}`).toPromise();
   }
+
+  public createParticipant(participant: EventParticipant): Promise<number> {
+    return this.http.post(`${this.root}`, participant).toPromise().then(it => Number(it));
+  }
+
+  public updateParticipant(participant: EventParticipant): Promise<void> {
+    return this.http.put(`${this.root}`, participant).toPromise().then(() => {});
+  }
+
+  public deleteParticipant(eventParticipantId: number): Promise<void> {
+    return this.http.delete(`${this.root}/${eventParticipantId}`).toPromise().then(() => {});
+  }
 }

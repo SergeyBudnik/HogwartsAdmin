@@ -64,7 +64,7 @@ const appRoutes: Routes = [
   { path: 'events', component: Pages.EventsListPageComponent },
   { path: 'events/:id/information', component: Pages.EventInformationPage },
   { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
-  { path: 'events/:id/participants/:participantId', component: Pages.ParticipantPageComponent },
+  { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
 
   { path: '**', component: Pages.TeachersListPageComponent }
 ];
