@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../data';
-import {StudentStatusService} from '../../../service';
 import {SelectItem} from '../../../controls/select-item';
+import {StudentStatusHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-status-modal',
@@ -30,7 +30,7 @@ export class StudentStatusModal extends TranslatableComponent {
   ));
 
   public constructor(
-    private studentStatusService: StudentStatusService
+    private studentStatusHttp: StudentStatusHttp
   ) {
     super();
 
@@ -75,7 +75,7 @@ export class StudentStatusModal extends TranslatableComponent {
 
     let totalActionTimeValue = this.actionDateTime + TimeUtils.getTimeMills(this.actionTime);
 
-    this.studentStatusService
+    this.studentStatusHttp
       .changeStudentStatus(this.studentId, this.newStatus, totalActionTimeValue)
       .then(() => {
         this.actionInProgress = false;

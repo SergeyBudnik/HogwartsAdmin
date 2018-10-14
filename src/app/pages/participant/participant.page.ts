@@ -1,11 +1,11 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EventParticipantsService, LoginService, StudentsService} from '../../service';
+import {LoginService, StudentsService} from '../../service';
 import {EventParticipant, EventParticipantStatus} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
 import {EventParticipantsHttp} from '../../http';
-import {Student} from '../../data/student';
+import {Student} from '../../data';
 
 @Component({
   selector: 'app-participant-page',
@@ -22,7 +22,6 @@ export class ParticipantPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private studentsService: StudentsService,
     private eventParticipantsHttp: EventParticipantsHttp,
-    private eventParticipantsService: EventParticipantsService,
     private translateService: TranslateService
   ) {
     super();
@@ -98,7 +97,7 @@ export class ParticipantPageComponent extends TranslatableComponent {
 
       this.loadingInProgress = false;
     } else {
-      this.eventParticipantsService
+      this.eventParticipantsHttp
         .getParticipant(participantId)
         .then(participant => {
           this.loadingInProgress = false;

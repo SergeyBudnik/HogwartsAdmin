@@ -1,9 +1,10 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
-import {CabinetsService, LoginService, EventsService, TeachersService, EventParticipantsService} from '../../service';
+import {LoginService, TeachersService} from '../../service';
 import {Router} from '@angular/router';
 import {Cabinet, Event, EventParticipant, EventParticipantStatus, Teacher} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
+import {CabinetsHttp, EventParticipantsHttp, EventsHttp} from '../../http';
 
 export type EventStatus = 'PENDING' | 'ON_GOING' | 'FINISHED'
 
@@ -24,10 +25,10 @@ export class EventsListPageComponent extends TranslatableComponent {
   public constructor(
     private router: Router,
     private loginService: LoginService,
-    private eventsService: EventsService,
-    private eventParticipantsService: EventParticipantsService,
+    private eventsHttp: EventsHttp,
+    private eventParticipantsHttp: EventParticipantsHttp,
     private teachersService: TeachersService,
-    private cabinetsService: CabinetsService,
+    private cabinetsHttp: CabinetsHttp,
     private translateService: TranslateService
   ) {
     super();
@@ -48,10 +49,10 @@ export class EventsListPageComponent extends TranslatableComponent {
       this.router.navigate([`/login`]);
     } else {
       Promise.all([
-        this.eventsService.getAllEvents(),
-        this.eventParticipantsService.getAllParticipants(),
+        this.eventsHttp.getAllEvents(),
+        this.eventParticipantsHttp.getAllParticipants(),
         this.teachersService.getAllTeachers(),
-        this.cabinetsService.getAllCabinets()
+        this.cabinetsHttp.getAllCabinets()
       ])
       .then(it => {
         this.allEvents = it[0];

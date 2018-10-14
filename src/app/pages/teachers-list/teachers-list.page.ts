@@ -85,7 +85,7 @@ export class TeachersListPageComponent {
 
     return payment;
   }
-  
+
   private getFilteredTeachers(teacherNameFilter: string): Array<Teacher> {
     return this.unfilteredTeachers
       .filter(it => it.name.toLowerCase().indexOf(teacherNameFilter.toLowerCase()) !== -1);

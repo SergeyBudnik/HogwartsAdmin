@@ -1,9 +1,10 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, LoginService, GroupsService, StudentStatusService} from '../../../service';
+import {StudentsService, LoginService, GroupsService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentStatus, StudentStatusType} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
+import {StudentStatusHttp} from '../../../http';
 
 export class StatusAction {
   constructor(
@@ -34,7 +35,7 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private studentStatusService: StudentStatusService,
+    private studentStatusHttp: StudentStatusHttp,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
   ) {
@@ -162,7 +163,7 @@ export class StudentStatusPageComponent extends TranslatableComponent {
 
     Promise.all([
       this.studentsService.getStudent(studentId),
-      this.studentStatusService.getStatuses(studentId)
+      this.studentStatusHttp.getStatuses(studentId)
     ]).then(it => {
       this.student = it[0];
       this.studentStatuses = it[1].sort((o1, o2) => o2.creationTime - o1.creationTime);

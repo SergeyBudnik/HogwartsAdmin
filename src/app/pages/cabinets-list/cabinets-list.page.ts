@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {Cabinet} from '../../data';
-import {CabinetsService, LoginService} from '../../service';
+import {LoginService} from '../../service';
 import {Router} from '@angular/router';
+import {CabinetsHttp} from '../../http';
 
 @Component({
   selector: 'app-cabinets-list-page',
@@ -17,12 +18,12 @@ export class CabinetsListPageComponent {
   public constructor(
     private router: Router,
     private loginService: LoginService,
-    private cabinetsService: CabinetsService
+    private cabinetsHttp: CabinetsHttp
   ) {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
-      cabinetsService.getAllCabinets().then(it => {
+      this.cabinetsHttp.getAllCabinets().then(it => {
         this.unfilteredCabinets = it;
         this.cabinets = this.getFilteredCabinets('');
 

@@ -1,10 +1,10 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EventParticipantsService, EventsService, LoginService} from '../../../service';
-import {ToastsManager} from 'ng2-toastr';
+import {LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Event, EventParticipant} from '../../../data';
 import {TranslateService} from '@ngx-translate/core';
+import {EventParticipantsHttp, EventsHttp} from '../../../http';
 
 @Component({
   selector: 'app-event-participants-page',
@@ -21,8 +21,8 @@ export class EventParticipantsPage extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private eventService: EventsService,
-    private eventParticipantsService: EventParticipantsService,
+    private eventsHttp: EventsHttp,
+    private eventParticipantsHttp: EventParticipantsHttp,
     private translateService: TranslateService
   ) {
     super();
@@ -56,8 +56,8 @@ export class EventParticipantsPage extends TranslatableComponent {
 
   private init(eventId: number) {
     Promise.all([
-      this.eventService.getEvent(eventId),
-      this.eventParticipantsService.getAllEventParticipants(eventId)
+      this.eventsHttp.getEvent(eventId),
+      this.eventParticipantsHttp.getAllEventParticipants(eventId)
     ]).then(it => {
       this.event = it[0];
       this.participants = it[1];

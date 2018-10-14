@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
-import {Group, GroupType, GroupTypeUtils, Student, Teacher, TimeUtils} from '../../data';
-import {CabinetsService, GroupsService, LoginService, StudentPaymentService, StudentsService, TeachersService} from '../../service';
+import {Group, GroupType, GroupTypeUtils, Student, Teacher} from '../../data';
+import {GroupsService, LoginService, StudentPaymentService, StudentsService, TeachersService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils} from '../../data';
 import {EducationLevel, EducationLevelUtils} from '../../data';
 import {Cabinet} from '../../data';
 import {SelectItem} from '../../controls/select-item';
+import {CabinetsHttp} from '../../http';
 
 @Component({
   selector: 'app-groups-list-page',
@@ -34,7 +35,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
     private router: Router,
     private loginService: LoginService,
     private groupsService: GroupsService,
-    private cabinetsService: CabinetsService,
+    private cabinetsHttp: CabinetsHttp,
     private studentsService: StudentsService,
     private teachersService: TeachersService,
     private studentPaymentService: StudentPaymentService
@@ -46,7 +47,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
     } else {
       Promise.all([
         this.groupsService.getAllGroups(),
-        this.cabinetsService.getAllCabinets(),
+        this.cabinetsHttp.getAllCabinets(),
         this.studentsService.getAllStudents(),
         this.teachersService.getAllTeachers()
       ]).then(it => {

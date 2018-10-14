@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Lesson, Cabinet, DayOfWeek, DayOfWeekUtils, Time, TimeUtils, Teacher, Group} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {CabinetsService, TeachersService} from '../../../service';
+import {TeachersService} from '../../../service';
+import {CabinetsHttp} from '../../../http';
 
 @Component({
   selector: 'app-assign-lesson-popup',
@@ -19,12 +20,12 @@ export class AssignLessonPopupComponent extends TranslatableComponent implements
   public teachers: Array<Teacher> = [];
 
   public constructor(
-    private cabinetsService: CabinetsService,
+    private cabinetsHttp: CabinetsHttp,
     private teachersService: TeachersService
   ) {
     super();
 
-    this.cabinetsService.getAllCabinets().then(it => this.cabinets = it);
+    this.cabinetsHttp.getAllCabinets().then(it => this.cabinets = it);
     this.teachersService.getAllTeachers().then(it => this.teachers = it);
   }
 

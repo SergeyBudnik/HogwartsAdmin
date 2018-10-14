@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentAttendance, StudentPayment} from '../../../data';
-import {GroupsService, LoginService, StudentAttendanceService, StudentsService} from '../../../service';
+import {Student, StudentAttendance} from '../../../data';
+import {GroupsService, LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {StudentAttendanceHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-attendance-page',
@@ -21,7 +22,7 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private studentAttendanceService: StudentAttendanceService
+    private studentAttendanceHttp: StudentAttendanceHttp
   ) {
     super();
 
@@ -33,7 +34,7 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
 
         Promise.all([
           this.studentsService.getStudent(this.student.id),
-          this.studentAttendanceService.getAttendances(this.student.id)
+          this.studentAttendanceHttp.getAttendances(this.student.id)
         ]).then(it => {
           this.student = it[0];
           this.attendances = it[1];

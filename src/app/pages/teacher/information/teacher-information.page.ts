@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LessonsService, LoginService, TeachersService, GroupsService} from '../../../service';
+import {LoginService, TeachersService, GroupsService} from '../../../service';
 import {Lesson, Teacher, TeacherTypeUtils, Group} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatableComponent} from '../../../translation/translation.component';
@@ -25,8 +25,7 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
     private route: ActivatedRoute,
     private loginService: LoginService,
     private teachersService: TeachersService,
-    private groupsService: GroupsService,
-    private lessonsService: LessonsService,
+    private groupsService: GroupsService
   ) {
     super();
 
@@ -74,12 +73,10 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
 
     Promise.all([
       this.teachersService.getTeacher(teacherId),
-      this.groupsService.getAllGroups(),
-      this.lessonsService.getTeacherLessons(teacherId),
+      this.groupsService.getAllGroups()
     ]).then(it => {
       this.teacher = it[0];
       this.groups = it[1];
-      this.lessons = it[2];
 
       this.loadingInProgress = false;
     });

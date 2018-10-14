@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LessonsService, StudentsService, CabinetsService, GroupsService, LoginService} from '../../../service';
+import {StudentsService, GroupsService, LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Group, Lesson, Student, Cabinet, CabinetType, CabinetTypeUtils} from '../../../data';
+import {Group, Student, Cabinet, CabinetType, CabinetTypeUtils} from '../../../data';
+import {CabinetsHttp} from '../../../http';
 
 @Component({
   selector: 'app-cabinet-information-page',
@@ -14,7 +15,6 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
 
   public cabinet: Cabinet = new Cabinet(null, null, null);
   public groups: Array<Group> = [];
-  public lessons: Array<Lesson> = [];
   public students: Array<Student> = [];
 
   public actionInProgress = false;
@@ -24,10 +24,9 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private cabinetsService: CabinetsService,
+    private cabinetsHttp: CabinetsHttp,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private lessonsService: LessonsService,
   ) {
     super();
 
@@ -52,11 +51,11 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
     this.actionInProgress = true;
 
     if (!!this.cabinet.id) {
-      this.cabinetsService
+      this.cabinetsHttp
         .editCabinet(this.cabinet)
         .then(() => this.actionInProgress = false);
     } else {
-      this.cabinetsService
+      this.cabinetsHttp
         .createCabinet(this.cabinet)
         .then(it => {
           this.actionInProgress = false;
@@ -68,7 +67,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
   public delete(): void {
     this.actionInProgress = true;
 
-    this.cabinetsService
+    this.cabinetsHttp
       .deleteCabinet(this.cabinet.id)
       .then(() => {
         this.actionInProgress = false;
@@ -78,15 +77,13 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
 
   private initCabinet(): void {
     Promise.all([
-      this.cabinetsService.getCabinet(this.cabinet.id),
+      this.cabinetsHttp.getCabinet(this.cabinet.id),
       this.groupsService.getAllGroups(),
-      this.lessonsService.getCabinetLessons(this.cabinet.id),
       this.studentsService.getAllStudents()
     ]).then(it => {
       this.cabinet = it[0];
       this.groups = it[1];
-      this.lessons = it[2];
-      this.students = it[3];
+      this.students = it[2];
 
       this.loadingInProgress = false;
     });

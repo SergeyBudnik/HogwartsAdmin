@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../../translation/translation.component';
-import {StudentAttendance, StudentPayment} from '../../../../data';
-import {StudentAttendanceService, StudentPaymentService} from '../../../../service';
+import {StudentAttendance} from '../../../../data';
+import {StudentAttendanceHttp} from '../../../../http';
 
 @Component({
   selector: '[app-student-attendance-row]',
@@ -16,7 +16,7 @@ export class StudentAttendanceRowComponent extends TranslatableComponent {
   public actionInProgress = false;
 
   public constructor(
-    private studentAttendanceService: StudentAttendanceService
+    private studentAttendanceHttp: StudentAttendanceHttp
   ) {
     super();
   }
@@ -24,7 +24,7 @@ export class StudentAttendanceRowComponent extends TranslatableComponent {
   public deleteAttendance(): void {
     this.actionInProgress = true;
 
-    this.studentAttendanceService
+    this.studentAttendanceHttp
       .deleteAttendance(this.attendance.id)
       .then(() => {
         this.actionInProgress = false;

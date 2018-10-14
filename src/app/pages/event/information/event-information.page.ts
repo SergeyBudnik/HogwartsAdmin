@@ -1,11 +1,12 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {Cabinet, Event, EventTypeUtils, Teacher, TimeUtils} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CabinetsService, LoginService, EventsService, TeachersService} from '../../../service';
+import {LoginService, TeachersService} from '../../../service';
 import {ToastsManager} from 'ng2-toastr';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
 import {TranslateService} from '@ngx-translate/core';
+import {CabinetsHttp, EventsHttp} from '../../../http';
 
 @Component({
   selector: 'app-event-information-page',
@@ -24,8 +25,8 @@ export class EventInformationPage extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private eventsService: EventsService,
-    private cabinetsService: CabinetsService,
+    private eventsHttp: EventsHttp,
+    private cabinetsHttp: CabinetsHttp,
     private teachersService: TeachersService,
     private translateService: TranslateService,
     private toastr: ToastsManager,
@@ -70,13 +71,13 @@ export class EventInformationPage extends TranslatableComponent {
   }
 
   private saveNew() {
-    this.eventsService.createEvent(this.event).then(speakingClubId => {
+    this.eventsHttp.createEvent(this.event).then(speakingClubId => {
       this.router.navigate([`/speaking-club/${speakingClubId}/information`]);
     });
   }
 
   private saveExisting() {
-    this.eventsService.editEvent(this.event).then(() => {
+    this.eventsHttp.editEvent(this.event).then(() => {
       this.loadingInProgress = false;
 
       this.toastr.success(`Speaking Club успешно сохранён.`);
@@ -86,14 +87,14 @@ export class EventInformationPage extends TranslatableComponent {
   public delete(): void {
     this.loadingInProgress = true;
 
-    this.eventsService.deleteEvent(this.event.id).then(() =>
+    this.eventsHttp.deleteEvent(this.event.id).then(() =>
       this.router.navigate(['/events'])
     );
   }
 
   private initSpeakingClub(eventId: number) {
     Promise.all([
-      this.cabinetsService.getAllCabinets(),
+      this.cabinetsHttp.getAllCabinets(),
       this.teachersService.getAllTeachers()
     ]).then(it => {
       this.allCabinets = it[0];
@@ -104,7 +105,7 @@ export class EventInformationPage extends TranslatableComponent {
 
         this.loadingInProgress = false;
       } else {
-        this.eventsService.getEvent(eventId).then(event => {
+        this.eventsHttp.getEvent(eventId).then(event => {
           this.event = event;
 
           this.loadingInProgress = false;

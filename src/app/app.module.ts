@@ -163,13 +163,7 @@ const appRoutes: Routes = [
     Services.GroupsService,
     Services.StudentsService,
     Services.TeachersService,
-    Services.CabinetsService,
-    Services.LessonsService,
-    Services.StudentAttendanceService,
     Services.StudentPaymentService,
-    Services.StudentStatusService,
-    Services.EventsService,
-    Services.EventParticipantsService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,

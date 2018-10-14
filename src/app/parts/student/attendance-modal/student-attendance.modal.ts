@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} from '../../../data';
-import {StudentAttendanceService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
 import {SelectItem} from '../../../controls/select-item';
+import {StudentAttendanceHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-attendance-modal',
@@ -26,7 +26,7 @@ export class StudentAttendanceModal extends TranslatableComponent {
   private time: number;
 
   public constructor(
-    private studentAttendanceService: StudentAttendanceService
+    private studentAttendanceHttp: StudentAttendanceHttp
   ) {
     super();
 
@@ -52,7 +52,7 @@ export class StudentAttendanceModal extends TranslatableComponent {
   public addAttendance(): void {
     this.actionInProgress = true;
 
-    this.studentAttendanceService.addAttendance(
+    this.studentAttendanceHttp.addAttendance(
       this.studentId,
       this.attendanceType,
       this.time

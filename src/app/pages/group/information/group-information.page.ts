@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
-import {TeachersService, GroupsService, StudentsService, CabinetsService, LoginService} from '../../../service';
+import {TeachersService, GroupsService, StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, TimeUtils,
   Time, GroupTypeUtils
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
+import {CabinetsHttp} from '../../../http';
 
 @Component({
   selector: 'app-group-information-page',
@@ -35,7 +36,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     private teachersService: TeachersService,
     private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private cabinetsService: CabinetsService
+    private cabinetsHttp: CabinetsHttp
   ) {
     super();
 
@@ -106,16 +107,12 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     return this.teachers.find(it => it.id === teacherId);
   }
 
-  public getCabinet(cabinetId: number): Cabinet {
-    return this.cabinets.find(it => it.id === cabinetId);
-  }
-
   private initGroup(groupId: number) {
     Promise.all([
       this.groupsService.getGroup(groupId),
       this.studentsService.getGroupStudents(groupId),
       this.teachersService.getAllTeachers(),
-      this.cabinetsService.getAllCabinets()
+      this.cabinetsHttp.getAllCabinets()
     ]).then(it => {
       this.group = it[0];
       this.students = it[1];
@@ -129,7 +126,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   private initNewGroup() {
     Promise.all([
       this.teachersService.getAllTeachers(),
-      this.cabinetsService.getAllCabinets()
+      this.cabinetsHttp.getAllCabinets()
     ]).then(it => {
       this.teachers = it[0];
       this.cabinets = it[1];

@@ -1,8 +1,9 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {CabinetsService, GroupsService, LoginService} from '../../../service';
+import {GroupsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Cabinet, Group, Lesson} from '../../../data';
+import {CabinetsHttp} from '../../../http';
 
 @Component({
   selector: 'app-cabinet-timetable-page',
@@ -21,7 +22,7 @@ export class CabinetTimetablePageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private cabinetsService: CabinetsService,
+    private cabinetsHttp: CabinetsHttp,
     private groupsService: GroupsService,
   ) {
     super();
@@ -40,7 +41,7 @@ export class CabinetTimetablePageComponent extends TranslatableComponent {
 
   private init(cabinetId: number): void {
     Promise.all([
-      this.cabinetsService.getCabinet(cabinetId),
+      this.cabinetsHttp.getCabinet(cabinetId),
       this.groupsService.getAllGroups()
     ]).then(it => {
       this.cabinet = it[0];
