@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Group, GroupType, GroupTypeUtils, Student, Teacher} from '../../data';
-import {CabinetsService, GroupsService, LoginService, StudentsService, TeachersService} from '../../service';
+import {Group, GroupType, GroupTypeUtils, Student, Teacher, TimeUtils} from '../../data';
+import {CabinetsService, GroupsService, LoginService, StudentPaymentService, StudentsService, TeachersService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils} from '../../data';
@@ -36,7 +36,8 @@ export class GroupsListPageComponent extends TranslatableComponent {
     private groupsService: GroupsService,
     private cabinetsService: CabinetsService,
     private studentsService: StudentsService,
-    private teachersService: TeachersService
+    private teachersService: TeachersService,
+    private studentPaymentService: StudentPaymentService
   ) {
     super();
 
@@ -70,8 +71,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   public getGroupStudentsString(groupId: number): string {
     let studentsString = '';
 
-    this.students
-      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId === groupId))
+    this.getGroupActiveStudents(groupId)
       .map(it => it.name)
       .map(it => it.split(' ')[0])
       .forEach(it => studentsString += it + '; ');
@@ -86,12 +86,13 @@ export class GroupsListPageComponent extends TranslatableComponent {
   }
 
   public groupHasActiveStudents(groupId: number): boolean {
-    let amountOfActiveStudents = this.students
+    return this.getGroupActiveStudents(groupId).length !== 0;
+  }
+
+  private getGroupActiveStudents(groupId: number): Array<Student> {
+    return this.students
       .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
       .filter(student => student.statusType == 'STUDYING')
-      .length;
-
-    return amountOfActiveStudents !== 0;
   }
 
   public getCabinetItems(): Array<SelectItem> {
@@ -163,6 +164,14 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
   public openNewGroupPage() {
     this.router.navigate([`/groups/new/information`]);
+  }
+
+  public getGroupPayment(groupId: number): number {
+    const group = this.groups.find(it => it.id === groupId);
+
+    let activeStudents = this.getGroupActiveStudents(group.id);
+
+    return this.studentPaymentService.getGroupPayment(group, activeStudents);
   }
 
   private getFilteredGroups(): Array<Group> {
