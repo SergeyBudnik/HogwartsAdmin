@@ -25,17 +25,17 @@ export class StudentStatusTypeUtils {
     [
       'UNKNOWN',
       'REQUEST',
-      'REQUEST_LEFT',
       'TEST',
+      'FREE_LESSON',
+      'AWAITING_GROUP',
+      'STUDYING',
+      'REQUEST_LEFT',
       'TEST_STOPPED',
       'TEST_LEFT',
-      'FREE_LESSON',
       'FREE_LESSON_STOPPED',
       'FREE_LESSON_LEFT',
-      'AWAITING_GROUP',
       'AWAITING_GROUP_STOPPED',
       'AWAITING_GROUP_LEFT',
-      'STUDYING',
       'STUDYING_STOPPED',
       'STUDYING_LEFT'
     ];

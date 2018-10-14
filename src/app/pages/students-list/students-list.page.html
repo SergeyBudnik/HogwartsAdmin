@@ -60,6 +60,9 @@
           {{getStudentStatusTypeTranslation(student.statusType)}}
         </div>
       </div>
+      <div class="list-row-item student-payments-column">
+        {{getPayments(student.id)}} Р
+      </div>
       <div class="list-row-item student-groups-column">
         <div *ngFor="let groupId of student.groupIds">
           <div class="student-groups-circle horizontal-item" [style.background-color]="getGroup(groupId).color" (click)="openGroup(groupId)">

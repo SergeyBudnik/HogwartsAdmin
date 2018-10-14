@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Group, Student, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {GroupsService, StudentsService} from '../../service';
+import {Group, Student, StudentPayment, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
+import {GroupsService, StudentPaymentService, StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils, EducationLevel, EducationLevelUtils} from '../../data';
@@ -15,6 +15,7 @@ import {SelectItem} from '../../controls/select-item';
 export class StudentsListPageComponent extends TranslatableComponent {
   private unfilteredStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
+  private allPayments: Array<StudentPayment> = [];
 
   public students: Array<Student> = [];
 
@@ -29,7 +30,8 @@ export class StudentsListPageComponent extends TranslatableComponent {
     private router: Router,
     private loginService: LoginService,
     private studentsService: StudentsService,
-    private groupsService: GroupsService
+    private groupsService: GroupsService,
+    private paymentService: StudentPaymentService
   ) {
     super();
 
@@ -38,10 +40,12 @@ export class StudentsListPageComponent extends TranslatableComponent {
     } else {
       Promise.all([
         this.studentsService.getAllStudents(),
-        this.groupsService.getAllGroups()
+        this.groupsService.getAllGroups(),
+        this.paymentService.getAllPayments()
       ]).then(it => {
         this.unfilteredStudents = it[0];
         this.allGroups = it[1];
+        this.allPayments = it[2];
 
         this.students = this.getFilteredStudents();
 
@@ -110,6 +114,24 @@ export class StudentsListPageComponent extends TranslatableComponent {
 
   public isStudentFilled(student: Student): boolean {
     return StudentUtils.isValid(student);
+  }
+
+  public getPayments(studentId: number): number {
+    let studentPayments = this.allPayments
+      .filter(it => it.studentId === studentId)
+      .filter(it => {
+        let paymentDate = new Date(it.time);
+        let currentDate = new Date();
+
+        let sameYear = paymentDate.getFullYear() == currentDate.getFullYear();
+        let sameMonth = paymentDate.getMonth() == currentDate.getMonth()
+
+        return sameYear && sameMonth;
+      });
+
+    return studentPayments.length === 0 ? 0 : studentPayments
+      .map(it => it.amount)
+      .reduce((a1, a2) => a1 + a2);
   }
 
   private getFilteredStudents(): Array<Student> {

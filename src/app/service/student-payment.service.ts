@@ -8,6 +8,10 @@ export class StudentPaymentService {
     private studentPaymentHttp: StudentPaymentHttp
   ) {}
 
+  public getAllPayments(): Promise<Array<StudentPayment>> {
+    return this.studentPaymentHttp.getAllPayments();
+  }
+
   public getPayments(studentId: number): Promise<Array<StudentPayment>> {
     return this.studentPaymentHttp.getPayments(studentId);
   }

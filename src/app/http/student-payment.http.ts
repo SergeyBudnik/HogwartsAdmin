@@ -11,6 +11,12 @@ export class StudentPaymentHttp {
     readonly http: HttpClient
   ) {}
 
+  public getAllPayments(): Promise<Array<StudentPayment>> {
+    return this.http
+      .get<Array<StudentPayment>>(`${this.root}`)
+      .toPromise()
+  }
+
   public getPayments(studentId: number): Promise<Array<StudentPayment>> {
     return this.http
       .get<Array<StudentPayment>>(`${this.root}/${studentId}`)
