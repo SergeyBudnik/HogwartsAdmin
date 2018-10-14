@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, GroupsService, LoginService} from '../../../service';
+import {StudentsService, LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Group, Student, Cabinet, CabinetType, CabinetTypeUtils} from '../../../data';
-import {CabinetsHttp} from '../../../http';
+import {CabinetsHttp, GroupsHttp} from '../../../http';
 
 @Component({
   selector: 'app-cabinet-information-page',
@@ -25,7 +25,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
     private route: ActivatedRoute,
     private loginService: LoginService,
     private cabinetsHttp: CabinetsHttp,
-    private groupsService: GroupsService,
+    private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
   ) {
     super();
@@ -78,7 +78,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
   private initCabinet(): void {
     Promise.all([
       this.cabinetsHttp.getCabinet(this.cabinet.id),
-      this.groupsService.getAllGroups(),
+      this.groupsHttp.getAllGroups(),
       this.studentsService.getAllStudents()
     ]).then(it => {
       this.cabinet = it[0];

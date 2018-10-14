@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentPayment} from '../../../data';
-import {StudentPaymentService} from '../../../service';
 import {IMyDateModel} from 'mydatepicker';
+import {StudentPaymentHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-payment-modal',
@@ -26,7 +26,7 @@ export class StudentPaymentModal extends TranslatableComponent {
   public amount: number = null;
 
   public constructor(
-    private studentPaymentService: StudentPaymentService
+    private studentPaymentHttp: StudentPaymentHttp
   ) {
     super();
 
@@ -64,7 +64,7 @@ export class StudentPaymentModal extends TranslatableComponent {
   public addPayment(): void {
     this.actionInProgress = true;
 
-    this.studentPaymentService.addPayment(
+    this.studentPaymentHttp.addPayment(
       this.studentId,
       this.amount,
       this.time

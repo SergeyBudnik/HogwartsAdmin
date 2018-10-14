@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentAttendance} from '../../../data';
-import {GroupsService, LoginService, StudentsService} from '../../../service';
+import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentAttendanceHttp} from '../../../http';
 
@@ -20,7 +20,6 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService,
     private studentsService: StudentsService,
     private studentAttendanceHttp: StudentAttendanceHttp
   ) {

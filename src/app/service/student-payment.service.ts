@@ -1,29 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Group, Student, StudentPayment, TimeUtils} from '../data';
-import {StudentPaymentHttp} from '../http';
+import {Group, Student, TimeUtils} from '../data';
 
 @Injectable()
 export class StudentPaymentService {
-  public constructor(
-    private studentPaymentHttp: StudentPaymentHttp
-  ) {}
-
-  public getAllPayments(): Promise<Array<StudentPayment>> {
-    return this.studentPaymentHttp.getAllPayments();
-  }
-
-  public getPayments(studentId: number): Promise<Array<StudentPayment>> {
-    return this.studentPaymentHttp.getPayments(studentId);
-  }
-
-  public addPayment(studentId: number, amount: number, time: number): Promise<number> {
-    return this.studentPaymentHttp.addPayment(studentId, amount, time);
-  }
-
-  public deletePayment(paymentId: number): Promise<void> {
-    return this.studentPaymentHttp.deletePayment(paymentId);
-  }
-
   public getGroupPayment(group: Group, students: Array<Student>) {
     let payment = 0;
 

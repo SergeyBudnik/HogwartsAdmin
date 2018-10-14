@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
-import {GroupsService, LoginService, TeachersService} from '../../service';
+import {LoginService} from '../../service';
 import {Group, Teacher, TimeUtils} from '../../data';
 import {Router} from '@angular/router';
+import {GroupsHttp, TeachersHttp} from '../../http';
 
 @Component({
   selector: 'app-teachers-list-page',
@@ -18,15 +19,15 @@ export class TeachersListPageComponent {
   public constructor(
     private loginService: LoginService,
     private router: Router,
-    private teachersService: TeachersService,
-    private groupsService: GroupsService
+    private teachersHttp: TeachersHttp,
+    private groupsHttp: GroupsHttp
   ) {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
       Promise.all([
-        this.teachersService.getAllTeachers(),
-        this.groupsService.getAllGroups()
+        this.teachersHttp.getAllTeachers(),
+        this.groupsHttp.getAllGroups()
       ]).then(it => {
         this.unfilteredTeachers = it[0];
         this.groups = it[1];

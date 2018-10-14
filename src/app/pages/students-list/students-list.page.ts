@@ -1,11 +1,12 @@
 import {Component} from '@angular/core';
 import {Group, Student, StudentPayment, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {GroupsService, StudentPaymentService, StudentsService} from '../../service';
+import {StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age, AgeUtils, EducationLevel, EducationLevelUtils} from '../../data';
 import {LoginService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
+import {GroupsHttp, StudentPaymentHttp} from '../../http';
 
 @Component({
   selector: 'app-students-list-page',
@@ -30,8 +31,8 @@ export class StudentsListPageComponent extends TranslatableComponent {
     private router: Router,
     private loginService: LoginService,
     private studentsService: StudentsService,
-    private groupsService: GroupsService,
-    private paymentService: StudentPaymentService
+    private groupsHttp: GroupsHttp,
+    private paymentHttp: StudentPaymentHttp
   ) {
     super();
 
@@ -40,8 +41,8 @@ export class StudentsListPageComponent extends TranslatableComponent {
     } else {
       Promise.all([
         this.studentsService.getAllStudents(),
-        this.groupsService.getAllGroups(),
-        this.paymentService.getAllPayments()
+        this.groupsHttp.getAllGroups(),
+        this.paymentHttp.getAllPayments()
       ]).then(it => {
         this.unfilteredStudents = it[0];
         this.allGroups = it[1];

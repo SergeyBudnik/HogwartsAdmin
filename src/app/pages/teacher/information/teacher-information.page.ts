@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {LoginService, TeachersService, GroupsService} from '../../../service';
+import {LoginService} from '../../../service';
 import {Lesson, Teacher, TeacherTypeUtils, Group} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatableComponent} from '../../../translation/translation.component';
+import {GroupsHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-teacher-information-page',
@@ -24,8 +25,8 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private teachersService: TeachersService,
-    private groupsService: GroupsService
+    private teachersHttp: TeachersHttp,
+    private groupsHttp: GroupsHttp
   ) {
     super();
 
@@ -48,12 +49,12 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
     this.actionInProgress = true;
 
     if (!this.teacher.id) {
-      this.teachersService.createTeacher(this.teacher).then(it => {
+      this.teachersHttp.createTeacher(this.teacher).then(it => {
         this.actionInProgress = false;
         this.router.navigate([`/teachers/${it}`]);
       });
     } else {
-      this.teachersService.editTeacher(this.teacher).then(
+      this.teachersHttp.editTeacher(this.teacher).then(
         () => this.actionInProgress = false
       );
     }
@@ -62,7 +63,7 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
   public delete(): void {
     this.actionInProgress = true;
 
-    this.teachersService.deleteTeacher(this.teacher.id).then(() => {
+    this.teachersHttp.deleteTeacher(this.teacher.id).then(() => {
       this.actionInProgress = false;
       this.router.navigate([`/teachers`]);
     });
@@ -72,8 +73,8 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
     this.teacher.id = teacherId;
 
     Promise.all([
-      this.teachersService.getTeacher(teacherId),
-      this.groupsService.getAllGroups()
+      this.teachersHttp.getTeacher(teacherId),
+      this.groupsHttp.getAllGroups()
     ]).then(it => {
       this.teacher = it[0];
       this.groups = it[1];

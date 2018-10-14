@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentPayment} from '../../../data';
-import {GroupsService, LoginService, StudentsService, StudentPaymentService} from '../../../service';
+import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {StudentPaymentHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-payment-page',
@@ -19,9 +20,8 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService,
     private studentsService: StudentsService,
-    private studentPaymentService: StudentPaymentService
+    private studentPaymentHttp: StudentPaymentHttp
   ) {
     super();
 
@@ -33,7 +33,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
 
         Promise.all([
           this.studentsService.getStudent(this.student.id),
-          this.studentPaymentService.getPayments(this.student.id)
+          this.studentPaymentHttp.getPayments(this.student.id)
         ]).then(it => {
           this.student = it[0];
           this.payments = it[1];

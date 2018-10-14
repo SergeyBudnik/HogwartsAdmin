@@ -1,10 +1,11 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, LoginService, GroupsService} from '../../../service';
+import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentReferralSource, StudentReferralSourceUtils, EducationLevel, EducationLevelUtils, Group, Age, AgeUtils} from '../../../data';
+import {Student, StudentReferralSourceUtils, EducationLevelUtils, Group, AgeUtils} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
+import {GroupsHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-information-page',
@@ -29,7 +30,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService,
+    private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
@@ -120,7 +121,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   private initStudent(studentId: number, groupId: number): void {
     Promise.all([
       this.studentsService.getAllStudents(),
-      this.groupsService.getAllGroups(),
+      this.groupsHttp.getAllGroups(),
     ]).then(it => {
       this.allStudents = it[0];
       this.allGroups = it[1];

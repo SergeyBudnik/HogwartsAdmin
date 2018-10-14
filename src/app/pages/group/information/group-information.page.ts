@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {TeachersService, GroupsService, StudentsService, LoginService} from '../../../service';
+import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, TimeUtils,
   Time, GroupTypeUtils
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {CabinetsHttp} from '../../../http';
+import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-group-information-page',
@@ -33,8 +33,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private teachersService: TeachersService,
-    private groupsService: GroupsService,
+    private teachersHttp: TeachersHttp,
+    private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
     private cabinetsHttp: CabinetsHttp
   ) {
@@ -63,11 +63,11 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     this.actionInProgress = true;
 
     if (!!this.group.id) {
-      this.groupsService
+      this.groupsHttp
         .editGroup(this.group)
         .then(() => this.actionInProgress = false);
     } else {
-      this.groupsService
+      this.groupsHttp
         .createGroup(this.group)
         .then(it => {
           this.actionInProgress = false;
@@ -77,7 +77,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   }
 
   public delete(): void {
-    this.groupsService.deleteGroup(this.group.id).then(() => {
+    this.groupsHttp.deleteGroup(this.group.id).then(() => {
       this.actionInProgress = false;
       this.router.navigate([`/groups`]);
     });
@@ -109,9 +109,9 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   private initGroup(groupId: number) {
     Promise.all([
-      this.groupsService.getGroup(groupId),
+      this.groupsHttp.getGroup(groupId),
       this.studentsService.getGroupStudents(groupId),
-      this.teachersService.getAllTeachers(),
+      this.teachersHttp.getAllTeachers(),
       this.cabinetsHttp.getAllCabinets()
     ]).then(it => {
       this.group = it[0];
@@ -125,7 +125,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   private initNewGroup() {
     Promise.all([
-      this.teachersService.getAllTeachers(),
+      this.teachersHttp.getAllTeachers(),
       this.cabinetsHttp.getAllCabinets()
     ]).then(it => {
       this.teachers = it[0];

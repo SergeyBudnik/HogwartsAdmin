@@ -1,12 +1,12 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {Cabinet, Event, EventTypeUtils, Teacher, TimeUtils} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LoginService, TeachersService} from '../../../service';
+import {LoginService} from '../../../service';
 import {ToastsManager} from 'ng2-toastr';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
 import {TranslateService} from '@ngx-translate/core';
-import {CabinetsHttp, EventsHttp} from '../../../http';
+import {CabinetsHttp, EventsHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-event-information-page',
@@ -27,7 +27,7 @@ export class EventInformationPage extends TranslatableComponent {
     private loginService: LoginService,
     private eventsHttp: EventsHttp,
     private cabinetsHttp: CabinetsHttp,
-    private teachersService: TeachersService,
+    private teachersHttp: TeachersHttp,
     private translateService: TranslateService,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
@@ -95,7 +95,7 @@ export class EventInformationPage extends TranslatableComponent {
   private initSpeakingClub(eventId: number) {
     Promise.all([
       this.cabinetsHttp.getAllCabinets(),
-      this.teachersService.getAllTeachers()
+      this.teachersHttp.getAllTeachers()
     ]).then(it => {
       this.allCabinets = it[0];
       this.allTeachers = it[1];

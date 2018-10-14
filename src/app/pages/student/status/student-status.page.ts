@@ -1,6 +1,6 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, LoginService, GroupsService} from '../../../service';
+import {StudentsService, LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentStatus, StudentStatusType} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
@@ -33,7 +33,6 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService,
     private studentsService: StudentsService,
     private studentStatusHttp: StudentStatusHttp,
     private toastr: ToastsManager,

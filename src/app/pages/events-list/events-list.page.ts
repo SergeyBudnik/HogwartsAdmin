@@ -1,10 +1,10 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService, TeachersService} from '../../service';
+import {LoginService} from '../../service';
 import {Router} from '@angular/router';
 import {Cabinet, Event, EventParticipant, EventParticipantStatus, Teacher} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
-import {CabinetsHttp, EventParticipantsHttp, EventsHttp} from '../../http';
+import {CabinetsHttp, EventParticipantsHttp, EventsHttp, TeachersHttp} from '../../http';
 
 export type EventStatus = 'PENDING' | 'ON_GOING' | 'FINISHED'
 
@@ -27,7 +27,7 @@ export class EventsListPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private eventsHttp: EventsHttp,
     private eventParticipantsHttp: EventParticipantsHttp,
-    private teachersService: TeachersService,
+    private teachersHttp: TeachersHttp,
     private cabinetsHttp: CabinetsHttp,
     private translateService: TranslateService
   ) {
@@ -51,7 +51,7 @@ export class EventsListPageComponent extends TranslatableComponent {
       Promise.all([
         this.eventsHttp.getAllEvents(),
         this.eventParticipantsHttp.getAllParticipants(),
-        this.teachersService.getAllTeachers(),
+        this.teachersHttp.getAllTeachers(),
         this.cabinetsHttp.getAllCabinets()
       ])
       .then(it => {

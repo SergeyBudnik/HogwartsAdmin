@@ -1,8 +1,9 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {GroupsService, LoginService, TeachersService} from '../../../service';
+import {LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Group, Lesson, Teacher} from '../../../data';
+import {GroupsHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-teacher-timetable-page',
@@ -20,8 +21,8 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private teachersService: TeachersService,
-    private groupsService: GroupsService,
+    private teachersHttp: TeachersHttp,
+    private groupsHttp: GroupsHttp
   ) {
     super();
 
@@ -38,8 +39,8 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
 
   private init(teacherId: number): void {
     Promise.all([
-      this.teachersService.getTeacher(teacherId),
-      this.groupsService.getAllGroups()
+      this.teachersHttp.getTeacher(teacherId),
+      this.groupsHttp.getAllGroups()
     ]).then(it => {
         this.teacher = it[0];
 

@@ -160,9 +160,7 @@ const appRoutes: Routes = [
     },
 
     Services.LoginService,
-    Services.GroupsService,
     Services.StudentsService,
-    Services.TeachersService,
     Services.StudentPaymentService,
 
     Https.LoginHttp,

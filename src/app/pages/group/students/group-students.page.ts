@@ -1,8 +1,9 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {GroupsService, LoginService, StudentsService} from '../../../service';
+import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Group, Student, StudentUtils} from '../../../data';
+import {GroupsHttp} from '../../../http';
 
 @Component({
   selector: 'app-group-students-page',
@@ -21,7 +22,7 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService,
+    private groupsHttp: GroupsHttp,
     private studentsService: StudentsService
   ) {
     super();
@@ -33,7 +34,7 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
         this.group.id = Number(params.get('id'));
 
         Promise.all([
-          this.groupsService.getGroup(this.group.id),
+          this.groupsHttp.getGroup(this.group.id),
           this.studentsService.getGroupStudents(this.group.id)
         ]).then(it => {
           this.group = it[0];

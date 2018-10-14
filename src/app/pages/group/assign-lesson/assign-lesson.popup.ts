@@ -1,8 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Lesson, Cabinet, DayOfWeek, DayOfWeekUtils, Time, TimeUtils, Teacher, Group} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {TeachersService} from '../../../service';
-import {CabinetsHttp} from '../../../http';
+import {CabinetsHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-assign-lesson-popup',
@@ -21,12 +20,17 @@ export class AssignLessonPopupComponent extends TranslatableComponent implements
 
   public constructor(
     private cabinetsHttp: CabinetsHttp,
-    private teachersService: TeachersService
+    private teachersHttp: TeachersHttp
   ) {
     super();
 
-    this.cabinetsHttp.getAllCabinets().then(it => this.cabinets = it);
-    this.teachersService.getAllTeachers().then(it => this.teachers = it);
+    Promise.all([
+      this.cabinetsHttp.getAllCabinets(),
+      this.teachersHttp.getAllTeachers()
+    ]).then(it => {
+      this.cabinets = it[0];
+      this.teachers = it[1];
+    });
   }
 
   ngOnInit(): void {

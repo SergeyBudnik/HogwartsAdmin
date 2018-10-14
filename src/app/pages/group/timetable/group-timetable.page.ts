@@ -1,8 +1,9 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {GroupsService, LoginService} from '../../../service';
+import {LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Group} from '../../../data';
+import {GroupsHttp} from '../../../http';
 
 @Component({
   selector: 'app-group-timetable-page',
@@ -18,7 +19,7 @@ export class GroupTimetablePageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private groupsService: GroupsService
+    private groupsHttp: GroupsHttp
   ) {
     super();
 
@@ -28,7 +29,7 @@ export class GroupTimetablePageComponent extends TranslatableComponent {
       this.route.paramMap.subscribe(params => {
         this.group.id = Number(params.get('id'));
 
-        this.groupsService
+        this.groupsHttp
           .getGroup(this.group.id)
           .then(group => {
             this.group = group;

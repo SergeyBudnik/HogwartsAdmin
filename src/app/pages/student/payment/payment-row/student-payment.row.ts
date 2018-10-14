@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../../translation/translation.component';
 import {StudentPayment} from '../../../../data';
-import {StudentPaymentService} from '../../../../service';
+import {StudentPaymentHttp} from '../../../../http';
 
 @Component({
   selector: '[app-student-payment-row]',
@@ -16,7 +16,7 @@ export class StudentPaymentRowComponent extends TranslatableComponent {
   public actionInProgress = false;
 
   public constructor(
-    private studentPaymentService: StudentPaymentService
+    private studentPaymentHttp: StudentPaymentHttp
   ) {
     super();
   }
@@ -24,7 +24,7 @@ export class StudentPaymentRowComponent extends TranslatableComponent {
   public deletePayment(): void {
     this.actionInProgress = true;
 
-    this.studentPaymentService
+    this.studentPaymentHttp
       .deletePayment(this.payment.id)
       .then(() => {
         this.actionInProgress = false;
