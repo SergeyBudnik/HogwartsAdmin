@@ -1,10 +1,11 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EventParticipantsService, LoginService} from '../../service';
+import {EventParticipantsService, LoginService, StudentsService} from '../../service';
 import {EventParticipant, EventParticipantStatus} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
 import {EventParticipantsHttp} from '../../http';
+import {Student} from '../../data/student';
 
 @Component({
   selector: 'app-participant-page',
@@ -19,6 +20,7 @@ export class ParticipantPageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
+    private studentsService: StudentsService,
     private eventParticipantsHttp: EventParticipantsHttp,
     private eventParticipantsService: EventParticipantsService,
     private translateService: TranslateService
@@ -68,6 +70,26 @@ export class ParticipantPageComponent extends TranslatableComponent {
     this.eventParticipantsHttp
       .deleteParticipant(this.participant.id)
       .then(() => this.router.navigate([`/events/${this.participant.eventId}/information`]));
+  }
+
+  public enlisted() {
+    this.loadingInProgress = true;
+
+    this.studentsService.createStudent(new Student(
+      null,
+      [],
+      this.participant.name,
+      'AWAITING_GROUP',
+      [],
+      [this.participant.phone],
+      'UNKNOWN',
+      'UNKNOWN',
+      this.participant.referralSource
+    )).then(it => {
+      this.loadingInProgress = false;
+
+      this.router.navigate([`/students/${it}/information`]);
+    });
   }
 
   private init(participantId: number, eventId: number) {

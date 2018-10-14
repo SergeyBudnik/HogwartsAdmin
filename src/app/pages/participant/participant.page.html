@@ -67,6 +67,10 @@
             <button class="btn btn-secondary" (click)="onStatusChange('NOT_ATTENDED')">Не пришёл</button>
             <button class="btn btn-secondary" (click)="onStatusChange('CANCELED')">Отменил</button>
           </div>
+
+          <div *ngIf="participant.status === 'ATTENDED'">
+            <button class="btn btn-primary" (click)="enlisted()">Записался на курсы</button>
+          </div>
         </form>
       </ng-container>
     </div>
