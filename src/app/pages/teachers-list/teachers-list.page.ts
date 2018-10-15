@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../service';
-import {Group, Teacher, TimeUtils} from '../../data';
+import {LoginService, StudentPaymentService} from '../../service';
+import {Group, Student, Teacher, TimeUtils} from '../../data';
 import {Router} from '@angular/router';
-import {GroupsHttp, TeachersHttp} from '../../http';
+import {GroupsHttp, StudentsHttp, TeachersHttp} from '../../http';
 
 @Component({
   selector: 'app-teachers-list-page',
@@ -15,22 +15,27 @@ export class TeachersListPageComponent {
 
   private unfilteredTeachers: Array<Teacher> = [];
   private groups: Array<Group> = [];
+  private students: Array<Student> = [];
 
   public constructor(
     private loginService: LoginService,
     private router: Router,
+    private studentsHttp: StudentsHttp,
     private teachersHttp: TeachersHttp,
-    private groupsHttp: GroupsHttp
+    private groupsHttp: GroupsHttp,
+    private studentPaymentService: StudentPaymentService
   ) {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
       Promise.all([
         this.teachersHttp.getAllTeachers(),
-        this.groupsHttp.getAllGroups()
+        this.groupsHttp.getAllGroups(),
+        this.studentsHttp.getAllStudents()
       ]).then(it => {
         this.unfilteredTeachers = it[0];
         this.groups = it[1];
+        this.students = it[2];
 
         this.teachers = this.getFilteredTeachers('');
 
@@ -65,7 +70,7 @@ export class TeachersListPageComponent {
     return minutes;
   }
 
-  public getWeeklyPayment(teacherId: number): number {
+  public getWeeklySalary(teacherId: number): number {
     let payment = 0;
 
     this.groups.forEach(group =>
@@ -85,6 +90,22 @@ export class TeachersListPageComponent {
     );
 
     return payment;
+  }
+
+  public getWeeklyIncome(teacherId: number): number {
+    let income = 0;
+
+    this.groups.forEach(group => {
+      const students = this.students
+        .filter(it => it.statusType === 'STUDYING')
+        .filter(it => it.groupIds.indexOf(group.id) !== -1);
+
+      const lessons = group.lessons.filter(it => it.teacherId === teacherId);
+
+      income += this.studentPaymentService.getGroupPayment(group, lessons, students);
+    });
+
+    return income;
   }
 
   private getFilteredTeachers(teacherNameFilter: string): Array<Teacher> {

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Group, Student, TimeUtils} from '../data';
+import {Group, Lesson, Student, TimeUtils} from '../data';
 
 @Injectable()
 export class StudentPaymentService {
-  public getGroupPayment(group: Group, students: Array<Student>) {
+  public getGroupPayment(group: Group, lessons: Array<Lesson>, students: Array<Student>) {
     let payment = 0;
 
-    group.lessons.forEach(lesson => {
+    lessons.forEach(lesson => {
       let difference = TimeUtils.index(lesson.finishTime) - TimeUtils.index(lesson.startTime);
 
       if (group.type === 'INDIVIDUAL') {

@@ -5,7 +5,17 @@
     <div class="list-header">
       <div app-search-text-input-control class="teacher-name-column"
            [placeholder]="'Имя'"
-           (onChange)="onSearchChange($event)"></div>
+           (onChange)="onSearchChange($event)">
+      </div>
+      <div class="teacher-load-column">
+        Учебная нагрузка
+      </div>
+      <div class="teacher-income-column">
+        Доход / нед
+      </div>
+      <div class="teacher-outcome-column">
+        Зарплата / нед
+      </div>
     </div>
 
     <div class="teachers-list-header-add-new">
@@ -27,11 +37,11 @@
       <div class="list-row-item teacher-load-column">
         {{getLoadMinutes(teacher.id) / 60.0}} часов
       </div>
-      <div class="list-row-item teacher-payment-column">
-        {{getWeeklyPayment(teacher.id)}} Р
+      <div class="list-row-item teacher-income-column">
+        {{getWeeklyIncome(teacher.id)}} Р
       </div>
-      <div class="list-row-item teacher-payment-column">
-        {{getWeeklyPayment(teacher.id)}} Р
+      <div class="list-row-item teacher-salary-column">
+        {{getWeeklySalary(teacher.id)}} Р
       </div>
     </div>
   </div>

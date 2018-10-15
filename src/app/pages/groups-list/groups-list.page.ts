@@ -172,7 +172,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
     let activeStudents = this.getGroupActiveStudents(group.id);
 
-    return this.studentPaymentService.getGroupPayment(group, activeStudents);
+    return this.studentPaymentService.getGroupPayment(group, group.lessons, activeStudents);
   }
 
   private getFilteredGroups(): Array<Group> {
