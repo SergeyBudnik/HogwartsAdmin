@@ -1,9 +1,9 @@
 import {DayOfWeek} from './day-of-week';
 import {Time} from './time';
 
-export class DayAndTime {
+export class TeacherAvailability {
   public constructor(
-    readonly day: DayOfWeek,
-    readonly time: Time
+    public dayOfWeek: DayOfWeek,
+    public time: Time
   ) {}
 }

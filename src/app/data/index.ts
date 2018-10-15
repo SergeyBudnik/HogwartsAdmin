@@ -1,6 +1,5 @@
 export * from './age';
 export * from './cabinet';
-export * from './day-and-time';
 export * from './day-of-week';
 export * from './education-level';
 export * from './group';
@@ -11,6 +10,7 @@ export * from './student-attendance';
 export * from './student-payment';
 export * from './student-status';
 export * from './teacher';
+export * from './teacher-availability'
 export * from './time';
 export * from './speaking-club';
 export * from './event-participant';

@@ -1,1 +1,56 @@
 @import '../../../../styles.less';
+
+.teacher-availability-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background: @color-gray-2;
+  border: 1px solid @color-gray-4;
+}
+
+.teacher-availability-header-item {
+  text-align: center;
+  width: 14.28%;
+  padding: 5px 0;
+}
+
+.teacher-availability-body {
+  border-left: 1px solid @color-gray-4;
+  border-right: 1px solid @color-gray-4;
+  border-bottom: 1px solid @color-gray-4;
+}
+
+.teacher-availability-body-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.teacher-availability-body-cell {
+  text-align: center;
+  width: 14.28%;
+  padding: 3px 0;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.teacher-availability-body-cell-available {
+  .teacher-availability-body-cell;
+
+  color: #ffffff;
+  background: #00aa00;
+}
+
+.teacher-availability-body-cell-available:hover {
+  background: #00bb00;
+}
+
+.teacher-availability-body-cell-unavailable {
+  .teacher-availability-body-cell;
+
+  color: #000000;
+  background: #ffffff;
+}
+
+.teacher-availability-body-cell-unavailable:hover {
+  background: #eeeeee;
+}

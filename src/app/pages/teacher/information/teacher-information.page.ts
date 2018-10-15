@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {LoginService} from '../../../service';
-import {Lesson, Teacher, TeacherTypeUtils, Group} from '../../../data';
+import {Lesson, Teacher, TeacherTypeUtils, Group, DayOfWeekUtils, TimeUtils, DayOfWeek, Time, TeacherAvailability} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {GroupsHttp, TeachersHttp} from '../../../http';
@@ -20,6 +20,9 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
 
   public loadingInProgress = true;
   public actionInProgress = false;
+
+  public daysOfWeek = DayOfWeekUtils.values;
+  public lessonTimes = TimeUtils.values;
 
   public constructor(
     private router: Router,
@@ -67,6 +70,23 @@ export class TeacherInformationPageComponent extends TranslatableComponent {
       this.actionInProgress = false;
       this.router.navigate([`/teachers`]);
     });
+  }
+
+  public isAvailable(dayOfWeek: DayOfWeek, time: Time) {
+    return this.teacher.availability
+      .filter(it => it.dayOfWeek === dayOfWeek)
+      .filter(it => it.time === time)
+      .length !== 0;
+  }
+
+  public toggleAvailability(dayOfWeek: DayOfWeek, time: Time) {
+    let isAvailable = this.isAvailable(dayOfWeek, time);
+
+    if (isAvailable) {
+      this.teacher.availability = this.teacher.availability.filter(it => it.dayOfWeek !== dayOfWeek || it.time !== time)
+    } else {
+      this.teacher.availability.push(new TeacherAvailability(dayOfWeek, time));
+    }
   }
 
   private initTeacher(teacherId: number): void {

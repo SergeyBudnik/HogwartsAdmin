@@ -1,4 +1,4 @@
-import {DayAndTime} from './day-and-time';
+import {TeacherAvailability} from './teacher-availability';
 
 export type TeacherType = 'NATIVE' | 'NON_NATIVE';
 
@@ -25,6 +25,6 @@ export class Teacher {
     public type: TeacherType = null,
     public phones: Array<string> = [],
     public emails: Array<string> = [],
-    public workingHours: Array<DayAndTime> = []
+    public availability: Array<TeacherAvailability> = []
   ) {}
 }

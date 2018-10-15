@@ -65,6 +65,29 @@
           </div>
 
           <br>
+
+          <h5>Доступные часы</h5>
+
+          <br>
+
+          <div class="teacher-availability-header">
+            <div *ngFor="let dayOfWeek of daysOfWeek" class="teacher-availability-header-item">
+              {{getDayOfWeekTranslation(dayOfWeek)}}
+            </div>
+          </div>
+
+          <div class="teacher-availability-body">
+            <div *ngFor="let time of lessonTimes" class="teacher-availability-body-row">
+              <div *ngFor="let dayOfWeek of daysOfWeek"
+                   [class.teacher-availability-body-cell-available]="isAvailable(dayOfWeek, time)"
+                   [class.teacher-availability-body-cell-unavailable]="!isAvailable(dayOfWeek, time)"
+                   (click)="toggleAvailability(dayOfWeek, time)">
+                {{getTimeTranslation(time)}}
+              </div>
+            </div>
+          </div>
+
+          <br>
         </form>
       </ng-container>
     </div>
