@@ -48,6 +48,15 @@
 
       Мероприятия
     </span>
+
+    <span  (click)="navigate('/economy')"
+           [class.menu-element-active]="activeSection === 'ECONOMY'"
+           [class.menu-element-inactive]="activeSection !== 'ECONOMY'">
+
+      <i class="fa fa-usd menu-element-icon" aria-hidden="true"></i>
+
+      Экономика
+    </span>
   </div>
 
   <div style="width: 15%">

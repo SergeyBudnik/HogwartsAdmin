@@ -2,6 +2,38 @@
   <app-header [activeSection]="'EVENTS'"></app-header>
 
   <div class="list-header-container">
+    <div class="list-header">
+      <div class="events-status-column">
+        <div class="list-header-label">
+          Статус
+        </div>
+      </div>
+
+      <div class="events-type-column">
+        <div class="list-header-label">
+          Тип
+        </div>
+      </div>
+
+      <div class="events-cabinet-column">
+        <div class="list-header-label">
+          Кабинет
+        </div>
+      </div>
+
+      <div class="events-time-column">
+        <div class="list-header-label">
+          Дата и время
+        </div>
+      </div>
+
+      <div class="events-participants-column">
+        <div class="list-header-label">
+          Участники
+        </div>
+      </div>
+    </div>
+
     <div class="events-add-new">
       <button class="btn btn-primary pull-right" (click)="addNewEvent()">
         Добавить
@@ -27,37 +59,29 @@
           {{event.eventType | translate}}
         </div>
       </div>
-      <div class="list-row-item events-description-column">
-        {{event.name}}
-      </div>
-      <div class="list-row-item events-teacher-column">
-        <i class="fa fa-graduation-cap menu-item-icon" aria-hidden="true"></i>
-        {{getTeacher(event.teacherId).name}}
-      </div>
       <div class="list-row-item events-cabinet-column">
-        <i class="fa fa-building menu-item-icon" aria-hidden="true"></i>
         {{getCabinet(event.cabinetId).name}}
       </div>
       <div class="list-row-item events-time-column">
-        <i class="fa fa-calendar menu-item-icon" aria-hidden="true"></i>
-        {{event.date | date: 'dd.MM.yyyy'}}
+        {{event.date | date: 'dd.MM.yyyy'}} : {{event.startTime | translate}} - {{event.finishTime | translate}}
       </div>
-      <div class="list-row-item events-date-column">
-        <i class="fa fa-clock-o menu-item-icon" aria-hidden="true"></i>
-        {{getTimeTranslation(event.startTime)}} - {{getTimeTranslation(event.finishTime)}}
-      </div>
-      <div class="list-row-item events-participants-column">
-        <span class="events-participants-request">{{getParticipantsAmount(event, 'REQUEST')}}</span>
-        /
-        <span class="events-participants-early-confirmation">{{getParticipantsAmount(event, 'EARLY_CONFIRMATION')}}</span>
-        /
-        <span class="events-participants-late-confirmation">{{getParticipantsAmount(event, 'LATE_CONFIRMATION')}}</span>
-        /
-        <span class="events-participants-attended">{{getParticipantsAmount(event, 'ATTENDED')}}</span>
-        /
-        <span class="events-participants-not-attended">{{getParticipantsAmount(event, 'NOT_ATTENDED')}}</span>
-        /
-        <span class="events-participants-canceled">{{getParticipantsAmount(event, 'CANCELED')}}</span>
+      <div class="list-row-item events-participants-item">
+        <div [class.event-participants-active-mark]="getParticipantsAmount(event, 'REQUEST') !== 0"
+             [class.event-participants-inactive-mark]="getParticipantsAmount(event, 'REQUEST') === 0">
+          {{getParticipantsAmount(event, 'REQUEST')}}
+        </div>
+
+        <div [class.event-participants-active-mark]="getParticipantsAmount(event, 'EARLY_CONFIRMATION') !== 0"
+             [class.event-participants-inactive-mark]="getParticipantsAmount(event, 'EARLY_CONFIRMATION') === 0"
+             class="horizontal-item">
+          {{getParticipantsAmount(event, 'EARLY_CONFIRMATION')}}
+        </div>
+
+        <div [class.event-participants-active-mark]="getParticipantsAmount(event, 'LATE_CONFIRMATION') !== 0"
+             [class.event-participants-inactive-mark]="getParticipantsAmount(event, 'LATE_CONFIRMATION') === 0"
+             class="horizontal-item">
+          {{getParticipantsAmount(event, 'LATE_CONFIRMATION')}}
+        </div>
       </div>
     </div>
   </div>

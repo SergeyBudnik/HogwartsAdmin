@@ -1,8 +1,26 @@
 import {Injectable} from '@angular/core';
-import {Group, Lesson, Student, TimeUtils} from '../data';
+import {Group, Lesson, Student, StudentPayment, TimeUtils} from '../data';
 
 @Injectable()
 export class StudentPaymentService {
+  public getActualStudentMonthPayments(allStudentsPayments: Array<StudentPayment>, studentId: number) {
+    let studentPayments = allStudentsPayments
+      .filter(it => it.studentId === studentId)
+      .filter(it => {
+        let paymentDate = new Date(it.time);
+        let currentDate = new Date();
+
+        let sameYear = paymentDate.getFullYear() == currentDate.getFullYear();
+        let sameMonth = paymentDate.getMonth() == currentDate.getMonth();
+
+        return sameYear && sameMonth;
+      });
+
+    return studentPayments.length === 0 ? 0 : studentPayments
+      .map(it => it.amount)
+      .reduce((a1, a2) => a1 + a2);
+  }
+
   public getGroupPayment(group: Group, lessons: Array<Lesson>, students: Array<Student>) {
     let payment = 0;
 

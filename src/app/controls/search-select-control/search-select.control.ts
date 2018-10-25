@@ -8,6 +8,7 @@ import {SelectItem} from '../select-item';
 })
 export class SearchSelectControl {
   @Input() public items: Array<SelectItem> = [];
+  @Input() public empty: string = null;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
@@ -16,6 +17,10 @@ export class SearchSelectControl {
   public onValueChange(value: string) {
     this.currentValue = value;
 
-    this.onChange.emit(value);
+    if (value.length == 0) {
+      this.onChange.emit(null);
+    } else {
+      this.onChange.emit(value);
+    }
   }
 }

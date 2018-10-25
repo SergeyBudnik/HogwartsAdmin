@@ -19,7 +19,9 @@ export * from './student/status/student-status.page';
 export * from './student/attendance/student-attendance.page';
 export * from './student/payment/student-payment.page';
 export * from './student/menu/student-menu.component';
+
 export * from './students-list/students-list.page';
+export * from './students-statistics/students-statistics.page';
 
 export * from './teacher/information/teacher-information.page';
 export * from './teacher/timetable/teacher-timetable.page';
@@ -31,5 +33,7 @@ export * from './events-list/events-list.page';
 export * from './event/information/event-information.page';
 export * from './event/participants/event-participants.page';
 export * from './event/menu/event-menu.component';
+
+export * from './economy/economy.page';
 
 export * from './participant/participant.page';

@@ -32,7 +32,7 @@ export class Student {
     public id: number = null,
     public groupIds: Array<number> = [],
     public name: string = null,
-    public statusType: StudentStatusType = 'REQUEST',
+    public statusType: StudentStatusType = 'STUDYING',
     public emails: Array<string> = [],
     public phones: Array<string> = [],
     public age: Age = 'UNKNOWN',

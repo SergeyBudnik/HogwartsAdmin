@@ -1,19 +1,18 @@
-import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService} from '../../service';
+import {AppTranslationsService, LoginService} from '../../service';
 import {Router} from '@angular/router';
 import {Cabinet, Event, EventParticipant, EventParticipantStatus, Teacher} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
 import {CabinetsHttp, EventParticipantsHttp, EventsHttp, TeachersHttp} from '../../http';
-
-export type EventStatus = 'PENDING' | 'ON_GOING' | 'FINISHED'
+import {CommonPage} from '../common/common.page';
+import {EventStatus} from '../../data/event-status';
 
 @Component({
   selector: 'app-events-list-page',
   templateUrl: './events-list.page.html',
   styleUrls: ['./events-list.page.less']
 })
-export class EventsListPageComponent extends TranslatableComponent {
+export class EventsListPageComponent extends CommonPage {
   public allEvents: Array<Event> = [];
 
   private allTeachers: Array<Teacher> = [];
@@ -29,21 +28,12 @@ export class EventsListPageComponent extends TranslatableComponent {
     private eventParticipantsHttp: EventParticipantsHttp,
     private teachersHttp: TeachersHttp,
     private cabinetsHttp: CabinetsHttp,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private appTranslationService: AppTranslationsService
   ) {
     super();
 
-    this.translateService.setDefaultLang('ru');
-    this.translateService.use('ru');
-
-    this.translateService.setTranslation('ru', {
-      PENDING: 'Состоится',
-      ON_GOING: 'В процессе',
-      FINISHED: 'Закончился',
-
-      OPEN_LESSON: 'Открытый урок',
-      SPEAKING_CLUB: 'Speaking club'
-    });
+    this.appTranslationService.enableTranslations();
 
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);

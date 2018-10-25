@@ -9,10 +9,6 @@
            [items]="getGroupTypeItems()"
            (onChange)="onGroupTypeFilterChange($event)"></div>
 
-      <div app-search-select-control class="groups-list-header-search groups-book-name-column"
-           [items]="getManagerItems()"
-           (onChange)="onManagerFilterChange($event)"></div>
-
       <div app-search-select-control class="groups-list-header-search groups-education-level-column"
            [items]="getEducationLevelItems()"
            (onChange)="onEducationLevelFilterChange($event)"></div>
@@ -24,6 +20,18 @@
       <div app-search-select-control class="groups-list-header-search groups-cabinets-column"
            [items]="getCabinetItems()"
            (onChange)="onCabinetFilterChange($event)"></div>
+
+      <div class="groups-students-column">
+        <div class="list-header-label">
+          Студенты
+        </div>
+      </div>
+
+      <div class="groups-payment-column">
+        <div class="list-header-label">
+          Доход / нед
+        </div>
+      </div>
     </div>
 
     <div class="groups-list-header-add-new">
@@ -49,9 +57,6 @@
       </div>
       <div class="list-row-item groups-type-column">
         {{getGroupTypeTranslation(group.type)}}
-      </div>
-      <div class="list-row-item groups-book-name-column">
-        {{getGroupManager(group.id).name}}
       </div>
       <div class="list-row-item groups-education-level-column">
         {{getEducationLevelTranslation(group.educationLevel)}}

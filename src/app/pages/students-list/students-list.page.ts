@@ -1,20 +1,21 @@
 import {Component} from '@angular/core';
-import {Group, Student, StudentPayment, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {StudentsService} from '../../service';
+import {
+  Group, Student, StudentPayment, StudentPaymentStatus, StudentPaymentStatusUtils, StudentStatusType, StudentStatusTypeUtils,
+  StudentUtils
+} from '../../data';
 import {Router} from '@angular/router';
-import {TranslatableComponent} from '../../translation/translation.component';
-import {Age, AgeUtils, EducationLevel, EducationLevelUtils} from '../../data';
-import {LoginService} from '../../service';
+import {AppTranslationsService, LoginService, StudentPaymentService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
-import {GroupsHttp, StudentPaymentHttp} from '../../http';
+import {GroupsHttp, StudentPaymentHttp, StudentsHttp} from '../../http';
+import {CommonPage} from '../common/common.page';
 
 @Component({
   selector: 'app-students-list-page',
   templateUrl: './students-list.page.html',
   styleUrls: ['./students-list.page.less']
 })
-export class StudentsListPageComponent extends TranslatableComponent {
-  private unfilteredStudents: Array<Student> = [];
+export class StudentsListPageComponent extends CommonPage {
+  private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
   private allPayments: Array<StudentPayment> = [];
 
@@ -23,125 +24,95 @@ export class StudentsListPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   private nameFilter: string = '';
-  private educationLevelFilter: EducationLevel = 'UNKNOWN';
-  private ageFilter: Age = 'UNKNOWN';
-  private statusFilter: StudentStatusType = 'UNKNOWN';
+  private statusFilter: StudentStatusType = null;
+  private paymentFilter: StudentPaymentStatus = null;
 
   public constructor(
     private router: Router,
     private loginService: LoginService,
-    private studentsService: StudentsService,
+    private studentsHttp: StudentsHttp,
     private groupsHttp: GroupsHttp,
-    private paymentHttp: StudentPaymentHttp
+    private paymentHttp: StudentPaymentHttp,
+    private studentPaymentService: StudentPaymentService,
+    private appTranslationsService: AppTranslationsService
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
-      Promise.all([
-        this.studentsService.getAllStudents(),
-        this.groupsHttp.getAllGroups(),
-        this.paymentHttp.getAllPayments()
-      ]).then(it => {
-        this.unfilteredStudents = it[0];
-        this.allGroups = it[1];
-        this.allPayments = it[2];
+    const thisService = this;
 
-        this.students = this.getFilteredStudents();
+    this.doInit(router);
+    this.doLogin(loginService, () => thisService.init());
 
-        this.loadingInProgress = false;
-      });
-    }
+    this.appTranslationsService.enableTranslations();
+  }
+
+  private init() {
+    Promise.all([
+      this.studentsHttp.getAllStudents(),
+      this.groupsHttp.getAllGroups(),
+      this.paymentHttp.getAllPayments()
+    ]).then(it => {
+      this.allStudents = it[0];
+      this.allGroups = it[1];
+      this.allPayments = it[2];
+
+      this.students = this.getFilteredStudents();
+
+      this.loadingInProgress = false;
+    });
   }
 
   public getGroup(groupId: number): Group {
     return this.allGroups.find(it => it.id === groupId);
   }
 
-  public openGroup(groupId: number) {
-    this.router.navigate([`/groups/${groupId}/information`]);
-  }
-
-  public onNameFilterChange(nameFilter: string) {
-    this.nameFilter = nameFilter;
-
-    this.students = this.getFilteredStudents();
-  }
-
-  public getEducationLevelItems(): Array<SelectItem> {
-    return EducationLevelUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все уровни' : this.getEducationLevelTranslation(it), it)
-    );
-  }
-
-  public onEducationLevelFilterChange(educationLevelFilter: EducationLevel) {
-    this.educationLevelFilter = educationLevelFilter;
-
-    this.students = this.getFilteredStudents();
-  }
-
-  public getAgeItems(): Array<SelectItem> {
-    return AgeUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все возрасты' : this.getAgeTranslationAsGroup(it), it)
-    );
-  }
-
-  public onAgeFilterChange(ageFilter: Age) {
-    this.ageFilter = ageFilter;
-
-    this.students = this.getFilteredStudents();
+  public getPaymentItems(): Array<SelectItem> {
+    return StudentPaymentStatusUtils.values.map(it => new SelectItem('', it));
   }
 
   public getStatusItems(): Array<SelectItem> {
-    return StudentStatusTypeUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все статусы' : this.getStudentStatusTypeTranslation(it), it)
-    );
-  }
-
-  public onStatusFilterChange(statusFilter: StudentStatusType): void {
-    this.statusFilter = statusFilter;
-
-    this.students = this.getFilteredStudents();
-  }
-
-  public openStudentPage(studentId: number) {
-    this.router.navigate([`/students/${studentId}/information`]);
-  }
-
-  public openNewStudentPage() {
-    this.router.navigate([`/students/new/information`]);
+    return StudentStatusTypeUtils.values.map(it => new SelectItem('', it));
   }
 
   public isStudentFilled(student: Student): boolean {
     return StudentUtils.isValid(student);
   }
 
+  public onFilterChange(
+    nameFilter: string,
+    paymentFilter: StudentPaymentStatus,
+    statusFilter: StudentStatusType,
+  ) {
+    this.nameFilter = nameFilter === undefined ? this.nameFilter : nameFilter;
+    this.paymentFilter = paymentFilter === undefined ? this.paymentFilter : paymentFilter;
+    this.statusFilter = statusFilter === undefined ? this.statusFilter : statusFilter;
+
+    this.students = this.getFilteredStudents();
+  }
+
   public getPayments(studentId: number): number {
-    let studentPayments = this.allPayments
-      .filter(it => it.studentId === studentId)
-      .filter(it => {
-        let paymentDate = new Date(it.time);
-        let currentDate = new Date();
-
-        let sameYear = paymentDate.getFullYear() == currentDate.getFullYear();
-        let sameMonth = paymentDate.getMonth() == currentDate.getMonth()
-
-        return sameYear && sameMonth;
-      });
-
-    return studentPayments.length === 0 ? 0 : studentPayments
-      .map(it => it.amount)
-      .reduce((a1, a2) => a1 + a2);
+    return this.studentPaymentService.getActualStudentMonthPayments(this.allPayments, studentId);
   }
 
   private getFilteredStudents(): Array<Student> {
-    return this.unfilteredStudents
+    return this.allStudents
       .filter(it => it.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1)
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
-      .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
-      .filter(it => this.statusFilter === 'UNKNOWN' || it.statusType === this.statusFilter)
+      .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
+      .filter(it =>
+        !this.paymentFilter ||
+        (this.paymentFilter === 'PAYED' && this.getPayments(it.id) !== 0) ||
+        (this.paymentFilter === 'NOT_PAYED' && this.getPayments(it.id) === 0)
+      )
       .sort((o1, o2) => o1.id - o2.id)
+      .sort((o1, o2) => {
+        if (o1.groupIds.length == 0) {
+          return -1;
+        } else if (o2.groupIds.length === 0) {
+          return 1;
+        } else {
+          return o1.groupIds[0] - o2.groupIds[0];
+        }
+      })
       .sort((o1, o2) => StudentStatusTypeUtils.compare(o1.statusType, o2.statusType));
   }
 }

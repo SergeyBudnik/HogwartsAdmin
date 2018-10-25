@@ -38,6 +38,8 @@ import {StudentStatusModal} from './parts/student/student-status-modal/student-s
 import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
 
 import {TranslateModule} from '@ngx-translate/core';
+import {ChartsModule} from 'ng2-charts';
+import {GroupIconComponent} from './parts/group/group-icon/group-icon.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -47,6 +49,7 @@ const appRoutes: Routes = [
   { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
 
   { path: 'students', component: Pages.StudentsListPageComponent },
+  { path: 'students/statistics', component: Pages.StudentsStatisticsPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
   { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
   { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
@@ -66,7 +69,9 @@ const appRoutes: Routes = [
   { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
   { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
 
-  { path: '**', component: Pages.TeachersListPageComponent }
+  { path: 'economy', component: Pages.EconomyPage },
+
+  { path: '**', component: Pages.StudentsListPageComponent }
 ];
 
 @NgModule({
@@ -91,6 +96,7 @@ const appRoutes: Routes = [
     Pages.StudentPaymentPageComponent,
     Pages.StudentMenuPageComponent,
     Pages.StudentsListPageComponent,
+    Pages.StudentsStatisticsPageComponent,
 
     Pages.CabinetInformationPageComponent,
     Pages.CabinetTimetablePageComponent,
@@ -112,6 +118,8 @@ const appRoutes: Routes = [
 
     Pages.ParticipantPageComponent,
 
+    Pages.EconomyPage,
+
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,
 
@@ -120,6 +128,8 @@ const appRoutes: Routes = [
     StudentPaymentModal,
     StudentAttendanceModal,
     StudentStatusModal,
+
+    GroupIconComponent,
 
     ModalTemplateComponent,
 
@@ -143,7 +153,8 @@ const appRoutes: Routes = [
     MyDatePickerModule,
     ReactiveFormsModule,
     ClipboardModule,
-    TranslateModule.forRoot()
+    TranslateModule.forRoot(),
+    ChartsModule
   ],
   providers: [
     {
@@ -162,6 +173,7 @@ const appRoutes: Routes = [
     Services.LoginService,
     Services.StudentsService,
     Services.StudentPaymentService,
+    Services.AppTranslationsService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,

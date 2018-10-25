@@ -44,6 +44,10 @@ export class TeachersListPageComponent {
     }
   }
 
+  public getGroups(teacherId: number): Array<Group> {
+    return this.groups.filter(it => it.managerId === teacherId);
+  }
+
   public onSearchChange(teacherNameFilter: string) {
     this.teachers = this.getFilteredTeachers(teacherNameFilter);
   }

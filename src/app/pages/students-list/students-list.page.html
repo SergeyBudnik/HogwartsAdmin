@@ -7,24 +7,28 @@
 
       <div app-search-text-input-control class="students-list-header-search student-name-column"
            [placeholder]="'Имя'"
-           (onChange)="onNameFilterChange($event)"></div>
+           (onChange)="onFilterChange($event, undefined, undefined)"></div>
 
-      <div app-search-select-control class="students-list-header-search student-education-level-column"
-           [items]="getEducationLevelItems()"
-           (onChange)="onEducationLevelFilterChange($event)"></div>
+      <div class="student-groups-column-header">
+        <div class="list-header-label">
+          Группы
+        </div>
+      </div>
 
-      <div app-search-select-control class="students-list-header-search student-age-column"
-           [items]="getAgeItems()"
-           (onChange)="onAgeFilterChange($event)"></div>
+      <div app-search-select-control class="students-list-header-search student-payments-column"
+           [empty]="'Все'"
+           [items]="getPaymentItems()"
+           (onChange)="onFilterChange(undefined, $event, undefined)"></div>
 
       <div app-search-select-control class="students-list-header-search student-status-column"
+           [empty]="'Все'"
            [items]="getStatusItems()"
-           (onChange)="onStatusFilterChange($event)"></div>
+           (onChange)="onFilterChange(undefined, undefined, $event)"></div>
 
     </div>
 
     <div class="students-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="openNewStudentPage()">
+      <button class="btn btn-primary pull-right" (click)="goToNewStudentPage()">
         Добавить
       </button>
     </div>
@@ -35,39 +39,23 @@
       <fa name="spinner" class="loading-sign" animation="spin"></fa>
     </div>
 
-    <div *ngFor="let student of students" (click)="openStudentPage(student.id)" class="list-row-clickable">
+    <div *ngFor="let student of students" (click)="goToStudentPage(student.id)" class="list-row-clickable">
       <div class="list-row-item student-validation-column">
-        <app-field-validation-sign *ngIf="student.statusType != 'REQUEST_LEFT' && student.statusType != 'TEST_LEFT' && student.statusType != 'FREE_LESSON_LEFT' && student.statusType != 'AWAITING_GROUP_LEFT' && student.statusType != 'STUDYING_LEFT'" [valid]="isStudentFilled(student)"></app-field-validation-sign>
+        <app-field-validation-sign *ngIf="student.statusType === 'STUDYING' || student.statusType === 'STOPPED'" [valid]="isStudentFilled(student)"></app-field-validation-sign>
       </div>
       <div class="list-row-item student-name-column">
-        {{student.name}}
+        <div>{{student.name}}</div>
       </div>
-      <div class="list-row-item student-education-level-column">
-        {{getEducationLevelTranslation(student.educationLevel)}}
-      </div>
-      <div class="list-row-item student-age-column">
-        {{getAgeTranslationAsGroup(student.age)}}
-      </div>
-      <div class="list-row-item student-status-column">
-        <div
-          [class.student-status-label-request]="student.statusType == 'REQUEST'"
-          [class.student-status-label-test]="student.statusType == 'TEST'"
-          [class.student-status-label-free-lesson]="student.statusType == 'FREE_LESSON'"
-          [class.student-status-label-awaiting-group]="student.statusType == 'AWAITING_GROUP'"
-          [class.student-status-label-studying]="student.statusType == 'STUDYING'"
-          [class.student-status-label-stopped]="student.statusType == 'TEST_STOPPED' || student.statusType == 'FREE_LESSON_STOPPED' || student.statusType == 'AWAITING_GROUP_STOPPED' || student.statusType == 'STUDYING_STOPPED'"
-          [class.student-status-label-left]="student.statusType == 'REQUEST_LEFT' || student.statusType == 'TEST_LEFT' || student.statusType == 'FREE_LESSON_LEFT' || student.statusType == 'AWAITING_GROUP_LEFT' || student.statusType == 'STUDYING_LEFT'">
-          {{getStudentStatusTypeTranslation(student.statusType)}}
+      <div class="list-row-item student-groups-column-item">
+        <div *ngFor="let groupId of student.groupIds">
+          <div app-group-icon [group]="getGroup(groupId)"></div>
         </div>
       </div>
       <div class="list-row-item student-payments-column">
-        {{getPayments(student.id)}} Р
+        {{getPayments(student.id)}} ₽
       </div>
-      <div class="list-row-item student-groups-column">
-        <div *ngFor="let groupId of student.groupIds">
-          <div class="student-groups-circle horizontal-item" [style.background-color]="getGroup(groupId).color" (click)="openGroup(groupId)">
-          </div>
-        </div>
+      <div class="list-row-item student-status-column-item">
+        <div app-student-status [studentStatusType]="student.statusType"></div>
       </div>
     </div>
   </div>

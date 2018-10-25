@@ -28,7 +28,7 @@
 .events-status-finished-label {
   .label;
 
-  background: #d9515b;
+  background: #aeabae;
 }
 
 .events-type-column {
@@ -58,45 +58,43 @@
 }
 
 .events-time-column {
-  width: 10%;
+  width: 20%;
 }
 
 .events-participants-column {
   width: 10%;
 }
 
-.events-participants-label {
-  font-family: hogwartsBold;
+.events-participants-item {
+  .events-participants-column;
+
+  display: flex;
+  flex-direction: row;
 }
 
-.events-participants-request {
-  .events-participants-label;
-  color: #000000;
+.event-participants-mark {
+  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+  background: #ff0000;
+  color: #ffffff;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 30px;
 }
 
-.events-participants-early-confirmation {
-  .events-participants-label;
-  color: #752463;
+.event-participants-active-mark {
+  .event-participants-mark;
+
+  background: #ff0000;
+  color: #ffffff;
 }
 
-.events-participants-late-confirmation {
-  .events-participants-label;
-  color: #262571;
-}
+.event-participants-inactive-mark {
+  .event-participants-mark;
 
-.events-participants-attended {
-  .events-participants-label;
-  color: #257323;
-}
-
-.events-participants-not-attended {
-  .events-participants-label;
-  color: #d40000;
-}
-
-.events-participants-canceled {
-  .events-participants-label;
-  color: #d46a16;
+  background: #eeeeee;
+  color: #dddddd;
 }
 
 .events-add-new {

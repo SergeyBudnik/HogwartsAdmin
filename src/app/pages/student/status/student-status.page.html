@@ -17,16 +17,7 @@
         <br>
 
         <form>
-          <div
-            [class.student-status-label-request]="currentStudentStatus.status == 'REQUEST'"
-            [class.student-status-label-test]="currentStudentStatus.status == 'TEST'"
-            [class.student-status-label-free-lesson]="currentStudentStatus.status == 'FREE_LESSON'"
-            [class.student-status-label-awaiting-group]="currentStudentStatus.status == 'AWAITING_GROUP'"
-            [class.student-status-label-studying]="currentStudentStatus.status == 'STUDYING'"
-            [class.student-status-label-stopped]="currentStudentStatus.status == 'TEST_STOPPED' || currentStudentStatus.status == 'FREE_LESSON_STOPPED' || currentStudentStatus.status == 'AWAITING_GROUP_STOPPED' || currentStudentStatus.status == 'STUDYING_STOPPED'"
-            [class.student-status-label-left]="currentStudentStatus.status == 'REQUEST_LEFT' || currentStudentStatus.status == 'TEST_LEFT' || currentStudentStatus.status == 'FREE_LESSON_LEFT' || currentStudentStatus.status == 'AWAITING_GROUP_LEFT' || currentStudentStatus.status == 'STUDYING_LEFT'">
-            {{getStudentStatusTypeTranslation(currentStudentStatus.status)}}
-          </div>
+          <div app-student-status [studentStatusType]="currentStudentStatus.status"></div>
 
           <br>
 
@@ -91,16 +82,7 @@
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
-                <div
-                  [class.student-status-label-request]="studentStatus.status == 'REQUEST'"
-                  [class.student-status-label-test]="studentStatus.status == 'TEST'"
-                  [class.student-status-label-free-lesson]="studentStatus.status == 'FREE_LESSON'"
-                  [class.student-status-label-awaiting-group]="studentStatus.status == 'AWAITING_GROUP'"
-                  [class.student-status-label-studying]="studentStatus.status == 'STUDYING'"
-                  [class.student-status-label-stopped]="studentStatus.status == 'TEST_STOPPED' || studentStatus.status == 'FREE_LESSON_STOPPED' || studentStatus.status == 'AWAITING_GROUP_STOPPED' || studentStatus.status == 'STUDYING_STOPPED'"
-                  [class.student-status-label-left]="studentStatus.status == 'REQUEST_LEFT' || studentStatus.status == 'TEST_LEFT' || studentStatus.status == 'FREE_LESSON_LEFT' || studentStatus.status == 'AWAITING_GROUP_LEFT' || studentStatus.status == 'STUDYING_LEFT'">
-                  {{getStudentStatusTypeTranslation(studentStatus.status)}}
-                </div>
+                <div app-student-status [studentStatusType]="studentStatus.status"></div>
               </div>
             </div>
           </div>

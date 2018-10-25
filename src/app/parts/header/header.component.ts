@@ -2,7 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from '../../service';
 
-export type Section = 'STUDENTS' | 'GROUPS' | 'TEACHERS' | 'CABINETS' | 'ACCOUNTS' | 'EVENTS';
+export type Section = 'STUDENTS' | 'GROUPS' | 'TEACHERS' | 'CABINETS' | 'ACCOUNTS' | 'EVENTS' | 'ECONOMY';
 
 @Component({
   selector: 'app-header',

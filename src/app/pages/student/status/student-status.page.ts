@@ -54,37 +54,11 @@ export class StudentStatusPageComponent extends TranslatableComponent {
   }
 
   public hasAction(status: StudentStatus): boolean {
-    if (status.actionTime == 0) {
-      return false;
-    } else {
-      switch (status.status) {
-        case 'REQUEST_LEFT':
-        case 'TEST_LEFT':
-        case 'FREE_LESSON_LEFT':
-        case 'AWAITING_GROUP_LEFT':
-        case 'STUDYING_LEFT':
-        case 'STUDYING':
-          return false;
-        default:
-          return true;
-      }
-    }
+    return false;
   }
 
   public getActionLabel(): string {
-    switch (this.currentStudentStatus.status) {
-      case 'REQUEST':
-      case 'TEST_LEFT':
-      case 'FREE_LESSON_STOPPED':
-      case 'AWAITING_GROUP':
-        return 'Перезвонить';
-      case 'TEST':
-        return 'Дата тестирования';
-      case 'FREE_LESSON':
-        return 'Дата бесплатного занятия';
-      default:
-        throw Error(`Unexpected status ${this.currentStudentStatus.status}`)
-    }
+    return '';
   }
 
   public setNewStudentStatus(status: StudentStatusType) {
@@ -104,55 +78,20 @@ export class StudentStatusPageComponent extends TranslatableComponent {
 
   public getStatusActions(status: StudentStatusType): Array<StatusAction> {
     switch (status) {
-      case 'REQUEST':
-        return [
-          new StatusAction('TEST', 'Тест назначен', true),
-          new StatusAction('REQUEST', 'Перезвонить', false),
-          new StatusAction('REQUEST_LEFT', 'Покинул', false)
-        ];
-      case 'REQUEST_LEFT':
-        return [
-          new StatusAction('REQUEST', 'Вернулся', true)
-        ];
-      case 'TEST':
-        return [
-          new StatusAction('FREE_LESSON', 'Бесплатное занятие назначено', true),
-          new StatusAction('TEST', 'Перенесено', false),
-          new StatusAction('REQUEST_LEFT', 'Покинул до теста', false),
-          new StatusAction('TEST_LEFT', 'Покинул после теста', false),
-        ];
-      case 'TEST_LEFT':
-        return [
-          new StatusAction('FREE_LESSON', 'Бесплатное занятие назначено', true),
-        ];
-      case 'FREE_LESSON':
-        return [
-          new StatusAction('AWAITING_GROUP', 'Проведено', true),
-          new StatusAction('FREE_LESSON', 'Перенесено', false),
-          new StatusAction('TEST_LEFT', 'Покинул до бесплатного занятия', false),
-          new StatusAction('FREE_LESSON_LEFT', 'Покинул после бесплатного занятия', false)
-        ];
-      case 'FREE_LESSON_LEFT':
-        return [
-          new StatusAction('AWAITING_GROUP', 'Вернулся', true),
-        ];
-      case 'AWAITING_GROUP':
-        return [
-          new StatusAction('STUDYING', 'Начал заниматься', true),
-          new StatusAction('AWAITING_GROUP_LEFT', 'Покинул', false)
-        ];
-      case 'AWAITING_GROUP_LEFT':
-        return [
-          new StatusAction('AWAITING_GROUP', 'Вернулся', false)
-        ];
       case 'STUDYING':
         return [
-          new StatusAction('AWAITING_GROUP', 'Ожидает группу', true),
-          new StatusAction('STUDYING_LEFT', 'Покинул', false)
+          new StatusAction('STOPPED', 'Приостановил', false),
+          new StatusAction('LEFT', 'Покинул', false)
         ];
-      case 'STUDYING_LEFT':
+      case 'LEFT':
         return [
-          new StatusAction('AWAITING_GROUP', 'Вернулся', true)
+          new StatusAction('STOPPED', 'Приостановил', false),
+          new StatusAction('STUDYING', 'Вернулся', false)
+        ];
+      case 'STOPPED':
+        return [
+          new StatusAction('LEFT', 'Покинул', false),
+          new StatusAction('STUDYING', 'Вернулся', false)
         ];
     }
   }

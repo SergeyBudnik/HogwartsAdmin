@@ -4,7 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 export type EventType = 'TEST_LESSON' | 'OPEN_LESSON' | 'SPEAKING_CLUB' | 'HOLIDAY'
 
 export class EventTypeUtils {
-  public static values = ['TEST_LESSON', 'OPEN_LESSON', 'SPEAKING_CLUB', 'HOLIDAY']
+  public static values = ['TEST_LESSON', 'OPEN_LESSON', 'SPEAKING_CLUB', 'HOLIDAY'];
 
   public static enableTranslations(translateService: TranslateService) {
     translateService.setTranslation('ru', {
@@ -12,7 +12,7 @@ export class EventTypeUtils {
       OPEN_LESSON: 'Открытый урок',
       SPEAKING_CLUB: 'Разговорный клуб',
       HOLIDAY: 'Праздник'
-    })
+    }, true);
   }
 }
 

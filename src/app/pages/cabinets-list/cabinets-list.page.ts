@@ -1,51 +1,91 @@
 import {Component} from '@angular/core';
-import {Cabinet} from '../../data';
-import {LoginService} from '../../service';
+import {Cabinet, Group, Student, TimeUtils} from '../../data';
+import {LoginService, StudentPaymentService} from '../../service';
 import {Router} from '@angular/router';
-import {CabinetsHttp} from '../../http';
+import {CabinetsHttp, GroupsHttp, StudentsHttp} from '../../http';
+import {CommonPage} from '../common/common.page';
 
 @Component({
   selector: 'app-cabinets-list-page',
   templateUrl: './cabinets-list.page.html',
   styleUrls: ['./cabinets-list.page.less']
 })
-export class CabinetsListPageComponent {
+export class CabinetsListPageComponent extends CommonPage {
+  private allGroups: Array<Group> = [];
+  private allCabinets: Array<Cabinet> = [];
+  private allStudents: Array<Student> = [];
+
   public cabinets: Array<Cabinet> = [];
   public loadingInProgress = true;
-
-  private unfilteredCabinets: Array<Cabinet> = [];
 
   public constructor(
     private router: Router,
     private loginService: LoginService,
-    private cabinetsHttp: CabinetsHttp
+    private groupsHttp: GroupsHttp,
+    private cabinetsHttp: CabinetsHttp,
+    private studentsHttp: StudentsHttp,
+    private studentPaymentService: StudentPaymentService
   ) {
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
-      this.cabinetsHttp.getAllCabinets().then(it => {
-        this.unfilteredCabinets = it;
-        this.cabinets = this.getFilteredCabinets('');
+    super();
 
-        this.loadingInProgress = false;
+    const thisService = this;
+
+    this.doInit(this.router);
+    this.doLogin(this.loginService, () => thisService.init());
+  }
+
+  private init() {
+    Promise.all([
+      this.cabinetsHttp.getAllCabinets(),
+      this.groupsHttp.getAllGroups(),
+      this.studentsHttp.getAllStudents()
+    ]).then(it => {
+      this.allCabinets = it[0];
+      this.allGroups = it[1];
+      this.allStudents = it[2];
+
+      this.cabinets = this.getFilteredCabinets('');
+
+      this.loadingInProgress = false;
+    });
+  }
+
+  public getLoad(cabinetId: number) {
+    let load = 0;
+
+    this.allGroups.filter(group => group.cabinetId === cabinetId).forEach(group => {
+      group.lessons.forEach(lesson => {
+        load += TimeUtils.index(lesson.finishTime) - TimeUtils.index(lesson.startTime);
+      })
+    });
+
+    return load * 30;
+  }
+
+  public getIncome(cabinetId: number): number {
+    let income = 0;
+
+    this.allGroups
+      .filter(group => group.cabinetId === cabinetId)
+      .forEach(group => {
+        income += this.studentPaymentService.getGroupPayment(group, group.lessons, this.getGroupActiveStudents(group.id));
       });
-    }
+
+    return income;
+  }
+
+  private getGroupActiveStudents(groupId: number): Array<Student> {
+    return this.allStudents
+      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
+      .filter(student => student.statusType == 'STUDYING')
   }
 
   public onSearchChange(cabinetNameFilter: string): void {
     this.cabinets = this.getFilteredCabinets(cabinetNameFilter);
   }
 
-  public openCabinetPage(cabinetId: number) {
-    this.router.navigate([`/cabinets/${cabinetId}/information`]);
-  }
-
-  public openNewCabinetPage() {
-    this.router.navigate([`/cabinets/new/information`]);
-  }
-
   private getFilteredCabinets(cabinetNameFilter: string): Array<Cabinet> {
-    return this.unfilteredCabinets
+    return this.allCabinets
       .filter(it => it.name.toLowerCase().indexOf(cabinetNameFilter.toLowerCase()) !== -1);
   }
 }

@@ -7,14 +7,23 @@
            [placeholder]="'Имя'"
            (onChange)="onSearchChange($event)">
       </div>
+
       <div class="teacher-load-column">
-        Учебная нагрузка
+        <div class="list-header-label">
+          Учебная нагрузка в неделю
+        </div>
       </div>
-      <div class="teacher-income-column">
-        Доход / нед
+
+      <div class="teacher-economy-column">
+        <div class="list-header-label">
+          Доход в неделю
+        </div>
       </div>
-      <div class="teacher-outcome-column">
-        Зарплата / нед
+
+      <div class="teacher-groups-column">
+        <div class="list-header-label">
+          Группы
+        </div>
       </div>
     </div>
 
@@ -34,14 +43,28 @@
       <div class="list-row-item teacher-name-column">
         {{teacher.name}}
       </div>
+
       <div class="list-row-item teacher-load-column">
         {{getLoadMinutes(teacher.id) / 60.0}} часов
       </div>
+
       <div class="list-row-item teacher-income-column">
         {{getWeeklyIncome(teacher.id)}} Р
       </div>
-      <div class="list-row-item teacher-salary-column">
-        {{getWeeklySalary(teacher.id)}} Р
+      <div class="list-row-item teacher-outcome-column">
+        - {{getWeeklySalary(teacher.id)}} Р
+      </div>
+      <div class="list-row-item teacher-economy-result-column">
+        = {{getWeeklyIncome(teacher.id) - getWeeklySalary(teacher.id)}} Р
+      </div>
+      <div class="list-row-item teacher-economy-coefficient-column">
+        ({{(getWeeklySalary(teacher.id) == 0 ? 0 : (getWeeklyIncome(teacher.id) / getWeeklySalary(teacher.id))).toFixed(2)}})
+      </div>
+
+      <div class="list-row-item teacher-groups-item">
+        <div *ngFor="let group of getGroups(teacher.id)">
+          <div app-group-icon [group]="group"></div>
+        </div>
       </div>
     </div>
   </div>

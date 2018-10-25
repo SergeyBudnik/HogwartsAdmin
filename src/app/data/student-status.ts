@@ -1,76 +1,25 @@
+import {TranslateService} from '@ngx-translate/core';
+
 export type StudentStatusType =
-  'UNKNOWN' |
-
-  'REQUEST' |
-  'REQUEST_LEFT' |
-
-  'TEST' |
-  'TEST_STOPPED' |
-  'TEST_LEFT' |
-
-  'FREE_LESSON' |
-  'FREE_LESSON_STOPPED' |
-  'FREE_LESSON_LEFT' |
-
-  'AWAITING_GROUP' |
-  'AWAITING_GROUP_STOPPED' |
-  'AWAITING_GROUP_LEFT' |
-
   'STUDYING' |
-  'STUDYING_STOPPED' |
-  'STUDYING_LEFT'
+  'STOPPED' |
+  'LEFT'
 
 export class StudentStatusTypeUtils {
   public static values: Array<StudentStatusType> =
     [
-      'UNKNOWN',
-      'REQUEST',
-      'TEST',
-      'FREE_LESSON',
-      'AWAITING_GROUP',
       'STUDYING',
-      'REQUEST_LEFT',
-      'TEST_STOPPED',
-      'TEST_LEFT',
-      'FREE_LESSON_STOPPED',
-      'FREE_LESSON_LEFT',
-      'AWAITING_GROUP_STOPPED',
-      'AWAITING_GROUP_LEFT',
-      'STUDYING_STOPPED',
-      'STUDYING_LEFT'
+      'STOPPED',
+      'LEFT'
     ];
 
   public static getStudentStatusTypeTranslation(studentStatus: StudentStatusType): string {
     switch (studentStatus) {
-      case 'UNKNOWN':
-        return 'Не известно';
-      case 'REQUEST':
-        return 'Оставил заявку';
-      case 'REQUEST_LEFT':
-        return 'Покинул до теста';
-      case 'TEST':
-        return 'Тест назначен';
-      case 'TEST_STOPPED':
-        return 'Приостановил после теста';
-      case 'TEST_LEFT':
-        return 'Покинул после теста';
-      case 'FREE_LESSON':
-        return 'Бесплатное занятие назначено';
-      case 'FREE_LESSON_STOPPED':
-        return 'Приостановил после бесплатного занятия';
-      case 'FREE_LESSON_LEFT':
-        return 'Покинул после бесплатного занятия';
-      case 'AWAITING_GROUP':
-        return 'Ожидает группу';
-      case 'AWAITING_GROUP_STOPPED':
-        return 'Приостановил в ожидании группы';
-      case 'AWAITING_GROUP_LEFT':
-        return 'Покинул в ожидании группы';
       case 'STUDYING':
         return 'Занимается';
-      case 'STUDYING_STOPPED':
+      case 'STOPPED':
         return 'Приостановил';
-      case 'STUDYING_LEFT':
+      case 'LEFT':
         return 'Покинул';
       default:
         throw new Error(`Unexpected student status ${studentStatus}`);
@@ -82,6 +31,14 @@ export class StudentStatusTypeUtils {
     let i2 = StudentStatusTypeUtils.values.findIndex(it => it == s2);
 
     return i1 - i2;
+  }
+
+  public static enableTranslationsRu(translateService: TranslateService) {
+    translateService.setTranslation('ru', {
+      STUDYING: 'Занимается',
+      STOPPED: 'Приостановил',
+      LEFT: 'Покинул'
+    }, true);
   }
 }
 

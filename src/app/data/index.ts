@@ -8,6 +8,7 @@ export * from './lesson';
 export * from './student';
 export * from './student-attendance';
 export * from './student-payment';
+export * from './student-payment-status';
 export * from './student-status';
 export * from './teacher';
 export * from './teacher-availability'

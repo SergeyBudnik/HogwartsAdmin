@@ -11,6 +11,12 @@ export class StudentStatusHttp {
     readonly http: HttpClient
   ) {}
 
+  public getAllStatuses(): Promise<Array<StudentStatus>> {
+    return this.http
+      .get<Array<StudentStatus>>(`${this.root}/all`)
+      .toPromise()
+  }
+
   public changeStudentStatus(studentId: number, status: StudentStatusType, actionTime: number): Promise<any> {
     return this.http
       .put(`${this.root}/${studentId}/${status}`, actionTime)

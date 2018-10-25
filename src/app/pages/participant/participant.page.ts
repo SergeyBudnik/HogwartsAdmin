@@ -78,7 +78,7 @@ export class ParticipantPageComponent extends TranslatableComponent {
       null,
       [],
       this.participant.name,
-      'AWAITING_GROUP',
+      'STUDYING',
       [],
       [this.participant.phone],
       'UNKNOWN',
