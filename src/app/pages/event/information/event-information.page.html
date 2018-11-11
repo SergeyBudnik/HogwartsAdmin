@@ -28,7 +28,7 @@
                [valid]="!!event.eventType"
                [valueString]="event.eventType"
                [hasEmpty]="true"
-               [items]="getEventTypeItems()"
+               [items]="eventTypeItems"
                (onChangeString)="event.eventType = $event"></div>
 
           <div app-form-text-input-control class="form-group"
@@ -75,7 +75,7 @@
                    [valid]="!!event.startTime"
                    [valueString]="event.startTime"
                    [hasEmpty]="true"
-                   [items]="getTimeItems()"
+                   [items]="timeItems"
                    (onChangeString)="event.startTime = $event"></div>
             </div>
 
@@ -87,7 +87,7 @@
                    [valid]="!!event.finishTime"
                    [valueString]="event.finishTime"
                    [hasEmpty]="true"
-                   [items]="getTimeItems()"
+                   [items]="timeItems"
                    (onChangeString)="event.finishTime = $event"></div>
             </div>
           </div>

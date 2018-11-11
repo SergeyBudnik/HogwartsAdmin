@@ -8,7 +8,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import {ColorPickerModule} from 'ngx-color-picker';
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 
@@ -37,9 +37,10 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {StudentStatusModal} from './parts/student/student-status-modal/student-status.modal';
 import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
 
-import {TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {ChartsModule} from 'ng2-charts';
 import {GroupIconComponent} from './parts/group/group-icon/group-icon.component';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -73,6 +74,10 @@ const appRoutes: Routes = [
 
   { path: '**', component: Pages.StudentsListPageComponent }
 ];
+
+export function translateHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -153,7 +158,13 @@ const appRoutes: Routes = [
     MyDatePickerModule,
     ReactiveFormsModule,
     ClipboardModule,
-    TranslateModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: translateHttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     ChartsModule
   ],
   providers: [

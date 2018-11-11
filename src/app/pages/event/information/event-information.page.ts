@@ -1,19 +1,22 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {Cabinet, Event, EventTypeUtils, Teacher, TimeUtils} from '../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {LoginService} from '../../../service';
+import {AppTranslationsService, LoginService} from '../../../service';
 import {ToastsManager} from 'ng2-toastr';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
 import {TranslateService} from '@ngx-translate/core';
 import {CabinetsHttp, EventsHttp, TeachersHttp} from '../../../http';
+import {CommonPage} from '../../common/common.page';
 
 @Component({
   selector: 'app-event-information-page',
   templateUrl: './event-information.page.html',
   styleUrls: ['./event-information.page.less']
 })
-export class EventInformationPage extends TranslatableComponent {
+export class EventInformationPage extends CommonPage {
+  public eventTypeItems = EventTypeUtils.values.map(it => new SelectItem('-', it));
+  public timeItems = TimeUtils.values.map(it => new SelectItem('-', it));
+
   private allCabinets: Array<Cabinet>;
   private allTeachers: Array<Teacher>;
 
@@ -29,27 +32,21 @@ export class EventInformationPage extends TranslatableComponent {
     private cabinetsHttp: CabinetsHttp,
     private teachersHttp: TeachersHttp,
     private translateService: TranslateService,
-    private toastr: ToastsManager,
-    private vcr: ViewContainerRef
+    private appTranslationService: AppTranslationsService,
+    private toastr: ToastsManager
   ) {
     super();
 
-    this.translateService.setDefaultLang('ru');
-    this.translateService.use('ru');
+    const thisService = this;
 
-    EventTypeUtils.enableTranslations(this.translateService);
+    this.doInit(router);
+    this.doLogin(this.loginService, () => thisService.init());
 
-    this.toastr.setRootViewContainerRef(vcr);
-
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
-      this.parseParams((speakingClubId) => this.initSpeakingClub(speakingClubId));
-    }
+    this.appTranslationService.enableTranslations();
   }
 
-  public getEventTypeItems(): Array<SelectItem> {
-    return EventTypeUtils.values.map(it => new SelectItem(null, it));
+  private init() {
+    this.parseParams((speakingClubId) => this.initSpeakingClub(speakingClubId));
   }
 
   public getCabinetItems(): Array<SelectItem> {
@@ -58,10 +55,6 @@ export class EventInformationPage extends TranslatableComponent {
 
   public getTeachersItems(): Array<SelectItem> {
     return this.allTeachers.map(it => new SelectItem(it.name, String(it.id)));
-  }
-
-  public getTimeItems(): Array<SelectItem> {
-    return TimeUtils.values.map(it => new SelectItem(this.getTimeTranslation(it), it));
   }
 
   public save(): void {

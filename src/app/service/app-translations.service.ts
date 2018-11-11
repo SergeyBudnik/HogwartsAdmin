@@ -16,6 +16,6 @@ export class AppTranslationsService {
     StudentPaymentStatusUtils.enableTranslationsRu(this.translateService);
     TimeUtils.enableTranslationsRu(this.translateService);
     EventStatusUtils.enableTranslationsRu(this.translateService);
-    EventTypeUtils.enableTranslations(this.translateService);
+    EventTypeUtils.enableTranslationsRu(this.translateService);
   }
 }

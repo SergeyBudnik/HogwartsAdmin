@@ -6,7 +6,7 @@ export type EventType = 'TEST_LESSON' | 'OPEN_LESSON' | 'SPEAKING_CLUB' | 'HOLID
 export class EventTypeUtils {
   public static values = ['TEST_LESSON', 'OPEN_LESSON', 'SPEAKING_CLUB', 'HOLIDAY'];
 
-  public static enableTranslations(translateService: TranslateService) {
+  public static enableTranslationsRu(translateService: TranslateService) {
     translateService.setTranslation('ru', {
       TEST_LESSON: 'Тестирование',
       OPEN_LESSON: 'Открытый урок',

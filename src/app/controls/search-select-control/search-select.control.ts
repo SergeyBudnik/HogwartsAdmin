@@ -9,6 +9,9 @@ import {SelectItem} from '../select-item';
 export class SearchSelectControl {
   @Input() public items: Array<SelectItem> = [];
   @Input() public empty: string = null;
+  @Input('defaultItem') set setDefaultItem(value: string) {
+    this.onValueChange(value);
+  }
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 

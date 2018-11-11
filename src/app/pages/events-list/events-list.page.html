@@ -3,17 +3,13 @@
 
   <div class="list-header-container">
     <div class="list-header">
-      <div class="events-status-column">
-        <div class="list-header-label">
-          Статус
-        </div>
-      </div>
+      <div app-search-select-control class="events-list-header-search events-status-column"
+           [items]="eventStatusTypeItems"
+           (onChange)="onFilterChange($event)"></div>
 
-      <div class="events-type-column">
-        <div class="list-header-label">
-          Тип
-        </div>
-      </div>
+      <div app-search-select-control class="events-list-header-search events-type-column"
+           [empty]="'Все'"
+           [items]="[]"></div>
 
       <div class="events-cabinet-column">
         <div class="list-header-label">
@@ -35,7 +31,7 @@
     </div>
 
     <div class="events-add-new">
-      <button class="btn btn-primary pull-right" (click)="addNewEvent()">
+      <button class="btn btn-primary pull-right" (click)="goToNewEventPage()">
         Добавить
       </button>
     </div>
@@ -46,7 +42,7 @@
       <fa name="spinner" class="loading-sign" animation="spin"></fa>
     </div>
 
-    <div *ngFor="let event of allEvents" class="list-row-clickable" (click)="openEvent(event.id)">
+    <div *ngFor="let event of events" class="list-row-clickable" (click)="goToEventPage(event.id)">
       <div class="list-row-item events-status-column">
         <div [class.events-status-pending-label]="getStatus(event) === 'PENDING'"
              [class.events-status-on-going-label]="getStatus(event) === 'ON_GOING'"

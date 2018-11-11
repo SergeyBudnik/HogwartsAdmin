@@ -23,6 +23,7 @@
       <div app-search-select-control class="students-list-header-search student-status-column"
            [empty]="'Все'"
            [items]="getStatusItems()"
+           [defaultItem]="'STUDYING'"
            (onChange)="onFilterChange(undefined, undefined, $event)"></div>
 
     </div>

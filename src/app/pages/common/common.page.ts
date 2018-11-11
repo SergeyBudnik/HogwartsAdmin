@@ -38,4 +38,12 @@ export class CommonPage {
   public goToCabinetPage(cabinetId: number) {
     this.aRouter.navigate([`/cabinets/${cabinetId}/information`]);
   }
+
+  public goToNewEventPage() {
+    this.aRouter.navigate([`/events/new/information`]);
+  }
+
+  public goToEventPage(eventId: number) {
+    this.aRouter.navigate([`/events/${eventId}/information`]);
+  }
 }

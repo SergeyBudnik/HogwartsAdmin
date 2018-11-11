@@ -1,11 +1,14 @@
 import {Component} from '@angular/core';
 import {AppTranslationsService, LoginService} from '../../service';
 import {Router} from '@angular/router';
-import {Cabinet, Event, EventParticipant, EventParticipantStatus, Teacher} from '../../data';
+import {Cabinet, Event, EventParticipant, EventParticipantStatus} from '../../data';
 import {TranslateService} from '@ngx-translate/core';
 import {CabinetsHttp, EventParticipantsHttp, EventsHttp, TeachersHttp} from '../../http';
 import {CommonPage} from '../common/common.page';
 import {EventStatus} from '../../data/event-status';
+import {SelectItem} from '../../controls/select-item';
+
+type EventStatusType = 'EVENT_STATUS_ACTIVE' | 'EVENT_STATUS_ALL';
 
 @Component({
   selector: 'app-events-list-page',
@@ -13,11 +16,16 @@ import {EventStatus} from '../../data/event-status';
   styleUrls: ['./events-list.page.less']
 })
 export class EventsListPageComponent extends CommonPage {
-  public allEvents: Array<Event> = [];
+  public eventStatusTypeItems = [
+    new SelectItem('', 'EVENT_STATUS_ACTIVE'),
+    new SelectItem('', 'EVENT_STATUS_ALL')
+  ];
 
-  private allTeachers: Array<Teacher> = [];
+  private allEvents: Array<Event> = [];
   private allCabinets: Array<Cabinet> = [];
   private allParticipants: Array<EventParticipant> = [];
+
+  public events: Array<Event> = [];
 
   public loadingInProgress = true;
 
@@ -33,26 +41,50 @@ export class EventsListPageComponent extends CommonPage {
   ) {
     super();
 
+    let thisService = this;
+
+    this.doInit(router);
+    this.doLogin(loginService, () => thisService.init());
+
     this.appTranslationService.enableTranslations();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
-      Promise.all([
-        this.eventsHttp.getAllEvents(),
-        this.eventParticipantsHttp.getAllParticipants(),
-        this.teachersHttp.getAllTeachers(),
-        this.cabinetsHttp.getAllCabinets()
-      ])
+    this.enableTranslationsRu();
+  }
+
+  private init() {
+    this.enableTranslationsRu();
+
+    Promise.all([
+      this.eventsHttp.getAllEvents(),
+      this.eventParticipantsHttp.getAllParticipants(),
+      this.cabinetsHttp.getAllCabinets()
+    ])
       .then(it => {
         this.allEvents = it[0];
         this.allParticipants = it[1];
-        this.allTeachers = it[2];
-        this.allCabinets = it[3];
+        this.allCabinets = it[2];
+
+        this.onFilterChange('EVENT_STATUS_ACTIVE');
 
         this.loadingInProgress = false;
       });
-    }
+  }
+
+  public onFilterChange(eventStatusType: EventStatusType) {
+    this.events = this.allEvents
+      .filter(it => {
+        switch (eventStatusType) {
+          case 'EVENT_STATUS_ALL':
+            return true;
+          case 'EVENT_STATUS_ACTIVE':
+            let status = this.getStatus(it);
+
+            return status === 'ON_GOING' || status === 'PENDING';
+          default:
+            throw new Error(`Unexpected status ${eventStatusType}`);
+        }
+      })
+      .sort((e1, e2) => e2.date - e1.date);
   }
 
   public getParticipantsAmount(event: Event, eventParticipantStatus: EventParticipantStatus): number {
@@ -77,19 +109,14 @@ export class EventsListPageComponent extends CommonPage {
     })
   }
 
-  public getTeacher(id: number): Teacher {
-    return this.allTeachers.find(it => it.id === id);
-  }
-
   public getCabinet(id: number): Cabinet {
     return this.allCabinets.find(it => it.id === id);
   }
 
-  public addNewEvent() {
-    this.router.navigate(['/events/new/information']);
-  }
-
-  public openEvent(id: number) {
-    this.router.navigate([`/events/${id}/information`]);
+  public enableTranslationsRu() {
+    this.translateService.setTranslation('ru', {
+      EVENT_STATUS_ACTIVE: 'Активные',
+      EVENT_STATUS_ALL: 'Все'
+    }, true)
   }
 }
