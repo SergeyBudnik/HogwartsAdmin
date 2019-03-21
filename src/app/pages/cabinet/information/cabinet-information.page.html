@@ -10,34 +10,33 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 *ngIf="!!cabinet.id">
+        <h3 class="app-header" *ngIf="!!cabinet.id">
           Кабинет '{{cabinet.name}}'
         </h3>
 
-        <h3 *ngIf="!cabinet.id">
+        <h3 class="app-header" *ngIf="!cabinet.id">
           Добавление кабинета
         </h3>
 
         <br>
 
         <form>
-          <div class="form-group">
-            <label for="name">Название:</label>
-            <input id="name" name="name" class="form-control" [(ngModel)]="cabinet.name"
-                   required minlength="1" #name="ngModel"/>
-          </div>
+          <div app-form-text-input-control class="form-group"
+               [name]="'name'"
+               [label]="'Название'"
+               [placeholder]="'Введите название'"
+               [valid]="!!cabinet.name"
+               [value]="cabinet.name"
+               [editable]="true"
+               (onChange)="cabinet.name = $event"></div>
 
-          <div class="form-group">
-            <label for="cabinetType">Тип кабинета:</label>
-            <select id="cabinetType" class="form-control" name="cabinetType" [(ngModel)]="cabinet.cabinetType"
-                    required minlength="1" #cabinetType="ngModel">
-              <option *ngFor="let cabinetType of cabinetTypes" value="{{cabinetType}}">
-                {{getCabinetTypeTranslation(cabinetType)}}
-              </option>
-            </select>
-          </div>
-
-          <br>
+          <div app-form-select-control class="form-group"
+               [name]="'educationLevel'"
+               [label]="'Уровень подготовки'"
+               [valid]="cabinet.cabinetType !== 'UNKNOWN'"
+               [valueString]="cabinet.cabinetType"
+               [items]="cabinetTypes"
+               (onChangeString)="cabinet.cabinetType = $event"></div>
         </form>
       </ng-container>
     </div>

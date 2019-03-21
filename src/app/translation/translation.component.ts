@@ -5,16 +5,12 @@ import {Time, TimeUtils} from '../data/time';
 import {CabinetType, CabinetTypeUtils} from '../data/cabinet';
 import {
   GroupType, GroupTypeUtils,
-  StudentReferralSource, StudentReferralSourceUtils, StudentStatusType, StudentStatusTypeUtils, TeacherType,
+  StudentStatusType, StudentStatusTypeUtils, TeacherType,
   TeacherTypeUtils
 } from '../data';
 import {StudentAttendanceType, StudentAttendanceTypeUtils} from '../data/student-attendance';
 
 export abstract class TranslatableComponent {
-  public getStudentReferralSourceTranslation(studentReferralSource: StudentReferralSource): string {
-    return StudentReferralSourceUtils.getReferralSourceTranslation(studentReferralSource);
-  }
-
   public getEducationLevelTranslation(educationLevel: EducationLevel): string {
     return EducationLevelUtils.getTranslation(educationLevel);
   }

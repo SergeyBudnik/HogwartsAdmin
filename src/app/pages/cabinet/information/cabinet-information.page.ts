@@ -4,6 +4,7 @@ import {StudentsService, LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Group, Student, Cabinet, CabinetType, CabinetTypeUtils} from '../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../http';
+import {SelectItem} from '../../../controls/select-item';
 
 @Component({
   selector: 'app-cabinet-information-page',
@@ -11,7 +12,7 @@ import {CabinetsHttp, GroupsHttp} from '../../../http';
   styleUrls: ['./cabinet-information.page.less']
 })
 export class CabinetInformationPageComponent extends TranslatableComponent {
-  public cabinetTypes: Array<CabinetType> = CabinetTypeUtils.values;
+  public cabinetTypes: Array<SelectItem> = CabinetTypeUtils.values.map(it => new SelectItem(this.getCabinetTypeTranslation(it), it));;
 
   public cabinet: Cabinet = new Cabinet(null, null, null);
   public groups: Array<Group> = [];

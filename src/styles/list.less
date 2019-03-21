@@ -4,7 +4,7 @@
 .list-header-container {
   display: flex;
   flex-direction: row;
-  background: @color-gray-2;
+  background: @color-fill_basic_light;
   min-height: 60px;
   padding-right: 20px;
 }
@@ -16,17 +16,17 @@
   min-height: 60px;
   line-height: 40px;
   padding: 10px 0 20px 20px;
-  background: @color-gray-2;
+  background: @color-fill_basic_light;
   font-size: 14px;
 }
 
 .list-header-label {
   height: 40px;
   border-radius: 4px;
-  border: 1px solid #cccccc;
   padding-left: 15px;
-  background: #f5f5f5;
   margin-right: 20px;
+  background: @color-fill_contrast_base;
+  color: @color-fill_text_basic;
 }
 
 .list-content {
@@ -34,6 +34,7 @@
   flex-direction: column;
   overflow-y: scroll;
   min-height: calc(~'100% - 50px - 60px');
+  background: @color-fill_basic_base;
 }
 
 .list-row {
@@ -42,7 +43,7 @@
   line-height: 50px;
   min-height: 50px;
   padding: 0 20px;
-  border-bottom: 1px solid @color-gray-3;
+  border-bottom: 1px solid @color-line_contrast_base;
 }
 
 .list-row-clickable {
@@ -52,8 +53,7 @@
 }
 
 .list-row-clickable:hover {
-  background: @color-gray-1;
-  color: @color-primary-normal-1;
+  background: @color-fill_basic_light;
 }
 
 .list-row-item {
@@ -62,4 +62,5 @@
   text-overflow: ellipsis;
   font-size: 15px;
   font-family: hogwartsRegular;
+  color: @color-fill_text_basic;
 }

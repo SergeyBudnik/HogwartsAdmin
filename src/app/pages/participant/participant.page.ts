@@ -82,8 +82,7 @@ export class ParticipantPageComponent extends TranslatableComponent {
       [],
       [this.participant.phone],
       'UNKNOWN',
-      'UNKNOWN',
-      this.participant.referralSource
+      'UNKNOWN'
     )).then(it => {
       this.loadingInProgress = false;
 

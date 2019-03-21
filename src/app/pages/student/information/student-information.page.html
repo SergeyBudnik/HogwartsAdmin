@@ -10,7 +10,7 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 *ngIf="!!student.id">
+        <h3 class="app-header" *ngIf="!!student.id">
           Редактирование информации об ученике '{{student.name}}'
         </h3>
 
@@ -34,9 +34,22 @@
                [name]="'telephones'"
                [label]="'Телефоны'"
                [placeholder]="'Введите телефон'"
-               [valid]="student.phones.length !== 0 || student.emails.length !== 0"
+               [valid]="hasAtLeastOneContact()"
                [value]="student.phones"
                (onChange)="student.phones = $event"></div>
+
+          <div class="student-vkLink-container">
+            <div app-form-text-input-control class="form-group student-vkLink"
+                 [name]="'vkLink'"
+                 [label]="'Ссылка VK'"
+                 [placeholder]="'Введите ссылку'"
+                 [valid]="hasAtLeastOneContact()"
+                 [value]="student.vkLink"
+                 [editable]="true"
+                 (onChange)="student.vkLink = $event"></div>
+
+            <div class="student-action-button student-vkLink-action horizontal-item" (click)="goToVk()">Перейти</div>
+          </div>
 
           <div app-form-select-control class="form-group"
                [name]="'educationLevel'"
@@ -47,14 +60,6 @@
                (onChangeString)="student.educationLevel = $event"></div>
 
           <div app-form-select-control class="form-group"
-               [name]="'referralSource'"
-               [label]="'Откуда узнал'"
-               [valid]="student.referralSource !== 'UNKNOWN'"
-               [valueString]="student.referralSource"
-               [items]="referralSourceItems"
-               (onChangeString)="student.referralSource = $event"></div>
-
-          <div app-form-select-control class="form-group"
                [name]="'age'"
                [label]="'Возраст'"
                [valid]="student.age !== 'UNKNOWN'"
@@ -63,7 +68,7 @@
                (onChangeString)="student.age = $event"></div>
 
           <div class="form-group" *ngIf="!!student.id">
-            <label class="h-full">Статус:</label>
+            <label class="app-label h-full">Статус:</label>
 
             <div class="student-status-container">
               <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
@@ -73,7 +78,7 @@
           </div>
 
           <div class="form-group">
-            <label class="h-full">
+            <label class="app-label h-full">
               Группы:
             </label>
 
@@ -82,7 +87,7 @@
             </div>
 
             <div *ngFor="let groupId of student.groupIds; let i = index" class="student-group-container">
-              <select class="form-control" style="width: 80%" name="{{'group_' + groupId}}" [(ngModel)]="student.groupIds[i]">
+              <select class="student-groups-select form-control" name="{{'group_' + groupId}}" [(ngModel)]="student.groupIds[i]">
                 <option *ngFor="let group of getMatchingGroups()" value="{{group.id}}">
                   {{getGroupName(group.id)}}
                 </option>

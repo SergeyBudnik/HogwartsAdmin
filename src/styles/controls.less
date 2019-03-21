@@ -1,11 +1,21 @@
 @import "fonts.less";
 @import "colors.less";
 
+.app-header {
+  color: @color-fill_text_basic;
+}
+
+.app-label {
+  color: @color-fill_text_basic;
+}
+
 .app-select {
   font-size: 14px;
   font-family: hogwartsRegular;
   padding: 9px 10px;
   height: 40px !important;
+  background: @color-fill_basic_subtle;
+  color: @color-fill_text_basic;
 }
 
 .app-text-input {
@@ -13,11 +23,29 @@
   font-family: hogwartsRegular;
   padding: 9px 10px;
   height: 40px !important;
+
+  background: @color-fill_basic_subtle;
+  -webkit-box-shadow: 0 0 0 1000px @color-fill_basic_subtle inset;
+
+  color: @color-fill_text_basic;
+  -webkit-text-fill-color: @color-fill_text_basic;
+
+  border: none;
+}
+
+.app-text-input:focus {
+  border: 1px solid @color-stroke_accent_strong;
+}
+
+.app-tag-input {
+  background: @color-fill_basic_subtle;
 }
 
 .app-input-icon {
   font-size: 14px;
   height: 40px !important;
+  background: @color-fill_contrast_subtle;
+  color: @color-fill_text_basic;
 }
 
 .btn-primary, .btn-primary:active, .btn-primary:visited {
@@ -54,4 +82,13 @@
 .btn-info:hover {
   background-color: @color-primary-light-3;
   color: @color-primary-normal-1;
+}
+
+.ng2-tag-input tag {
+  background-color: @color-fill_contrast_subtle !important;
+  color: @color-fill_text_basic !important;
+}
+
+.ng2-tag-input input {
+  background-color: @color-fill_basic_subtle !important;
 }

@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: row;
   flex-grow: 1;
+  background: @color-fill_basic_base;
 }
 
 .menu-item-icon {
@@ -20,18 +21,18 @@
   display: flex;
   flex-direction: column;
   width: 15%;
-  background: @color-gray-2;
+  background: @color-fill_basic_light;
 }
 
 .page-left-menu-item {
   padding: 15px 20px;
-  border-bottom: 1px solid @color-gray-4;
+  border-bottom: 1px solid @color-stroke_basic_light;
 }
 
 .page-left-menu-item-active {
   .page-left-menu-item;
 
-  color: @color-primary-normal-1;
+  color: @color-fill_text_basic;
   font-family: hogwartsBold;
 }
 
@@ -39,6 +40,7 @@
   .page-left-menu-item;
 
   cursor: pointer;
+  color: @color-fill_text_basic;
   font-family: hogwartsRegular;
 }
 
@@ -50,7 +52,7 @@
   display: flex;
   flex-direction: column;
   width: 15%;
-  background: @color-gray-2;
+  background: @color-fill_basic_light;
 }
 
 .page-content {
@@ -74,8 +76,7 @@
   height: 60px;
   margin-left: 15%;
   padding: 10px 20px;
-  background: @color-gray-1;
-  border-top: 1px solid @color-gray-3;
+  background: @color-fill_basic_light;
 }
 
 .page-loading {

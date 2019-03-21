@@ -1,17 +1,17 @@
-export type StudentAttendanceType = 'VISITED' | 'SKIP_VALID' | 'SKIP_INVALID';
+export type StudentAttendanceType = 'VISITED' | 'VALID_SKIP' | 'INVALID_SKIP';
 
 export class StudentAttendanceTypeUtils {
   public static values: Array<StudentAttendanceType> = [
-    'VISITED', 'SKIP_VALID', 'SKIP_INVALID'
+    'VISITED', 'VALID_SKIP', 'INVALID_SKIP'
   ];
 
   public static getTranslation(type: StudentAttendanceType) {
     switch (type) {
       case 'VISITED':
         return 'Посещено';
-      case 'SKIP_VALID':
+      case 'VALID_SKIP':
         return 'Уважительный пропуск';
-      case 'SKIP_INVALID':
+      case 'INVALID_SKIP':
         return 'Пропуск';
       default:
         throw new Error(`Unexpected attendance type ${type}`);

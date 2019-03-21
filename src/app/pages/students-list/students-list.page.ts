@@ -96,7 +96,12 @@ export class StudentsListPageComponent extends CommonPage {
 
   private getFilteredStudents(): Array<Student> {
     return this.allStudents
-      .filter(it => it.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1)
+      .filter(it => {
+        let nameMatches = it.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1;
+        let phoneMatches = it.phones.filter(phone => phone.indexOf(this.nameFilter) != -1).length != 0;
+
+        return nameMatches || phoneMatches;
+      })
       .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
       .filter(it =>
         !this.paymentFilter ||

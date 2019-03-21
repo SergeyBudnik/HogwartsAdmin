@@ -2,7 +2,7 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentReferralSourceUtils, EducationLevelUtils, Group, AgeUtils} from '../../../data';
+import {Student, EducationLevelUtils, Group, AgeUtils} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupsHttp} from '../../../http';
@@ -15,7 +15,6 @@ import {GroupsHttp} from '../../../http';
 export class StudentInformationPageComponent extends TranslatableComponent {
   public ageItems = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
   public educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
-  public referralSourceItems = StudentReferralSourceUtils.values.map(it => new SelectItem(this.getStudentReferralSourceTranslation(it), it));
 
   public student: Student = new Student();
 
@@ -106,6 +105,14 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     let group = this.allGroups.find(it => it.id === groupId);
 
     return `${this.getEducationLevelTranslation(group.educationLevel)} - ${group.bookName} - ${this.getGroupStudentsNames(groupId)}`;
+  }
+
+  public hasAtLeastOneContact(): boolean {
+    return this.student.phones.length !== 0 || !!this.student.vkLink;
+  }
+
+  public goToVk() {
+    window.open(`https://vk.com/${this.student.vkLink}`, '_blank');
   }
 
   private getGroupStudentsNames(groupId: number): String {

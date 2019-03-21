@@ -1,5 +1,21 @@
 @import '../../../../styles.less';
 
+.student-vkLink-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.student-vkLink {
+  width: 80%;
+}
+
+.student-vkLink-action {
+  width: 20%;
+  margin-top: 30px;
+  max-height: 40px;
+  line-height: 40px;
+}
+
 .student-group-container {
   display: flex;
   flex-direction: row;
@@ -28,15 +44,22 @@
   line-height: 30px;
 }
 
+.student-groups-select {
+  background: @color-fill_basic_subtle;
+  color: @color-fill_text_basic;
+  width: 80%;
+}
+
 .student-group-action {
   width: 10%;
   line-height: 36px;
 }
 
 .student-action-button {
-  border: 1px solid #cccccc;
   text-align: center;
   cursor: pointer;
+  background: @color-fill_accent_base;
+  color: @color-fill_text_basic;
 }
 
 .student-action-button-disabled {
@@ -48,5 +71,5 @@
 }
 
 .student-action-button:hover {
-  background: #dddddd;
+  opacity: 0.7;
 }

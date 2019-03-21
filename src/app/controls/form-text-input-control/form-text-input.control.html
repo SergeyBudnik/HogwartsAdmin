@@ -1,10 +1,10 @@
 <app-field-validation-sign [valid]="valid"></app-field-validation-sign>
 
-<label for="{{name}}">
+<label class="app-label" for="{{name}}">
   {{label}}:
 </label>
 
-<input id="{{name}}" name="{{name}}" class="form-control"
+<input id="{{name}}" name="{{name}}" class="form-control app-text-input"
        required minlength="1"
        [value]="value"
        [disabled]="!editable"

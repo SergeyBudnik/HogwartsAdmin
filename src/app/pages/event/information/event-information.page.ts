@@ -65,7 +65,7 @@ export class EventInformationPage extends CommonPage {
 
   private saveNew() {
     this.eventsHttp.createEvent(this.event).then(speakingClubId => {
-      this.router.navigate([`/speaking-club/${speakingClubId}/information`]);
+      this.router.navigate([`/events/${speakingClubId}/information`]);
     });
   }
 
