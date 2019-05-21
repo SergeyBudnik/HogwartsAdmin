@@ -7,6 +7,7 @@ export * from './group-type';
 export * from './lesson';
 export * from './student';
 export * from './student-attendance';
+export * from './student-group';
 export * from './student-payment';
 export * from './student-payment-status';
 export * from './student-status';

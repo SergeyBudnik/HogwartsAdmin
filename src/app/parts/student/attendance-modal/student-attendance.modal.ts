@@ -57,7 +57,7 @@ export class StudentAttendanceModal extends TranslatableComponent {
       this.attendanceType,
       this.time
     ).then(attendanceId => {
-      this.attendanceAdded.emit(new StudentAttendance(attendanceId, this.studentId, this.attendanceType, this.time));
+      this.attendanceAdded.emit(new StudentAttendance(attendanceId, this.studentId, this.attendanceType, this.time, this.time)); // TODO
 
       this.hideModal();
 

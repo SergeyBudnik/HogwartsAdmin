@@ -24,6 +24,7 @@ export class StudentAttendance {
     public id: number,
     public studentId: number,
     public type: StudentAttendanceType,
-    public time: number
+    public startTime: number,
+    public finishTime: number
   ) {}
 }

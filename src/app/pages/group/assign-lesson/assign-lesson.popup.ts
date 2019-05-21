@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Lesson, Cabinet, DayOfWeek, DayOfWeekUtils, Time, TimeUtils, Teacher, Group} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, TeachersHttp} from '../../../http';
+import {SelectItem} from '../../../controls/select-item';
 
 @Component({
   selector: 'app-assign-lesson-popup',
@@ -9,12 +10,12 @@ import {CabinetsHttp, TeachersHttp} from '../../../http';
   styleUrls: ['./assign-lesson.popup.less']
 })
 export class AssignLessonPopupComponent extends TranslatableComponent implements OnInit {
-  public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
-  public times: Array<Time> = TimeUtils.values;
+  public daysOfWeekItems: Array<SelectItem> = DayOfWeekUtils.values.map(it => new SelectItem(this.getDayOfWeekTranslation(it), it));
+  public timesItems: Array<SelectItem> = TimeUtils.values.map(it => new SelectItem(this.getTimeTranslation(it), it));
 
   @Input() public group: Group;
 
-  public lesson: Lesson;
+  public lesson: Lesson = new Lesson(null, null, null, null, null, null, null);
   public cabinets: Array<Cabinet> = [];
   public teachers: Array<Teacher> = [];
 
@@ -34,7 +35,11 @@ export class AssignLessonPopupComponent extends TranslatableComponent implements
   }
 
   ngOnInit(): void {
-    this.lesson = new Lesson(null, null, null, null, null);
+    this.lesson = new Lesson(null, null, null, null, null, null, null);
+  }
+
+  public getTeachersItems(): Array<SelectItem> {
+    return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
   }
 
   public onStartTimeChange() {
@@ -49,6 +54,6 @@ export class AssignLessonPopupComponent extends TranslatableComponent implements
 
     this.lesson.teacherId = Number(this.lesson.teacherId);
 
-    this.lesson = new Lesson(null, null, null, null, null);
+    this.lesson = new Lesson(null, null, null, null, null, null, null);
   }
 }

@@ -7,6 +7,7 @@ import {
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
+import {SelectItem} from '../../../controls/select-item';
 
 @Component({
   selector: 'app-group-information-page',
@@ -16,9 +17,9 @@ import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 export class GroupInformationPageComponent extends TranslatableComponent {
   public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
 
-  public educationLevels = EducationLevelUtils.values;
-  public ages = AgeUtils.values;
-  public groupTypes = GroupTypeUtils.values;
+  public educationLevels = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
+  public ages = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
+  public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
 
   public group: Group = new Group();
   public students: Array<Student> = [];
@@ -83,14 +84,27 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     });
   }
 
-  public removeLesson(dayOfWeek: DayOfWeek, startTime: Time) {
-    const lessons = [];
+  public deleteLesson(dayOfWeek: DayOfWeek, startTime: Time) {
+    let lessons = [];
 
     this.group.lessons
+      .filter(it => !!it.id)
       .filter(it => it.day !== dayOfWeek || it.startTime !== startTime)
       .forEach(it => lessons.push(it));
 
     this.group.lessons = lessons;
+  }
+
+  public deactivateLesson(id: number) {
+    this.group.lessons
+      .filter(it => it.id === id)
+      .forEach(it => it.deactivationTime = new Date().getTime());
+  }
+
+  public activateLesson(id: number) {
+    this.group.lessons
+      .filter(it => it.id === id)
+      .forEach(it => it.deactivationTime = null);
   }
 
   public getDayLessons(day: DayOfWeek): Array<Lesson> {
@@ -99,12 +113,16 @@ export class GroupInformationPageComponent extends TranslatableComponent {
       .sort((o1, o2) => TimeUtils.earlier(o1.startTime, o2.startTime) ? -1 : 1);
   }
 
-  public getTeachers(): Array<Teacher> {
-    return this.teachers;
-  }
-
   public getTeacher(teacherId: number): Teacher {
     return this.teachers.find(it => it.id === teacherId);
+  }
+
+  public getTeachersItems(): Array<SelectItem> {
+    return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
+  }
+
+  public getCabinetsItems(): Array<SelectItem> {
+    return this.cabinets.map(it => new SelectItem(it.name, "" + it.id));
   }
 
   private initGroup(groupId: number) {

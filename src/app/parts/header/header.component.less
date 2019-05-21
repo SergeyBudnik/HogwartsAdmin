@@ -33,19 +33,20 @@
 .menu-element {
   padding: 0 20px;
   line-height: 50px;
-  color: @color-fill_text_inverse;
+  height: 50px;
+  display: inline-block;
 }
 
 .menu-element-inactive {
   .menu-element;
 
   font-family: hogwartsRegular;
-  opacity: 0.7;
+  color: @color-fill_text_basic_action_link;
 }
 
 .menu-element-inactive:hover {
   cursor: pointer;
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .menu-element-active {
@@ -53,6 +54,8 @@
 
   font-family: hogwartsBold;
   opacity: 1;
+  border-bottom: 2px solid @color-fill_accent_strong;
+  color: @color-fill_text_inverse;
 }
 
 .menu-element-icon {

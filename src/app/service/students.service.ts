@@ -15,7 +15,7 @@ export class StudentsService {
   public getGroupStudents(groupId: number): Promise<Array<Student>> {
     return this.studentsHttp
       .getAllStudents()
-      .then(students => students.filter(student => student.groupIds.find(it => it === groupId)));
+      .then(students => students.filter(student => student.studentGroups.map(it => it.groupId).find(it => it === groupId)));
   }
 
   public getStudent(studentId: number): Promise<Student> {

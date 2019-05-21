@@ -4,6 +4,7 @@ import {Lesson, Teacher, TeacherTypeUtils, Group, DayOfWeekUtils, TimeUtils, Day
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {GroupsHttp, TeachersHttp} from '../../../http';
+import {SelectItem} from '../../../controls/select-item';
 
 @Component({
   selector: 'app-teacher-information-page',
@@ -11,7 +12,7 @@ import {GroupsHttp, TeachersHttp} from '../../../http';
   styleUrls: ['./teacher-information.page.less']
 })
 export class TeacherInformationPageComponent extends TranslatableComponent {
-  public teacherTypes = TeacherTypeUtils.values;
+  public teacherTypes = TeacherTypeUtils.values.map(it => new SelectItem(this.getTeacherTypeTranslation(it), it));
 
   public teacher: Teacher = new Teacher();
 

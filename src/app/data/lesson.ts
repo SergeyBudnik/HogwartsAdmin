@@ -7,6 +7,8 @@ export class Lesson {
     public teacherId: number,
     public day: DayOfWeek,
     public startTime: Time,
-    public finishTime: Time
+    public finishTime: Time,
+    public creationTime: number,
+    public deactivationTime: number
   ) {}
 }

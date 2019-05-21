@@ -6,7 +6,7 @@
       <div class="student-validation-column"></div>
 
       <div app-search-text-input-control class="students-list-header-search student-name-column"
-           [placeholder]="'Имя'"
+           [placeholder]="'Имя или номер телефона'"
            (onChange)="onFilterChange($event, undefined, undefined)"></div>
 
       <div class="student-groups-column-header">
@@ -37,7 +37,7 @@
 
   <div class="list-content">
     <div class="page-loading" *ngIf="loadingInProgress">
-      <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      <div class="app-loader"></div>
     </div>
 
     <div *ngFor="let student of students" (click)="goToStudentPage(student.id)" class="list-row-clickable">
@@ -48,8 +48,8 @@
         <div>{{student.name}}</div>
       </div>
       <div class="list-row-item student-groups-column-item">
-        <div *ngFor="let groupId of student.groupIds">
-          <div app-group-icon [group]="getGroup(groupId)"></div>
+        <div *ngFor="let studentGroup of student.studentGroups">
+          <div app-group-icon [group]="getGroup(studentGroup.groupId)"></div>
         </div>
       </div>
       <div class="list-row-item student-payments-column">

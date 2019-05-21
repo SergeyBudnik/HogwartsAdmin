@@ -9,45 +9,42 @@
       </div>
       <div class="modal-body">
         <form>
-          <div class="form-group">
-            <label for="teachers">Учитель:</label>
-            <select id="teachers" class="form-control" name="teacher" [(ngModel)]="lesson.teacherId"
-                    required minlength="1" #teacheId="ngModel">
-              <option *ngFor="let teacher of teachers" value="{{teacher.id}}">
-                {{teacher.name}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [type]="'NUMERIC'"
+               [name]="'teacher'"
+               [label]="'Преподаватель'"
+               [valid]="!!lesson.teacherId"
+               [valueNumber]="lesson.teacherId"
+               [items]="getTeachersItems()"
+               [hasEmpty]="true"
+               (onChangeNumber)="lesson.teacherId = $event"></div>
 
-          <div class="form-group">
-            <label for="dayOfWeek">День недели:</label>
-            <select id="dayOfWeek" class="form-control" name="dayOfWeek" [(ngModel)]="lesson.day"
-                    required minlength="1" #dayOfWeek="ngModel">
-              <option *ngFor="let dayOfWeek of daysOfWeek" value="{{dayOfWeek}}">
-                {{getDayOfWeekTranslation(dayOfWeek)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'dayOfWeek'"
+               [label]="'День недели'"
+               [valid]="!!lesson.day"
+               [valueString]="lesson.day"
+               [items]="daysOfWeekItems"
+               [hasEmpty]="true"
+               (onChangeString)="lesson.day = $event"></div>
 
-          <div class="form-group">
-            <label for="startTime">Начало занятия:</label>
-            <select id="startTime" class="form-control" name="startTime" (change)="onStartTimeChange()" [(ngModel)]="lesson.startTime"
-                    required minlength="1" #startTime="ngModel">
-              <option *ngFor="let time of times" value="{{time}}">
-                {{getTimeTranslation(time)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'startTime'"
+               [label]="'Начало занятия'"
+               [valid]="!!lesson.startTime"
+               [valueString]="lesson.startTime"
+               [items]="timesItems"
+               [hasEmpty]="true"
+               (onChangeString)="lesson.startTime = $event"></div>
 
-          <div class="form-group">
-            <label for="finishTime">Окончание занятия:</label>
-            <select id="finishTime" class="form-control" name="finishTime" [(ngModel)]="lesson.finishTime"
-                    required minlength="1" #finishTime="ngModel">
-              <option *ngFor="let time of times" value="{{time}}">
-                {{getTimeTranslation(time)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'finishTime'"
+               [label]="'Окончание занятия'"
+               [valid]="!!lesson.finishTime"
+               [valueString]="lesson.finishTime"
+               [items]="timesItems"
+               [hasEmpty]="true"
+               (onChangeString)="lesson.finishTime = $event"></div>
         </form>
       </div>
       <div class="modal-footer">
@@ -55,7 +52,7 @@
           Отмена
         </button>
 
-        <button [disabled]="teacheId.invalid || dayOfWeek.invalid || startTime.invalid || finishTime.invalid"
+        <button [disabled]="!lesson.teacherId || !lesson.day || !lesson.startTime || !lesson.finishTime"
                 type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">
           Добавить
         </button>

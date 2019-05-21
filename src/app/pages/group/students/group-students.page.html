@@ -10,13 +10,13 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="group-students-header">
-          Группа '{{group.name}}'
+        <h3 class="app-header">
+          Группа '{{group.id}}'
         </h3>
 
         <br>
 
-        <div *ngFor="let student of students" class="list-row">
+        <div *ngFor="let student of students" class="list-row group-students-row">
           <app-field-validation-sign style="width: 10%" [valid]="isStudentValid(student)"></app-field-validation-sign>
 
           <span style="width: 60%" class="horizontal-item" (click)="openStudent(student.id)">

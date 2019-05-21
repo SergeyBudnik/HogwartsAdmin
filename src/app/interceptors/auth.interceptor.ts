@@ -20,9 +20,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq)
       .catch((error) => {
-        this.router.navigate([`/login`]);
+        if (error.status === 401 || error.status == 403) {
+          this.router.navigate([`/login`]);
 
-        this.loginService.clearAuthToken();
+          this.loginService.clearAuthToken();
+        }
 
         return Observable.throw(error);
       }) as any;

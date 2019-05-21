@@ -3,12 +3,11 @@
     <i class="fa fa-search" aria-hidden="true"></i>
   </span>
 
-  <select class="form-control app-select" (change)="onValueChange($event.target.value)">
-    <option *ngIf="!!empty" value="">
-      {{empty}}
-    </option>
-    <option *ngFor="let item of items" value="{{item.value}}" [attr.selected]="currentValue === item.value ? 'selected': null">
-      {{item.name === '' ? (item.value | translate) : item.name}}
-    </option>
-  </select>
+  <div app-form-select-control class="form-group" style="width: 100%"
+       [name]="''"
+       [label]="''"
+       [valid]="false"
+       [valueString]="currentValue"
+       [items]="items"
+       (onChangeString)="onValueChange($event)"></div>
 </div>

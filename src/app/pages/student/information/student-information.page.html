@@ -11,10 +11,10 @@
 
       <ng-container *ngIf="!loadingInProgress">
         <h3 class="app-header" *ngIf="!!student.id">
-          Редактирование информации об ученике '{{student.name}}'
+          {{student.name}} - Редактирование
         </h3>
 
-        <h3 *ngIf="!student.id">
+        <h3 class="app-header" *ngIf="!student.id">
           Добавление информации об ученика
         </h3>
 
@@ -48,7 +48,7 @@
                  [editable]="true"
                  (onChange)="student.vkLink = $event"></div>
 
-            <div class="student-action-button student-vkLink-action horizontal-item" (click)="goToVk()">Перейти</div>
+            <button class="btn btn-primary student-vkLink-action" [disabled]="!student.vkLink" (click)="goToVk()">Перейти</button>
           </div>
 
           <div app-form-select-control class="form-group"
@@ -73,7 +73,7 @@
             <div class="student-status-container">
               <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
 
-              <div class="student-action-button student-status-action horizontal-item" (click)="goToStatus()">Изменить статус</div>
+              <button class="btn btn-primary student-status-action" (click)="goToStatus()">Изменить статус</button>
             </div>
           </div>
 
@@ -82,22 +82,55 @@
               Группы:
             </label>
 
-            <div *ngIf="student.groupIds.length === 0">
+            <div class="app-text" *ngIf="student.studentGroups.length === 0">
               Студент не назначен в группу
             </div>
 
-            <div *ngFor="let groupId of student.groupIds; let i = index" class="student-group-container">
-              <select class="student-groups-select form-control" name="{{'group_' + groupId}}" [(ngModel)]="student.groupIds[i]">
-                <option *ngFor="let group of getMatchingGroups()" value="{{group.id}}">
-                  {{getGroupName(group.id)}}
-                </option>
-              </select>
+            <div *ngFor="let studentGroup of student.studentGroups; let i = index" class="student-group-container">
+              <div app-form-select-control class="form-group student-group"
+                   [name]="'studentGroup_' + i"
+                   [valueNumber]="studentGroup.groupId"
+                   [items]="getMatchingGroups()"
+                   (onChangeNumber)="studentGroup.groupId = $event"></div>
 
-              <div class="student-action-button student-group-action horizontal-item" (click)="removeGroup(i)">Удалить</div>
-              <div class="student-group-action"
-                   [class.student-action-button]="!!student.groupIds[i]"
-                   [class.student-action-button-disabled]="!student.groupIds[i]"
-                   (click)="goToGroup(student.groupIds[i])">Перейти</div>
+              <div class="student-group-info app-text">
+                <ng-container *ngIf="!studentGroup.startTime">
+                  Новая группа
+                </ng-container>
+                <ng-container *ngIf="!!studentGroup.startTime && !studentGroup.finishTime">
+                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}}
+                </ng-container>
+                <ng-container *ngIf="!!studentGroup.startTime && !!studentGroup.finishTime">
+                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}} по {{studentGroup.finishTime | date: 'dd.MM.yyyy'}}
+                </ng-container>
+              </div>
+
+              <div
+                *ngIf="!!studentGroup.startTime && !studentGroup.finishTime"
+                class="student-group-action"
+                (click)="disableGroup(i)">
+                Отключить
+              </div>
+
+              <div
+                *ngIf="!!studentGroup.startTime && !!studentGroup.finishTime"
+                class="student-group-action"
+                (click)="enableGroup(i)">
+                Включить
+              </div>
+
+              <div
+                class="student-group-action"
+                (click)="removeGroup(i)">
+                Удалить
+              </div>
+
+              <div
+                *ngIf="!!student.studentGroups[i]"
+                class="student-group-action"
+                (click)="goToGroup(student.studentGroups[i].groupId)">
+                Перейти
+              </div>
             </div>
           </div>
 

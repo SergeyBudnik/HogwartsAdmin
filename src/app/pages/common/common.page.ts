@@ -9,10 +9,10 @@ export class CommonPage {
   }
 
   public doLogin(
-    loginService: LoginService,
+    authToken: string,
     action: () => any
   ) {
-    if (!loginService.getAuthToken()) {
+    if (!authToken) {
       this.aRouter.navigate([`/login`]).then(() => {});
     } else {
       action();

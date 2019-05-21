@@ -1,0 +1,22 @@
+@import "../../../styles/fonts.less";
+@import "../../../styles/colors.less";
+
+.app-select {
+  font-size: 14px;
+  font-family: hogwartsRegular;
+  padding: 9px 10px;
+  height: 40px !important;
+
+  background: @color-fill_basic_subtle;
+  -webkit-box-shadow: 0 0 0 1000px @color-fill_basic_subtle inset;
+
+  color: @color-fill_text_basic;
+  -webkit-text-fill-color: @color-fill_text_basic;
+
+  border: 1px solid transparent;
+}
+
+.app-select:focus {
+  border: 1px solid @color-stroke_accent_strong;
+}
+

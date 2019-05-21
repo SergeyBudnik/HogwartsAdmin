@@ -36,7 +36,7 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
           this.studentAttendanceHttp.getAttendances(this.student.id)
         ]).then(it => {
           this.student = it[0];
-          this.attendances = it[1];
+          this.attendances = it[1].sort((o1, o2) => o2.startTime - o1.startTime);
 
           this.loadingInProgress = false;
         });

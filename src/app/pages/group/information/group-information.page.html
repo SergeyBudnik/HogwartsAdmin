@@ -10,79 +10,84 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 *ngIf="!!group.id">
+        <h3 class="app-header" *ngIf="!!group.id">
           Группа '{{group.id}}'
         </h3>
 
-        <h3 *ngIf="!group.id">
+        <h3 class="app-header" *ngIf="!group.id">
           Добавление группы
         </h3>
 
         <br>
 
         <form>
-          <h5>Информация</h5>
+          <h5 class="app-header">Информация</h5>
 
           <br>
 
           <div class="form-group">
-            <label for="color">Цвет:</label>
+            <label for="color" style="color: #ffffff">Цвет:</label>
             <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
           </div>
 
-          <div class="form-group">
-            <label for="manager">Старший преподаватель:</label>
-            <select id="manager" class="form-control" name="manager" [(ngModel)]="group.managerId">
-              <option *ngFor="let teacher of getTeachers()" value="{{teacher.id}}">
-                {{teacher.name}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [type]="'NUMERIC'"
+               [name]="'manager'"
+               [label]="'Старший преподаватель'"
+               [valid]="!!group.managerId"
+               [valueNumber]="group.managerId"
+               [items]="getTeachersItems()"
+               [hasEmpty]="true"
+               (onChangeNumber)="group.managerId = $event"></div>
 
-          <div class="form-group">
-            <label for="bookName">Название учебника:</label>
-            <input id="bookName" class="form-control" name="bookName" placeholder="Название учебника" [(ngModel)]="group.bookName">
-          </div>
+          <div app-form-text-input-control class="form-group"
+               [name]="'bookName'"
+               [label]="'Название учебника'"
+               [placeholder]="'Введите название учебника'"
+               [valid]="!!group.bookName && group.bookName.indexOf('?') === -1"
+               [value]="group.bookName"
+               [editable]="true"
+               (onChange)="group.bookName = $event"></div>
 
-          <div class="form-group">
-            <label for="groupType">Тип:</label>
-            <select id="groupType" class="form-control" name="groupType" [(ngModel)]="group.type">
-              <option *ngFor="let groupType of groupTypes" value="{{groupType}}">
-                {{getGroupTypeTranslation(groupType)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'groupType'"
+               [label]="'Тип'"
+               [valid]="!!group.type"
+               [valueString]="group.type"
+               [items]="groupTypes"
+               [hasEmpty]="true"
+               (onChangeString)="group.type = $event"></div>
 
-          <div class="form-group">
-            <label for="educationLevels">Уровень подготовки:</label>
-            <select id="educationLevels" class="form-control" name="educationLevel" [(ngModel)]="group.educationLevel">
-              <option value="{{educationLevel}}" *ngFor="let educationLevel of educationLevels">
-                {{getEducationLevelTranslation(educationLevel)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'educationLevels'"
+               [label]="'Уровень подготовки'"
+               [valid]="!!group.educationLevel"
+               [valueString]="group.educationLevel"
+               [items]="educationLevels"
+               [hasEmpty]="true"
+               (onChangeString)="group.educationLevel = $event"></div>
 
-          <div class="form-group">
-            <label for="ages">Возрастная категория:</label>
-            <select id="ages" class="form-control" name="age" [(ngModel)]="group.age">
-              <option value="{{age}}" *ngFor="let age of ages">
-                {{getAgeTranslationAsGroup(age)}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [name]="'ages'"
+               [label]="'Возрастная категория'"
+               [valid]="!!group.age"
+               [valueString]="group.age"
+               [items]="ages"
+               (onChangeString)="group.age = $event"></div>
 
-          <div class="form-group">
-            <label for="cabinetId">Кабинет:</label>
-            <select id="cabinetId" class="form-control" name="cabinetId" [(ngModel)]="group.cabinetId">
-              <option value="{{cabinet.id}}" *ngFor="let cabinet of cabinets">
-                {{cabinet.name}}
-              </option>
-            </select>
-          </div>
+          <div app-form-select-control class="form-group"
+               [type]="'NUMERIC'"
+               [name]="'cabinets'"
+               [label]="'Кабинет'"
+               [valid]="!!group.cabinetId"
+               [valueNumber]="group.cabinetId"
+               [items]="getCabinetsItems()"
+               [hasEmpty]="true"
+               (onChangeNumber)="group.cabinetId = $event"></div>
 
           <br>
 
-          <h5>Занятия:</h5>
+          <h5 class="app-header">Занятия:</h5>
 
           <div *ngIf="group.lessons.length === 0">
             <br>
@@ -97,19 +102,37 @@
 
           <ng-container *ngFor="let dayOfWeek of daysOfWeek;">
             <ng-container *ngIf="getDayLessons(dayOfWeek).length !== 0">
-              <div *ngFor="let dayLesson of getDayLessons(dayOfWeek); let i = index" class="group-lesson-row">
-                <div style="width: 10%">
+              <div *ngFor="let dayLesson of getDayLessons(dayOfWeek);" class="group-lesson-row">
+                <div class="group-lesson-row-day-of-week">
                   {{getDayOfWeekTranslation(dayOfWeek)}}
                 </div>
-                <div style="width: 40%">
+                <div class="group-lesson-row-time">
                   {{getTimeTranslation(dayLesson.startTime)}} - {{getTimeTranslation(dayLesson.finishTime)}}
                 </div>
-                <div style="width: 40%">
+                <div class="group-lesson-row-teacher">
                   {{getTeacher(dayLesson.teacherId).name}}
                 </div>
-                <div style="width: 10%">
-                  <i class="fa fa-remove pull-right clickable" (click)="removeLesson(dayLesson.day, dayLesson.startTime)"></i>
-                </div>
+                <ng-container>
+                  <div class="group-lesson-row-status" *ngIf="!dayLesson.id">
+                  </div>
+                  <div class="group-lesson-row-status" *ngIf="!!dayLesson.id && !!dayLesson.creationTime && !dayLesson.deactivationTime">
+                    с {{dayLesson.creationTime | date: 'dd.MM.yyyy'}}
+                  </div>
+                  <div class="group-lesson-row-status" *ngIf="!!dayLesson.id && !!dayLesson.creationTime && !!dayLesson.deactivationTime">
+                    с {{dayLesson.creationTime | date: 'dd.MM.yyyy'}} по {{dayLesson.deactivationTime | date: 'dd.MM.yyyy'}}
+                  </div>
+                </ng-container>
+                <ng-container>
+                  <div *ngIf="!dayLesson.id" class="group-lesson-row-action" (click)="deleteLesson(dayLesson.day, dayLesson.startTime)">
+                    Удалить
+                  </div>
+                  <div *ngIf="!!dayLesson.id && !!dayLesson.deactivationTime" class="group-lesson-row-action" (click)="activateLesson(dayLesson.id)">
+                    Включить
+                  </div>
+                  <div *ngIf="!!dayLesson.id && !dayLesson.deactivationTime" class="group-lesson-row-action" (click)="deactivateLesson(dayLesson.id)">
+                    Отключить
+                  </div>
+                </ng-container>
               </div>
             </ng-container>
           </ng-container>

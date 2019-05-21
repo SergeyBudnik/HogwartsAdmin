@@ -70,8 +70,6 @@ const appRoutes: Routes = [
   { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
   { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
 
-  { path: 'economy', component: Pages.EconomyPage },
-
   { path: '**', component: Pages.StudentsListPageComponent }
 ];
 
@@ -122,8 +120,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.EventMenuPageComponent,
 
     Pages.ParticipantPageComponent,
-
-    Pages.EconomyPage,
 
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,

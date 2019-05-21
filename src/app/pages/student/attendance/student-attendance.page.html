@@ -10,8 +10,8 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3 *ngIf="!!student.id">
-          Информация о посещаемости - '{{student.name}}'
+        <h3 class="app-header" *ngIf="!!student.id">
+          {{student.name}} - Посещаемость
         </h3>
 
         <br>

@@ -1,11 +1,12 @@
 import {EducationLevel} from './education-level';
 import {Age} from './age';
 import {StudentStatusType} from './student-status';
+import {StudentGroup} from './student-group';
 
 export class Student {
   public constructor(
     public id: number = null,
-    public groupIds: Array<number> = [],
+    public studentGroups: Array<StudentGroup> = [],
     public name: string = null,
     public statusType: StudentStatusType = 'STUDYING',
     public emails: Array<string> = [],

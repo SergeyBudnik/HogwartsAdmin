@@ -1,62 +1,53 @@
 <div class="header">
   <div class="header-title">
-    <span>Hogwarts Admin v1.11.0</span>
+    <span>Hogwarts Admin v1.13.0</span>
   </div>
 
   <div style="width: 70%">
-    <span (click)="navigate('/students')"
+    <div (click)="navigate('/students')"
          [class.menu-element-active]="activeSection === 'STUDENTS'"
          [class.menu-element-inactive]="activeSection !== 'STUDENTS'">
 
       <i class="fa fa-user menu-element-icon" aria-hidden="true"></i>
 
       Студенты
-    </span>
+    </div>
 
-    <span (click)="navigate('/groups')"
+    <div (click)="navigate('/groups')"
          [class.menu-element-active]="activeSection === 'GROUPS'"
          [class.menu-element-inactive]="activeSection !== 'GROUPS'">
 
       <i class="fa fa-users menu-element-icon" aria-hidden="true"></i>
 
       Группы
-    </span>
+    </div>
 
-    <span (click)="navigate('/teachers')"
+    <div (click)="navigate('/teachers')"
          [class.menu-element-active]="activeSection === 'TEACHERS'"
          [class.menu-element-inactive]="activeSection !== 'TEACHERS'">
 
       <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
 
       Учителя
-    </span>
+    </div>
 
-    <span (click)="navigate('/cabinets')"
+    <div (click)="navigate('/cabinets')"
          [class.menu-element-active]="activeSection === 'CABINETS'"
          [class.menu-element-inactive]="activeSection !== 'CABINETS'">
 
       <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
 
       Кабинеты
-    </span>
+    </div>
 
-    <span  (click)="navigate('/events')"
+    <div  (click)="navigate('/events')"
          [class.menu-element-active]="activeSection === 'EVENTS'"
          [class.menu-element-inactive]="activeSection !== 'EVENTS'">
 
       <i class="fa fa-star menu-element-icon" aria-hidden="true"></i>
 
       Мероприятия
-    </span>
-
-    <span  (click)="navigate('/economy')"
-           [class.menu-element-active]="activeSection === 'ECONOMY'"
-           [class.menu-element-inactive]="activeSection !== 'ECONOMY'">
-
-      <i class="fa fa-usd menu-element-icon" aria-hidden="true"></i>
-
-      Экономика
-    </span>
+    </div>
   </div>
 
   <div style="width: 15%">

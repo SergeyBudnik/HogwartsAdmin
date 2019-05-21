@@ -41,7 +41,7 @@ export class StudentsListPageComponent extends CommonPage {
     const thisService = this;
 
     this.doInit(router);
-    this.doLogin(loginService, () => thisService.init());
+    this.doLogin(loginService.getAuthToken(), () => thisService.init());
 
     this.appTranslationsService.enableTranslations();
   }
@@ -67,11 +67,11 @@ export class StudentsListPageComponent extends CommonPage {
   }
 
   public getPaymentItems(): Array<SelectItem> {
-    return StudentPaymentStatusUtils.values.map(it => new SelectItem('', it));
+    return StudentPaymentStatusUtils.values.map(it => new SelectItem('-', it));
   }
 
   public getStatusItems(): Array<SelectItem> {
-    return StudentStatusTypeUtils.values.map(it => new SelectItem('', it));
+    return StudentStatusTypeUtils.values.map(it => new SelectItem('-', it));
   }
 
   public isStudentFilled(student: Student): boolean {
@@ -110,12 +110,12 @@ export class StudentsListPageComponent extends CommonPage {
       )
       .sort((o1, o2) => o1.id - o2.id)
       .sort((o1, o2) => {
-        if (o1.groupIds.length == 0) {
+        if (o1.studentGroups.length == 0) {
           return -1;
-        } else if (o2.groupIds.length === 0) {
+        } else if (o2.studentGroups.length === 0) {
           return 1;
         } else {
-          return o1.groupIds[0] - o2.groupIds[0];
+          return o1.studentGroups[0].groupId - o2.studentGroups[0].groupId;
         }
       })
       .sort((o1, o2) => StudentStatusTypeUtils.compare(o1.statusType, o2.statusType));

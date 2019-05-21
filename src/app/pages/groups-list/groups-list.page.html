@@ -26,12 +26,6 @@
           Студенты
         </div>
       </div>
-
-      <div class="groups-payment-column">
-        <div class="list-header-label">
-          Доход / нед
-        </div>
-      </div>
     </div>
 
     <div class="groups-list-header-add-new">
@@ -43,7 +37,7 @@
 
   <div class="list-content">
     <div class="page-loading" *ngIf="loadingInProgress">
-      <fa name="spinner" class="loading-sign" animation="spin"></fa>
+      <div class="app-loader"></div>
     </div>
 
     <div *ngFor="let group of groups"
@@ -69,9 +63,6 @@
       </div>
       <div class="list-row-item groups-students-column">
         {{getGroupStudentsString(group.id)}}
-      </div>
-      <div class="list-row-item groups-payment-column">
-        {{getGroupPayment(group.id)}} Р
       </div>
     </div>
   </div>

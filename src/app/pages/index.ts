@@ -34,6 +34,4 @@ export * from './event/information/event-information.page';
 export * from './event/participants/event-participants.page';
 export * from './event/menu/event-menu.component';
 
-export * from './economy/economy.page';
-
 export * from './participant/participant.page';

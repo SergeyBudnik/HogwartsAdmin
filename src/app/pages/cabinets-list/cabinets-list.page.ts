@@ -31,7 +31,7 @@ export class CabinetsListPageComponent extends CommonPage {
     const thisService = this;
 
     this.doInit(this.router);
-    this.doLogin(this.loginService, () => thisService.init());
+    this.doLogin(this.loginService.getAuthToken(), () => thisService.init());
   }
 
   private init() {
@@ -76,7 +76,7 @@ export class CabinetsListPageComponent extends CommonPage {
 
   private getGroupActiveStudents(groupId: number): Array<Student> {
     return this.allStudents
-      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
+      .filter(student => !!student.studentGroups.map(it => it.groupId).find(studentGroupId => studentGroupId == groupId))
       .filter(student => student.statusType == 'STUDYING')
   }
 

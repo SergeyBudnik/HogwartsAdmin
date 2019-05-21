@@ -92,7 +92,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
   private getGroupActiveStudents(groupId: number): Array<Student> {
     return this.students
-      .filter(student => !!student.groupIds.find(studentGroupId => studentGroupId == groupId))
+      .filter(student => !!student.studentGroups.map(it => it.groupId).find(studentGroupId => studentGroupId == groupId))
       .filter(student => student.statusType == 'STUDYING')
   }
 

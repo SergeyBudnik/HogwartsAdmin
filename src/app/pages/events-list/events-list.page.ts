@@ -44,7 +44,7 @@ export class EventsListPageComponent extends CommonPage {
     let thisService = this;
 
     this.doInit(router);
-    this.doLogin(loginService, () => thisService.init());
+    this.doLogin(loginService.getAuthToken(), () => thisService.init());
 
     this.appTranslationService.enableTranslations();
 

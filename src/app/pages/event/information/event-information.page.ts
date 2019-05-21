@@ -40,7 +40,7 @@ export class EventInformationPage extends CommonPage {
     const thisService = this;
 
     this.doInit(router);
-    this.doLogin(this.loginService, () => thisService.init());
+    this.doLogin(this.loginService.getAuthToken(), () => thisService.init());
 
     this.appTranslationService.enableTranslations();
   }

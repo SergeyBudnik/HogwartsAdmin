@@ -102,7 +102,7 @@ export class TeachersListPageComponent {
     this.groups.forEach(group => {
       const students = this.students
         .filter(it => it.statusType === 'STUDYING')
-        .filter(it => it.groupIds.indexOf(group.id) !== -1);
+        .filter(it => it.studentGroups.map(it => it.groupId).indexOf(group.id) !== -1);
 
       const lessons = group.lessons.filter(it => it.teacherId === teacherId);
 

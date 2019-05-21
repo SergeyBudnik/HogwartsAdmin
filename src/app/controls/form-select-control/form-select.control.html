@@ -3,7 +3,7 @@
 
   {{label}}:
 </label>
-<select id="status" class="app-select form-control" name="status" (change)="onValueChange($event.target.value)">
+<select id="status" class="app-select form-control" name="status" (change)="onValueChange($event.target.value)" style="width: 100%">
   <option *ngFor="let item of getItems()" value="{{item.value}}" [attr.selected]="getValue() === item.value ? 'selected' : null">
     {{item.name === '-' ? (item.value | translate) : item.name}}
   </option>

@@ -10,8 +10,8 @@
       </div>
 
       <ng-container *ngIf="!loadingInProgress">
-        <h3>
-          Статус ученика '{{student.name}}'
+        <h3 class="app-header">
+          {{student.name}} - Статус
         </h3>
 
         <br>
@@ -46,16 +46,12 @@
 
           <!-- History -->
 
-          <h3>История:</h3>
-
-          <br>
-
           <div class="list-header-container">
             <div class="list-header">
-              <div style="width: 35%; margin-top: 10px; margin-left: 10px">
+              <div style="width: 35%; margin-left: 10px; color: #ffffff">
                 <b>Дата изменения</b>
               </div>
-              <div style="width: 35%; margin-top: 10px; margin-left: 10px">
+              <div style="width: 35%; margin-left: 10px; color: #ffffff">
                 <b>Дата действия</b>
               </div>
               <div style="width: 30%">
@@ -82,7 +78,7 @@
                 </span>
               </div>
               <div class="list-row-item" style="width: 30%;">
-                <div app-student-status [studentStatusType]="studentStatus.status"></div>
+                <div app-student-status [studentStatusType]="studentStatus.status" style="margin-top: 10px;"></div>
               </div>
             </div>
           </div>

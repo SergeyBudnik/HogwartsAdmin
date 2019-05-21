@@ -2,7 +2,7 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, EducationLevelUtils, Group, AgeUtils} from '../../../data';
+import {Student, EducationLevelUtils, Group, AgeUtils, StudentGroup} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupsHttp} from '../../../http';
@@ -46,7 +46,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   public addGroup(): void {
-    this.student.groupIds.push(null);
+    this.student.studentGroups.push(new StudentGroup(null, null, null));
   }
 
   public goToStatus() {
@@ -60,7 +60,19 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   public removeGroup(indexToRemove: number): void {
-    this.student.groupIds = this.student.groupIds.filter((_, index) => index !== indexToRemove);
+    this.student.studentGroups = this.student.studentGroups.filter((_, index) => index !== indexToRemove);
+  }
+
+  public enableGroup(indexToDisable: number) {
+    this.student.studentGroups
+      .filter((_, index) => index === indexToDisable)
+      .forEach(studentGroup => studentGroup.finishTime = null);
+  }
+
+  public disableGroup(indexToDisable: number) {
+    this.student.studentGroups
+      .filter((_, index) => index === indexToDisable)
+      .forEach(studentGroup => studentGroup.finishTime = new Date().getTime());
   }
 
   public save(): void {
@@ -95,13 +107,14 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     });
   }
 
-  public getMatchingGroups(): Array<Group> {
+  public getMatchingGroups(): Array<SelectItem> {
     return this.allGroups
       .filter(group => group.age === this.student.age)
       .filter(group => group.educationLevel === this.student.educationLevel)
+      .map(it => new SelectItem(this.getGroupName(it.id), "" + it.id));
   }
 
-  public getGroupName(groupId: number): String {
+  public getGroupName(groupId: number): string {
     let group = this.allGroups.find(it => it.id === groupId);
 
     return `${this.getEducationLevelTranslation(group.educationLevel)} - ${group.bookName} - ${this.getGroupStudentsNames(groupId)}`;
@@ -116,7 +129,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   private getGroupStudentsNames(groupId: number): String {
-    let students = this.allStudents.filter(it => it.groupIds.indexOf(groupId) !== -1);
+    let students = this.allStudents.filter(it => it.studentGroups.map(it => it.groupId).indexOf(groupId) !== -1);
 
     if (students.length == 0) {
       return 'Нет студентов';
@@ -141,7 +154,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
           this.student.age = group.age;
           this.student.educationLevel = group.educationLevel;
-          this.student.groupIds = [group.id];
+          this.student.studentGroups = [new StudentGroup(group.id, new Date().getTime(), null)];
         }
       } else {
         this.student = this.allStudents.find(student => student.id === studentId);
