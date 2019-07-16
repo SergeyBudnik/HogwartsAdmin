@@ -2,7 +2,8 @@ import {Age} from './age';
 import {EducationLevel} from './education-level';
 import {Lesson} from './lesson';
 import {GroupType} from './group-type';
-import {DayOfWeekUtils, TimeUtils} from './index';
+import {DayOfWeekUtils} from './day-of-week';
+import {TimeUtils} from './time';
 
 export class Group {
   public constructor(

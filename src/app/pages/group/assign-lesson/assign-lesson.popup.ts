@@ -1,12 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher} from '../../../data';
+import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher, LessonInfo} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
-
-export class LessonInfo {
-  constructor(public lessonIndex: number, public lesson: Lesson) {}
-}
 
 @Component({
   selector: 'app-assign-lesson-popup',

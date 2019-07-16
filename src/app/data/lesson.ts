@@ -24,3 +24,7 @@ export class Lesson {
     );
   }
 }
+
+export class LessonInfo {
+  constructor(public lessonIndex: number, public lesson: Lesson) {}
+}

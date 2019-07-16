@@ -2,13 +2,12 @@ import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, TimeUtils,
-  GroupTypeUtils
+  Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, GroupTypeUtils,
+  LessonInfo
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
-import {LessonInfo} from '../../';
 
 @Component({
   selector: 'app-group-information-page',
