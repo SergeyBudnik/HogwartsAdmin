@@ -16,8 +16,39 @@
 
         <br>
 
-        <div app-student-payment-row *ngFor="let payment of payments" class="list-row"
-             [payment]="payment" (paymentDeleted)="onPaymentDeleted($event)"></div>
+        <div class="list-header-container">
+          <div class="list-header">
+            <div style="width: 20%">
+              <div class="list-header-label">
+                Дата
+              </div>
+            </div>
+            <div style="width: 20%">
+              <div class="list-header-label">
+                Сумма
+              </div>
+            </div>
+            <div style="width: 20%">
+              <div class="list-header-label">
+                Преподаватель
+              </div>
+            </div>
+            <div style="width: 20%">
+              <div class="list-header-label">
+                Учтено
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div app-student-payment-row
+             *ngFor="let payment of payments"
+             class="list-row"
+             [payment]="payment"
+             [teachers]="teachers"
+             (paymentDeleted)="onPaymentDeleted($event)">
+        </div>
+
       </ng-container>
 
       <app-student-payment-modal [studentId]="student.id" (paymentAdded)="onPaymentAdded($event)"></app-student-payment-modal>

@@ -4,6 +4,14 @@
 <div class="payments-date-column">
   {{payment.amount}}₽
 </div>
+<div class="payments-teachers-column">
+  {{getTeacher().name}}
+</div>
+<div class="payments-teachers-column">
+  <div class="student-status">
+    Учтено
+  </div>
+</div>
 <div class="payments-actions-column">
   <button class="btn btn-danger" (click)="deletePayment()">
     Удалить

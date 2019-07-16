@@ -1,6 +1,7 @@
 <div class="form-group">
-  <label for="date">{{label}}:</label>
-  <my-date-picker id="date" name="date"
+  <label class="app-label" for="date">{{label}}:</label>
+
+  <my-date-picker id="date" class="app-date-picker"
       [(ngModel)]="date"
       [options]="{dateFormat: dateFormat}"
       (dateChanged)="onDateChange($event)"></my-date-picker>

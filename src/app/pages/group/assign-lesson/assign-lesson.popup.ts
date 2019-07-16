@@ -1,21 +1,43 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeek, DayOfWeekUtils, Time, TimeUtils, Teacher, Group} from '../../../data';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
+
+export class LessonInfo {
+  constructor(public lessonIndex: number, public lesson: Lesson) {}
+}
 
 @Component({
   selector: 'app-assign-lesson-popup',
   templateUrl: './assign-lesson.popup.html',
   styleUrls: ['./assign-lesson.popup.less']
 })
-export class AssignLessonPopupComponent extends TranslatableComponent implements OnInit {
+export class AssignLessonPopupComponent extends TranslatableComponent {
   public daysOfWeekItems: Array<SelectItem> = DayOfWeekUtils.values.map(it => new SelectItem(this.getDayOfWeekTranslation(it), it));
   public timesItems: Array<SelectItem> = TimeUtils.values.map(it => new SelectItem(this.getTimeTranslation(it), it));
+  public modalVisible = true;
 
-  @Input() public group: Group;
+  public lessonStatuses = [
+    new SelectItem('Активно', 'ENABLED'),
+    new SelectItem('Выключено', 'DISABLED')
+  ];
 
-  public lesson: Lesson = new Lesson(null, null, null, null, null, null, null);
+  @Input('lessonInfo') set setLessonInfo(lessonInfo: LessonInfo) {
+    this.lessonInfo = lessonInfo;
+
+    if (this.lessonInfo.lesson.deactivationTime == null) {
+      this.lessonStatus = 'ENABLED';
+    } else {
+      this.lessonStatus = 'DISABLED';
+    }
+  }
+
+  @Output() public lessonInfoSaved: EventEmitter<LessonInfo> = new EventEmitter<LessonInfo>();
+
+  public lessonInfo: LessonInfo = new LessonInfo(null, new Lesson());
+  public lessonStatus: String = 'DISABLED';
+
   public cabinets: Array<Cabinet> = [];
   public teachers: Array<Teacher> = [];
 
@@ -34,26 +56,27 @@ export class AssignLessonPopupComponent extends TranslatableComponent implements
     });
   }
 
-  ngOnInit(): void {
-    this.lesson = new Lesson(null, null, null, null, null, null, null);
-  }
-
   public getTeachersItems(): Array<SelectItem> {
     return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
   }
 
-  public onStartTimeChange() {
-    const startTimeIndex = TimeUtils.index(this.lesson.startTime);
-    const finishTimeIndex = startTimeIndex + 3 >= TimeUtils.values.length ? TimeUtils.values.length - 1 : startTimeIndex + 3;
+  public save(): void {
+    this.lessonInfo.lesson.teacherId = Number(this.lessonInfo.lesson.teacherId);
 
-    this.lesson.finishTime = TimeUtils.values[finishTimeIndex];
+    if (this.lessonStatus == 'ENABLED') {
+      this.lessonInfo.lesson.deactivationTime = null;
+    }
+
+    this.lessonInfoSaved.emit(this.lessonInfo);
+
+    this.hideModal();
   }
 
-  public save(): void {
-    this.group.lessons.push(this.lesson);
+  public cancel(): void {
+    this.hideModal();
+  }
 
-    this.lesson.teacherId = Number(this.lesson.teacherId);
-
-    this.lesson = new Lesson(null, null, null, null, null, null, null);
+  private hideModal(): void {
+    this.modalVisible = !this.modalVisible;
   }
 }

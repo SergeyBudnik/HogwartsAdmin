@@ -17,6 +17,13 @@
         Войти
         <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
       </button>
+
+      <br>
+      <br>
+
+      <div *ngIf="loginFailed" class="login-error">
+        Логин и пароль неправильные. <a class="login-error-link" href="https://vk.com/serge_budnik">Забыли пароль?</a>
+      </div>
     </form>
   </div>
 </div>

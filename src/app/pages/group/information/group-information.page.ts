@@ -3,11 +3,12 @@ import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, TimeUtils,
-  Time, GroupTypeUtils
+  GroupTypeUtils
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
+import {LessonInfo} from '../../';
 
 @Component({
   selector: 'app-group-information-page',
@@ -30,6 +31,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   private teachers: Array<Teacher> = [];
   private cabinets: Array<Cabinet> = [];
 
+  public lessonInfo = new LessonInfo(null, new Lesson());
+
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -46,7 +49,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     } else {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
-
 
         if (id === 'new') {
           this.initNewGroup();
@@ -84,35 +86,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     });
   }
 
-  public deleteLesson(dayOfWeek: DayOfWeek, startTime: Time) {
-    let lessons = [];
-
-    this.group.lessons
-      .filter(it => !!it.id)
-      .filter(it => it.day !== dayOfWeek || it.startTime !== startTime)
-      .forEach(it => lessons.push(it));
-
-    this.group.lessons = lessons;
-  }
-
-  public deactivateLesson(id: number) {
-    this.group.lessons
-      .filter(it => it.id === id)
-      .forEach(it => it.deactivationTime = new Date().getTime());
-  }
-
-  public activateLesson(id: number) {
-    this.group.lessons
-      .filter(it => it.id === id)
-      .forEach(it => it.deactivationTime = null);
-  }
-
-  public getDayLessons(day: DayOfWeek): Array<Lesson> {
-    return this.group.lessons
-      .filter(it => it.day === day)
-      .sort((o1, o2) => TimeUtils.earlier(o1.startTime, o2.startTime) ? -1 : 1);
-  }
-
   public getTeacher(teacherId: number): Teacher {
     return this.teachers.find(it => it.id === teacherId);
   }
@@ -123,6 +96,22 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   public getCabinetsItems(): Array<SelectItem> {
     return this.cabinets.map(it => new SelectItem(it.name, "" + it.id));
+  }
+
+  public setExistingModalLesson(lesson: Lesson, index: number) {
+    this.lessonInfo = new LessonInfo(index, Lesson.copy(lesson));
+  }
+
+  public setNewModalLesson() {
+    this.lessonInfo = new LessonInfo(null, new Lesson());
+  }
+
+  public onLessonInfoSaved(lessonInfo: LessonInfo) {
+    if (lessonInfo.lessonIndex == null) {
+      this.group.lessons.push(lessonInfo.lesson);
+    } else {
+      this.group.lessons[lessonInfo.lessonIndex] = lessonInfo.lesson;
+    }
   }
 
   private initGroup(groupId: number) {

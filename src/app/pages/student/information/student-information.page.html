@@ -11,11 +11,11 @@
 
       <ng-container *ngIf="!loadingInProgress">
         <h3 class="app-header" *ngIf="!!student.id">
-          {{student.name}} - Редактирование
+          {{student.name}} - Информация
         </h3>
 
         <h3 class="app-header" *ngIf="!student.id">
-          Добавление информации об ученика
+          Добавление информации об ученике
         </h3>
 
         <br>
@@ -88,9 +88,11 @@
 
             <div *ngFor="let studentGroup of student.studentGroups; let i = index" class="student-group-container">
               <div app-form-select-control class="form-group student-group"
+                   [type]="'NUMERIC'"
                    [name]="'studentGroup_' + i"
                    [valueNumber]="studentGroup.groupId"
                    [items]="getMatchingGroups()"
+                   [hasEmpty]="true"
                    (onChangeNumber)="studentGroup.groupId = $event"></div>
 
               <div class="student-group-info app-text">

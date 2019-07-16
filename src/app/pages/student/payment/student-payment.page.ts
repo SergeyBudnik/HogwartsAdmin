@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentPayment} from '../../../data';
+import {Student, StudentPayment, Teacher} from '../../../data';
 import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentPaymentHttp} from '../../../http';
+import {StudentPaymentHttp, TeachersHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-payment-page',
@@ -15,13 +15,15 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public payments: Array<StudentPayment> = [];
+  public teachers: Array<Teacher> = [];
 
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private studentsService: StudentsService,
-    private studentPaymentHttp: StudentPaymentHttp
+    private studentPaymentHttp: StudentPaymentHttp,
+    private teachersHttp: TeachersHttp,
   ) {
     super();
 
@@ -33,10 +35,12 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
 
         Promise.all([
           this.studentsService.getStudent(this.student.id),
-          this.studentPaymentHttp.getPayments(this.student.id)
+          this.studentPaymentHttp.getPayments(this.student.id),
+          this.teachersHttp.getAllTeachers()
         ]).then(it => {
           this.student = it[0];
           this.payments = it[1];
+          this.teachers = it[2];
 
           this.loadingInProgress = false;
         });

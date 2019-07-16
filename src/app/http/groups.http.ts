@@ -16,7 +16,10 @@ export class GroupsHttp {
   }
 
   public getGroup(groupId: number): Promise<Group> {
-    return this.http.get<Group>(`${this.root}/${groupId}`).toPromise();
+    return this.http
+      .get<Group>(`${this.root}/${groupId}`)
+      .toPromise()
+      .then(group => Group.withSortedLessons(group));
   }
 
   public createGroup(group: Group): Promise<number> {

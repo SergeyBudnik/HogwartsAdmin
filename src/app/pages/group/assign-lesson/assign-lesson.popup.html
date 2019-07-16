@@ -1,62 +1,90 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Добавление занятия</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<app-modal-template [id]="'groupLessonModal'" [title]="'Добавление занятия'" [modalVisible]="modalVisible">
+  <div class="modal-body">
+    <form>
+      <div app-form-select-control
+           [type]="'NUMERIC'"
+           [name]="'teacher'"
+           [label]="'Преподаватель'"
+           [valid]="!!lessonInfo.lesson.teacherId"
+           [valueNumber]="lessonInfo.lesson.teacherId"
+           [items]="getTeachersItems()"
+           [hasEmpty]="true"
+           (onChangeNumber)="lessonInfo.lesson.teacherId = $event"></div>
+
+      <br>
+
+      <div style="display: flex; flex-direction: row">
+        <div app-form-select-control style="width: 32%"
+             [name]="'dayOfWeek'"
+             [label]="'День недели'"
+             [valid]="!!lessonInfo.lesson.day"
+             [valueString]="lessonInfo.lesson.day"
+             [items]="daysOfWeekItems"
+             [hasEmpty]="true"
+             (onChangeString)="lessonInfo.lesson.day = $event"></div>
+
+        <div style="width: 2%"></div>
+
+        <div app-form-select-control style="width: 32%"
+             [name]="'startTime'"
+             [label]="'Начало занятия'"
+             [valid]="!!lessonInfo.lesson.startTime"
+             [valueString]="lessonInfo.lesson.startTime"
+             [items]="timesItems"
+             [hasEmpty]="true"
+             (onChangeString)="lessonInfo.lesson.startTime = $event"></div>
+
+        <div style="width: 2%"></div>
+
+        <div app-form-select-control style="width: 32%"
+             [name]="'finishTime'"
+             [label]="'Окончание занятия'"
+             [valid]="!!lessonInfo.lesson.finishTime"
+             [valueString]="lessonInfo.lesson.finishTime"
+             [items]="timesItems"
+             [hasEmpty]="true"
+             (onChangeString)="lessonInfo.lesson.finishTime = $event"></div>
       </div>
-      <div class="modal-body">
-        <form>
-          <div app-form-select-control class="form-group"
-               [type]="'NUMERIC'"
-               [name]="'teacher'"
-               [label]="'Преподаватель'"
-               [valid]="!!lesson.teacherId"
-               [valueNumber]="lesson.teacherId"
-               [items]="getTeachersItems()"
-               [hasEmpty]="true"
-               (onChangeNumber)="lesson.teacherId = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'dayOfWeek'"
-               [label]="'День недели'"
-               [valid]="!!lesson.day"
-               [valueString]="lesson.day"
-               [items]="daysOfWeekItems"
-               [hasEmpty]="true"
-               (onChangeString)="lesson.day = $event"></div>
+      <br>
 
-          <div app-form-select-control class="form-group"
-               [name]="'startTime'"
-               [label]="'Начало занятия'"
-               [valid]="!!lesson.startTime"
-               [valueString]="lesson.startTime"
-               [items]="timesItems"
-               [hasEmpty]="true"
-               (onChangeString)="lesson.startTime = $event"></div>
+      <div style="display: flex; flex-direction: row">
+        <div app-form-select-control style="width: 32%"
+             [name]="'lessonStatus'"
+             [label]="'Статус занятия'"
+             [valid]="true"
+             [valueString]="lessonStatus"
+             [items]="lessonStatuses"
+             [hasEmpty]="false"
+             (onChangeString)="lessonStatus = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'finishTime'"
-               [label]="'Окончание занятия'"
-               [valid]="!!lesson.finishTime"
-               [valueString]="lesson.finishTime"
-               [items]="timesItems"
-               [hasEmpty]="true"
-               (onChangeString)="lesson.finishTime = $event"></div>
-        </form>
+        <div style="width: 2%"></div>
+
+        <div app-form-date-control style="width: 32%"
+             [label]="'Дата добавления занятия'"
+             [dateFormat]="'dd.mm.yyyy'"
+             [value]="lessonInfo.lesson.creationTime"
+             (onChange)="lessonInfo.lesson.creationTime = $event"></div>
+
+        <div style="width: 2%"></div>
+
+        <div app-form-date-control style="width: 32%"
+             *ngIf="lessonStatus === 'DISABLED'"
+             [label]="'Дата отключения занятия'"
+             [dateFormat]="'dd.mm.yyyy'"
+             [value]="lessonInfo.lesson.deactivationTime"
+             (onChange)="lessonInfo.lesson.deactivationTime = $event"></div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Отмена
-        </button>
-
-        <button [disabled]="!lesson.teacherId || !lesson.day || !lesson.startTime || !lesson.finishTime"
-                type="button" class="btn btn-primary" data-dismiss="modal" (click)="save()">
-          Добавить
-        </button>
-      </div>
-    </div>
+    </form>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      Отмена
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="save()"
+            [disabled]="!lessonInfo.lesson.teacherId || !lessonInfo.lesson.day || !lessonInfo.lesson.startTime || !lessonInfo.lesson.finishTime">
+      Сохранить
+    </button>
+  </div>
+</app-modal-template>

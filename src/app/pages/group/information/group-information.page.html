@@ -100,46 +100,31 @@
 
           <br>
 
-          <ng-container *ngFor="let dayOfWeek of daysOfWeek;">
-            <ng-container *ngIf="getDayLessons(dayOfWeek).length !== 0">
-              <div *ngFor="let dayLesson of getDayLessons(dayOfWeek);" class="group-lesson-row">
-                <div class="group-lesson-row-day-of-week">
-                  {{getDayOfWeekTranslation(dayOfWeek)}}
-                </div>
-                <div class="group-lesson-row-time">
-                  {{getTimeTranslation(dayLesson.startTime)}} - {{getTimeTranslation(dayLesson.finishTime)}}
-                </div>
-                <div class="group-lesson-row-teacher">
-                  {{getTeacher(dayLesson.teacherId).name}}
-                </div>
-                <ng-container>
-                  <div class="group-lesson-row-status" *ngIf="!dayLesson.id">
-                  </div>
-                  <div class="group-lesson-row-status" *ngIf="!!dayLesson.id && !!dayLesson.creationTime && !dayLesson.deactivationTime">
-                    с {{dayLesson.creationTime | date: 'dd.MM.yyyy'}}
-                  </div>
-                  <div class="group-lesson-row-status" *ngIf="!!dayLesson.id && !!dayLesson.creationTime && !!dayLesson.deactivationTime">
-                    с {{dayLesson.creationTime | date: 'dd.MM.yyyy'}} по {{dayLesson.deactivationTime | date: 'dd.MM.yyyy'}}
-                  </div>
-                </ng-container>
-                <ng-container>
-                  <div *ngIf="!dayLesson.id" class="group-lesson-row-action" (click)="deleteLesson(dayLesson.day, dayLesson.startTime)">
-                    Удалить
-                  </div>
-                  <div *ngIf="!!dayLesson.id && !!dayLesson.deactivationTime" class="group-lesson-row-action" (click)="activateLesson(dayLesson.id)">
-                    Включить
-                  </div>
-                  <div *ngIf="!!dayLesson.id && !dayLesson.deactivationTime" class="group-lesson-row-action" (click)="deactivateLesson(dayLesson.id)">
-                    Отключить
-                  </div>
-                </ng-container>
+          <div *ngFor="let lesson of group.lessons; let i = index;" class="group-lesson-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
+            <div class="group-lesson-row-day-of-week">
+              {{getDayOfWeekTranslation(lesson.day)}}
+            </div>
+            <div class="group-lesson-row-time">
+              {{getTimeTranslation(lesson.startTime)}} - {{getTimeTranslation(lesson.finishTime)}}
+            </div>
+            <div class="group-lesson-row-teacher">
+              {{getTeacher(lesson.teacherId).name}}
+            </div>
+            <ng-container>
+              <div class="group-lesson-row-status" *ngIf="!lesson.id">
+              </div>
+              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !lesson.deactivationTime">
+                с {{lesson.creationTime | date: 'dd.MM.yyyy'}}
+              </div>
+              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !!lesson.deactivationTime">
+                с {{lesson.creationTime | date: 'dd.MM.yyyy'}} по {{lesson.deactivationTime | date: 'dd.MM.yyyy'}}
               </div>
             </ng-container>
-          </ng-container>
+          </div>
 
           <br>
 
-          <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#groupLessonModal" (click)="setNewModalLesson()">
             Добавить занятие
           </button>
 
@@ -151,7 +136,7 @@
     <div class="page-right-menu">
     </div>
 
-    <app-assign-lesson-popup [group]="group"></app-assign-lesson-popup>
+    <app-assign-lesson-popup [lessonInfo]="lessonInfo" (lessonInfoSaved)="onLessonInfoSaved($event)"></app-assign-lesson-popup>
   </div>
 
   <div class="footer">

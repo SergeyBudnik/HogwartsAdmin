@@ -69,7 +69,7 @@ export class StudentPaymentModal extends TranslatableComponent {
       this.amount,
       this.time
     ).then(paymentId => {
-      this.paymentAdded.emit(new StudentPayment(paymentId, this.studentId, this.amount, this.time));
+      this.paymentAdded.emit(new StudentPayment(paymentId, this.studentId, 0, this.amount, this.time));
 
       this.hideModal();
 

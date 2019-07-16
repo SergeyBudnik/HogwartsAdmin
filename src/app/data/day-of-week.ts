@@ -25,4 +25,18 @@ export class DayOfWeekUtils {
         throw new Error(`Unexpected day of week ${dayOfWeek}`);
     }
   }
+
+  public static earlier(t1: DayOfWeek, t2: DayOfWeek): boolean {
+    return DayOfWeekUtils.index(t1) < DayOfWeekUtils.index(t2);
+  }
+
+  public static index(dayOfWeek: DayOfWeek): number {
+    for (let i = 0; i < DayOfWeekUtils.values.length; i++) {
+      if (DayOfWeekUtils.values[i] === dayOfWeek) {
+        return i;
+      }
+    }
+
+    throw new Error(`Unexpected time ${dayOfWeek}`);
+  }
 }

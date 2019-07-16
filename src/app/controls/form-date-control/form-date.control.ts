@@ -1,16 +1,17 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {IMyDateModel} from 'mydatepicker';
 
 @Component({
   selector: '[app-form-date-control]',
   templateUrl: './form-date.control.html',
-  styleUrls: ['./form-date.control.less']
+  styleUrls: ['./form-date.control.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class FormDateControl {
   @Input() public label: string = '';
   @Input() public dateFormat: string = 'dd.mm.yyyy';
-  @Input() public value: number = 0;
 
+  public value: number;
   public date = {date: {year: 0, month: 0, day: 0}};
 
   @Output() public onChange: EventEmitter<number> = new EventEmitter();
@@ -19,6 +20,8 @@ export class FormDateControl {
     this.value = value;
 
     const date: Date = new Date(value);
+
+    this.date = {date: {year: 0, month: 0, day: 0}};
 
     this.date.date.year = date.getFullYear();
     this.date.date.month = date.getMonth() + 1;
