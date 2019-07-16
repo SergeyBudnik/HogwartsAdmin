@@ -68,6 +68,10 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
     this.hideModal();
   }
 
+  public delete() {
+
+  }
+
   public cancel(): void {
     this.hideModal();
   }

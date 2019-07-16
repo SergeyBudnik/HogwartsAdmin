@@ -5,26 +5,19 @@
     <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'INFORMATION'"></div>
 
     <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!group.id">
-          Группа '{{group.id}}'
-        </h3>
-
-        <h3 class="app-header" *ngIf="!group.id">
-          Добавление группы
+        <h3 class="app-header">
+          <ng-container *ngIf="!!group.id">
+            Группа '{{group.id}}'
+          </ng-container>
+          <ng-container *ngIf="!group.id">
+            Добавление группы
+          </ng-container>
         </h3>
 
         <br>
 
         <form>
-          <h5 class="app-header">Информация</h5>
-
-          <br>
-
           <div class="form-group">
             <label for="color" style="color: #ffffff">Цвет:</label>
             <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
@@ -63,7 +56,7 @@
                [label]="'Уровень подготовки'"
                [valid]="!!group.educationLevel"
                [valueString]="group.educationLevel"
-               [items]="educationLevels"
+               [items]="educationLevelDictionary.selectItems"
                [hasEmpty]="true"
                (onChangeString)="group.educationLevel = $event"></div>
 
@@ -100,7 +93,7 @@
 
           <br>
 
-          <div *ngFor="let lesson of group.lessons; let i = index;" class="group-lesson-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
+          <div *ngFor="let lesson of group.lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
             <div class="group-lesson-row-day-of-week">
               {{getDayOfWeekTranslation(lesson.day)}}
             </div>

@@ -4,7 +4,7 @@
   <div class="page-elements">
     <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'STUDENTS'"></div>
 
-    <div class="page-content-with-footer no-padding">
+    <div class="page-content-with-footer">
       <div *ngIf="loadingInProgress" class="page-loading">
         <fa name="spinner" class="loading-sign" animation="spin"></fa>
       </div>
@@ -16,12 +16,8 @@
 
         <br>
 
-        <div *ngFor="let student of students" class="list-row group-students-row">
-          <app-field-validation-sign style="width: 10%" [valid]="isStudentValid(student)"></app-field-validation-sign>
-
-          <span style="width: 60%" class="horizontal-item" (click)="openStudent(student.id)">
-            {{student.name}}
-          </span>
+        <div *ngFor="let student of students" class="app-clickable-row">
+          {{student.name}}
         </div>
       </ng-container>
     </div>

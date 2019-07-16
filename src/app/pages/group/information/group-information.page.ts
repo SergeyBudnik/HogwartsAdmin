@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  Group, Student, EducationLevelUtils, AgeUtils, DayOfWeek, DayOfWeekUtils, Lesson, Teacher, Cabinet, GroupTypeUtils,
-  LessonInfo
+  Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils,
+  LessonInfo, EducationLevelDictionary
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
@@ -15,9 +15,6 @@ import {SelectItem} from '../../../controls/select-item';
   styleUrls: ['./group-information.page.less']
 })
 export class GroupInformationPageComponent extends TranslatableComponent {
-  public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
-
-  public educationLevels = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
   public ages = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
   public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
 
@@ -31,6 +28,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   private cabinets: Array<Cabinet> = [];
 
   public lessonInfo = new LessonInfo(null, new Lesson());
+
+  public educationLevelDictionary = new EducationLevelDictionary();
 
   public constructor(
     private router: Router,

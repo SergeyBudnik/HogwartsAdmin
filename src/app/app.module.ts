@@ -98,6 +98,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.StudentAttendancePageComponent,
     Pages.StudentPaymentPageComponent,
     Pages.StudentMenuPageComponent,
+    Pages.StudentAssignGroupPopupComponent,
+
     Pages.StudentsListPageComponent,
     Pages.StudentsStatisticsPageComponent,
 

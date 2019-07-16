@@ -86,57 +86,29 @@
               Студент не назначен в группу
             </div>
 
-            <div *ngFor="let studentGroup of student.studentGroups; let i = index" class="student-group-container">
-              <div app-form-select-control class="form-group student-group"
-                   [type]="'NUMERIC'"
-                   [name]="'studentGroup_' + i"
-                   [valueNumber]="studentGroup.groupId"
-                   [items]="getMatchingGroups()"
-                   [hasEmpty]="true"
-                   (onChangeNumber)="studentGroup.groupId = $event"></div>
-
-              <div class="student-group-info app-text">
-                <ng-container *ngIf="!studentGroup.startTime">
-                  Новая группа
-                </ng-container>
-                <ng-container *ngIf="!!studentGroup.startTime && !studentGroup.finishTime">
+            <div *ngFor="let studentGroup of student.studentGroups; let i = index" style="display: flex; flex-direction: row">
+              <div class="app-clickable-row" data-toggle="modal" data-target="#studentAssignGroupModal" style="width: 80%" (click)="editExistingGroup(studentGroup, i)">
+                <div style="width: 70%">
+                  {{getGroupName(studentGroup.groupId)}}
+                </div>
+                <div *ngIf="studentGroup.finishTime == null" style="width: 30%">
                   с {{studentGroup.startTime | date: 'dd.MM.yyyy'}}
-                </ng-container>
-                <ng-container *ngIf="!!studentGroup.startTime && !!studentGroup.finishTime">
+                </div>
+                <div *ngIf="studentGroup.finishTime != null" style="width: 30%">
                   с {{studentGroup.startTime | date: 'dd.MM.yyyy'}} по {{studentGroup.finishTime | date: 'dd.MM.yyyy'}}
-                </ng-container>
+                </div>
               </div>
 
-              <div
-                *ngIf="!!studentGroup.startTime && !studentGroup.finishTime"
-                class="student-group-action"
-                (click)="disableGroup(i)">
-                Отключить
-              </div>
-
-              <div
-                *ngIf="!!studentGroup.startTime && !!studentGroup.finishTime"
-                class="student-group-action"
-                (click)="enableGroup(i)">
-                Включить
-              </div>
-
-              <div
-                class="student-group-action"
-                (click)="removeGroup(i)">
-                Удалить
-              </div>
-
-              <div
-                *ngIf="!!student.studentGroups[i]"
-                class="student-group-action"
-                (click)="goToGroup(student.studentGroups[i].groupId)">
+              <div *ngIf="!!studentGroup.groupId" class="student-group-action" (click)="goToGroup(studentGroup.groupId)">
                 Перейти
               </div>
             </div>
           </div>
 
-          <button class="btn btn-secondary" (click)="addGroup()">Добавить группу</button>
+          <button class="btn btn-secondary" data-toggle="modal" data-target="#studentAssignGroupModal"
+                  (click)="addNewGroup()">
+            Добавить группу
+          </button>
 
           <br>
         </form>
@@ -145,6 +117,8 @@
 
     <div class="page-right-menu">
     </div>
+
+    <app-student-assign-group-popup [groups]="getMatchingGroups()" [teachers]="allTeachers" [students]="allStudents"></app-student-assign-group-popup>
   </div>
 
   <div class="footer">
