@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils,
-  LessonInfo, EducationLevelDictionary
+  Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils, EducationLevelDictionary, StudentGroup
 } from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
+import {GroupAssignLessonPopupManager} from '../../';
 
 @Component({
   selector: 'app-group-information-page',
@@ -24,10 +24,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  private teachers: Array<Teacher> = [];
-  private cabinets: Array<Cabinet> = [];
-
-  public lessonInfo = new LessonInfo(null, new Lesson());
+  public teachers: Array<Teacher> = [];
+  public cabinets: Array<Cabinet> = [];
 
   public educationLevelDictionary = new EducationLevelDictionary();
 
@@ -97,19 +95,41 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   }
 
   public setExistingModalLesson(lesson: Lesson, index: number) {
-    this.lessonInfo = new LessonInfo(index, Lesson.copy(lesson));
+    GroupAssignLessonPopupManager.pushGroupLesson(
+      lesson,
+      index,
+      (lesson: Lesson) => this.onLessonSaved(lesson, index),
+      () => this.onLessonDeleted(index)
+    );
   }
 
   public setNewModalLesson() {
-    this.lessonInfo = new LessonInfo(null, new Lesson());
+    GroupAssignLessonPopupManager.pushGroupLesson(
+      new Lesson(),
+      null,
+      (lesson: Lesson) => this.onLessonSaved(lesson, null),
+      () => {}
+    );
   }
 
-  public onLessonInfoSaved(lessonInfo: LessonInfo) {
-    if (lessonInfo.lessonIndex == null) {
-      this.group.lessons.push(lessonInfo.lesson);
+  public onLessonSaved(lesson: Lesson, lessonIndex: number) {
+    if (lessonIndex == null) {
+      this.group.lessons.push(lesson);
     } else {
-      this.group.lessons[lessonInfo.lessonIndex] = lessonInfo.lesson;
+      this.group.lessons[lessonIndex] = lesson;
     }
+  }
+
+  private onLessonDeleted(lessonIndex: number) {
+    let lessons: Array<Lesson> = [];
+
+    for (let i = 0; i < this.group.lessons.length; i++) {
+      if (i != lessonIndex) {
+        lessons.push(this.group.lessons[i]);
+      }
+    }
+
+    this.group.lessons = lessons;
   }
 
   private initGroup(groupId: number) {

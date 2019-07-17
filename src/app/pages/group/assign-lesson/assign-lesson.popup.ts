@@ -1,8 +1,43 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher, LessonInfo} from '../../../data';
+import {Component, Input} from '@angular/core';
+import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {CabinetsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
+
+export class GroupAssignLessonPopupManager {
+  private static popup: AssignLessonPopupComponent = null;
+  private static saveListener: (lesson: Lesson) => void;
+  private static deleteListener: () => void;
+
+  public static register(popup: AssignLessonPopupComponent) {
+    this.popup = popup;
+  }
+
+  public static pushGroupLesson(
+    lesson: Lesson,
+    lessonIndex: number,
+    saveListener: (lesson: Lesson) => void,
+    deleteListener: () => void
+  ) {
+    if (!!this.popup) {
+      this.popup.onGroupLessonInit(lesson, lessonIndex);
+
+      this.saveListener = saveListener;
+      this.deleteListener = deleteListener;
+    }
+  }
+
+  public static notifyGroupLessonSaved(lesson: Lesson) {
+    if (this.popup != null && this.saveListener != null) {
+      this.saveListener(lesson);
+    }
+  }
+
+  public static notifyGroupLessonDeleted() {
+    if (this.popup != null && this.deleteListener != null) {
+      this.deleteListener();
+    }
+  }
+}
 
 @Component({
   selector: 'app-assign-lesson-popup',
@@ -19,64 +54,71 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
     new SelectItem('Выключено', 'DISABLED')
   ];
 
-  @Input('lessonInfo') set setLessonInfo(lessonInfo: LessonInfo) {
-    this.lessonInfo = lessonInfo;
-
-    if (this.lessonInfo.lesson.deactivationTime == null) {
-      this.lessonStatus = 'ENABLED';
-    } else {
-      this.lessonStatus = 'DISABLED';
-    }
-  }
-
-  @Output() public lessonInfoSaved: EventEmitter<LessonInfo> = new EventEmitter<LessonInfo>();
-
-  public lessonInfo: LessonInfo = new LessonInfo(null, new Lesson());
+  public lesson: Lesson = null;
+  public lessonIndex: number = null;
   public lessonStatus: String = 'DISABLED';
 
-  public cabinets: Array<Cabinet> = [];
-  public teachers: Array<Teacher> = [];
+  @Input() public cabinets: Array<Cabinet> = [];
+  @Input() public teachers: Array<Teacher> = [];
 
-  public constructor(
-    private cabinetsHttp: CabinetsHttp,
-    private teachersHttp: TeachersHttp
-  ) {
+  public constructor() {
     super();
 
-    Promise.all([
-      this.cabinetsHttp.getAllCabinets(),
-      this.teachersHttp.getAllTeachers()
-    ]).then(it => {
-      this.cabinets = it[0];
-      this.teachers = it[1];
-    });
+    GroupAssignLessonPopupManager.register(this);
+  }
+
+  public onGroupLessonInit(lesson: Lesson, lessonIndex: number) {
+    this.lesson = Lesson.copy(lesson);
+    this.lessonIndex = lessonIndex;
+    this.lessonStatus = (lesson.deactivationTime == null) ? 'ENABLED' : 'DISABLED';
   }
 
   public getTeachersItems(): Array<SelectItem> {
-    return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
+    return this.teachers.map(it => new SelectItem(it.name, '' + it.id));
+  }
+
+  public isValid(): boolean {
+    let hasTeacherId = !!this.lesson.teacherId;
+    let hasDay = !!this.lesson.day;
+    let hasStartTime = !!this.lesson.startTime;
+    let hasFinishTime = !!this.lesson.finishTime;
+    let hasCreationTime = !!this.lesson.creationTime;
+    let hasDeactivationTime = !!this.lesson.deactivationTime;
+
+    let isEnabled = (this.lessonStatus == 'ENABLED');
+
+    return hasTeacherId && hasDay && hasStartTime && hasFinishTime && hasCreationTime && (isEnabled || hasDeactivationTime);
+  }
+
+  public isNew(): boolean {
+    return this.lessonIndex == null;
   }
 
   public save(): void {
-    this.lessonInfo.lesson.teacherId = Number(this.lessonInfo.lesson.teacherId);
+    this.lesson.teacherId = Number(this.lesson.teacherId);
 
     if (this.lessonStatus == 'ENABLED') {
-      this.lessonInfo.lesson.deactivationTime = null;
+      this.lesson.deactivationTime = null;
     }
 
-    this.lessonInfoSaved.emit(this.lessonInfo);
+    GroupAssignLessonPopupManager.notifyGroupLessonSaved(
+      Lesson.copy(this.lesson)
+    );
 
-    this.hideModal();
+    this.toggleModal();
   }
 
   public delete() {
+    GroupAssignLessonPopupManager.notifyGroupLessonDeleted();
 
+    this.toggleModal();
   }
 
   public cancel(): void {
-    this.hideModal();
+    this.toggleModal();
   }
 
-  private hideModal(): void {
+  private toggleModal(): void {
     this.modalVisible = !this.modalVisible;
   }
 }
