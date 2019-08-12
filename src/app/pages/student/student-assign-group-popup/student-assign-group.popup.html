@@ -1,6 +1,6 @@
 <app-modal-template [id]="'studentAssignGroupModal'" [title]="'Добавление группы'" [modalVisible]="modalVisible">
   <div class="modal-body">
-    <form *ngIf="!!studentGroup">
+    <form *ngIf="!!studentGroup"  >
       <div app-form-select-control
            [type]="'NUMERIC'"
            [name]="'group'"
@@ -42,7 +42,7 @@
       </div>
     </form>
   </div>
-  <div class="modal-footer">
+  <div *ngIf="!!studentGroup" class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="cancel()">
       Отмена
     </button>

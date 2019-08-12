@@ -16,7 +16,7 @@
 
         <br>
 
-        <div *ngFor="let student of students" class="app-clickable-row">
+        <div *ngFor="let student of students" class="app-clickable-row" (click)="openStudent(student.id)">
           {{student.name}}
         </div>
       </ng-container>

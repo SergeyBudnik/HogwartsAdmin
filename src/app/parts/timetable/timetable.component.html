@@ -1,36 +1,3 @@
-<!--<ng-container *ngIf="showFilters">-->
-  <!--<form>-->
-    <!--<div class="row">-->
-      <!--<div class="col-4">-->
-        <!--<div class="form-group">-->
-          <!--<label for="educationLevel">Уровень подготовки:</label>-->
-          <!--<select id="educationLevel" class="form-control" name="educationLevel" (change)="onEducationLevelFilterChange($event.target.valueString)">-->
-            <!--<option *ngFor="let educationLevel of educationLevels" valueString="{{educationLevel}}">-->
-              <!--{{educationLevel === 'UNKNOWN' ? 'Любой' : getEducationLevelTranslation(educationLevel)}}-->
-            <!--</option>-->
-          <!--</select>-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <!--<div class="col-4">-->
-        <!--<div class="form-group">-->
-          <!--<label for="age">Возрастная категория:</label>-->
-          <!--<select id="age" class="form-control" name="age" (change)="onAgeFilterChange($event.target.valueString)">-->
-            <!--<option *ngFor="let age of ages" valueString="{{age}}">-->
-              <!--{{age === 'UNKNOWN' ? 'Любой' : getAgeTranslationAsGroup(age)}}-->
-            <!--</option>-->
-          <!--</select>-->
-        <!--</div>-->
-      <!--</div>-->
-
-      <!--<div class="col-4">-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</form>-->
-
-  <!--<br>-->
-<!--</ng-container>-->
-
 <div class="timetable-header">
   <div *ngFor="let dayOfWeek of daysOfWeek"
        [class.timetable-current-day]="dayOfWeek === getCurrentDay()"

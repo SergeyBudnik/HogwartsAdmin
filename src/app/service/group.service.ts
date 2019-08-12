@@ -8,7 +8,11 @@ export class GroupService {
   }
 
   public getGroupName(teacher: Teacher, groupStudents: Array<Student>): string {
-    return `${teacher.name} - ${this.getGroupStudentsNames(groupStudents)}`;
+    if (!teacher) {
+      return ""
+    } else {
+      return `${teacher.name} - ${this.getGroupStudentsNames(groupStudents)}`;
+    }
   }
 
   private getGroupStudentsNames(groupStudents: Array<Student>): String {
