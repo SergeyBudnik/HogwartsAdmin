@@ -1,12 +1,8 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component, Input} from '@angular/core';
-import {Lesson} from '../../data/lesson';
-import {DayOfWeek, DayOfWeekUtils} from '../../data/day-of-week';
-import {Group} from '../../data/group';
-import {Time, TimeUtils} from '../../data/time';
-import {EducationLevel, EducationLevelUtils} from '../../data/education-level';
-import {Age, AgeUtils} from '../../data/age';
+import {Lesson, DayOfWeek, DayOfWeekUtils, Group, Time, TimeUtils} from '../../data';
 import {Router} from '@angular/router';
+import {endOfWeek} from 'date-fns'
 
 @Component({
   selector: 'app-timetable',
@@ -16,64 +12,42 @@ import {Router} from '@angular/router';
 export class TimetableComponent extends TranslatableComponent {
   @Input() public showFilters: boolean;
 
-  public educationLevels: Array<EducationLevel> = EducationLevelUtils.values;
-  public ages: Array<Age> = AgeUtils.values;
   public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
 
-  public ageFilter: Age = 'UNKNOWN';
-  public educationLevelFilter: EducationLevel = 'UNKNOWN';
+  private rawLessons: Array<Lesson> = null;
+  private rawGroups: Array<Group> = null;
 
-  private groups: Array<Group>;
+  private groups: Map<number, Group>;
   private lessons: Map<DayOfWeek, Map<Time, Lesson>>;
-
-  private filteredGroups: Map<number, Group>;
 
   private earliestLessonStartTime: Time = 'T_21_30';
   private latestLessonFinishTime: Time = 'T_07_00';
 
-  @Input('lessons') public set setLessons(lessonsArray: Array<Lesson>) {
-    const lessons: Map<DayOfWeek, Map<Time, Lesson>> = new Map<DayOfWeek, Map<Time, Lesson>>();
+  @Input('lessons') public set setLessons(rawLessons: Array<Lesson>) {
+    this.rawLessons = rawLessons;
 
-    DayOfWeekUtils.values.forEach(dayOfWeek => {
-      lessons.set(dayOfWeek, new Map<Time, Lesson>());
-    });
-
-    lessonsArray.forEach(lesson => {
-      TimeUtils.range(lesson.startTime, lesson.finishTime).forEach(time => {
-        lessons.get(lesson.day).set(time, lesson);
-      });
-
-      if (TimeUtils.earlier(lesson.startTime, this.earliestLessonStartTime)) {
-        this.earliestLessonStartTime = lesson.startTime;
-      }
-
-      if (TimeUtils.later(lesson.finishTime, this.latestLessonFinishTime)) {
-        this.latestLessonFinishTime = lesson.finishTime;
-      }
-    });
-
-    this.lessons = lessons;
+    this.onInit();
   }
 
-  @Input('groups') public set setGroups(groupsArray: Array<Group>) {
-    this.groups = groupsArray;
-    this.filteredGroups = this.getFilteredGroups();
+  @Input('groups') public set setGroups(rawGroups: Array<Group>) {
+    this.rawGroups = rawGroups;
+
+    this.onInit();
+  }
+
+  private onInit() {
+    if (!this.rawLessons || !this.rawGroups) {
+      return;
+    }
+
+    this.groups = this.getGroupsMap(this.rawGroups);
+    this.lessons = this.getLessonsMap(this.rawLessons);
   }
 
   public constructor(
     private router: Router
   ) {
     super();
-  }
-
-  public onAgeFilterChange(ageFilter): void {
-    this.ageFilter = ageFilter;
-    this.filteredGroups = this.getFilteredGroups();
-  }
-
-  public onEducationLevelFilterChange(educationLevelFilter): void {
-    this.educationLevelFilter = educationLevelFilter;
-    this.filteredGroups = this.getFilteredGroups();
   }
 
   public getCurrentDay(): DayOfWeek {
@@ -100,7 +74,7 @@ export class TimetableComponent extends TranslatableComponent {
   }
 
   public getGroup(dayOfWeek: DayOfWeek, time: Time): Group {
-    if (this.lessons != null && this.filteredGroups != null) {
+    if (this.lessons != null && this.groups != null) {
       const lesson = this.lessons.get(dayOfWeek).get(time);
 
       return !!lesson ? this.getGroupByLesson(lesson) : null;
@@ -117,21 +91,42 @@ export class TimetableComponent extends TranslatableComponent {
     }
   }
 
-  private getFilteredGroups(): Map<number, Group> {
-    const filteredGroups: Map<number, Group> = new Map<number, Group>();
+  private getGroupsMap(groupsArray: Array<Group>): Map<number, Group> {
+    const groupsMap: Map<number, Group> = new Map<number, Group>();
 
-    this.groups
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || this.educationLevelFilter === it.educationLevel)
-      .filter(it => this.ageFilter === 'UNKNOWN' || this.ageFilter === it.age)
-      .forEach(it => filteredGroups.set(it.id, it));
+    groupsArray.forEach(it => groupsMap.set(it.id, it));
 
-    return filteredGroups;
+    return groupsMap;
+  }
+
+  private getLessonsMap(lessonsArray: Array<Lesson>): Map<DayOfWeek, Map<Time, Lesson>> {
+    const lessons: Map<DayOfWeek, Map<Time, Lesson>> = new Map<DayOfWeek, Map<Time, Lesson>>();
+
+    DayOfWeekUtils.values.forEach(dayOfWeek => { lessons.set(dayOfWeek, new Map<Time, Lesson>()) });
+
+    lessonsArray
+      .filter(lesson => this.isLessonActive(lesson))
+      .forEach(lesson => {
+        TimeUtils.range(lesson.startTime, lesson.finishTime).forEach(time => {
+          lessons.get(lesson.day).set(time, lesson);
+        });
+
+        if (TimeUtils.earlier(lesson.startTime, this.earliestLessonStartTime)) {
+          this.earliestLessonStartTime = lesson.startTime;
+        }
+
+        if (TimeUtils.later(lesson.finishTime, this.latestLessonFinishTime)) {
+          this.latestLessonFinishTime = lesson.finishTime;
+        }
+      });
+
+    return lessons;
   }
 
   private getGroupByLesson(lesson: Lesson): Group {
     let lessonGroup: Group = null;
 
-    this.filteredGroups.forEach(group => {
+    this.groups.forEach(group => {
       const searchedLesson: Lesson = group.lessons.find(it => lesson.id === it.id);
 
       if (!!searchedLesson) {
@@ -140,5 +135,17 @@ export class TimetableComponent extends TranslatableComponent {
     });
 
     return lessonGroup;
+  }
+
+  private isLessonActive(lesson: Lesson): boolean {
+    const weekEndTime = endOfWeek(new Date()).getTime();
+
+    if (!lesson.deactivationTime) {
+      return true;
+    } else if (weekEndTime <= lesson.deactivationTime) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

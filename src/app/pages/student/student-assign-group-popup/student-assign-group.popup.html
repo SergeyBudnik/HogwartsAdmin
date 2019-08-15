@@ -1,0 +1,58 @@
+<app-modal-template [id]="'studentAssignGroupModal'" [title]="'Добавление группы'" [modalVisible]="modalVisible">
+  <div class="modal-body">
+    <form *ngIf="!!studentGroup"  >
+      <div app-form-select-control
+           [type]="'NUMERIC'"
+           [name]="'group'"
+           [label]="'Группа'"
+           [valid]="!!studentGroup.groupId"
+           [valueNumber]="studentGroup.groupId"
+           [items]="getGroupItems()"
+           [hasEmpty]="true"
+           (onChangeNumber)="studentGroup.groupId = $event"></div>
+
+      <br>
+
+      <div style="display: flex; flex-direction: row">
+        <div app-form-select-control style="width: 32%"
+             [name]="'studentGroupAssignStatus'"
+             [label]="'Статус'"
+             [valid]="true"
+             [valueString]="studentGroupStatus"
+             [items]="getStatusItems()"
+             [hasEmpty]="false"
+             (onChangeString)="studentGroupStatus = $event"></div>
+
+        <div style="width: 2%"></div>
+
+        <div app-form-date-control style="width: 32%"
+             [label]="'Записан'"
+             [dateFormat]="'dd.mm.yyyy'"
+             [value]="studentGroup.startTime"
+             (onChange)="studentGroup.startTime = $event"></div>
+
+        <div style="width: 2%"></div>
+
+        <div app-form-date-control style="width: 32%"
+             *ngIf="studentGroupStatus == 'DISABLED'"
+             [label]="'Покинул'"
+             [dateFormat]="'dd.mm.yyyy'"
+             [value]="studentGroup.finishTime"
+             (onChange)="studentGroup.finishTime = $event"></div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="!!studentGroup" class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      Отмена
+    </button>
+
+    <button type="button" class="btn btn-danger" [disabled]="isNew()" (click)="delete()">
+      Удалить
+    </button>
+
+    <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="save()">
+      Сохранить
+    </button>
+  </div>
+</app-modal-template>

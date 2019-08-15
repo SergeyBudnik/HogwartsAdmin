@@ -19,6 +19,7 @@ export * from './student/status/student-status.page';
 export * from './student/attendance/student-attendance.page';
 export * from './student/payment/student-payment.page';
 export * from './student/menu/student-menu.component';
+export * from './student/student-assign-group-popup/student-assign-group.popup';
 
 export * from './students-list/students-list.page';
 export * from './students-statistics/students-statistics.page';

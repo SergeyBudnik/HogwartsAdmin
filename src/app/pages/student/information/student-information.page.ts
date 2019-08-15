@@ -2,10 +2,12 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, EducationLevelUtils, Group, AgeUtils, StudentGroup} from '../../../data';
+import {Student, EducationLevelUtils, Group, AgeUtils, StudentGroup, Teacher} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
-import {GroupsHttp} from '../../../http';
+import {GroupsHttp, TeachersHttp} from '../../../http';
+import {StudentAssignGroupPopupManager} from '../../';
+import {GroupService} from '../../../service/group.service';
 
 @Component({
   selector: 'app-student-information-page',
@@ -24,6 +26,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
+  private allTeachers: Array<Teacher> = [];
 
   public constructor(
     private router: Router,
@@ -31,6 +34,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
+    private teachersHttp: TeachersHttp,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
   ) {
@@ -45,8 +49,22 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     }
   }
 
-  public addGroup(): void {
-    this.student.studentGroups.push(new StudentGroup(null, null, null));
+  public addNewGroup(): void {
+    StudentAssignGroupPopupManager.pushStudentGroup(
+      new StudentGroup(null, new Date().getTime(), null),
+      null,
+      (studentGroup: StudentGroup) => this.onGroupSaved(studentGroup, null),
+      () => {}
+    );
+  }
+
+  public editExistingGroup(studentGroup: StudentGroup, index: number) {
+    StudentAssignGroupPopupManager.pushStudentGroup(
+      studentGroup,
+      index,
+      (studentGroup: StudentGroup) => this.onGroupSaved(studentGroup, index),
+      () => this.onGroupDeleted(index)
+    );
   }
 
   public goToStatus() {
@@ -59,20 +77,24 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     }
   }
 
-  public removeGroup(indexToRemove: number): void {
-    this.student.studentGroups = this.student.studentGroups.filter((_, index) => index !== indexToRemove);
+  private onGroupSaved(studentGroup: StudentGroup, studentGroupIndex: number) {
+    if (studentGroupIndex == null) {
+      this.student.studentGroups.push(studentGroup);
+    } else {
+      this.student.studentGroups[studentGroupIndex] = studentGroup;
+    }
   }
 
-  public enableGroup(indexToDisable: number) {
-    this.student.studentGroups
-      .filter((_, index) => index === indexToDisable)
-      .forEach(studentGroup => studentGroup.finishTime = null);
-  }
+  private onGroupDeleted(studentGroupIndex: number) {
+    let studentGroups: Array<StudentGroup> = [];
 
-  public disableGroup(indexToDisable: number) {
-    this.student.studentGroups
-      .filter((_, index) => index === indexToDisable)
-      .forEach(studentGroup => studentGroup.finishTime = new Date().getTime());
+    for (let i = 0; i < this.student.studentGroups.length; i++) {
+      if (i != studentGroupIndex) {
+        studentGroups.push(this.student.studentGroups[i]);
+      }
+    }
+
+    this.student.studentGroups = studentGroups;
   }
 
   public save(): void {
@@ -107,17 +129,16 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     });
   }
 
-  public getMatchingGroups(): Array<SelectItem> {
-    return this.allGroups
-      .filter(group => group.age === this.student.age)
-      .filter(group => group.educationLevel === this.student.educationLevel)
-      .map(it => new SelectItem(this.getGroupName(it.id), "" + it.id));
+  public getMatchingGroups(): Array<Group> {
+    return new GroupService().getMatchingGroups(this.allGroups, this.student.age, this.student.educationLevel);
   }
 
   public getGroupName(groupId: number): string {
     let group = this.allGroups.find(it => it.id === groupId);
+    let teacher = this.allTeachers.find(it => it.id === group.managerId);
+    let students = this.allStudents.filter(student => student.studentGroups.map(it => it.groupId).indexOf(groupId) != -1);
 
-    return `${this.getEducationLevelTranslation(group.educationLevel)} - ${group.bookName} - ${this.getGroupStudentsNames(groupId)}`;
+    return new GroupService().getGroupName(teacher, students);
   }
 
   public hasAtLeastOneContact(): boolean {
@@ -128,23 +149,15 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     window.open(`https://vk.com/${this.student.vkLink}`, '_blank');
   }
 
-  private getGroupStudentsNames(groupId: number): String {
-    let students = this.allStudents.filter(it => it.studentGroups.map(it => it.groupId).indexOf(groupId) !== -1);
-
-    if (students.length == 0) {
-      return 'Нет студентов';
-    } else {
-      return students.map(it => it.name).map(it => it.split(' ')[0]).reduce((n1, n2) => `${n1}; ${n2}`);
-    }
-  }
-
   private initStudent(studentId: number, groupId: number): void {
     Promise.all([
       this.studentsService.getAllStudents(),
       this.groupsHttp.getAllGroups(),
+      this.teachersHttp.getAllTeachers()
     ]).then(it => {
       this.allStudents = it[0];
       this.allGroups = it[1];
+      this.allTeachers = it[2];
 
       if (studentId == null) {
         this.student = new Student();

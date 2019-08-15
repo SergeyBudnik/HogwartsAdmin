@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {
-  Group, Student, StudentPayment, StudentPaymentStatus, StudentPaymentStatusUtils, StudentStatusType, StudentStatusTypeUtils,
+  Group, Student, StudentGroup, StudentPayment, StudentPaymentStatus, StudentPaymentStatusUtils, StudentStatusType, StudentStatusTypeUtils,
   StudentUtils
 } from '../../data';
 import {Router} from '@angular/router';
@@ -60,6 +60,15 @@ export class StudentsListPageComponent extends CommonPage {
 
       this.loadingInProgress = false;
     });
+  }
+
+  public getStudentsActiveGroups(student: Student): Array<StudentGroup> {
+    const currentTime = new Date().getTime();
+
+    return student
+      .studentGroups
+      .filter(studentGroup => studentGroup.startTime <= currentTime)
+      .filter(studentGroup => !studentGroup.finishTime || currentTime <= studentGroup.finishTime);
   }
 
   public getGroup(groupId: number): Group {

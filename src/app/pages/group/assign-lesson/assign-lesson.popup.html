@@ -5,11 +5,11 @@
            [type]="'NUMERIC'"
            [name]="'teacher'"
            [label]="'Преподаватель'"
-           [valid]="!!lessonInfo.lesson.teacherId"
-           [valueNumber]="lessonInfo.lesson.teacherId"
+           [valid]="!!lesson.teacherId"
+           [valueNumber]="lesson.teacherId"
            [items]="getTeachersItems()"
            [hasEmpty]="true"
-           (onChangeNumber)="lessonInfo.lesson.teacherId = $event"></div>
+           (onChangeNumber)="lesson.teacherId = $event"></div>
 
       <br>
 
@@ -17,33 +17,33 @@
         <div app-form-select-control style="width: 32%"
              [name]="'dayOfWeek'"
              [label]="'День недели'"
-             [valid]="!!lessonInfo.lesson.day"
-             [valueString]="lessonInfo.lesson.day"
+             [valid]="!!lesson.day"
+             [valueString]="lesson.day"
              [items]="daysOfWeekItems"
              [hasEmpty]="true"
-             (onChangeString)="lessonInfo.lesson.day = $event"></div>
+             (onChangeString)="lesson.day = $event"></div>
 
         <div style="width: 2%"></div>
 
         <div app-form-select-control style="width: 32%"
              [name]="'startTime'"
              [label]="'Начало занятия'"
-             [valid]="!!lessonInfo.lesson.startTime"
-             [valueString]="lessonInfo.lesson.startTime"
+             [valid]="!!lesson.startTime"
+             [valueString]="lesson.startTime"
              [items]="timesItems"
              [hasEmpty]="true"
-             (onChangeString)="lessonInfo.lesson.startTime = $event"></div>
+             (onChangeString)="lesson.startTime = $event"></div>
 
         <div style="width: 2%"></div>
 
         <div app-form-select-control style="width: 32%"
              [name]="'finishTime'"
              [label]="'Окончание занятия'"
-             [valid]="!!lessonInfo.lesson.finishTime"
-             [valueString]="lessonInfo.lesson.finishTime"
+             [valid]="!!lesson.finishTime"
+             [valueString]="lesson.finishTime"
              [items]="timesItems"
              [hasEmpty]="true"
-             (onChangeString)="lessonInfo.lesson.finishTime = $event"></div>
+             (onChangeString)="lesson.finishTime = $event"></div>
       </div>
 
       <br>
@@ -63,8 +63,8 @@
         <div app-form-date-control style="width: 32%"
              [label]="'Дата добавления занятия'"
              [dateFormat]="'dd.mm.yyyy'"
-             [value]="lessonInfo.lesson.creationTime"
-             (onChange)="lessonInfo.lesson.creationTime = $event"></div>
+             [value]="lesson.creationTime"
+             (onChange)="lesson.creationTime = $event"></div>
 
         <div style="width: 2%"></div>
 
@@ -72,8 +72,8 @@
              *ngIf="lessonStatus === 'DISABLED'"
              [label]="'Дата отключения занятия'"
              [dateFormat]="'dd.mm.yyyy'"
-             [value]="lessonInfo.lesson.deactivationTime"
-             (onChange)="lessonInfo.lesson.deactivationTime = $event"></div>
+             [value]="lesson.deactivationTime"
+             (onChange)="lesson.deactivationTime = $event"></div>
       </div>
     </form>
   </div>
@@ -82,8 +82,11 @@
       Отмена
     </button>
 
-    <button type="button" class="btn btn-primary" (click)="save()"
-            [disabled]="!lessonInfo.lesson.teacherId || !lessonInfo.lesson.day || !lessonInfo.lesson.startTime || !lessonInfo.lesson.finishTime">
+    <button type="button" class="btn btn-danger" [disabled]="isNew()" (click)="delete()">
+      Удалить
+    </button>
+
+    <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="save()">
       Сохранить
     </button>
   </div>
