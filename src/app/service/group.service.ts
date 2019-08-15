@@ -5,7 +5,7 @@ export class GroupService {
     return groups
       .filter(group => group.age === age)
       .filter(group => group.educationLevel === educationLevel)
-  }
+  } 
 
   public getGroupName(teacher: Teacher, groupStudents: Array<Student>): string {
     if (!teacher) {
