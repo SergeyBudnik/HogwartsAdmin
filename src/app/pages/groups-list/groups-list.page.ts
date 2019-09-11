@@ -58,9 +58,12 @@ export class GroupsListPageComponent extends TranslatableComponent {
   }
 
   public getGroupStudentsString(groupId: number): string {
+    const currentTime = new Date().getTime();
+
     const groupActiveStudents = this.groupsService.getGroupActiveStudents(
       this.getGroupById(groupId),
-      this.students
+      this.students,
+      currentTime
     );
 
     const groupActiveStudentsNames = groupActiveStudents
