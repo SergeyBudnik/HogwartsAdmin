@@ -1,46 +1,56 @@
 @import "../../../styles.less";
 
-.student-validation-column {
-  width: 5%;
-}
+@students-list-column-width-validation: 5%;
+@students-list-column-width-name: 35%;
+@students-list-column-width-groups: 25%;
+@students-list-column-width-status: 25%;
 
-.student-name-column {
-  width: 25%;
-}
+/**
+ * Header
+ */
 
-.student-education-level-column {
-  width: 20%;
-}
-
-.student-age-column {
-  width: 20%;
-}
-
-.student-status-column {
-  width: 20%;
-}
-
-.student-status-column-item {
-  .student-groups-column;
-
-  margin-top: 5px;
+.students-list-header-add-new {
+  position: absolute;
+  left: 90%;
+  width: 10%;
+  margin-top: 10px;
   padding-right: 20px;
 }
 
-.student-payments-column {
-  width: 20%
+.students-list-header-search {
+  padding-right: 20px;
 }
 
+/**
+ * Column: Validation
+ */
+
+.student-validation-column {
+  width: @students-list-column-width-validation;
+}
+
+/**
+ * Column: Name
+ */
+
+.student-name-column {
+  width: @students-list-column-width-name;
+}
+
+/**
+ * Column: Groups
+ */
+
 .student-groups-column {
-  width: 20%;
+  width: @students-list-column-width-groups;
 }
 
 .student-groups-column-header {
-  .student-groups-column;
+  width: @students-list-column-width-groups;
 }
 
 .student-groups-column-item {
-  .student-groups-column;
+  width: @students-list-column-width-groups;
 
   padding-top: 15px;
   display: flex;
@@ -53,8 +63,18 @@
   border-radius: 10px;
 }
 
-.student-groups-circle:hover {
-  opacity: 0.5;
+/**
+ * Column: Status
+ */
+
+.student-status-column {
+  width: @students-list-column-width-status;
+}
+
+.student-status-column-item {
+  width: @students-list-column-width-status;
+  margin-top: 5px;
+  padding-right: 20px;
 }
 
 .student-status-label {
@@ -66,34 +86,6 @@
   text-align: center;
 }
 
-.students-list-header-add-new {
-  position: absolute;
-  left: 90%;
-  width: 10%;
-  margin-top: 10px;
-  padding-right: 20px;
-}
-
-.student-state {
-  margin-right: 10px;
-}
-
-.student-state-error {
-  .student-state;
-
-  color: #aa0000;
-}
-
-.student-state-ok {
-  .student-state;
-
-  color: #00aa00;
-}
-
-.students-list-header-search {
-  padding-right: 20px;
-}
-
-.student-invalid {
-  color: #aa0000;
+.student-groups-circle:hover {
+  opacity: 0.5;
 }
