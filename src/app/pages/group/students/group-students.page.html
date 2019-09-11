@@ -16,7 +16,7 @@
 
         <br>
 
-        <div *ngFor="let student of students" class="app-clickable-row" (click)="openStudent(student.id)">
+        <div *ngFor="let student of students" class="app-clickable-row" [class.app-clickable-row-inactive]="!isStudentActive(student)" (click)="openStudent(student.id)">
           {{student.name}}
         </div>
       </ng-container>

@@ -13,14 +13,23 @@ export class GroupService {
     return allCabinets.find(cabinet => cabinet.id === group.cabinetId);
   }
 
-  public getGroupActiveStudents(group: Group, allStudents: Array<Student>): Array<Student> {
+  public getGroupActiveStudents(group: Group, allStudents: Array<Student>, time: number): Array<Student> {
     return allStudents
-      .filter(student => !!student.studentGroups.map(it => it.groupId).find(studentGroupId => studentGroupId == group.id))
+      .filter(student => this.isStudentActive(group, student, time))
       .filter(student => student.statusType == 'STUDYING');
   }
 
   public isGroupActive(group: Group, allStudents: Array<Student>, time: number): boolean {
-    return this.isGroupHasActiveLessons(group, time) && this.getGroupActiveStudents(group, allStudents).length !== 0;
+    return this.isGroupHasActiveLessons(group, time) && this.getGroupActiveStudents(group, allStudents, time).length !== 0;
+  }
+
+  public isStudentActive(group: Group, student: Student, time: number) {
+    return student
+      .studentGroups
+      .filter(studentGroup => studentGroup.startTime <= time)
+      .filter(studentGroup => !studentGroup.finishTime || time < studentGroup.finishTime)
+      .filter(studentGroup => studentGroup.groupId == group.id)
+      .length != 0;
   }
 
   public isGroupHasActiveLessons(group: Group, time: number): boolean {
