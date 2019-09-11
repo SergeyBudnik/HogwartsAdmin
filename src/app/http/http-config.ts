@@ -1,5 +1,5 @@
 export class HttpConfig {
   public static getBackendRoot() {
-    return 'http://hogwarts-engschool.ru/HogwartsAPI';
+    return 'https://hogwarts-engschool.ru/HogwartsAPI';
   }
 }
