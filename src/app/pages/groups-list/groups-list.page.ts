@@ -1,12 +1,11 @@
 import {Component} from '@angular/core';
-import {Group, GroupType, GroupTypeUtils, Student} from '../../data';
+import {Group, GroupType, Student} from '../../data';
 import {LoginService, GroupService, StudentsService} from '../../service';
 import {Router} from '@angular/router';
 import {TranslatableComponent} from '../../translation/translation.component';
-import {Age, AgeUtils} from '../../data';
-import {EducationLevel, EducationLevelUtils} from '../../data';
+import {Age} from '../../data';
+import {EducationLevel} from '../../data';
 import {Cabinet} from '../../data';
-import {SelectItem} from '../../controls/select-item';
 import {CabinetsHttp, GroupsHttp} from '../../http';
 
 @Component({
@@ -59,17 +58,21 @@ export class GroupsListPageComponent extends TranslatableComponent {
   }
 
   public getGroupStudentsString(groupId: number): string {
-    let groupActiveStudentsNames = '';
-
     const groupActiveStudents = this.groupsService.getGroupActiveStudents(
       this.getGroupById(groupId),
       this.students
     );
 
-    groupActiveStudents
+    const groupActiveStudentsNames = groupActiveStudents
       .map(it => it.name)
       .map(it => it.split(' ')[0])
-      .forEach(it => groupActiveStudentsNames += it + '; ');
+      .reduce((previous, current) => {
+        if (!previous) {
+          return `${current}`;
+        } else {
+          return `${previous}; ${current}`;
+        }
+      }, "");
 
     return `(${groupActiveStudents.length}) ${groupActiveStudentsNames}`;
   }
@@ -78,34 +81,9 @@ export class GroupsListPageComponent extends TranslatableComponent {
     return this.groupsService.getGroupCabinet(this.getGroupById(groupId), this.cabinets);
   }
 
-  // ToDo: move to separate component
-  public getCabinetItems(): Array<SelectItem> {
-    const res = [new SelectItem('Все', null)];
-
-    this.cabinets.forEach(it => res.push(new SelectItem(it.name, String(it.id))));
-
-    return res;
-  }
-
-  // ToDo: move to separate component
-  public getGroupTypeItems(): Array<SelectItem> {
-    let items = [new SelectItem('Все', '')];
-
-    GroupTypeUtils.values.forEach(it => items.push(new SelectItem(this.getGroupTypeTranslation(it), it)));
-
-    return items;
-  }
-
   public onGroupTypeFilterChange(groupTypeFilter: GroupType): void {
     this.groupTypeFilter = groupTypeFilter;
     this.groups = this.getFilteredGroups();
-  }
-
-  // ToDo: move to separate component
-  public getAgeItems(): Array<SelectItem> {
-    return AgeUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getAgeTranslationAsGroup(it), it)
-    );
   }
 
   public onAgeFilterChange(ageFilter: Age): void {
@@ -113,20 +91,13 @@ export class GroupsListPageComponent extends TranslatableComponent {
     this.groups = this.getFilteredGroups();
   }
 
-  // ToDo: move to separate component
-  public getEducationLevelItems(): Array<SelectItem> {
-    return EducationLevelUtils.values.map(it =>
-      new SelectItem(it === 'UNKNOWN' ? 'Все' : this.getEducationLevelTranslation(it), it)
-    );
-  }
-
   public onEducationLevelFilterChange(educationLevelFilter: EducationLevel): void {
     this.educationLevelFilter = educationLevelFilter;
     this.groups = this.getFilteredGroups();
   }
 
-  public onCabinetFilterChange(cabinetFilter: string): void {
-    this.cabinetFilter = Number(cabinetFilter);
+  public onCabinetFilterChange(cabinetFilter: number): void {
+    this.cabinetFilter = cabinetFilter;
     this.groups = this.getFilteredGroups();
   }
 
