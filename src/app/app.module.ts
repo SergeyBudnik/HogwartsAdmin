@@ -184,6 +184,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Services.StudentPaymentService,
     Services.AppTranslationsService,
     Services.StudentGroupsService,
+    Services.GroupService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,

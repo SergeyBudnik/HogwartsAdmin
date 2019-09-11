@@ -42,7 +42,7 @@
 
     <div *ngFor="let group of groups"
          class="list-row-clickable"
-         [class.group-list-row-inactive]="!groupHasActiveStudents(group.id)"
+         [class.list-row-inactive]="!isGroupActive(group.id)"
          (click)="openGroupPage(group.id)">
 
       <div class="groups-list-item-color">
