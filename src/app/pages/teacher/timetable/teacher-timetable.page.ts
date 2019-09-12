@@ -1,6 +1,6 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService} from '../../../service';
+import {GroupService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Group, Lesson, Teacher} from '../../../data';
 import {GroupsHttp, TeachersHttp} from '../../../http';
@@ -22,7 +22,8 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
     private route: ActivatedRoute,
     private loginService: LoginService,
     private teachersHttp: TeachersHttp,
-    private groupsHttp: GroupsHttp
+    private groupsHttp: GroupsHttp,
+    private groupService: GroupService
   ) {
     super();
 
@@ -43,11 +44,15 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
       this.groupsHttp.getAllGroups()
     ]).then(it => {
         this.teacher = it[0];
+        const groups = it[1];
 
-        it[1].forEach(group => {
+        const currentTime = new Date().getTime();
+
+        groups.forEach(group => {
           this.teacherGroups.push(group);
 
-          group.lessons
+          this.groupService
+            .getGroupActiveLessons(group, currentTime)
             .filter(it => it.teacherId === teacherId)
             .forEach(lesson => this.teacherLessons.push(lesson));
         });

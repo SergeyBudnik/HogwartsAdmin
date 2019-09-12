@@ -131,6 +131,14 @@ export class GroupsListPageComponent extends TranslatableComponent {
       .filter(it => !this.cabinetFilter || it.cabinetId === this.cabinetFilter)
       .sort((o1, o2) => o1.id - o2.id)
       .sort((o1, o2) => {
+        const currentTime = new Date().getTime();
+
+        const o1Students = this.groupsService.getGroupActiveStudents(o1, this.students, currentTime).length;
+        const o2Students = this.groupsService.getGroupActiveStudents(o2, this.students, currentTime).length;
+
+        return o2Students - o1Students;
+      })
+      .sort((o1, o2) => {
         let o1Active = this.isGroupActive(o1.id) ? 1 : 0;
         let o2Active = this.isGroupActive(o2.id) ? 1 : 0;
 

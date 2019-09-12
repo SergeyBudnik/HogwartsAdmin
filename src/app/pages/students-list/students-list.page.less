@@ -1,9 +1,11 @@
 @import "../../../styles.less";
 
 @students-list-column-width-validation: 5%;
-@students-list-column-width-name: 35%;
-@students-list-column-width-groups: 25%;
-@students-list-column-width-status: 25%;
+@students-list-column-width-name: 25%;
+@students-list-column-width-groups: 15%;
+@students-list-column-width-age: 15%;
+@students-list-column-width-education-level: 15%;
+@students-list-column-width-status: 15%;
 
 /**
  * Header
@@ -35,6 +37,22 @@
 
 .student-name-column {
   width: @students-list-column-width-name;
+}
+
+/**
+ * Column: Age
+ */
+
+.student-age-column {
+  width: @students-list-column-width-age;
+}
+
+/**
+ * Column: Education level
+ */
+
+.student-education-level-column {
+  width: @students-list-column-width-education-level;
 }
 
 /**
