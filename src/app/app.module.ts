@@ -22,12 +22,13 @@ import {CookieOptions, CookieService} from 'angular2-cookie/core';
 import * as Pages from './pages';
 import * as Services from './service';
 import * as Https from './http';
+import * as Filters from './parts/filters';
+import * as Controls from './controls';
 
 import 'rxjs/Rx';
 import {FieldValidationSignComponent} from './parts/field-validation-sign/field-validation-sign.component';
 import {MyDatePickerModule} from 'mydatepicker';
 
-import * as Controls from './controls';
 import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
 import {ModalTemplateComponent} from './templates/modal/modal.template';
 import {StudentPaymentRowComponent} from './pages/student/payment/payment-row/student-payment.row';
@@ -141,7 +142,12 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Controls.FormSelectControl,
     Controls.FormTagControl,
     Controls.FormTextControl,
-    Controls.FormDateControl
+    Controls.FormDateControl,
+
+    Filters.AgeFilterComponent,
+    Filters.CabinetsFilterComponent,
+    Filters.EducationLevelFilterComponent,
+    Filters.GroupTypeFilterComponent,
   ],
   imports: [
     TagInputModule,
@@ -183,6 +189,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Services.StudentsService,
     Services.StudentPaymentService,
     Services.AppTranslationsService,
+    Services.StudentGroupsService,
+    Services.GroupService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,

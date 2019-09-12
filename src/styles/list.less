@@ -46,12 +46,17 @@
   min-height: 50px;
   padding: 0 20px;
   border-bottom: 1px solid @color-line_contrast_base;
+  color: @color-fill_text_basic;
 }
 
 .list-row-clickable {
   .list-row;
 
   cursor: pointer;
+}
+
+.list-row-inactive {
+  color: @color-fill_text_basic_subtle;
 }
 
 .list-row-clickable:hover {
@@ -64,5 +69,4 @@
   text-overflow: ellipsis;
   font-size: 15px;
   font-family: hogwartsRegular;
-  color: @color-fill_text_basic;
 }

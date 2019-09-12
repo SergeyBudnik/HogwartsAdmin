@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {
-  Group, Student, StudentGroup, StudentPayment, StudentPaymentStatus, StudentPaymentStatusUtils, StudentStatusType, StudentStatusTypeUtils,
+  Group, Student, StudentGroup, StudentPayment, StudentPaymentStatus, StudentStatusType, StudentStatusTypeUtils,
   StudentUtils
 } from '../../data';
 import {Router} from '@angular/router';
-import {AppTranslationsService, LoginService, StudentPaymentService} from '../../service';
+import {AppTranslationsService, LoginService, StudentGroupsService, StudentPaymentService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
 import {GroupsHttp, StudentPaymentHttp, StudentsHttp} from '../../http';
 import {CommonPage} from '../common/common.page';
@@ -34,7 +34,8 @@ export class StudentsListPageComponent extends CommonPage {
     private groupsHttp: GroupsHttp,
     private paymentHttp: StudentPaymentHttp,
     private studentPaymentService: StudentPaymentService,
-    private appTranslationsService: AppTranslationsService
+    private appTranslationsService: AppTranslationsService,
+    private studentGroupsService: StudentGroupsService
   ) {
     super();
 
@@ -63,20 +64,11 @@ export class StudentsListPageComponent extends CommonPage {
   }
 
   public getStudentsActiveGroups(student: Student): Array<StudentGroup> {
-    const currentTime = new Date().getTime();
-
-    return student
-      .studentGroups
-      .filter(studentGroup => studentGroup.startTime <= currentTime)
-      .filter(studentGroup => !studentGroup.finishTime || currentTime <= studentGroup.finishTime);
+    return this.studentGroupsService.getStudentActiveGroups(student);
   }
 
   public getGroup(groupId: number): Group {
     return this.allGroups.find(it => it.id === groupId);
-  }
-
-  public getPaymentItems(): Array<SelectItem> {
-    return StudentPaymentStatusUtils.values.map(it => new SelectItem('-', it));
   }
 
   public getStatusItems(): Array<SelectItem> {
@@ -117,14 +109,21 @@ export class StudentsListPageComponent extends CommonPage {
         (this.paymentFilter === 'PAYED' && this.getPayments(it.id) !== 0) ||
         (this.paymentFilter === 'NOT_PAYED' && this.getPayments(it.id) === 0)
       )
-      .sort((o1, o2) => o1.id - o2.id)
-      .sort((o1, o2) => {
-        if (o1.studentGroups.length == 0) {
-          return -1;
-        } else if (o2.studentGroups.length === 0) {
-          return 1;
+      .sort((s1, s2) => s1.id - s2.id)
+      .sort((s1, s2) => {
+        const s1ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s1);
+        const s2ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s2);
+
+        if (s1ActiveGroups.length == 0 && s2ActiveGroups.length == 0) {
+          return 0;
         } else {
-          return o1.studentGroups[0].groupId - o2.studentGroups[0].groupId;
+          if (s1ActiveGroups.length == 0) {
+            return 1;
+          } else if (s2ActiveGroups.length === 0) {
+            return -1;
+          } else {
+            return s1ActiveGroups[0].groupId - s2ActiveGroups[0].groupId;
+          }
         }
       })
       .sort((o1, o2) => StudentStatusTypeUtils.compare(o1.statusType, o2.statusType));

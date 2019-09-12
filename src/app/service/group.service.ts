@@ -1,11 +1,50 @@
-import {Age, EducationLevel, Group, Student, Teacher} from '../data';
+import {Age, Cabinet, EducationLevel, Group, Student, Teacher} from '../data';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class GroupService {
   public getMatchingGroups(groups: Array<Group>, age: Age, educationLevel: EducationLevel): Array<Group> {
     return groups
       .filter(group => group.age === age)
       .filter(group => group.educationLevel === educationLevel)
-  } 
+  }
+
+  public getGroupCabinet(group: Group, allCabinets: Array<Cabinet>): Cabinet {
+    return allCabinets.find(cabinet => cabinet.id === group.cabinetId);
+  }
+
+  public getGroupActiveStudents(group: Group, allStudents: Array<Student>, time: number): Array<Student> {
+    return allStudents
+      .filter(student => this.isStudentActive(group, student, time))
+      .filter(student => student.statusType == 'STUDYING');
+  }
+
+  public isGroupActive(group: Group, allStudents: Array<Student>, time: number): boolean {
+    return this.isGroupHasActiveLessons(group, time) && this.getGroupActiveStudents(group, allStudents, time).length !== 0;
+  }
+
+  public isStudentActive(group: Group, student: Student, time: number) {
+    return student
+      .studentGroups
+      .filter(studentGroup => studentGroup.startTime <= time)
+      .filter(studentGroup => !studentGroup.finishTime || time < studentGroup.finishTime)
+      .filter(studentGroup => studentGroup.groupId == group.id)
+      .length != 0;
+  }
+
+  public isGroupHasActiveLessons(group: Group, time: number): boolean {
+    return group
+      .lessons
+      .map(lesson => {
+        const creationTimeMatches = lesson.creationTime <= time;
+        const deactivationTimeMatches = !lesson.deactivationTime || time <= lesson.deactivationTime;
+
+        return creationTimeMatches && deactivationTimeMatches;
+      })
+      .reduce((previousValue, currentValue) => {
+        return !!previousValue || !!currentValue;
+      }, false);
+  }
 
   public getGroupName(teacher: Teacher, groupStudents: Array<Student>): string {
     if (!teacher) {

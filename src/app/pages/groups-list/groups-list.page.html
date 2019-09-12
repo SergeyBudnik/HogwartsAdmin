@@ -5,21 +5,10 @@
     <div class="list-header">
       <div class="groups-list-header-color"></div>
 
-      <div app-search-select-control class="groups-list-header-search groups-type-column"
-           [items]="getGroupTypeItems()"
-           (onChange)="onGroupTypeFilterChange($event)"></div>
-
-      <div app-search-select-control class="groups-list-header-search groups-education-level-column"
-           [items]="getEducationLevelItems()"
-           (onChange)="onEducationLevelFilterChange($event)"></div>
-
-      <div app-search-select-control class="groups-list-header-search groups-age-column"
-           [items]="getAgeItems()"
-           (onChange)="onAgeFilterChange($event)"></div>
-
-      <div app-search-select-control class="groups-list-header-search groups-cabinets-column"
-           [items]="getCabinetItems()"
-           (onChange)="onCabinetFilterChange($event)"></div>
+      <app-filter-group-type class="groups-list-header-search groups-type-column" (onChange)="onGroupTypeFilterChange($event)"></app-filter-group-type>
+      <app-filter-education-level class="groups-list-header-search groups-education-level-column" (onChange)="onEducationLevelFilterChange($event)"></app-filter-education-level>
+      <app-filter-age class="groups-list-header-search groups-age-column" (onChange)="onAgeFilterChange($event)"></app-filter-age>
+      <app-filter-cabinets class="groups-list-header-search groups-cabinets-column" (onChange)="onCabinetFilterChange($event)"></app-filter-cabinets>
 
       <div class="groups-students-column">
         <div class="list-header-label">
@@ -42,7 +31,7 @@
 
     <div *ngFor="let group of groups"
          class="list-row-clickable"
-         [class.group-list-row-inactive]="!groupHasActiveStudents(group.id)"
+         [class.list-row-inactive]="!isGroupActive(group.id)"
          (click)="openGroupPage(group.id)">
 
       <div class="groups-list-item-color">

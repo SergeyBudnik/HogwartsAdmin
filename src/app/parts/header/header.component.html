@@ -1,9 +1,9 @@
 <div class="header">
-  <div class="header-title">
-    <span>Hogwarts Admin v1.14.0</span>
+  <div class="header-title-section">
+    <span>Hogwarts Admin v1.15.0</span>
   </div>
 
-  <div style="width: 70%">
+  <div class="header-body-section">
     <div (click)="navigate('/students')"
          [class.menu-element-active]="activeSection === 'STUDENTS'"
          [class.menu-element-inactive]="activeSection !== 'STUDENTS'">
@@ -50,9 +50,7 @@
     </div>
   </div>
 
-  <div style="width: 15%">
-    <button class="btn btn-default pull-right header-logout-button app-button" (click)="logOff()">Выйти</button>
-    <span class="pull-right header-login">Сергей Будник</span>
-    <i class="fa fa-user header-login-icon pull-right" aria-hidden="true"></i>
+  <div class="header-logout-section">
+    <button class="header-logout-button app-button btn btn-default pull-right" (click)="logOff()">Выйти</button>
   </div>
 </div>

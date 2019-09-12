@@ -1,8 +1,8 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService, StudentsService} from '../../../service';
+import {GroupService, LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Group, Student, StudentUtils} from '../../../data';
+import {Group, Student} from '../../../data';
 import {GroupsHttp} from '../../../http';
 
 @Component({
@@ -16,14 +16,13 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
 
   public loadingInProgress = true;
 
-  public attendanceStudentId: number = null;
-
   public constructor(
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
-    private studentsService: StudentsService
+    private studentsService: StudentsService,
+    private groupService: GroupService
   ) {
     super();
 
@@ -38,12 +37,18 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
           this.studentsService.getGroupStudents(this.group.id)
         ]).then(it => {
           this.group = it[0];
-          this.students = it[1].sort((o1, o2) => o1.id - o2.id);
+          this.students = this.getSortedStudents(it[1]);
 
           this.loadingInProgress = false;
         });
       });
     }
+  }
+
+  public isStudentActive(student: Student): boolean {
+    const currentTime = new Date().getTime();
+
+    return this.groupService.isStudentActive(this.group, student, currentTime);
   }
 
   public openStudent(studentId: number): void {
@@ -52,5 +57,18 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
 
   public addNewStudent(): void {
     this.router.navigate([`/students/new/information`], {queryParams: {groupId: this.group.id}});
+  }
+
+  private getSortedStudents(students: Array<Student>): Array<Student> {
+    const currentTime = new Date().getTime();
+
+    return students
+      .sort((o1, o2) => o1.id - o2.id)
+      .sort((o1, o2) => {
+        const o1Active = this.groupService.isStudentActive(this.group, o1, currentTime) ? 1 : 0;
+        const o2Active = this.groupService.isStudentActive(this.group, o2, currentTime) ? 1 : 0;
+
+        return o2Active - o1Active;
+      });
   }
 }
