@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../service';
+import {GroupService, LoginService} from '../../service';
 import {Group, Teacher, TimeUtils} from '../../data';
 import {Router} from '@angular/router';
 import {GroupsHttp, StudentsHttp, TeachersHttp} from '../../http';
@@ -13,8 +13,8 @@ export class TeachersListPageComponent {
   public teachers: Array<Teacher> = [];
   public loadingInProgress = true;
 
-  private unfilteredTeachers: Array<Teacher> = [];
-  private groups: Array<Group> = [];
+  private allTeachers: Array<Teacher> = [];
+  private activeGroups: Array<Group> = [];
 
   public constructor(
     private loginService: LoginService,
@@ -22,16 +22,25 @@ export class TeachersListPageComponent {
     private studentsHttp: StudentsHttp,
     private teachersHttp: TeachersHttp,
     private groupsHttp: GroupsHttp,
+    private groupService: GroupService
   ) {
     if (!this.loginService.getAuthToken()) {
       this.router.navigate([`/login`]);
     } else {
       Promise.all([
         this.teachersHttp.getAllTeachers(),
-        this.groupsHttp.getAllGroups()
+        this.groupsHttp.getAllGroups(),
+        this.studentsHttp.getAllStudents()
       ]).then(it => {
-        this.unfilteredTeachers = it[0];
-        this.groups = it[1];
+        const currentTime = new Date().getTime();
+
+        const allTeachers = it[0];
+        const allGroups = it[1];
+        const allStudents= it[2];
+
+        this.activeGroups = allGroups.filter(group => this.groupService.isGroupActive(group, allStudents, currentTime));
+
+        this.allTeachers = allTeachers;
 
         this.teachers = this.getFilteredTeachers('');
 
@@ -41,7 +50,7 @@ export class TeachersListPageComponent {
   }
 
   public getGroups(teacherId: number): Array<Group> {
-    return this.groups.filter(it => it.managerId === teacherId);
+    return this.activeGroups.filter(it => it.managerId === teacherId);
   }
 
   public onSearchChange(teacherNameFilter: string) {
@@ -57,10 +66,13 @@ export class TeachersListPageComponent {
   }
 
   public getLoadMinutes(teacherId: number): number {
+    const currentTime = new Date().getTime();
+
     let minutes = 0;
 
-    this.groups.forEach(group =>
-      group.lessons
+    this.activeGroups.forEach(group =>
+      this.groupService
+        .getGroupActiveLessons(group, currentTime)
         .filter(lesson => lesson.teacherId === teacherId)
         .forEach(lesson => {
           minutes += 30 * (TimeUtils.index(lesson.finishTime) - TimeUtils.index(lesson.startTime))
@@ -71,7 +83,7 @@ export class TeachersListPageComponent {
   }
 
   private getFilteredTeachers(teacherNameFilter: string): Array<Teacher> {
-    return this.unfilteredTeachers
+    return this.allTeachers
       .filter(it => it.name.toLowerCase().indexOf(teacherNameFilter.toLowerCase()) !== -1)
       .sort((t1, t2) => this.getLoadMinutes(t2.id) - this.getLoadMinutes(t1.id));
   }

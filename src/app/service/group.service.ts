@@ -1,4 +1,4 @@
-import {Age, Cabinet, EducationLevel, Group, Student, Teacher} from '../data';
+import {Age, Cabinet, EducationLevel, Group, Lesson, Student, Teacher} from '../data';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -19,6 +19,17 @@ export class GroupService {
       .filter(student => student.statusType == 'STUDYING');
   }
 
+  public getGroupActiveLessons(group: Group, time: number): Array<Lesson> {
+    return group
+      .lessons
+      .filter(lesson => {
+        const creationTimeMatches = lesson.creationTime <= time;
+        const deactivationTimeMatches = !lesson.deactivationTime || time <= lesson.deactivationTime;
+
+        return creationTimeMatches && deactivationTimeMatches;
+      });
+  }
+
   public isGroupActive(group: Group, allStudents: Array<Student>, time: number): boolean {
     return this.isGroupHasActiveLessons(group, time) && this.getGroupActiveStudents(group, allStudents, time).length !== 0;
   }
@@ -33,17 +44,7 @@ export class GroupService {
   }
 
   public isGroupHasActiveLessons(group: Group, time: number): boolean {
-    return group
-      .lessons
-      .map(lesson => {
-        const creationTimeMatches = lesson.creationTime <= time;
-        const deactivationTimeMatches = !lesson.deactivationTime || time <= lesson.deactivationTime;
-
-        return creationTimeMatches && deactivationTimeMatches;
-      })
-      .reduce((previousValue, currentValue) => {
-        return !!previousValue || !!currentValue;
-      }, false);
+    return this.getGroupActiveLessons(group, time).length !== 0;
   }
 
   public getGroupName(teacher: Teacher, groupStudents: Array<Student>): string {
