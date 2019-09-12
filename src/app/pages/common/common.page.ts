@@ -1,7 +1,8 @@
 import {LoginService} from '../../service';
 import {Router} from '@angular/router';
+import {TranslatableComponent} from '../../translation/translation.component';
 
-export class CommonPage {
+export class CommonPage extends TranslatableComponent {
   private aRouter: Router;
 
   public doInit(router: Router) {

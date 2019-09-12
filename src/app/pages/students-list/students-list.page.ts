@@ -1,12 +1,9 @@
 import {Component} from '@angular/core';
-import {
-  Group, Student, StudentGroup, StudentPayment, StudentPaymentStatus, StudentStatusType, StudentStatusTypeUtils,
-  StudentUtils
-} from '../../data';
+import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
 import {Router} from '@angular/router';
-import {AppTranslationsService, LoginService, StudentGroupsService, StudentPaymentService} from '../../service';
+import {AppTranslationsService, LoginService, StudentGroupsService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
-import {GroupsHttp, StudentPaymentHttp, StudentsHttp} from '../../http';
+import {GroupsHttp, StudentsHttp} from '../../http';
 import {CommonPage} from '../common/common.page';
 
 @Component({
@@ -17,23 +14,21 @@ import {CommonPage} from '../common/common.page';
 export class StudentsListPageComponent extends CommonPage {
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
-  private allPayments: Array<StudentPayment> = [];
 
   public students: Array<Student> = [];
 
   public loadingInProgress = true;
 
   private nameFilter: string = '';
+  private ageFilter: Age = 'UNKNOWN';
+  private educationLevelFilter: EducationLevel = 'UNKNOWN';
   private statusFilter: StudentStatusType = null;
-  private paymentFilter: StudentPaymentStatus = null;
 
   public constructor(
     private router: Router,
     private loginService: LoginService,
     private studentsHttp: StudentsHttp,
     private groupsHttp: GroupsHttp,
-    private paymentHttp: StudentPaymentHttp,
-    private studentPaymentService: StudentPaymentService,
     private appTranslationsService: AppTranslationsService,
     private studentGroupsService: StudentGroupsService
   ) {
@@ -50,12 +45,10 @@ export class StudentsListPageComponent extends CommonPage {
   private init() {
     Promise.all([
       this.studentsHttp.getAllStudents(),
-      this.groupsHttp.getAllGroups(),
-      this.paymentHttp.getAllPayments()
+      this.groupsHttp.getAllGroups()
     ]).then(it => {
       this.allStudents = it[0];
       this.allGroups = it[1];
-      this.allPayments = it[2];
 
       this.students = this.getFilteredStudents();
 
@@ -81,18 +74,16 @@ export class StudentsListPageComponent extends CommonPage {
 
   public onFilterChange(
     nameFilter: string,
-    paymentFilter: StudentPaymentStatus,
+    ageFilter: Age,
+    educationLevelFilter: EducationLevel,
     statusFilter: StudentStatusType,
   ) {
     this.nameFilter = nameFilter === undefined ? this.nameFilter : nameFilter;
-    this.paymentFilter = paymentFilter === undefined ? this.paymentFilter : paymentFilter;
+    this.ageFilter = ageFilter === undefined ? this.ageFilter : ageFilter;
+    this.educationLevelFilter = educationLevelFilter === undefined ? this.educationLevelFilter : educationLevelFilter;
     this.statusFilter = statusFilter === undefined ? this.statusFilter : statusFilter;
 
     this.students = this.getFilteredStudents();
-  }
-
-  public getPayments(studentId: number): number {
-    return this.studentPaymentService.getActualStudentMonthPayments(this.allPayments, studentId);
   }
 
   private getFilteredStudents(): Array<Student> {
@@ -103,12 +94,9 @@ export class StudentsListPageComponent extends CommonPage {
 
         return nameMatches || phoneMatches;
       })
+      .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
+      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
       .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
-      .filter(it =>
-        !this.paymentFilter ||
-        (this.paymentFilter === 'PAYED' && this.getPayments(it.id) !== 0) ||
-        (this.paymentFilter === 'NOT_PAYED' && this.getPayments(it.id) === 0)
-      )
       .sort((s1, s2) => s1.id - s2.id)
       .sort((s1, s2) => {
         const s1ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s1);
