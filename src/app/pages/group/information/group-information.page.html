@@ -80,9 +80,20 @@
 
           <br>
 
-          <h5 class="app-header">Занятия:</h5>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="app-header">Занятия:</div>
 
-          <div *ngIf="group.lessons.length === 0">
+            <div class="app-link" (click)="toggleInactiveLessons()">
+              <ng-container *ngIf="!showInactiveLessons">
+                Показывать неактивные
+              </ng-container>
+              <ng-container *ngIf="showInactiveLessons">
+                Скрывать неактивные
+              </ng-container>
+            </div>
+          </div>
+
+          <div *ngIf="lessons.length === 0">
             <br>
 
             Занятия не назначены
@@ -93,7 +104,7 @@
 
           <br>
 
-          <div *ngFor="let lesson of group.lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
+          <div *ngFor="let lesson of lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
             <div class="group-lesson-row-day-of-week">
               {{getDayOfWeekTranslation(lesson.day)}}
             </div>
