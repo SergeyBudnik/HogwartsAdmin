@@ -2,7 +2,6 @@ import {TranslatableComponent} from '../../translation/translation.component';
 import {Component, Input} from '@angular/core';
 import {Lesson, DayOfWeek, DayOfWeekUtils, Group, Time, TimeUtils} from '../../data';
 import {Router} from '@angular/router';
-import {endOfWeek} from 'date-fns'
 
 @Component({
   selector: 'app-timetable',
@@ -13,15 +12,13 @@ export class TimetableComponent extends TranslatableComponent {
   @Input() public showFilters: boolean;
 
   public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
+  public timeRange: Array<Time> = [];
 
   private rawLessons: Array<Lesson> = null;
   private rawGroups: Array<Group> = null;
 
   private groups: Map<number, Group>;
   private lessons: Map<DayOfWeek, Map<Time, Lesson>>;
-
-  private earliestLessonStartTime: Time = 'T_21_30';
-  private latestLessonFinishTime: Time = 'T_07_00';
 
   @Input('lessons') public set setLessons(rawLessons: Array<Lesson>) {
     this.rawLessons = rawLessons;
@@ -66,13 +63,6 @@ export class TimetableComponent extends TranslatableComponent {
       TimeUtils.values[index] : null;
   }
 
-  public getTimeRange(): Array<Time> {
-    return TimeUtils.range(
-      this.earliestLessonStartTime,
-      this.latestLessonFinishTime
-    );
-  }
-
   public getGroup(dayOfWeek: DayOfWeek, time: Time): Group {
     if (this.lessons != null && this.groups != null) {
       const lesson = this.lessons.get(dayOfWeek).get(time);
@@ -104,21 +94,28 @@ export class TimetableComponent extends TranslatableComponent {
 
     DayOfWeekUtils.values.forEach(dayOfWeek => { lessons.set(dayOfWeek, new Map<Time, Lesson>()) });
 
+    let earliestLessonStartTime: Time = 'T_21_30';
+    let latestLessonFinishTime: Time = 'T_07_00';
+
     lessonsArray
-      .filter(lesson => this.isLessonActive(lesson))
       .forEach(lesson => {
         TimeUtils.range(lesson.startTime, lesson.finishTime).forEach(time => {
           lessons.get(lesson.day).set(time, lesson);
         });
 
-        if (TimeUtils.earlier(lesson.startTime, this.earliestLessonStartTime)) {
-          this.earliestLessonStartTime = lesson.startTime;
+        if (TimeUtils.earlier(lesson.startTime, earliestLessonStartTime)) {
+          earliestLessonStartTime = lesson.startTime;
         }
 
-        if (TimeUtils.later(lesson.finishTime, this.latestLessonFinishTime)) {
-          this.latestLessonFinishTime = lesson.finishTime;
+        if (TimeUtils.later(lesson.finishTime, latestLessonFinishTime)) {
+          latestLessonFinishTime = lesson.finishTime;
         }
       });
+
+    this.timeRange = TimeUtils.range(
+      earliestLessonStartTime,
+      latestLessonFinishTime
+    );
 
     return lessons;
   }
@@ -135,17 +132,5 @@ export class TimetableComponent extends TranslatableComponent {
     });
 
     return lessonGroup;
-  }
-
-  private isLessonActive(lesson: Lesson): boolean {
-    const weekEndTime = endOfWeek(new Date()).getTime();
-
-    if (!lesson.deactivationTime) {
-      return true;
-    } else if (weekEndTime <= lesson.deactivationTime) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

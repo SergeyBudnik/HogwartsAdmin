@@ -42,6 +42,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {ChartsModule} from 'ng2-charts';
 import {GroupIconComponent} from './parts/group/group-icon/group-icon.component';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {WeekSelectorComponent} from './parts/week-selector/week-selector.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -148,6 +149,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Filters.CabinetsFilterComponent,
     Filters.EducationLevelFilterComponent,
     Filters.GroupTypeFilterComponent,
+
+    WeekSelectorComponent
   ],
   imports: [
     TagInputModule,

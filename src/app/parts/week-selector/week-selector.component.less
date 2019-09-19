@@ -1,0 +1,39 @@
+@import "../../../styles.less";
+
+.week-selector-container {
+  display: flex;
+  flex-direction: row;
+  background-color: @color-fill_contrast_medium;
+}
+
+.week-selector-container-column {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  align-items: center;
+  cursor: pointer;
+  padding: 15px;
+}
+
+.week-selector-container-column-active {}
+
+.week-selector-container-column-circle {
+  width: 20px;
+  height: 20px;
+  border: 1px solid @color-fill_accent_strong;
+  border-radius: 10px;
+}
+
+.week-selector-container-column:hover .week-selector-container-column-circle, .week-selector-container-column-active .week-selector-container-column-circle {
+  background-color: @color-fill_accent_strong;
+}
+
+.week-selector-container-column-title {
+  margin-top: 5px;
+  font-family: hogwartsRegular;
+  color: @color-fill_text_basic_light;
+}
+
+.week-selector-container-column:hover .week-selector-container-column-title, .week-selector-container-column-active .week-selector-container-column-title {
+  color: @color-fill_text_basic;
+}
