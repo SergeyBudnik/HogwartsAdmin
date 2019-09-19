@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils, EducationLevelDictionary, StudentGroup
-} from '../../../data';
+import {Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils, EducationLevelDictionary} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
@@ -15,10 +13,13 @@ import {GroupAssignLessonPopupManager} from '../../';
   styleUrls: ['./group-information.page.less']
 })
 export class GroupInformationPageComponent extends TranslatableComponent {
+  public showInactiveLessons = false;
+
   public ages = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
   public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
 
   public group: Group = new Group();
+  public lessons: Array<Lesson> = [];
   public students: Array<Student> = [];
 
   public loadingInProgress = true;
@@ -94,6 +95,12 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     return this.cabinets.map(it => new SelectItem(it.name, "" + it.id));
   }
 
+  public toggleInactiveLessons() {
+    this.showInactiveLessons = !this.showInactiveLessons;
+
+    this.lessons = this.getGroupLessons();
+  }
+
   public setExistingModalLesson(lesson: Lesson, index: number) {
     GroupAssignLessonPopupManager.pushGroupLesson(
       lesson,
@@ -144,6 +151,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
       this.teachers = it[2];
       this.cabinets = it[3];
 
+      this.lessons = this.getGroupLessons();
+
       this.loadingInProgress = false;
     });
   }
@@ -158,5 +167,21 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
       this.loadingInProgress = false;
     });
+  }
+
+  private getGroupLessons(): Array<Lesson> {
+    const currentTime = new Date().getTime();
+
+    return this.group.lessons
+      .filter(lesson => {
+        if (this.showInactiveLessons) {
+          return true;
+        } else {
+          const creationTimeMatches = lesson.creationTime <= currentTime;
+          const deactivationTimeMatches = !lesson.deactivationTime || currentTime <= lesson.deactivationTime;
+
+          return creationTimeMatches && deactivationTimeMatches;
+        }
+      });
   }
 }
