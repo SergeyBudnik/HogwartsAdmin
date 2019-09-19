@@ -29,10 +29,6 @@
 
 
   <div class="list-content">
-    <div class="page-loading" *ngIf="loadingInProgress">
-      <fa name="spinner" class="loading-sign" animation="spin"></fa>
-    </div>
-
     <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="goToCabinetPage(cabinet.id)">
       <div class="list-row-item cabinets-list-name-column">
         {{cabinet.name}}

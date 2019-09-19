@@ -1,0 +1,26 @@
+<div class="week-selector-container">
+  <div class="week-selector-container-column" [class.week-selector-container-column-active]="getCurrentWeek() == -2" (click)="setCurrentWeek(-2)">
+    <div class="week-selector-container-column-circle"></div>
+    <div class="week-selector-container-column-title">2 недели назад</div>
+  </div>
+
+  <div class="week-selector-container-column" [class.week-selector-container-column-active]="getCurrentWeek() == -1" (click)="setCurrentWeek(-1)">
+    <div class="week-selector-container-column-circle"></div>
+    <div class="week-selector-container-column-title">1 неделя назад</div>
+  </div>
+
+  <div class="week-selector-container-column" [class.week-selector-container-column-active]="getCurrentWeek() == 0" (click)="setCurrentWeek(0)">
+    <div class="week-selector-container-column-circle"></div>
+    <div class="week-selector-container-column-title">Текущая неделя</div>
+  </div>
+
+  <div class="week-selector-container-column" [class.week-selector-container-column-active]="getCurrentWeek() == 1" (click)="setCurrentWeek(1)">
+    <div class="week-selector-container-column-circle"></div>
+    <div class="week-selector-container-column-title">Через 1 неделю</div>
+  </div>
+
+  <div class="week-selector-container-column" [class.week-selector-container-column-active]="getCurrentWeek() == 2" (click)="setCurrentWeek(2)">
+    <div class="week-selector-container-column-circle"></div>
+    <div class="week-selector-container-column-title">Через 2 недели</div>
+  </div>
+</div>
