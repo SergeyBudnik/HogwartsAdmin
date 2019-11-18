@@ -2,12 +2,12 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, EducationLevelUtils, Group, AgeUtils, StudentGroup, Teacher} from '../../../data';
+import {Student, EducationLevelUtils, Group, StudentGroup, Teacher} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupsHttp, TeachersHttp} from '../../../http';
 import {StudentAssignGroupPopupManager} from '../../';
-import {GroupService} from '../../../service/group.service';
+import {GroupService} from '../../../service';
 
 @Component({
   selector: 'app-student-information-page',
@@ -15,7 +15,6 @@ import {GroupService} from '../../../service/group.service';
   styleUrls: ['./student-information.page.less']
 })
 export class StudentInformationPageComponent extends TranslatableComponent {
-  public ageItems = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
   public educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
 
   public student: Student = new Student();

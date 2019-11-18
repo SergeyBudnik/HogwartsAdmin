@@ -42,41 +42,10 @@
                [editable]="true"
                (onChange)="group.bookName = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'groupType'"
-               [label]="'Тип'"
-               [valid]="!!group.type"
-               [valueString]="group.type"
-               [items]="groupTypes"
-               [hasEmpty]="true"
-               (onChangeString)="group.type = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [name]="'educationLevels'"
-               [label]="'Уровень подготовки'"
-               [valid]="!!group.educationLevel"
-               [valueString]="group.educationLevel"
-               [items]="educationLevelDictionary.selectItems"
-               [hasEmpty]="true"
-               (onChangeString)="group.educationLevel = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [name]="'ages'"
-               [label]="'Возрастная категория'"
-               [valid]="!!group.age"
-               [valueString]="group.age"
-               [items]="ages"
-               (onChangeString)="group.age = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [type]="'NUMERIC'"
-               [name]="'cabinets'"
-               [label]="'Кабинет'"
-               [valid]="!!group.cabinetId"
-               [valueNumber]="group.cabinetId"
-               [items]="getCabinetsItems()"
-               [hasEmpty]="true"
-               (onChangeNumber)="group.cabinetId = $event"></div>
+          <app-form-select-control-group-type [groupType]="group.type" (onValueChanged)="group.type = $event"></app-form-select-control-group-type>
+          <app-form-select-control-education-level [educationLevel]="group.educationLevel" (onValueChanged)="group.educationLevel = $event"></app-form-select-control-education-level>
+          <app-form-select-control-age [age]="group.age" (onValueChanged)="group.age = $event"></app-form-select-control-age>
+          <app-form-select-control-cabinet [allCabinets]="cabinets" [cabinetId]="group.cabinetId" (onValueChanged)="group.cabinetId = $event"></app-form-select-control-cabinet>
 
           <br>
 
