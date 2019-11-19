@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils, EducationLevelDictionary} from '../../../data';
+import {Group, Student, Lesson, Teacher, Cabinet, GroupTypeUtils} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
@@ -15,7 +15,6 @@ import {GroupAssignLessonPopupManager} from '../../';
 export class GroupInformationPageComponent extends TranslatableComponent {
   public showInactiveLessons = false;
 
-  public ages = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
   public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
 
   public group: Group = new Group();
@@ -27,8 +26,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   public teachers: Array<Teacher> = [];
   public cabinets: Array<Cabinet> = [];
-
-  public educationLevelDictionary = new EducationLevelDictionary();
 
   public constructor(
     private router: Router,
@@ -50,7 +47,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
         if (id === 'new') {
           this.initNewGroup();
         } else {
-          this.group.id = Number(id);
           this.initGroup(Number(id));
         }
       });
@@ -58,21 +54,16 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   }
 
   public save(): void {
-    this.group.cabinetId = Number(this.group.cabinetId);
-
     this.actionInProgress = true;
 
     if (!!this.group.id) {
       this.groupsHttp
         .editGroup(this.group)
-        .then(() => this.actionInProgress = false);
+        .then(() => this.router.navigate([`/groups/${this.group.id}/information`]));
     } else {
       this.groupsHttp
         .createGroup(this.group)
-        .then(it => {
-          this.actionInProgress = false;
-          this.router.navigate([`/groups/${it}/information`]);
-        });
+        .then(it => this.router.navigate([`/groups/${it}/information`]));
     }
   }
 
@@ -89,10 +80,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   public getTeachersItems(): Array<SelectItem> {
     return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
-  }
-
-  public getCabinetsItems(): Array<SelectItem> {
-    return this.cabinets.map(it => new SelectItem(it.name, "" + it.id));
   }
 
   public toggleInactiveLessons() {
@@ -140,6 +127,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   }
 
   private initGroup(groupId: number) {
+    this.group.id = groupId;
+
     Promise.all([
       this.groupsHttp.getGroup(groupId),
       this.studentsService.getGroupStudents(groupId),

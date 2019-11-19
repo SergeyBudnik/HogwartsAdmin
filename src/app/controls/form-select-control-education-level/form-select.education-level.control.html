@@ -1,0 +1,8 @@
+<div app-form-select-control class="form-group"
+     [name]="'educationLevel'"
+     [label]="'Уровень подготовки'"
+     [valid]="!!educationLevel"
+     [valueString]="educationLevel"
+     [items]="educationLevelDictionary.selectItems"
+     [hasEmpty]="true"
+     (onChangeString)="onValueChanged($event)"></div>

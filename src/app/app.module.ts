@@ -140,7 +140,13 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
     Controls.SearchSelectControl,
     Controls.SearchTextInputControl,
+
     Controls.FormSelectControl,
+    Controls.FormSelectAgeControl,
+    Controls.FormSelectCabinetControl,
+    Controls.FormSelectEducationLevelControl,
+    Controls.FormSelectGroupTypeControl,
+
     Controls.FormTagControl,
     Controls.FormTextControl,
     Controls.FormDateControl,

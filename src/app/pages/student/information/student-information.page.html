@@ -59,13 +59,7 @@
                [items]="educationLevelItems"
                (onChangeString)="student.educationLevel = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'age'"
-               [label]="'Возраст'"
-               [valid]="student.age !== 'UNKNOWN'"
-               [valueString]="student.age"
-               [items]="ageItems"
-               (onChangeString)="student.age = $event"></div>
+          <app-form-select-control-age [age]="student.age" (onValueChanged)="student.age = $event"></app-form-select-control-age>
 
           <div class="form-group" *ngIf="!!student.id">
             <label class="app-label h-full">Статус:</label>
