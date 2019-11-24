@@ -1,6 +1,6 @@
 export class Person {
   constructor(
-    public name: String = '',
+    public name: string = '',
     public contacts: PersonContacts = new PersonContacts()
   ) {}
 }
@@ -14,7 +14,7 @@ export class PersonContacts {
 
 export class PersonContact {
   constructor(
-    public name: String = '',
-    public value: String = ''
+    public name: string = '',
+    public value: string = ''
   ) {}
 }

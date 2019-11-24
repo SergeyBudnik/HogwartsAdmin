@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher} from '../../../data';
+import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher, StaffMember} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
 
@@ -60,6 +60,7 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
 
   @Input() public cabinets: Array<Cabinet> = [];
   @Input() public teachers: Array<Teacher> = [];
+  @Input() public staffMembers: Array<StaffMember> = [];
 
   public constructor() {
     super();
@@ -75,6 +76,10 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
 
   public getTeachersItems(): Array<SelectItem> {
     return this.teachers.map(it => new SelectItem(it.name, '' + it.id));
+  }
+
+  public getStaffMembersItems(): Array<SelectItem> {
+    return this.staffMembers.map(it => new SelectItem(it.person.name, it.login));
   }
 
   public isValid(): boolean {
