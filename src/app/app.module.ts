@@ -72,6 +72,9 @@ const appRoutes: Routes = [
   { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
   { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
 
+  { path: 'staff-members', component: Pages.StaffMembersListPageComponent },
+  { path: 'staff-members/:login/information', component: Pages.StaffMemberInformationPageComponent },
+
   { path: '**', component: Pages.StudentsListPageComponent }
 ];
 
@@ -124,6 +127,9 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.EventMenuPageComponent,
 
     Pages.ParticipantPageComponent,
+
+    Pages.StaffMembersListPageComponent,
+    Pages.StaffMemberInformationPageComponent,
 
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,
@@ -210,7 +216,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Https.StudentPaymentHttp,
     Https.StudentStatusHttp,
     Https.EventsHttp,
-    Https.EventParticipantsHttp
+    Https.EventParticipantsHttp,
+    Https.StaffMembersHttp
   ],
   bootstrap: [
     AppComponent

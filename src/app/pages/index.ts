@@ -36,3 +36,6 @@ export * from './event/participants/event-participants.page';
 export * from './event/menu/event-menu.component';
 
 export * from './participant/participant.page';
+
+export * from './staff-members-list/staff-members-list.page';
+export * from './staff-members/information/staff-member-information.page';
