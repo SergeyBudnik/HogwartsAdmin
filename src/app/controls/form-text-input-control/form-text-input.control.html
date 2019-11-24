@@ -1,6 +1,6 @@
-<app-field-validation-sign [valid]="valid"></app-field-validation-sign>
+<app-field-validation-sign *ngIf="!!label" [valid]="valid"></app-field-validation-sign>
 
-<label class="app-label" for="{{name}}">
+<label *ngIf="!!label" class="app-label" for="{{name}}">
   {{label}}:
 </label>
 

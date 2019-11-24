@@ -31,6 +31,15 @@
       Учителя
     </div>
 
+    <div (click)="navigate('/staff-members')"
+         [class.menu-element-active]="activeSection === 'STAFF_MEMBERS'"
+         [class.menu-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
+
+      <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
+
+      Сотрудники
+    </div>
+
     <div (click)="navigate('/cabinets')"
          [class.menu-element-active]="activeSection === 'CABINETS'"
          [class.menu-element-inactive]="activeSection !== 'CABINETS'">
