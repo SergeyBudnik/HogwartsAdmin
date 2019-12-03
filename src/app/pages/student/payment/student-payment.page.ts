@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, StudentPayment, Teacher} from '../../../data';
+import {StaffMember, Student, StudentPayment} from '../../../data';
 import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StudentPaymentHttp, TeachersHttp} from '../../../http';
+import {StaffMembersHttp, StudentPaymentHttp} from '../../../http';
 
 @Component({
   selector: 'app-student-payment-page',
@@ -15,7 +15,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public payments: Array<StudentPayment> = [];
-  public teachers: Array<Teacher> = [];
+  public staffMembers: Array<StaffMember> = [];
 
   public constructor(
     private router: Router,
@@ -23,7 +23,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private studentsService: StudentsService,
     private studentPaymentHttp: StudentPaymentHttp,
-    private teachersHttp: TeachersHttp,
+    private staffMembersHttp: StaffMembersHttp,
   ) {
     super();
 
@@ -36,11 +36,11 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
         Promise.all([
           this.studentsService.getStudent(this.student.id),
           this.studentPaymentHttp.getPayments(this.student.id),
-          this.teachersHttp.getAllTeachers()
+          this.staffMembersHttp.getAllStaffMembers()
         ]).then(it => {
           this.student = it[0];
           this.payments = it[1];
-          this.teachers = it[2];
+          this.staffMembers = it[2];
 
           this.loadingInProgress = false;
         });

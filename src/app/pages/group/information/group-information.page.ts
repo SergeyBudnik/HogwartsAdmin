@@ -161,10 +161,14 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   private initNewGroup() {
     Promise.all([
       this.teachersHttp.getAllTeachers(),
-      this.cabinetsHttp.getAllCabinets()
+      this.cabinetsHttp.getAllCabinets(),
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
+      this.group = new Group();
+      this.students = [];
       this.teachers = it[0];
       this.cabinets = it[1];
+      this.staffMembers = it[2];
 
       this.loadingInProgress = false;
     });

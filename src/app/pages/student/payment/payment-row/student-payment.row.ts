@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {TranslatableComponent} from '../../../../translation/translation.component';
-import {StudentPayment, Teacher} from '../../../../data';
+import {StaffMember, StudentPayment, Teacher} from '../../../../data';
 import {StudentPaymentHttp} from '../../../../http';
 
 @Component({
@@ -10,7 +10,7 @@ import {StudentPaymentHttp} from '../../../../http';
 })
 export class StudentPaymentRowComponent extends TranslatableComponent {
   @Input() public payment: StudentPayment;
-  @Input() public teachers: Array<Teacher>;
+  @Input() public staffMembers: Array<StaffMember>;
 
   @Output() public paymentDeleted: EventEmitter<number> = new EventEmitter<number>();
 
@@ -22,8 +22,8 @@ export class StudentPaymentRowComponent extends TranslatableComponent {
     super();
   }
 
-  public getTeacher(): Teacher {
-    return this.teachers.find(it => it.id === this.payment.teacherId);
+  public getStaffMember(): StaffMember {
+    return this.staffMembers.find(it => it.login === this.payment.staffMemberLogin);
   }
 
   public deletePayment(): void {

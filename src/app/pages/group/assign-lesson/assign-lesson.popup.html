@@ -2,18 +2,6 @@
   <div class="modal-body">
     <form>
       <div app-form-select-control
-           [type]="'NUMERIC'"
-           [name]="'teacher'"
-           [label]="'Преподаватель'"
-           [valid]="!!lesson.teacherId"
-           [valueNumber]="lesson.teacherId"
-           [items]="getTeachersItems()"
-           [hasEmpty]="true"
-           (onChangeNumber)="lesson.teacherId = $event"></div>
-
-      <br>
-
-      <div app-form-select-control
            [name]="'teacherLogin'"
            [label]="'Преподаватель'"
            [valid]="!!lesson.teacherLogin"

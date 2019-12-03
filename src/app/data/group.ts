@@ -9,7 +9,6 @@ export class Group {
   public constructor(
     public id: number = null,
     public cabinetId: number = null,
-    public managerId: number = null,
     public headTeacherLogin: string = null,
     public bookName: string = null,
     public type: GroupType = null,
@@ -58,7 +57,6 @@ export class Group {
     return new Group(
       group.id,
       group.cabinetId,
-      group.managerId,
       group.headTeacherLogin,
       group.bookName,
       group.type,
