@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Group, Student, StudentGroup, Teacher} from '../../../data';
+import {Group, StaffMember, Student, StudentGroup, Teacher} from '../../../data';
 import {SelectItem} from '../../../controls/select-item';
-import {GroupService} from '../../../service/group.service';
+import {GroupService} from '../../../service';
 
 export class StudentAssignGroupPopupManager {
   private static popup: StudentAssignGroupPopupComponent = null;
@@ -55,7 +55,7 @@ export class StudentAssignGroupPopupComponent extends TranslatableComponent {
   public studentGroupStatus: StudentAssignGroupStatus = null;
 
   @Input('groups') public groups: Array<Group> = [];
-  @Input('teachers') public teachers: Array<Teacher> = [];
+  @Input('staffMembers') public staffMembers: Array<StaffMember> = [];
   @Input('students') public students: Array<Student> = [];
 
   public constructor() {
@@ -79,10 +79,10 @@ export class StudentAssignGroupPopupComponent extends TranslatableComponent {
   }
 
   public getGroupName(group: Group): string {
-    let teacher = this.teachers.find(it => it.id === group.managerId);
+    let staffMember = this.staffMembers.find(it => it.login === group.headTeacherLogin);
     let students = this.students.filter(student => student.studentGroups.map(it => it.groupId).indexOf(group.id) != -1);
 
-    return (teacher != null) ? new GroupService().getGroupName(teacher, students) : "?";
+    return (staffMember != null) ? new GroupService().getGroupName(staffMember, students) : "?";
   }
 
   public isNew(): boolean {

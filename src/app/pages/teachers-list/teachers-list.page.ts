@@ -50,7 +50,7 @@ export class TeachersListPageComponent {
   }
 
   public getGroups(teacherId: number): Array<Group> {
-    return this.activeGroups.filter(it => it.managerId === teacherId);
+    return []; // this.activeGroups.filter(it => it.managerId === teacherId);
   }
 
   public onSearchChange(teacherNameFilter: string) {
@@ -66,20 +66,22 @@ export class TeachersListPageComponent {
   }
 
   public getLoadMinutes(teacherId: number): number {
-    const currentTime = new Date().getTime();
+    return 0;
 
-    let minutes = 0;
-
-    this.activeGroups.forEach(group =>
-      this.groupService
-        .getGroupActiveLessons(group, currentTime)
-        .filter(lesson => lesson.teacherId === teacherId)
-        .forEach(lesson => {
-          minutes += 30 * (TimeUtils.index(lesson.finishTime) - TimeUtils.index(lesson.startTime))
-        })
-    );
-
-    return minutes;
+    // const currentTime = new Date().getTime();
+    //
+    // let minutes = 0;
+    //
+    // this.activeGroups.forEach(group =>
+    //   this.groupService
+    //     .getGroupActiveLessons(group, currentTime)
+    //     .filter(lesson => lesson.teacherId === teacherId)
+    //     .forEach(lesson => {
+    //       minutes += 30 * (TimeUtils.index(lesson.finishTime) - TimeUtils.index(lesson.startTime))
+    //     })
+    // );
+    //
+    // return minutes;
   }
 
   private getFilteredTeachers(teacherNameFilter: string): Array<Teacher> {

@@ -2,10 +2,10 @@ import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {StudentsService, LoginService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Student, EducationLevelUtils, Group, StudentGroup, Teacher} from '../../../data';
+import {Student, EducationLevelUtils, Group, StudentGroup,  StaffMember} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
-import {GroupsHttp, TeachersHttp} from '../../../http';
+import {GroupsHttp, StaffMembersHttp} from '../../../http';
 import {StudentAssignGroupPopupManager} from '../../';
 import {GroupService} from '../../../service';
 
@@ -25,7 +25,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
-  private allTeachers: Array<Teacher> = [];
+  private allStaffMembers: Array<StaffMember> = [];
 
   public constructor(
     private router: Router,
@@ -33,7 +33,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
-    private teachersHttp: TeachersHttp,
+    private staffMembersHttp: StaffMembersHttp,
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
   ) {
@@ -134,10 +134,10 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
   public getGroupName(groupId: number): string {
     let group = this.allGroups.find(it => it.id === groupId);
-    let teacher = this.allTeachers.find(it => it.id === group.managerId);
+    let staffMember = this.allStaffMembers.find(it => it.login === group.headTeacherLogin);
     let students = this.allStudents.filter(student => student.studentGroups.map(it => it.groupId).indexOf(groupId) != -1);
 
-    return new GroupService().getGroupName(teacher, students);
+    return new GroupService().getGroupName(staffMember, students);
   }
 
   public hasAtLeastOneContact(): boolean {
@@ -152,11 +152,11 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     Promise.all([
       this.studentsService.getAllStudents(),
       this.groupsHttp.getAllGroups(),
-      this.teachersHttp.getAllTeachers()
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.allStudents = it[0];
       this.allGroups = it[1];
-      this.allTeachers = it[2];
+      this.allStaffMembers = it[2];
 
       if (studentId == null) {
         this.student = new Student();

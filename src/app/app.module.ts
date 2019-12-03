@@ -52,7 +52,6 @@ const appRoutes: Routes = [
   { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
 
   { path: 'students', component: Pages.StudentsListPageComponent },
-  { path: 'students/statistics', component: Pages.StudentsStatisticsPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
   { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
   { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
@@ -66,11 +65,6 @@ const appRoutes: Routes = [
   { path: 'groups/:id/information', component: Pages.GroupInformationPageComponent },
   { path: 'groups/:id/students', component: Pages.GroupStudentsPageComponent },
   { path: 'groups/:id/timetable', component: Pages.GroupTimetablePageComponent },
-
-  { path: 'events', component: Pages.EventsListPageComponent },
-  { path: 'events/:id/information', component: Pages.EventInformationPage },
-  { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
-  { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
 
   { path: 'staff-members', component: Pages.StaffMembersListPageComponent },
   { path: 'staff-members/:login/information', component: Pages.StaffMemberInformationPageComponent },
@@ -106,7 +100,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.StudentAssignGroupPopupComponent,
 
     Pages.StudentsListPageComponent,
-    Pages.StudentsStatisticsPageComponent,
 
     Pages.CabinetInformationPageComponent,
     Pages.CabinetTimetablePageComponent,
@@ -120,13 +113,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.AssignLessonPopupComponent,
 
     Pages.GroupsListPageComponent,
-
-    Pages.EventsListPageComponent,
-    Pages.EventInformationPage,
-    Pages.EventParticipantsPage,
-    Pages.EventMenuPageComponent,
-
-    Pages.ParticipantPageComponent,
 
     Pages.StaffMembersListPageComponent,
     Pages.StaffMemberInformationPageComponent,
@@ -215,8 +201,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Https.StudentAttendanceHttp,
     Https.StudentPaymentHttp,
     Https.StudentStatusHttp,
-    Https.EventsHttp,
-    Https.EventParticipantsHttp,
     Https.StaffMembersHttp
   ],
   bootstrap: [
