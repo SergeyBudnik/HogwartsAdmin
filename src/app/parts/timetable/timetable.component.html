@@ -7,7 +7,7 @@
 </div>
 
 <div class="timetable-body">
-  <div *ngFor="let time of getTimeRange()" class="timetable-body-row">
+  <div *ngFor="let time of timeRange" class="timetable-body-row">
     <div *ngFor="let dayOfWeek of daysOfWeek"
          [class.timetable-current-day]="dayOfWeek === getCurrentDay()"
          [class.timetable-current-time]="time === getCurrentTime()"

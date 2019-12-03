@@ -1,0 +1,8 @@
+<div app-form-select-control class="form-group"
+     [name]="'groupType'"
+     [label]="'Тип группы'"
+     [valid]="!!groupType"
+     [valueString]="groupType"
+     [items]="groupTypes"
+     [hasEmpty]="true"
+     (onChangeString)="onValueChanged($event)"></div>

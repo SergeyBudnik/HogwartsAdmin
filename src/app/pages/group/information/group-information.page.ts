@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {StudentsService, LoginService} from '../../../service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {
-  Group, Student, AgeUtils, Lesson, Teacher, Cabinet, GroupTypeUtils, EducationLevelDictionary, StudentGroup
-} from '../../../data';
+import {Group, Student, Lesson, Teacher, Cabinet, GroupTypeUtils, StaffMember} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {CabinetsHttp, GroupsHttp, TeachersHttp} from '../../../http';
+import {CabinetsHttp, GroupsHttp, StaffMembersHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupAssignLessonPopupManager} from '../../';
 
@@ -15,19 +13,19 @@ import {GroupAssignLessonPopupManager} from '../../';
   styleUrls: ['./group-information.page.less']
 })
 export class GroupInformationPageComponent extends TranslatableComponent {
-  public ages = AgeUtils.values.map(it => new SelectItem(this.getAgeTranslationAsGroup(it), it));
+  public showInactiveLessons = false;
+
   public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
 
   public group: Group = new Group();
+  public lessons: Array<Lesson> = [];
   public students: Array<Student> = [];
 
   public loadingInProgress = true;
-  public actionInProgress = false;
 
   public teachers: Array<Teacher> = [];
+  public staffMembers: Array<StaffMember> = [];
   public cabinets: Array<Cabinet> = [];
-
-  public educationLevelDictionary = new EducationLevelDictionary();
 
   public constructor(
     private router: Router,
@@ -36,7 +34,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     private teachersHttp: TeachersHttp,
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
-    private cabinetsHttp: CabinetsHttp
+    private cabinetsHttp: CabinetsHttp,
+    private staffMembersHttp: StaffMembersHttp
   ) {
     super();
 
@@ -49,7 +48,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
         if (id === 'new') {
           this.initNewGroup();
         } else {
-          this.group.id = Number(id);
           this.initGroup(Number(id));
         }
       });
@@ -57,27 +55,23 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   }
 
   public save(): void {
-    this.group.cabinetId = Number(this.group.cabinetId);
-
-    this.actionInProgress = true;
+    this.loadingInProgress = true;
 
     if (!!this.group.id) {
       this.groupsHttp
         .editGroup(this.group)
-        .then(() => this.actionInProgress = false);
+        .then(() => this.loadingInProgress = false);
     } else {
       this.groupsHttp
         .createGroup(this.group)
-        .then(it => {
-          this.actionInProgress = false;
-          this.router.navigate([`/groups/${it}/information`]);
-        });
+        .then(it => this.router.navigate([`/groups/${it}/information`]));
     }
   }
 
   public delete(): void {
+    this.loadingInProgress = true;
+
     this.groupsHttp.deleteGroup(this.group.id).then(() => {
-      this.actionInProgress = false;
       this.router.navigate([`/groups`]);
     });
   }
@@ -90,8 +84,14 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
   }
 
-  public getCabinetsItems(): Array<SelectItem> {
-    return this.cabinets.map(it => new SelectItem(it.name, "" + it.id));
+  public getStaffMembersItems(): Array<SelectItem> {
+    return this.staffMembers.map(it => new SelectItem(it.person.name, it.login));
+  }
+
+  public toggleInactiveLessons() {
+    this.showInactiveLessons = !this.showInactiveLessons;
+
+    this.lessons = this.getGroupLessons();
   }
 
   public setExistingModalLesson(lesson: Lesson, index: number) {
@@ -118,6 +118,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     } else {
       this.group.lessons[lessonIndex] = lesson;
     }
+
+    this.lessons = this.getGroupLessons();
   }
 
   private onLessonDeleted(lessonIndex: number) {
@@ -130,19 +132,27 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     }
 
     this.group.lessons = lessons;
+
+    this.lessons = this.getGroupLessons();
   }
 
   private initGroup(groupId: number) {
+    this.group.id = groupId;
+
     Promise.all([
       this.groupsHttp.getGroup(groupId),
       this.studentsService.getGroupStudents(groupId),
       this.teachersHttp.getAllTeachers(),
-      this.cabinetsHttp.getAllCabinets()
+      this.cabinetsHttp.getAllCabinets(),
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.group = it[0];
       this.students = it[1];
       this.teachers = it[2];
       this.cabinets = it[3];
+      this.staffMembers = it[4];
+
+      this.lessons = this.getGroupLessons();
 
       this.loadingInProgress = false;
     });
@@ -151,12 +161,32 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   private initNewGroup() {
     Promise.all([
       this.teachersHttp.getAllTeachers(),
-      this.cabinetsHttp.getAllCabinets()
+      this.cabinetsHttp.getAllCabinets(),
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
+      this.group = new Group();
+      this.students = [];
       this.teachers = it[0];
       this.cabinets = it[1];
+      this.staffMembers = it[2];
 
       this.loadingInProgress = false;
     });
+  }
+
+  private getGroupLessons(): Array<Lesson> {
+    const currentTime = new Date().getTime();
+
+    return this.group.lessons
+      .filter(lesson => {
+        if (this.showInactiveLessons) {
+          return true;
+        } else {
+          const creationTimeMatches = lesson.creationTime <= currentTime;
+          const deactivationTimeMatches = !lesson.deactivationTime || currentTime <= lesson.deactivationTime;
+
+          return creationTimeMatches && deactivationTimeMatches;
+        }
+      });
   }
 }

@@ -1,0 +1,8 @@
+<div app-form-select-control class="form-group"
+     [name]="'age'"
+     [label]="'Возраст'"
+     [valid]="!!age"
+     [valueString]="age"
+     [items]="ages"
+     [hasEmpty]="true"
+     (onChangeString)="onValueChanged($event)"></div>

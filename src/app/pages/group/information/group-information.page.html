@@ -33,6 +33,16 @@
                [hasEmpty]="true"
                (onChangeNumber)="group.managerId = $event"></div>
 
+          <div app-form-select-control class="form-group"
+               [type]="'STRING'"
+               [name]="'headTeacherLogin'"
+               [label]="'Старший преподаватель'"
+               [valid]="!!group.headTeacherLogin"
+               [valueString]="group.headTeacherLogin"
+               [items]="getStaffMembersItems()"
+               [hasEmpty]="true"
+               (onChangeString)="group.headTeacherLogin = $event"></div>
+
           <div app-form-text-input-control class="form-group"
                [name]="'bookName'"
                [label]="'Название учебника'"
@@ -42,47 +52,27 @@
                [editable]="true"
                (onChange)="group.bookName = $event"></div>
 
-          <div app-form-select-control class="form-group"
-               [name]="'groupType'"
-               [label]="'Тип'"
-               [valid]="!!group.type"
-               [valueString]="group.type"
-               [items]="groupTypes"
-               [hasEmpty]="true"
-               (onChangeString)="group.type = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [name]="'educationLevels'"
-               [label]="'Уровень подготовки'"
-               [valid]="!!group.educationLevel"
-               [valueString]="group.educationLevel"
-               [items]="educationLevelDictionary.selectItems"
-               [hasEmpty]="true"
-               (onChangeString)="group.educationLevel = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [name]="'ages'"
-               [label]="'Возрастная категория'"
-               [valid]="!!group.age"
-               [valueString]="group.age"
-               [items]="ages"
-               (onChangeString)="group.age = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [type]="'NUMERIC'"
-               [name]="'cabinets'"
-               [label]="'Кабинет'"
-               [valid]="!!group.cabinetId"
-               [valueNumber]="group.cabinetId"
-               [items]="getCabinetsItems()"
-               [hasEmpty]="true"
-               (onChangeNumber)="group.cabinetId = $event"></div>
+          <app-form-select-control-group-type [groupType]="group.type" (onValueChanged)="group.type = $event"></app-form-select-control-group-type>
+          <app-form-select-control-education-level [educationLevel]="group.educationLevel" (onValueChanged)="group.educationLevel = $event"></app-form-select-control-education-level>
+          <app-form-select-control-age [age]="group.age" (onValueChanged)="group.age = $event"></app-form-select-control-age>
+          <app-form-select-control-cabinet [allCabinets]="cabinets" [cabinetId]="group.cabinetId" (onValueChanged)="group.cabinetId = $event"></app-form-select-control-cabinet>
 
           <br>
 
-          <h5 class="app-header">Занятия:</h5>
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="app-header">Занятия:</div>
 
-          <div *ngIf="group.lessons.length === 0">
+            <div class="app-link" (click)="toggleInactiveLessons()">
+              <ng-container *ngIf="!showInactiveLessons">
+                Показывать неактивные
+              </ng-container>
+              <ng-container *ngIf="showInactiveLessons">
+                Скрывать неактивные
+              </ng-container>
+            </div>
+          </div>
+
+          <div *ngIf="lessons.length === 0">
             <br>
 
             Занятия не назначены
@@ -93,7 +83,7 @@
 
           <br>
 
-          <div *ngFor="let lesson of group.lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
+          <div *ngFor="let lesson of lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
             <div class="group-lesson-row-day-of-week">
               {{getDayOfWeekTranslation(lesson.day)}}
             </div>
@@ -129,20 +119,18 @@
     <div class="page-right-menu">
     </div>
 
-    <app-assign-lesson-popup [teachers]="teachers" [cabinets]="cabinets"></app-assign-lesson-popup>
+    <app-assign-lesson-popup [cabinets]="cabinets" [staffMembers]="staffMembers"></app-assign-lesson-popup>
   </div>
 
   <div class="footer">
-    <button [disabled]="loadingInProgress || actionInProgress || !group.id"
+    <button [disabled]="loadingInProgress || loadingInProgress || !group.id"
             class="btn btn-danger pull-right horizontal-item" (click)="delete()">
       Удалить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
 
-    <button [disabled]="loadingInProgress || actionInProgress"
+    <button [disabled]="loadingInProgress || loadingInProgress"
             class="btn btn-primary pull-right" (click)="save()">
       Сохранить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
   </div>
 </div>

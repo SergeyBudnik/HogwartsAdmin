@@ -1,6 +1,6 @@
 <div class="header">
   <div class="header-title-section">
-    <span>Hogwarts Admin v1.16.0</span>
+    <span>Hogwarts Admin v1.17.0</span>
   </div>
 
   <div class="header-body-section">
@@ -31,6 +31,15 @@
       Учителя
     </div>
 
+    <div (click)="navigate('/staff-members')"
+         [class.menu-element-active]="activeSection === 'STAFF_MEMBERS'"
+         [class.menu-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
+
+      <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
+
+      Сотрудники
+    </div>
+
     <div (click)="navigate('/cabinets')"
          [class.menu-element-active]="activeSection === 'CABINETS'"
          [class.menu-element-inactive]="activeSection !== 'CABINETS'">
@@ -38,15 +47,6 @@
       <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
 
       Кабинеты
-    </div>
-
-    <div  (click)="navigate('/events')"
-         [class.menu-element-active]="activeSection === 'EVENTS'"
-         [class.menu-element-inactive]="activeSection !== 'EVENTS'">
-
-      <i class="fa fa-star menu-element-icon" aria-hidden="true"></i>
-
-      Мероприятия
     </div>
   </div>
 

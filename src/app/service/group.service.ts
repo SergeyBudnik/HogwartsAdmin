@@ -1,4 +1,4 @@
-import {Age, Cabinet, EducationLevel, Group, Lesson, Student, Teacher} from '../data';
+import {Age, Cabinet, EducationLevel, Group, Lesson, StaffMember, Student, Teacher} from '../data';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -47,11 +47,11 @@ export class GroupService {
     return this.getGroupActiveLessons(group, time).length !== 0;
   }
 
-  public getGroupName(teacher: Teacher, groupStudents: Array<Student>): string {
-    if (!teacher) {
+  public getGroupName(staffMember: StaffMember, groupStudents: Array<Student>): string {
+    if (!staffMember) {
       return ""
     } else {
-      return `${teacher.name} - ${this.getGroupStudentsNames(groupStudents)}`;
+      return `${staffMember.person.name} - ${this.getGroupStudentsNames(groupStudents)}`;
     }
   }
 

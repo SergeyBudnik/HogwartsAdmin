@@ -42,6 +42,7 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {ChartsModule} from 'ng2-charts';
 import {GroupIconComponent} from './parts/group/group-icon/group-icon.component';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {WeekSelectorComponent} from './parts/week-selector/week-selector.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
@@ -51,7 +52,6 @@ const appRoutes: Routes = [
   { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
 
   { path: 'students', component: Pages.StudentsListPageComponent },
-  { path: 'students/statistics', component: Pages.StudentsStatisticsPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
   { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
   { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
@@ -66,10 +66,8 @@ const appRoutes: Routes = [
   { path: 'groups/:id/students', component: Pages.GroupStudentsPageComponent },
   { path: 'groups/:id/timetable', component: Pages.GroupTimetablePageComponent },
 
-  { path: 'events', component: Pages.EventsListPageComponent },
-  { path: 'events/:id/information', component: Pages.EventInformationPage },
-  { path: 'events/:id/participants', component: Pages.EventParticipantsPage },
-  { path: 'events/:eventId/participants/:participantId', component: Pages.ParticipantPageComponent },
+  { path: 'staff-members', component: Pages.StaffMembersListPageComponent },
+  { path: 'staff-members/:login/information', component: Pages.StaffMemberInformationPageComponent },
 
   { path: '**', component: Pages.StudentsListPageComponent }
 ];
@@ -102,7 +100,6 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.StudentAssignGroupPopupComponent,
 
     Pages.StudentsListPageComponent,
-    Pages.StudentsStatisticsPageComponent,
 
     Pages.CabinetInformationPageComponent,
     Pages.CabinetTimetablePageComponent,
@@ -117,12 +114,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
     Pages.GroupsListPageComponent,
 
-    Pages.EventsListPageComponent,
-    Pages.EventInformationPage,
-    Pages.EventParticipantsPage,
-    Pages.EventMenuPageComponent,
-
-    Pages.ParticipantPageComponent,
+    Pages.StaffMembersListPageComponent,
+    Pages.StaffMemberInformationPageComponent,
 
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,
@@ -139,7 +132,13 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
     Controls.SearchSelectControl,
     Controls.SearchTextInputControl,
+
     Controls.FormSelectControl,
+    Controls.FormSelectAgeControl,
+    Controls.FormSelectCabinetControl,
+    Controls.FormSelectEducationLevelControl,
+    Controls.FormSelectGroupTypeControl,
+
     Controls.FormTagControl,
     Controls.FormTextControl,
     Controls.FormDateControl,
@@ -148,6 +147,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Filters.CabinetsFilterComponent,
     Filters.EducationLevelFilterComponent,
     Filters.GroupTypeFilterComponent,
+
+    WeekSelectorComponent
   ],
   imports: [
     TagInputModule,
@@ -200,8 +201,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Https.StudentAttendanceHttp,
     Https.StudentPaymentHttp,
     Https.StudentStatusHttp,
-    Https.EventsHttp,
-    Https.EventParticipantsHttp
+    Https.StaffMembersHttp
   ],
   bootstrap: [
     AppComponent

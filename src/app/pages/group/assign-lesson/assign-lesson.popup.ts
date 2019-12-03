@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, Teacher} from '../../../data';
+import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, StaffMember} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
 
@@ -58,8 +58,8 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
   public lessonIndex: number = null;
   public lessonStatus: String = 'DISABLED';
 
-  @Input() public cabinets: Array<Cabinet> = [];
-  @Input() public teachers: Array<Teacher> = [];
+  @Input('cabinets') public cabinets: Array<Cabinet> = [];
+  @Input('staffMembers') public staffMembers: Array<StaffMember> = [];
 
   public constructor() {
     super();
@@ -73,12 +73,12 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
     this.lessonStatus = (lesson.deactivationTime == null) ? 'ENABLED' : 'DISABLED';
   }
 
-  public getTeachersItems(): Array<SelectItem> {
-    return this.teachers.map(it => new SelectItem(it.name, '' + it.id));
+  public getStaffMembersItems(): Array<SelectItem> {
+    return this.staffMembers.map(it => new SelectItem(it.person.name, it.login));
   }
 
   public isValid(): boolean {
-    let hasTeacherId = !!this.lesson.teacherId;
+    let hasTeacherLogin = !!this.lesson.teacherLogin;
     let hasDay = !!this.lesson.day;
     let hasStartTime = !!this.lesson.startTime;
     let hasFinishTime = !!this.lesson.finishTime;
@@ -87,7 +87,7 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
 
     let isEnabled = (this.lessonStatus == 'ENABLED');
 
-    return hasTeacherId && hasDay && hasStartTime && hasFinishTime && hasCreationTime && (isEnabled || hasDeactivationTime);
+    return hasTeacherLogin && hasDay && hasStartTime && hasFinishTime && hasCreationTime && (isEnabled || hasDeactivationTime);
   }
 
   public isNew(): boolean {
@@ -95,8 +95,6 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
   }
 
   public save(): void {
-    this.lesson.teacherId = Number(this.lesson.teacherId);
-
     if (this.lessonStatus == 'ENABLED') {
       this.lesson.deactivationTime = null;
     }

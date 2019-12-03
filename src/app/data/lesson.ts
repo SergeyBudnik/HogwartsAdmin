@@ -4,7 +4,7 @@ import {DayOfWeek} from './day-of-week';
 export class Lesson {
   public constructor(
     public id: number = null,
-    public teacherId: number = null,
+    public teacherLogin: string = null,
     public day: DayOfWeek = null,
     public startTime: Time = null,
     public finishTime: Time = null,
@@ -15,7 +15,7 @@ export class Lesson {
   public static copy(lesson: Lesson): Lesson {
     return new Lesson(
       lesson.id,
-      lesson.teacherId,
+      lesson.teacherLogin,
       lesson.day,
       lesson.startTime,
       lesson.finishTime,

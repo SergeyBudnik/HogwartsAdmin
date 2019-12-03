@@ -16,7 +16,11 @@
 
         <br>
 
-        <app-timetable [groups]="[group]" [lessons]="group.lessons" [showFilters]="false"></app-timetable>
+        <app-week-selector (onWeekChanged)="onWeekChanged($event)"></app-week-selector>
+
+        <br>
+
+        <app-timetable [groups]="[group]" [lessons]="groupLessons" [showFilters]="false"></app-timetable>
       </ng-container>
     </div>
 

@@ -1,15 +1,14 @@
-<app-modal-template [id]="'groupLessonModal'" [title]="'Добавление занятия'" [modalVisible]="modalVisible">
+<app-modal-template *ngIf="!!lesson" [id]="'groupLessonModal'" [title]="'Добавление занятия'" [modalVisible]="modalVisible">
   <div class="modal-body">
     <form>
       <div app-form-select-control
-           [type]="'NUMERIC'"
-           [name]="'teacher'"
+           [name]="'teacherLogin'"
            [label]="'Преподаватель'"
-           [valid]="!!lesson.teacherId"
-           [valueNumber]="lesson.teacherId"
-           [items]="getTeachersItems()"
+           [valid]="!!lesson.teacherLogin"
+           [valueString]="lesson.teacherLogin"
+           [items]="getStaffMembersItems()"
            [hasEmpty]="true"
-           (onChangeNumber)="lesson.teacherId = $event"></div>
+           (onChangeString)="lesson.teacherLogin = $event"></div>
 
       <br>
 

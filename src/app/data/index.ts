@@ -5,6 +5,8 @@ export * from './education-level';
 export * from './group';
 export * from './group-type';
 export * from './lesson';
+export * from './person';
+export * from './staff-member';
 export * from './student';
 export * from './student-attendance';
 export * from './student-group';
@@ -14,5 +16,3 @@ export * from './student-status';
 export * from './teacher';
 export * from './teacher-availability'
 export * from './time';
-export * from './speaking-club';
-export * from './event-participant';
