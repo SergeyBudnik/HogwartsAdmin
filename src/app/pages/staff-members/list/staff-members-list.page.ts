@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../service';
-import {StaffMember} from '../../data';
+import {LoginService} from '../../../service';
+import {StaffMember} from '../../../data';
 import {Router} from '@angular/router';
-import {StaffMembersHttp} from '../../http/staff-members.http';
+import {StaffMembersHttp} from '../../../http';
 
 @Component({
   selector: 'app-staff-members-list-page',

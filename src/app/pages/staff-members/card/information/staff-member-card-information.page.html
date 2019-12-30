@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="page-elements">
-    <div class="page-left-menu" ></div>
+    <div class="page-left-menu" app-staff-member-menu [staffMemberLogin]="staffMember.login" [currentTab]="'INFORMATION'"></div>
 
     <div class="page-content-with-footer">
       <ng-container *ngIf="!loadingInProgress">
@@ -11,7 +11,7 @@
         </h3>
 
         <h3 class="app-header" *ngIf="isNew">
-          Сотрудника учителя
+          Добавление cотрудника
         </h3>
 
         <br>

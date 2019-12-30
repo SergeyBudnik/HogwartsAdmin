@@ -24,16 +24,6 @@
           </div>
 
           <div app-form-select-control class="form-group"
-               [type]="'NUMERIC'"
-               [name]="'manager'"
-               [label]="'Старший преподаватель'"
-               [valid]="!!group.managerId"
-               [valueNumber]="group.managerId"
-               [items]="getTeachersItems()"
-               [hasEmpty]="true"
-               (onChangeNumber)="group.managerId = $event"></div>
-
-          <div app-form-select-control class="form-group"
                [type]="'STRING'"
                [name]="'headTeacherLogin'"
                [label]="'Старший преподаватель'"
@@ -91,7 +81,7 @@
               {{getTimeTranslation(lesson.startTime)}} - {{getTimeTranslation(lesson.finishTime)}}
             </div>
             <div class="group-lesson-row-teacher">
-              {{getTeacher(lesson.teacherId).name}}
+              {{getTeacher(lesson.teacherLogin).name}}
             </div>
             <ng-container>
               <div class="group-lesson-row-status" *ngIf="!lesson.id">

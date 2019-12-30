@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../../service';
-import {PersonContact, StaffMember} from '../../../data';
+import {LoginService} from '../../../../service';
+import {PersonContact, StaffMember} from '../../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {TranslatableComponent} from '../../../translation/translation.component';
-import {StaffMembersHttp} from '../../../http';
-import {ArrayUtils} from '../../../utils/array-utils';
+import {TranslatableComponent} from '../../../../translation/translation.component';
+import {StaffMembersHttp} from '../../../../http';
+import {ArrayUtils} from '../../../../utils/array-utils';
 
 @Component({
   selector: 'app-staff-member-information-page',
-  templateUrl: './staff-member-information.page.html',
-  styleUrls: ['./staff-member-information.page.less']
+  templateUrl: './staff-member-card-information.page.html',
+  styleUrls: ['./staff-member-card-information.page.less']
 })
-export class StaffMemberInformationPageComponent extends TranslatableComponent {
+export class StaffMemberCardInformationPageComponent extends TranslatableComponent {
   public staffMember: StaffMember = new StaffMember();
   public contacts: Array<PersonContact> = [];
 

@@ -1,18 +1,18 @@
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {GroupService, LoginService} from '../../../service';
+import {TranslatableComponent} from '../../../../translation/translation.component';
+import {Group, Lesson, StaffMember} from '../../../../data';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Group, Lesson, Teacher} from '../../../data';
-import {GroupsHttp, TeachersHttp} from '../../../http';
+import {GroupService, LoginService} from '../../../../service';
+import {GroupsHttp, StaffMembersHttp} from '../../../../http';
 import {endOfWeek, startOfWeek} from 'date-fns';
 
 @Component({
-  selector: 'app-teacher-timetable-page',
-  templateUrl: './teacher-timetable.page.html',
-  styleUrls: ['./teacher-timetable.page.less']
+  selector: 'app-staff-member-timetable-page',
+  templateUrl: './staff-member-card-timetable.page.html',
+  styleUrls: ['./staff-member-card-timetable.page.less']
 })
-export class TeacherTimetablePageComponent extends TranslatableComponent {
-  public teacher: Teacher = new Teacher();
+export class StaffMemberCardTimetablePageComponent extends TranslatableComponent {
+  public teacher: StaffMember = new StaffMember();
   public teacherGroups: Array<Group> = [];
   public teacherLessons: Array<Lesson> = [];
 
@@ -24,19 +24,19 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
     private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private teachersHttp: TeachersHttp,
+    private staffMembersHttp: StaffMembersHttp,
     private groupsHttp: GroupsHttp,
     private groupService: GroupService
   ) {
     super();
 
     if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
+      this.router.navigate([`/login`]).then();
     } else {
       this.route.paramMap.subscribe(params => {
-        //this.teacher.id = Number(params.get('id'));
+        const teacherLogin = params.get('login');
 
-        //this.load(this.teacher.id);
+        this.load(teacherLogin);
       });
     }
   }
@@ -47,9 +47,9 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
     this.initTimetable(time);
   }
 
-  private load(teacherId: number) {
+  private load(login: string) {
     Promise.all([
-      this.teachersHttp.getTeacher(teacherId),
+      this.staffMembersHttp.getStaffMember(login),
       this.groupsHttp.getAllGroups()
     ]).then(it => {
       this.teacher = it[0];
@@ -77,7 +77,7 @@ export class TeacherTimetablePageComponent extends TranslatableComponent {
         .lessons
         .filter(lesson => lesson.creationTime <= weekStartTime)
         .filter(lesson => !lesson.deactivationTime || weekEndTime <= lesson.deactivationTime)
-        //.filter(it => it.teacherId === this.teacher.id)
+        .filter(it => it.teacherLogin === this.teacher.login)
         .forEach(lesson => teacherLessons.push(lesson));
     });
 

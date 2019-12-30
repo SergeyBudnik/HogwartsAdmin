@@ -47,8 +47,6 @@ import {WeekSelectorComponent} from './parts/week-selector/week-selector.compone
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
 
-  { path: 'teachers', component: Pages.TeachersListPageComponent },
-  { path: 'teachers/:id/information', component: Pages.TeacherInformationPageComponent },
   { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
 
   { path: 'students', component: Pages.StudentsListPageComponent },
@@ -67,7 +65,8 @@ const appRoutes: Routes = [
   { path: 'groups/:id/timetable', component: Pages.GroupTimetablePageComponent },
 
   { path: 'staff-members', component: Pages.StaffMembersListPageComponent },
-  { path: 'staff-members/:login/information', component: Pages.StaffMemberInformationPageComponent },
+  { path: 'staff-members/:login/information', component: Pages.StaffMemberCardInformationPageComponent },
+  { path: 'staff-members/:login/timetable', component: Pages.StaffMemberCardTimetablePageComponent },
 
   { path: '**', component: Pages.StudentsListPageComponent }
 ];
@@ -87,10 +86,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
 
     Pages.LoginPageComponent,
 
-    Pages.TeacherInformationPageComponent,
     Pages.TeacherTimetablePageComponent,
-    Pages.TeacherMenuPageComponent,
-    Pages.TeachersListPageComponent,
 
     Pages.StudentInformationPageComponent,
     Pages.StudentStatusPageComponent,
@@ -115,7 +111,9 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Pages.GroupsListPageComponent,
 
     Pages.StaffMembersListPageComponent,
-    Pages.StaffMemberInformationPageComponent,
+    Pages.StaffMemberCardInformationPageComponent,
+    Pages.StaffMemberCardTimetablePageComponent,
+    Pages.StaffMemberCardMenuComponent,
 
     StudentPaymentRowComponent,
     StudentAttendanceRowComponent,

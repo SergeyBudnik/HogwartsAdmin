@@ -22,15 +22,6 @@
       Группы
     </div>
 
-    <div (click)="navigate('/teachers')"
-         [class.menu-element-active]="activeSection === 'TEACHERS'"
-         [class.menu-element-inactive]="activeSection !== 'TEACHERS'">
-
-      <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
-
-      Учителя
-    </div>
-
     <div (click)="navigate('/staff-members')"
          [class.menu-element-active]="activeSection === 'STAFF_MEMBERS'"
          [class.menu-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
