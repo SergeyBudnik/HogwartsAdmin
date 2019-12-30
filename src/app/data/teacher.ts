@@ -19,7 +19,6 @@ export class TeacherTypeUtils {
 
 export class Teacher {
   public constructor(
-    public id: number = null,
     public name: string = null,
     public login: string = null,
     public type: TeacherType = null,

@@ -76,12 +76,8 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     });
   }
 
-  public getTeacher(teacherId: number): Teacher {
-    return this.teachers.find(it => it.id === teacherId);
-  }
-
-  public getTeachersItems(): Array<SelectItem> {
-    return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
+  public getTeacher(teacherLogin: string): Teacher {
+    return this.teachers.find(it => it.login === teacherLogin);
   }
 
   public getStaffMembersItems(): Array<SelectItem> {
