@@ -2,16 +2,12 @@
   <app-header></app-header>
 
   <div class="page-elements">
-    <div class="page-left-menu" app-teacher-menu [teacherId]="teacher.id" [currentTab]="'TIMETABLE'"></div>
+    <div class="page-left-menu" app-staff-member-menu [staffMemberLogin]="teacher.login" [currentTab]="'TIMETABLE'"></div>
 
     <div class="page-content">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!teacher.id">
-          Учитель '{{teacher.name}}'
+        <h3 class="app-header">
+          Сотрудник '{{teacher.person.name}}'
         </h3>
 
         <br>

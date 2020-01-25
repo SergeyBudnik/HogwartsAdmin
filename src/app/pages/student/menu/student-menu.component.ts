@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationService} from '../../../service';
 
 type Tab = 'INFORMATION' | 'STATUS' | 'ATTENDANCE' | 'PAYMENT';
 
@@ -12,11 +12,5 @@ export class StudentMenuPageComponent {
   @Input() public studentId: number;
   @Input() public currentTab: Tab;
 
-  public constructor(
-    private router: Router
-  ) {}
-
-  public navigateTo(location: string): void {
-    this.router.navigate([`/students/${this.studentId}/${location}`]);
-  }
+  public constructor(public navigationService: NavigationService) {}
 }

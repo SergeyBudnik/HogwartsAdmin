@@ -21,7 +21,7 @@
     </div>
 
     <div class="cabinets-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="goToNewCabinetPage()">
+      <button class="btn btn-primary pull-right" (click)="navigationService.cabinets().new().go()">
         Добавить
       </button>
     </div>
@@ -29,7 +29,7 @@
 
 
   <div class="list-content">
-    <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="goToCabinetPage(cabinet.id)">
+    <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="navigationService.cabinets().id(cabinet.id).go()">
       <div class="list-row-item cabinets-list-name-column">
         {{cabinet.name}}
       </div>

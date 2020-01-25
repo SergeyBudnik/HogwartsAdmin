@@ -1,16 +1,14 @@
 import {Component} from '@angular/core';
 import {Cabinet, Group, Student, TimeUtils} from '../../data';
-import {LoginService, StudentPaymentService} from '../../service';
-import {Router} from '@angular/router';
+import {LoginService, NavigationService, StudentPaymentService} from '../../service';
 import {CabinetsHttp, GroupsHttp, StudentsHttp} from '../../http';
-import {CommonPage} from '../common/common.page';
 
 @Component({
   selector: 'app-cabinets-list-page',
   templateUrl: './cabinets-list.page.html',
   styleUrls: ['./cabinets-list.page.less']
 })
-export class CabinetsListPageComponent extends CommonPage {
+export class CabinetsListPageComponent {
   private allGroups: Array<Group> = [];
   private allCabinets: Array<Cabinet> = [];
   private allStudents: Array<Student> = [];
@@ -19,19 +17,16 @@ export class CabinetsListPageComponent extends CommonPage {
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
+    public navigationService: NavigationService,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
     private cabinetsHttp: CabinetsHttp,
     private studentsHttp: StudentsHttp,
     private studentPaymentService: StudentPaymentService
   ) {
-    super();
-
-    const thisService = this;
-
-    this.doInit(this.router);
-    this.doLogin(this.loginService.getAuthToken(), () => thisService.init());
+    this.loginService.ifAuthenticated(() => {
+      this.init();
+    });
   }
 
   private init() {

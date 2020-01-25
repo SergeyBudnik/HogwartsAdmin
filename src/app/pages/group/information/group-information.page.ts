@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {StudentsService, LoginService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Group, Student, Lesson, Teacher, Cabinet, GroupTypeUtils, StaffMember} from '../../../data';
+import {StudentsService, LoginService, NavigationService} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
+import {Group, Student, Lesson, Teacher, Cabinet, StaffMember} from '../../../data';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
@@ -15,8 +15,6 @@ import {GroupAssignLessonPopupManager} from '../../';
 export class GroupInformationPageComponent extends TranslatableComponent {
   public showInactiveLessons = false;
 
-  public groupTypes = GroupTypeUtils.values.map(it => new SelectItem(this.getGroupTypeTranslation(it), it));
-
   public group: Group = new Group();
   public lessons: Array<Lesson> = [];
   public students: Array<Student> = [];
@@ -28,7 +26,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   public cabinets: Array<Cabinet> = [];
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private teachersHttp: TeachersHttp,
@@ -39,9 +37,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
 
@@ -51,7 +47,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
           this.initGroup(Number(id));
         }
       });
-    }
+    });
   }
 
   public save(): void {
@@ -64,7 +60,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     } else {
       this.groupsHttp
         .createGroup(this.group)
-        .then(it => this.router.navigate([`/groups/${it}/information`]));
+        .then(it => this.navigationService.groups().id(it).information());
     }
   }
 
@@ -72,16 +68,12 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     this.loadingInProgress = true;
 
     this.groupsHttp.deleteGroup(this.group.id).then(() => {
-      this.router.navigate([`/groups`]);
+      this.navigationService.groups().list().go();
     });
   }
 
-  public getTeacher(teacherId: number): Teacher {
-    return this.teachers.find(it => it.id === teacherId);
-  }
-
-  public getTeachersItems(): Array<SelectItem> {
-    return this.teachers.map(it => new SelectItem(it.name, "" + it.id));
+  public getTeacher(teacherLogin: string): Teacher {
+    return this.teachers.find(it => it.login === teacherLogin);
   }
 
   public getStaffMembersItems(): Array<SelectItem> {

@@ -1,6 +1,6 @@
 import {Component, ViewContainerRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, LoginService,} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
+import {StudentsService, LoginService, NavigationService,} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, EducationLevelUtils, Group, StudentGroup,  StaffMember} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
@@ -28,7 +28,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   private allStaffMembers: Array<StaffMember> = [];
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
@@ -41,11 +41,9 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
     this.toastr.setRootViewContainerRef(vcr);
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.parseParams((studentId, groupId) => this.initStudent(studentId, groupId));
-    }
+    });
   }
 
   public addNewGroup(): void {
@@ -67,12 +65,12 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   }
 
   public goToStatus() {
-    this.router.navigate([`/students/${this.student.id}/status`]);
+    this.navigationService.students().id(this.student.id).status().go();
   }
 
   public goToGroup(groupId: number) {
     if (groupId !== null) {
-      this.router.navigate([`/groups/${groupId}/information`])
+      this.navigationService.groups().id(groupId).information().go();
     }
   }
 
@@ -105,9 +103,9 @@ export class StudentInformationPageComponent extends TranslatableComponent {
   private saveNew() {
     this.studentsService.createStudent(this.student).then(studentId => {
       if (!!this.requestedGroupId) {
-        this.router.navigate([`/groups/${this.requestedGroupId}/students`]);
+        this.navigationService.groups().id(this.requestedGroupId).students().go();
       } else {
-        this.router.navigate([`/students/${studentId}/information`]);
+        this.navigationService.students().id(studentId).information().go();
       }
     });
   }
@@ -124,7 +122,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     this.loadingInProgress = true;
 
     this.studentsService.deleteStudent(this.student.id).then(() => {
-      this.router.navigate([`/students`]);
+      this.navigationService.students().list().go();
     });
   }
 

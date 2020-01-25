@@ -1,7 +1,7 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {GroupService, LoginService, StudentsService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {GroupService, LoginService, NavigationService, StudentsService} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
 import {Group, Student} from '../../../data';
 import {GroupsHttp} from '../../../http';
 
@@ -17,7 +17,7 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
@@ -26,9 +26,7 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.group.id = Number(params.get('id'));
 
@@ -42,7 +40,7 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
           this.loadingInProgress = false;
         });
       });
-    }
+    });
   }
 
   public isStudentActive(student: Student): boolean {
@@ -52,11 +50,11 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
   }
 
   public openStudent(studentId: number): void {
-    this.router.navigate([`/students/${studentId}/information`]);
+    this.navigationService.students().id(studentId).information();
   }
 
   public addNewStudent(): void {
-    this.router.navigate([`/students/new/information`], {queryParams: {groupId: this.group.id}});
+    this.navigationService.students().newForGroup(this.group.id).go();
   }
 
   private getSortedStudents(students: Array<Student>): Array<Student> {

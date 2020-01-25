@@ -1,10 +1,10 @@
 <div class="header">
   <div class="header-title-section">
-    <span>Hogwarts Admin v1.17.0</span>
+    <span>Hogwarts Admin v1.18.0</span>
   </div>
 
   <div class="header-body-section">
-    <div (click)="navigate('/students')"
+    <div (click)="navigationService.students().list().go()"
          [class.menu-element-active]="activeSection === 'STUDENTS'"
          [class.menu-element-inactive]="activeSection !== 'STUDENTS'">
 
@@ -13,7 +13,7 @@
       Студенты
     </div>
 
-    <div (click)="navigate('/groups')"
+    <div (click)="navigationService.groups().list().go()"
          [class.menu-element-active]="activeSection === 'GROUPS'"
          [class.menu-element-inactive]="activeSection !== 'GROUPS'">
 
@@ -22,16 +22,7 @@
       Группы
     </div>
 
-    <div (click)="navigate('/teachers')"
-         [class.menu-element-active]="activeSection === 'TEACHERS'"
-         [class.menu-element-inactive]="activeSection !== 'TEACHERS'">
-
-      <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
-
-      Учителя
-    </div>
-
-    <div (click)="navigate('/staff-members')"
+    <div (click)="navigationService.staffMembers().list().go()"
          [class.menu-element-active]="activeSection === 'STAFF_MEMBERS'"
          [class.menu-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
 
@@ -40,7 +31,7 @@
       Сотрудники
     </div>
 
-    <div (click)="navigate('/cabinets')"
+    <div (click)="navigationService.cabinets().list().go()"
          [class.menu-element-active]="activeSection === 'CABINETS'"
          [class.menu-element-inactive]="activeSection !== 'CABINETS'">
 
