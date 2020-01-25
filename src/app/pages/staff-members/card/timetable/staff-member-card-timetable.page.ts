@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../../translation/translation.component';
 import {Group, Lesson, StaffMember} from '../../../../data';
-import {ActivatedRoute, Router} from '@angular/router';
-import {GroupService, LoginService} from '../../../../service';
+import {ActivatedRoute} from '@angular/router';
+import {LoginService} from '../../../../service';
 import {GroupsHttp, StaffMembersHttp} from '../../../../http';
 import {endOfWeek, startOfWeek} from 'date-fns';
 
@@ -21,24 +21,20 @@ export class StaffMemberCardTimetablePageComponent extends TranslatableComponent
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private staffMembersHttp: StaffMembersHttp,
-    private groupsHttp: GroupsHttp,
-    private groupService: GroupService
+    private groupsHttp: GroupsHttp
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]).then();
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const teacherLogin = params.get('login');
 
         this.load(teacherLogin);
       });
-    }
+    });
   }
 
   public onWeekChanged(currentWeek: number) {

@@ -1,5 +1,5 @@
 import {Component, ViewContainerRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {StudentsService, LoginService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentStatus, StudentStatusType} from '../../../data';
@@ -30,7 +30,6 @@ export class StudentStatusPageComponent extends TranslatableComponent {
   public actionInProgress = false;
 
   public constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private studentsService: StudentsService,
@@ -42,15 +41,13 @@ export class StudentStatusPageComponent extends TranslatableComponent {
 
     this.toastr.setRootViewContainerRef(vcr);
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
 
         this.init(Number(id));
       });
-    }
+    });
   }
 
   public hasAction(status: StudentStatus): boolean {

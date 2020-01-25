@@ -1,3 +1,5 @@
+export * from './navigation/navigation.service';
+
 export * from './app-translations.service';
 
 export * from './login.service';

@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../../service';
+import {LoginService, NavigationService} from '../../../service';
 import {StaffMember} from '../../../data';
-import {Router} from '@angular/router';
 import {StaffMembersHttp} from '../../../http';
 
 @Component({
@@ -17,12 +16,10 @@ export class StaffMembersListPageComponent {
 
   public constructor(
     private loginService: LoginService,
-    private router: Router,
+    private navigationService: NavigationService,
     private staffMembersHttp: StaffMembersHttp
   ) {
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]).then();
-    } else {
+    this.loginService.ifAuthenticated(() => {
       Promise.all([
         this.staffMembersHttp.getAllStaffMembers()
       ]).then(it => {
@@ -32,19 +29,19 @@ export class StaffMembersListPageComponent {
 
         this.loadingInProgress = false;
       });
-    }
+    });
   }
 
   public onSearchChange(staffMemberNameFilter: string) {
     this.staffMembers = this.getFilteredStaffMembers(staffMemberNameFilter);
   }
 
-  public openStaffMemberPage(login: String) {
-    this.router.navigate([`/staff-members/${login}/information`]).then();
+  public openStaffMemberPage(login: string) {
+    this.navigationService.staffMembers().id(login).information().go();
   }
 
   public openNewStaffMemberPage() {
-    this.router.navigate([`/staff-members/new/information`]).then();
+    this.navigationService.staffMembers().new().go();
   }
 
   private getFilteredStaffMembers(staffMemberNameFilter: string): Array<StaffMember> {

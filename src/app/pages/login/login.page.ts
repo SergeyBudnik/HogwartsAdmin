@@ -1,7 +1,6 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService} from '../../service';
-import {Router} from '@angular/router';
+import {LoginService, NavigationService} from '../../service';
 
 @Component({
   selector: 'app-login-page',
@@ -17,13 +16,13 @@ export class LoginPageComponent extends TranslatableComponent {
   public actionInProgress = false;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private loginService: LoginService
   ) {
     super();
 
     if (!!loginService.getAuthToken()) {
-      this.router.navigate([`/students`]);
+      this.navigationService.students().list().go();
     }
   }
 
@@ -34,7 +33,7 @@ export class LoginPageComponent extends TranslatableComponent {
     this.loginService
       .login(this.login, this.password)
       .then(() => {
-        this.router.navigate([`/students`]);
+        this.navigationService.students().list().go();
         this.actionInProgress = false;
       })
       .catch(() => {

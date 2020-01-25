@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {LoginService} from '../../../../service';
+import {LoginService, NavigationService} from '../../../../service';
 import {PersonContact, StaffMember} from '../../../../data';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {TranslatableComponent} from '../../../../translation/translation.component';
 import {StaffMembersHttp} from '../../../../http';
 import {ArrayUtils} from '../../../../utils/array-utils';
@@ -20,16 +20,14 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
   public isNew = false;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private staffMembersHttp: StaffMembersHttp
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]).then();
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const login = params.get('login');
 
@@ -41,7 +39,7 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
           this.initStaffMember(login);
         }
       });
-    }
+    });
   }
 
   public addNewPhone() {
@@ -65,7 +63,7 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
 
     if (this.isNew) {
       this.staffMembersHttp.createStaffMember(this.staffMember).then(() => {
-        this.router.navigate([`/staff-members/${this.staffMember.login}/information`]).then();
+        this.navigationService.staffMembers().id(this.staffMember.login).information().go();
       });
     } else {
       this.staffMembersHttp.editStaffMember(this.staffMember).then(() => {
@@ -78,7 +76,7 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
     this.loadingInProgress = true;
 
     this.staffMembersHttp.deleteStaffMember(this.staffMember.login).then(() => {
-      this.router.navigate([`/teachers`]).then();
+      this.navigationService.staffMembers().list().go();
     });
   }
 
@@ -87,7 +85,7 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
       this.staffMembersHttp.getStaffMember(login)
     ]).then(it => {
       this.staffMember = it[0];
-      this.contacts = this.staffMember.person.contacts.vkLinks
+      this.contacts = this.staffMember.person.contacts.vkLinks;
 
       this.loadingInProgress = false;
     });

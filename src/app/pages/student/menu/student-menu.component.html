@@ -1,30 +1,29 @@
-<div [class.page-left-menu-item-active]="currentTab === 'INFORMATION'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'INFORMATION'"
-     (click)="navigateTo('information')">
-  <i class="fa fa-info-circle menu-item-icon" aria-hidden="true"></i>
-  <span class="horizontal-item">Информация</span>
-</div>
+<ng-container *ngIf="!!studentId">
+  <div [class.page-left-menu-item-active]="currentTab === 'INFORMATION'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'INFORMATION'"
+    (click)="navigationService.students().id(studentId).information().go()">
+    <i class="fa fa-info-circle menu-item-icon" aria-hidden="true"></i>
+    <span class="horizontal-item">Информация</span>
+  </div>
 
-<div *ngIf="!!studentId"
-     [class.page-left-menu-item-active]="currentTab === 'STATUS'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'STATUS'"
-     (click)="navigateTo('status')">
-  <i class="fa fa-road menu-item-icon" aria-hidden="true"></i>
-  <span class="horizontal-item">Статус</span>
-</div>
+  <div [class.page-left-menu-item-active]="currentTab === 'STATUS'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'STATUS'"
+    (click)="navigationService.students().id(studentId).status().go()">
+    <i class="fa fa-road menu-item-icon" aria-hidden="true"></i>
+    <span class="horizontal-item">Статус</span>
+  </div>
 
-<div *ngIf="!!studentId"
-     [class.page-left-menu-item-active]="currentTab === 'ATTENDANCE'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'ATTENDANCE'"
-     (click)="navigateTo('attendance')">
-  <i class="fa fa-users menu-item-icon" aria-hidden="true"></i>
-  <span class="horizontal-item">Посещаемость</span>
-</div>
+  <div [class.page-left-menu-item-active]="currentTab === 'ATTENDANCE'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'ATTENDANCE'"
+    (click)="navigationService.students().id(studentId).attendance().go()">
+    <i class="fa fa-users menu-item-icon" aria-hidden="true"></i>
+    <span class="horizontal-item">Посещаемость</span>
+  </div>
 
-<div *ngIf="!!studentId"
-     [class.page-left-menu-item-active]="currentTab === 'PAYMENT'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'PAYMENT'"
-     (click)="navigateTo('payment')">
-  <i class="fa fa-money menu-item-icon" aria-hidden="true"></i>
-  <span class="horizontal-item">Оплата</span>
-</div>
+  <div [class.page-left-menu-item-active]="currentTab === 'PAYMENT'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'PAYMENT'"
+    (click)="navigationService.students().id(studentId).payment().go()">
+    <i class="fa fa-money menu-item-icon" aria-hidden="true"></i>
+    <span class="horizontal-item">Оплата</span>
+  </div>
+</ng-container>

@@ -1,7 +1,7 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {LoginService, NavigationService} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
 import {Cabinet, Group, Lesson} from '../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../http';
 import {endOfWeek, startOfWeek} from 'date-fns';
@@ -21,7 +21,7 @@ export class CabinetTimetablePageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private cabinetsHttp: CabinetsHttp,
@@ -29,16 +29,13 @@ export class CabinetTimetablePageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
-
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.cabinet.id = Number(params.get('id'));
 
         this.init(this.cabinet.id);
       });
-    }
+    });
   }
 
   private init(cabinetId: number): void {

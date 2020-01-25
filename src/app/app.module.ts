@@ -14,7 +14,6 @@ import {AuthInterceptor} from './interceptors/auth.interceptor';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './parts/header/header.component';
-import {MenuComponent} from './parts/menu/menu.component';
 import {TimetableComponent} from './parts/timetable/timetable.component';
 
 import {CookieOptions, CookieService} from 'angular2-cookie/core';
@@ -47,8 +46,6 @@ import {WeekSelectorComponent} from './parts/week-selector/week-selector.compone
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
 
-  { path: 'teachers/:id/timetable', component: Pages.TeacherTimetablePageComponent },
-
   { path: 'students', component: Pages.StudentsListPageComponent },
   { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
   { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
@@ -80,13 +77,10 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     AppComponent,
 
     HeaderComponent,
-    MenuComponent,
     TimetableComponent,
     FieldValidationSignComponent,
 
     Pages.LoginPageComponent,
-
-    Pages.TeacherTimetablePageComponent,
 
     Pages.StudentInformationPageComponent,
     Pages.StudentStatusPageComponent,
@@ -190,6 +184,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     Services.AppTranslationsService,
     Services.StudentGroupsService,
     Services.GroupService,
+    Services.NavigationService,
 
     Https.LoginHttp,
     Https.CabinetsHttp,

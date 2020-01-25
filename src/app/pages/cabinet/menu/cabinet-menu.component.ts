@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationService} from '../../../service';
 
 type Tab = 'INFORMATION' | 'TIMETABLE';
 
@@ -12,11 +12,5 @@ export class CabinetMenuPageComponent {
   @Input() public cabinetId: number;
   @Input() public currentTab: Tab;
 
-  public constructor(
-    private router: Router
-  ) {}
-
-  public navigateTo(location: string): void {
-    this.router.navigate([`/cabinets/${this.cabinetId}/${location}`]);
-  }
+  public constructor(public navigationService: NavigationService) {}
 }

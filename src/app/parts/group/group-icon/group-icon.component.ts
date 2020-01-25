@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Group} from '../../../data';
-import {Router} from '@angular/router';
+import {NavigationService} from '../../../service';
 
 @Component({
   selector: '[app-group-icon]',
@@ -11,10 +11,10 @@ export class GroupIconComponent {
   @Input() public group: Group;
 
   public constructor(
-    private router: Router
+    private navigationService: NavigationService
   ) {}
 
   public goToGroup() {
-    this.router.navigate([`/groups/${this.group.id}/information`]);
+    this.navigationService.groups().id(this.group.id).information().go();
   }
 }
