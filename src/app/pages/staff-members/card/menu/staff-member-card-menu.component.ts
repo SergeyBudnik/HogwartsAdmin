@@ -8,7 +8,8 @@ type Tab = 'INFORMATION' | 'TIMETABLE';
   templateUrl: './staff-member-card-menu.component.html',
   styleUrls: ['./staff-member-card-menu.component.less']
 })
-export class StaffMemberCardMenuComponent { // todo: check if new
+export class StaffMemberCardMenuComponent {
+  @Input() public isNew: boolean;
   @Input() public staffMemberLogin: string;
   @Input() public currentTab: Tab;
 

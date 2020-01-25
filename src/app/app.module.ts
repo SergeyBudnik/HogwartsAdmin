@@ -23,6 +23,7 @@ import * as Services from './service';
 import * as Https from './http';
 import * as Filters from './parts/filters';
 import * as Controls from './controls';
+import * as Parts from './parts';
 
 import 'rxjs/Rx';
 import {FieldValidationSignComponent} from './parts/field-validation-sign/field-validation-sign.component';
@@ -121,6 +122,8 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     GroupIconComponent,
 
     ModalTemplateComponent,
+
+    Parts.MenuItemPartComponent,
 
     Controls.SearchSelectControl,
     Controls.SearchTextInputControl,
