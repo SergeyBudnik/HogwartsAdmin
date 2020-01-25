@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Group, GroupType, Student} from '../../data';
-import {LoginService, GroupService, StudentsService} from '../../service';
-import {Router} from '@angular/router';
+import {LoginService, GroupService, StudentsService, NavigationService} from '../../service';
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Age} from '../../data';
 import {EducationLevel} from '../../data';
@@ -29,7 +28,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   private unfilteredGroups: Array<Group> = [];
 
   public constructor(
-    private router: Router,
+    public navigationService: NavigationService,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
     private cabinetsHttp: CabinetsHttp,
@@ -38,9 +37,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       Promise.all([
         this.groupsHttp.getAllGroups(),
         this.cabinetsHttp.getAllCabinets(),
@@ -54,7 +51,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
         this.groups = this.getFilteredGroups();
       });
-    }
+    });
   }
 
   public getGroupStudentsString(groupId: number): string {
@@ -105,11 +102,7 @@ export class GroupsListPageComponent extends TranslatableComponent {
   }
 
   public openGroupPage(groupId: number): void {
-    this.router.navigate([`/groups/${groupId}/information`]); // ToDo: move to separate component
-  }
-
-  public openNewGroupPage() {
-    this.router.navigate([`/groups/new/information`]); // ToDo: move to separate component
+    this.navigationService.groups().id(groupId).information().go();
   }
 
   public isGroupActive(groupId: number): boolean {

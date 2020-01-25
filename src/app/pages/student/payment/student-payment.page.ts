@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {StaffMember, Student, StudentPayment} from '../../../data';
 import {LoginService, StudentsService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {StaffMembersHttp, StudentPaymentHttp} from '../../../http';
 
 @Component({
@@ -18,7 +18,6 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
   public staffMembers: Array<StaffMember> = [];
 
   public constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private studentsService: StudentsService,
@@ -27,9 +26,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.student.id = Number(params.get('id'));
 
@@ -45,7 +42,7 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
           this.loadingInProgress = false;
         });
       });
-    }
+    });
   }
 
   public onPaymentAdded(payment: StudentPayment) {

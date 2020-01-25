@@ -1,22 +1,22 @@
-<div [class.page-left-menu-item-active]="currentTab === 'INFORMATION'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'INFORMATION'"
-     (click)="navigateTo('information')">
-  <i class="fa fa-info-circle" aria-hidden="true"></i>
-  <span class="horizontal-item">Информация</span>
-</div>
+<ng-container *ngIf="!!groupId">
+  <div [class.page-left-menu-item-active]="currentTab === 'INFORMATION'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'INFORMATION'"
+    (click)="navigationService.groups().id(this.groupId).information().go()">
+    <i class="fa fa-info-circle" aria-hidden="true"></i>
+    <span class="horizontal-item">Информация</span>
+  </div>
 
-<div *ngIf="!!groupId"
-     [class.page-left-menu-item-active]="currentTab === 'STUDENTS'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'STUDENTS'"
-     (click)="navigateTo('students')">
-  <i class="fa fa-users" aria-hidden="true"></i>
-  <span class="horizontal-item">Ученики</span>
-</div>
+  <div [class.page-left-menu-item-active]="currentTab === 'STUDENTS'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'STUDENTS'"
+    (click)="navigationService.groups().id(this.groupId).students().go()">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    <span class="horizontal-item">Ученики</span>
+  </div>
 
-<div *ngIf="!!groupId"
-     [class.page-left-menu-item-active]="currentTab === 'TIMETABLE'"
-     [class.page-left-menu-item-inactive]="currentTab !== 'TIMETABLE'"
-     (click)="navigateTo('timetable')">
-  <i class="fa fa-clock-o" aria-hidden="true"></i>
-  <span class="horizontal-item">Расписание</span>
-</div>
+  <div [class.page-left-menu-item-active]="currentTab === 'TIMETABLE'"
+    [class.page-left-menu-item-inactive]="currentTab !== 'TIMETABLE'"
+    (click)="navigationService.groups().id(this.groupId).timetable().go()">
+    <i class="fa fa-clock-o" aria-hidden="true"></i>
+    <span class="horizontal-item">Расписание</span>
+  </div>
+</ng-container>

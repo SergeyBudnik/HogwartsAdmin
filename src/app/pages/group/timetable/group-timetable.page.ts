@@ -1,7 +1,7 @@
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
-import {LoginService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {LoginService, NavigationService} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
 import {Group, Lesson} from '../../../data';
 import {GroupsHttp} from '../../../http';
 import {endOfWeek, startOfWeek} from 'date-fns';
@@ -18,7 +18,7 @@ export class GroupTimetablePageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp
@@ -27,15 +27,13 @@ export class GroupTimetablePageComponent extends TranslatableComponent {
 
     this.loadingInProgress = true;
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const groupId = Number(params.get('id'));
 
         this.load(groupId);
       });
-    }
+    });
   }
 
   public onWeekChanged(currentWeek: number) {

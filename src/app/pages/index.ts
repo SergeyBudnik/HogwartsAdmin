@@ -24,5 +24,3 @@ export * from './student/student-assign-group-popup/student-assign-group.popup';
 export * from './students-list/students-list.page';
 
 export * from './staff-members';
-
-export * from './teacher/timetable/teacher-timetable.page';

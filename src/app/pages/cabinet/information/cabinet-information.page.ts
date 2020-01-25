@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {StudentsService, LoginService} from '../../../service';
+import {ActivatedRoute} from '@angular/router';
+import {StudentsService, LoginService, NavigationService} from '../../../service';
 import {TranslatableComponent} from '../../../translation/translation.component';
-import {Group, Student, Cabinet, CabinetType, CabinetTypeUtils} from '../../../data';
+import {Group, Student, Cabinet, CabinetTypeUtils} from '../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
 
@@ -12,7 +12,7 @@ import {SelectItem} from '../../../controls/select-item';
   styleUrls: ['./cabinet-information.page.less']
 })
 export class CabinetInformationPageComponent extends TranslatableComponent {
-  public cabinetTypes: Array<SelectItem> = CabinetTypeUtils.values.map(it => new SelectItem(this.getCabinetTypeTranslation(it), it));;
+  public cabinetTypes: Array<SelectItem> = CabinetTypeUtils.values.map(it => new SelectItem(this.getCabinetTypeTranslation(it), it));
 
   public cabinet: Cabinet = new Cabinet(null, null, null);
   public groups: Array<Group> = [];
@@ -22,7 +22,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private cabinetsHttp: CabinetsHttp,
@@ -31,9 +31,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
 
@@ -45,7 +43,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
           this.initCabinet();
         }
       });
-    }
+    });
   }
 
   public save(): void {
@@ -60,7 +58,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
         .createCabinet(this.cabinet)
         .then(it => {
           this.actionInProgress = false;
-          this.router.navigate([`/cabinets/${it}/information`]);
+          this.navigationService.cabinets().id(it).go();
         });
     }
   }
@@ -72,7 +70,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
       .deleteCabinet(this.cabinet.id)
       .then(() => {
         this.actionInProgress = false;
-        this.router.navigate([`/cabinets`]);
+        this.navigationService.cabinets().list();
       });
   }
 

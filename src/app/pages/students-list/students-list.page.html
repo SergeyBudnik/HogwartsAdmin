@@ -27,7 +27,7 @@
     </div>
 
     <div class="students-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="goToNewStudentPage()">
+      <button class="btn btn-primary pull-right" (click)="this.navigationService.students().new().go()">
         Добавить
       </button>
     </div>
@@ -38,7 +38,7 @@
       <div class="app-loader"></div>
     </div>
 
-    <div *ngFor="let student of students" (click)="goToStudentPage(student.id)" class="list-row-clickable">
+    <div *ngFor="let student of students" (click)="navigationService.students().id(student.id).information().go()" class="list-row-clickable">
       <div class="list-row-item student-validation-column">
         <app-field-validation-sign *ngIf="student.statusType === 'STUDYING' || student.statusType === 'STOPPED'" [valid]="isStudentFilled(student)"></app-field-validation-sign>
       </div>
@@ -51,10 +51,10 @@
         </div>
       </div>
       <div class="list-row-item student-age-column">
-        {{getAgeTranslationAsGroup(student.age)}}
+        {{student.age}}
       </div>
       <div class="list-row-item student-education-level-column">
-        {{getEducationLevelTranslation(student.educationLevel)}}
+        {{student.educationLevel}}
       </div>
       <div class="list-row-item student-status-column-item">
         <div app-student-status [studentStatusType]="student.statusType"></div>

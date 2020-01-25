@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentAttendance} from '../../../data';
 import {LoginService, StudentsService} from '../../../service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {StudentAttendanceHttp} from '../../../http';
 
 @Component({
@@ -17,7 +17,6 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
   public attendances: Array<StudentAttendance> = [];
 
   public constructor(
-    private router: Router,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private studentsService: StudentsService,
@@ -25,9 +24,7 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
   ) {
     super();
 
-    if (!this.loginService.getAuthToken()) {
-      this.router.navigate([`/login`]);
-    } else {
+    this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.student.id = Number(params.get('id'));
 
@@ -41,7 +38,7 @@ export class StudentAttendancePageComponent extends TranslatableComponent {
           this.loadingInProgress = false;
         });
       });
-    }
+    });
   }
 
   public onAttendanceAdded(attendance: StudentAttendance): void {

@@ -1,17 +1,15 @@
 import {Component} from '@angular/core';
 import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {Router} from '@angular/router';
-import {AppTranslationsService, LoginService, StudentGroupsService} from '../../service';
+import {AppTranslationsService, LoginService, NavigationService, StudentGroupsService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
 import {GroupsHttp, StudentsHttp} from '../../http';
-import {CommonPage} from '../common/common.page';
 
 @Component({
   selector: 'app-students-list-page',
   templateUrl: './students-list.page.html',
   styleUrls: ['./students-list.page.less']
 })
-export class StudentsListPageComponent extends CommonPage {
+export class StudentsListPageComponent {
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
 
@@ -25,19 +23,14 @@ export class StudentsListPageComponent extends CommonPage {
   private statusFilter: StudentStatusType = null;
 
   public constructor(
-    private router: Router,
+    public navigationService: NavigationService,
     private loginService: LoginService,
     private studentsHttp: StudentsHttp,
     private groupsHttp: GroupsHttp,
     private appTranslationsService: AppTranslationsService,
     private studentGroupsService: StudentGroupsService
   ) {
-    super();
-
-    const thisService = this;
-
-    this.doInit(router);
-    this.doLogin(loginService.getAuthToken(), () => thisService.init());
+    this.loginService.ifAuthenticated(() => this.init());
 
     this.appTranslationsService.enableTranslations();
   }

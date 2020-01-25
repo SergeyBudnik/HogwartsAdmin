@@ -1,13 +1,12 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {LoginService} from '../service';
-import {Router} from '@angular/router';
+import {LoginService, NavigationService} from '../service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   public constructor(
-    private router: Router,
+    private navigationService: NavigationService,
     private loginService: LoginService
   ) {}
 
@@ -21,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq)
       .catch((error) => {
         if (error.status === 401 || error.status == 403) {
-          this.router.navigate([`/login`]);
+          this.navigationService.login().go();
 
           this.loginService.clearAuthToken();
         }

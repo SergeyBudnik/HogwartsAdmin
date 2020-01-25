@@ -1,7 +1,7 @@
 import {TranslatableComponent} from '../../translation/translation.component';
 import {Component, Input} from '@angular/core';
 import {Lesson, DayOfWeek, DayOfWeekUtils, Group, Time, TimeUtils} from '../../data';
-import {Router} from '@angular/router';
+import {NavigationService} from '../../service';
 
 @Component({
   selector: 'app-timetable',
@@ -42,7 +42,7 @@ export class TimetableComponent extends TranslatableComponent {
   }
 
   public constructor(
-    private router: Router
+    private navigationService: NavigationService
   ) {
     super();
   }
@@ -77,7 +77,7 @@ export class TimetableComponent extends TranslatableComponent {
     const group = this.getGroup(dayOfWeek, time);
 
     if (group) {
-      this.router.navigate([`/groups/${group.id}/information`]);
+      this.navigationService.groups().id(group.id).information().go();
     }
   }
 

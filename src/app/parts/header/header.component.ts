@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {LoginService} from '../../service';
+import {LoginService, NavigationService} from '../../service';
 
 export type Section = 'STUDENTS' | 'GROUPS' | 'TEACHERS' | 'CABINETS' | 'STAFF_MEMBERS';
 
@@ -13,17 +12,13 @@ export class HeaderComponent {
   @Input() public activeSection: Section;
 
   public constructor(
-    private router: Router,
+    public navigationService: NavigationService,
     private loginService: LoginService
   ) {}
-
-  public navigate(target: string): void {
-    this.router.navigate([target]);
-  }
 
   public logOff(): void {
     this.loginService.logOff();
 
-    this.router.navigate([`/login`]);
+    this.navigationService.login().go();
   }
 }
