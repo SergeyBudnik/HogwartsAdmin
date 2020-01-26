@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} from '../../../data';
 import {IMyDateModel} from 'mydatepicker';
 import {SelectItem} from '../../../controls/select-item';
 import {StudentAttendanceHttp} from '../../../http';
+import {TranslationService} from '../../../service';
 
 @Component({
   selector: 'app-student-attendance-modal',
   templateUrl: './student-attendance.modal.html',
   styleUrls: ['./student-attendance.modal.less']
 })
-export class StudentAttendanceModal extends TranslatableComponent {
+export class StudentAttendanceModal {
   @Output() public attendanceAdded: EventEmitter<StudentAttendance> = new EventEmitter<StudentAttendance>();
 
   public modalVisible = true;
@@ -26,10 +26,9 @@ export class StudentAttendanceModal extends TranslatableComponent {
   private time: number;
 
   public constructor(
+    private translationService: TranslationService,
     private studentAttendanceHttp: StudentAttendanceHttp
   ) {
-    super();
-
     const date: Date = new Date();
 
     this.date.date.year = date.getFullYear();
@@ -72,7 +71,7 @@ export class StudentAttendanceModal extends TranslatableComponent {
   public getAttendanceTypeItems(): Array<SelectItem> {
     return StudentAttendanceTypeUtils
       .values
-      .map(it => new SelectItem(this.getStudentAttendanceTypeTranslation(it), it));
+      .map(it => new SelectItem(this.translationService.studentAttendanceType().translate(it), it));
   }
 
   private hideModal(): void {

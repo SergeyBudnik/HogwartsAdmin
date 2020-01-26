@@ -1,7 +1,6 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {StudentsService, LoginService, NavigationService,} from '../../../service';
-import {TranslatableComponent} from '../../../translation/translation.component';
+import {StudentsService, LoginService, NavigationService, TranslationService,} from '../../../service';
 import {Student, EducationLevelUtils, Group, StudentGroup,  StaffMember} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../controls/select-item';
@@ -14,8 +13,8 @@ import {GroupService} from '../../../service';
   templateUrl: './student-information.page.html',
   styleUrls: ['./student-information.page.less']
 })
-export class StudentInformationPageComponent extends TranslatableComponent {
-  public educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(this.getEducationLevelTranslation(it), it));
+export class StudentInformationPageComponent {
+  public educationLevelItems = [];
 
   public student: Student = new Student();
 
@@ -29,6 +28,7 @@ export class StudentInformationPageComponent extends TranslatableComponent {
 
   public constructor(
     private navigationService: NavigationService,
+    private translationService: TranslationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
@@ -37,13 +37,16 @@ export class StudentInformationPageComponent extends TranslatableComponent {
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
   ) {
-    super();
-
     this.toastr.setRootViewContainerRef(vcr);
 
     this.loginService.ifAuthenticated(() => {
       this.parseParams((studentId, groupId) => this.initStudent(studentId, groupId));
     });
+
+    this.educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(
+      this.translationService.educationLevel().translate(it),
+      it
+    ));
   }
 
   public addNewGroup(): void {

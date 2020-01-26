@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Group, GroupType, Student} from '../../data';
-import {LoginService, GroupService, StudentsService, NavigationService} from '../../service';
-import {TranslatableComponent} from '../../translation/translation.component';
+import {LoginService, GroupService, StudentsService, NavigationService, TranslationService} from '../../service';
 import {Age} from '../../data';
 import {EducationLevel} from '../../data';
 import {Cabinet} from '../../data';
@@ -12,7 +11,7 @@ import {CabinetsHttp, GroupsHttp} from '../../http';
   templateUrl: './groups-list.page.html',
   styleUrls: ['./groups-list.page.less']
 })
-export class GroupsListPageComponent extends TranslatableComponent {
+export class GroupsListPageComponent {
   private students: Array<Student> = [];
   private cabinets: Array<Cabinet> = [];
 
@@ -29,14 +28,13 @@ export class GroupsListPageComponent extends TranslatableComponent {
 
   public constructor(
     public navigationService: NavigationService,
+    public translationService: TranslationService,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
     private cabinetsHttp: CabinetsHttp,
     private studentsService: StudentsService,
     private groupsService: GroupService
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       Promise.all([
         this.groupsHttp.getAllGroups(),

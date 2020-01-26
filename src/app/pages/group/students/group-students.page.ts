@@ -1,4 +1,3 @@
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
 import {GroupService, LoginService, NavigationService, StudentsService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
@@ -10,7 +9,7 @@ import {GroupsHttp} from '../../../http';
   templateUrl: './group-students.page.html',
   styleUrls: ['./group-students.page.less']
 })
-export class GroupStudentsPageComponent extends TranslatableComponent {
+export class GroupStudentsPageComponent {
   public group: Group = new Group();
   public students: Array<Student> = [];
 
@@ -24,8 +23,6 @@ export class GroupStudentsPageComponent extends TranslatableComponent {
     private studentsService: StudentsService,
     private groupService: GroupService
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.group.id = Number(params.get('id'));

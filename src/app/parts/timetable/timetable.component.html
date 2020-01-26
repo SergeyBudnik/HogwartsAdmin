@@ -2,7 +2,7 @@
   <div *ngFor="let dayOfWeek of daysOfWeek"
        [class.timetable-current-day]="dayOfWeek === getCurrentDay()"
        class="timetable-header-item">
-    {{getDayOfWeekTranslation(dayOfWeek)}}
+    {{translationService.dayOfWeek().translate(dayOfWeek)}}
   </div>
 </div>
 
@@ -15,7 +15,7 @@
          [style.background-color]="!!getGroup(dayOfWeek, time) ? getGroup(dayOfWeek, time).color : '#202F42'"
          class="timetable-body-row-item"
          (click)="onTimeSlotClick(dayOfWeek, time)">
-      {{getTimeTranslation(time)}}
+      {{translationService.time().translate(time)}}
     </div>
   </div>
 </div>

@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {StaffMember, Student, StudentPayment} from '../../../data';
 import {LoginService, StudentsService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
@@ -10,7 +9,7 @@ import {StaffMembersHttp, StudentPaymentHttp} from '../../../http';
   templateUrl: './student-payment.page.html',
   styleUrls: ['./student-payment.page.less']
 })
-export class StudentPaymentPageComponent extends TranslatableComponent {
+export class StudentPaymentPageComponent {
   public student: Student = new Student();
   public loadingInProgress = true;
 
@@ -24,8 +23,6 @@ export class StudentPaymentPageComponent extends TranslatableComponent {
     private studentPaymentHttp: StudentPaymentHttp,
     private staffMembersHttp: StaffMembersHttp,
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.student.id = Number(params.get('id'));

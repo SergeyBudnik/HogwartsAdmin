@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {StudentsService, LoginService, NavigationService} from '../../../service';
+import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
 import {Group, Student, Lesson, Teacher, Cabinet, StaffMember} from '../../../data';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp, TeachersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupAssignLessonPopupManager} from '../../';
@@ -12,7 +11,7 @@ import {GroupAssignLessonPopupManager} from '../../';
   templateUrl: './group-information.page.html',
   styleUrls: ['./group-information.page.less']
 })
-export class GroupInformationPageComponent extends TranslatableComponent {
+export class GroupInformationPageComponent {
   public showInactiveLessons = false;
 
   public group: Group = new Group();
@@ -26,6 +25,7 @@ export class GroupInformationPageComponent extends TranslatableComponent {
   public cabinets: Array<Cabinet> = [];
 
   public constructor(
+    public translationService: TranslationService,
     private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
@@ -35,8 +35,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     private cabinetsHttp: CabinetsHttp,
     private staffMembersHttp: StaffMembersHttp
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');

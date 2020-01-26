@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, StaffMember} from '../../../data';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {SelectItem} from '../../../controls/select-item';
+import {TranslationService} from '../../../service';
 
 export class GroupAssignLessonPopupManager {
   private static popup: AssignLessonPopupComponent = null;
@@ -44,9 +44,9 @@ export class GroupAssignLessonPopupManager {
   templateUrl: './assign-lesson.popup.html',
   styleUrls: ['./assign-lesson.popup.less']
 })
-export class AssignLessonPopupComponent extends TranslatableComponent {
-  public daysOfWeekItems: Array<SelectItem> = DayOfWeekUtils.values.map(it => new SelectItem(this.getDayOfWeekTranslation(it), it));
-  public timesItems: Array<SelectItem> = TimeUtils.values.map(it => new SelectItem(this.getTimeTranslation(it), it));
+export class AssignLessonPopupComponent {
+  public daysOfWeekItems: Array<SelectItem> = [];
+  public timesItems: Array<SelectItem> = [];
   public modalVisible = true;
 
   public lessonStatuses = [
@@ -61,8 +61,16 @@ export class AssignLessonPopupComponent extends TranslatableComponent {
   @Input('cabinets') public cabinets: Array<Cabinet> = [];
   @Input('staffMembers') public staffMembers: Array<StaffMember> = [];
 
-  public constructor() {
-    super();
+  public constructor(private translationService: TranslationService) {
+    this.timesItems = TimeUtils.values.map(it => new SelectItem(
+      this.translationService.time().translate(it),
+      it
+    ));
+
+    this.daysOfWeekItems = DayOfWeekUtils.values.map(it => new SelectItem(
+      this.translationService.dayOfWeek().translate(it),
+      it
+    ));
 
     GroupAssignLessonPopupManager.register(this);
   }

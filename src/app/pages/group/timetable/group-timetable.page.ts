@@ -1,4 +1,3 @@
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
 import {LoginService, NavigationService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
@@ -11,7 +10,7 @@ import {endOfWeek, startOfWeek} from 'date-fns';
   templateUrl: './group-timetable.page.html',
   styleUrls: ['./group-timetable.page.less']
 })
-export class GroupTimetablePageComponent extends TranslatableComponent {
+export class GroupTimetablePageComponent {
   public group: Group = new Group();
   public groupLessons: Array<Lesson> = [];
 
@@ -23,8 +22,6 @@ export class GroupTimetablePageComponent extends TranslatableComponent {
     private loginService: LoginService,
     private groupsHttp: GroupsHttp
   ) {
-    super();
-
     this.loadingInProgress = true;
 
     this.loginService.ifAuthenticated(() => {

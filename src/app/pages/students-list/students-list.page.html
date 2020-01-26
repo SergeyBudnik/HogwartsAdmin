@@ -51,10 +51,10 @@
         </div>
       </div>
       <div class="list-row-item student-age-column">
-        {{student.age}}
+        {{translationService.age().translate(student.age)}}
       </div>
       <div class="list-row-item student-education-level-column">
-        {{student.educationLevel}}
+        {{translationService.educationLevel().translate(student.educationLevel)}}
       </div>
       <div class="list-row-item student-status-column-item">
         <div app-student-status [studentStatusType]="student.statusType"></div>

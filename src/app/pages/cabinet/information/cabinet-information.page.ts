@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {StudentsService, LoginService, NavigationService} from '../../../service';
-import {TranslatableComponent} from '../../../translation/translation.component';
+import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../service';
 import {Group, Student, Cabinet, CabinetTypeUtils} from '../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
@@ -11,8 +10,8 @@ import {SelectItem} from '../../../controls/select-item';
   templateUrl: './cabinet-information.page.html',
   styleUrls: ['./cabinet-information.page.less']
 })
-export class CabinetInformationPageComponent extends TranslatableComponent {
-  public cabinetTypes: Array<SelectItem> = CabinetTypeUtils.values.map(it => new SelectItem(this.getCabinetTypeTranslation(it), it));
+export class CabinetInformationPageComponent {
+  public cabinetTypes: Array<SelectItem> = [];
 
   public cabinet: Cabinet = new Cabinet(null, null, null);
   public groups: Array<Group> = [];
@@ -22,6 +21,7 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
   public loadingInProgress = true;
 
   public constructor(
+    private translationService: TranslationService,
     private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
@@ -29,7 +29,10 @@ export class CabinetInformationPageComponent extends TranslatableComponent {
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
   ) {
-    super();
+    this.cabinetTypes = CabinetTypeUtils.values.map(it => new SelectItem(
+      this.translationService.cabinetType().translate(it),
+      it
+    ));
 
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {

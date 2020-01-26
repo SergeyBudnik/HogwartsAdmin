@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../data';
-import {AppTranslationsService, LoginService, NavigationService, StudentGroupsService} from '../../service';
+import {LoginService, NavigationService, StudentGroupsService, TranslationService} from '../../service';
 import {SelectItem} from '../../controls/select-item';
 import {GroupsHttp, StudentsHttp} from '../../http';
 
@@ -24,15 +24,13 @@ export class StudentsListPageComponent {
 
   public constructor(
     public navigationService: NavigationService,
+    public translationService: TranslationService,
     private loginService: LoginService,
     private studentsHttp: StudentsHttp,
     private groupsHttp: GroupsHttp,
-    private appTranslationsService: AppTranslationsService,
     private studentGroupsService: StudentGroupsService
   ) {
     this.loginService.ifAuthenticated(() => this.init());
-
-    this.appTranslationsService.enableTranslations();
   }
 
   private init() {

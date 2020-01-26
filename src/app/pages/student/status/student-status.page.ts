@@ -1,7 +1,6 @@
 import {Component, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StudentsService, LoginService} from '../../../service';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {Student, StudentStatus, StudentStatusType} from '../../../data';
 import {ToastsManager} from 'ng2-toastr';
 import {StudentStatusHttp} from '../../../http';
@@ -19,7 +18,7 @@ export class StatusAction {
   templateUrl: './student-status.page.html',
   styleUrls: ['./student-status.page.less']
 })
-export class StudentStatusPageComponent extends TranslatableComponent {
+export class StudentStatusPageComponent {
   public student: Student = new Student();
   public studentStatuses: Array<StudentStatus> = [];
   public currentStudentStatus: StudentStatus;
@@ -37,8 +36,6 @@ export class StudentStatusPageComponent extends TranslatableComponent {
     private toastr: ToastsManager,
     private vcr: ViewContainerRef
   ) {
-    super();
-
     this.toastr.setRootViewContainerRef(vcr);
 
     this.loginService.ifAuthenticated(() => {
