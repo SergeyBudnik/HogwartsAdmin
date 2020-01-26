@@ -56,7 +56,10 @@ export class StudentsListPage {
   }
 
   public getStatusItems(): Array<SelectItem> {
-    return StudentStatusTypeUtils.values.map(it => new SelectItem('-', it));
+    return StudentStatusTypeUtils.values.map(it => new SelectItem(
+        this.translationService.studentStatusType().translate(it),
+        it
+    ));
   }
 
   public isStudentFilled(student: Student): boolean {
