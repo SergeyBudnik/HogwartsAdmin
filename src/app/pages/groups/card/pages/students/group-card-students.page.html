@@ -16,7 +16,11 @@
 
         <br>
 
-        <div *ngFor="let student of students" class="app-clickable-row" [class.app-clickable-row-inactive]="!isStudentActive(student)" (click)="openStudent(student.id)">
+        <div
+          *ngFor="let student of students"
+          class="app-clickable-row"
+          [class.app-clickable-row-inactive]="!isStudentActive(student)"
+          (click)="navigationService.students().id(student.id).information().go()">
           {{student.name}}
         </div>
       </ng-container>
@@ -27,7 +31,7 @@
   </div>
 
   <div class="footer">
-    <button class="btn btn-primary pull-right" (click)="addNewStudent()">
+    <button class="btn btn-primary pull-right" (click)="this.navigationService.students().newForGroup(this.group.id).go()">
       Добавить ученика
     </button>
   </div>

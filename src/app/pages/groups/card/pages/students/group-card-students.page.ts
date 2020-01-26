@@ -46,14 +46,6 @@ export class GroupCardStudentsPage {
     return this.groupService.isStudentActive(this.group, student, currentTime);
   }
 
-  public openStudent(studentId: number): void {
-    this.navigationService.students().id(studentId).information();
-  }
-
-  public addNewStudent(): void {
-    this.navigationService.students().newForGroup(this.group.id).go();
-  }
-
   private getSortedStudents(students: Array<Student>): Array<Student> {
     const currentTime = new Date().getTime();
 
