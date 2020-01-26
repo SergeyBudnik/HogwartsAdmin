@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StaffMember, StudentPayment, Teacher} from '../../../../data';
+import {StaffMember, StudentPayment} from '../../../../data';
 import {StudentPaymentHttp} from '../../../../http';
 
 @Component({

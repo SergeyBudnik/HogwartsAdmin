@@ -180,7 +180,6 @@ const appRoutes: Routes = [
     Https.CabinetsHttp,
     Https.GroupsHttp,
     Https.StudentsHttp,
-    Https.TeachersHttp,
     Https.StudentAttendanceHttp,
     Https.StudentPaymentHttp,
     Https.StudentStatusHttp,
