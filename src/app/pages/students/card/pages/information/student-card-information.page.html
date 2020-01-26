@@ -1,0 +1,131 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'INFORMATION'"></div>
+
+    <div class="page-content-with-footer">
+      <div *ngIf="loadingInProgress" class="page-loading">
+        <fa name="spinner" animation="spin"></fa>
+      </div>
+
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 class="app-header" *ngIf="!!student.id">
+          {{student.name}} - Информация
+        </h3>
+
+        <h3 class="app-header" *ngIf="!student.id">
+          Добавление информации об ученике
+        </h3>
+
+        <br>
+
+        <form>
+          <div app-form-text-input-control class="form-group"
+               [name]="'name'"
+               [label]="'Имя'"
+               [placeholder]="'Введите имя'"
+               [valid]="!!student.name && student.name.indexOf('?') === -1"
+               [value]="student.name"
+               [editable]="true"
+               (onChange)="student.name = $event"></div>
+
+          <div app-form-tag-control class="form-group"
+               [name]="'telephones'"
+               [label]="'Телефоны'"
+               [placeholder]="'Введите телефон'"
+               [valid]="hasAtLeastOneContact()"
+               [value]="student.phones"
+               (onChange)="student.phones = $event"></div>
+
+          <div class="student-vkLink-container">
+            <div app-form-text-input-control class="form-group student-vkLink"
+                 [name]="'vkLink'"
+                 [label]="'Ссылка VK'"
+                 [placeholder]="'Введите ссылку'"
+                 [valid]="hasAtLeastOneContact()"
+                 [value]="student.vkLink"
+                 [editable]="true"
+                 (onChange)="student.vkLink = $event"></div>
+
+            <button class="btn btn-primary student-vkLink-action" [disabled]="!student.vkLink" (click)="goToVk()">Перейти</button>
+          </div>
+
+          <div app-form-select-control class="form-group"
+               [name]="'educationLevel'"
+               [label]="'Уровень подготовки'"
+               [valid]="student.educationLevel !== 'UNKNOWN'"
+               [valueString]="student.educationLevel"
+               [items]="educationLevelItems"
+               (onChangeString)="student.educationLevel = $event"></div>
+
+          <app-form-select-control-age [age]="student.age" (onValueChanged)="student.age = $event"></app-form-select-control-age>
+
+          <div class="form-group" *ngIf="!!student.id">
+            <label class="app-label h-full">Статус:</label>
+
+            <div class="student-status-container">
+              <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
+
+              <button class="btn btn-primary student-status-action" (click)="goToStatus()">Изменить статус</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="app-label h-full">
+              Группы:
+            </label>
+
+            <div class="app-text" *ngIf="student.studentGroups.length === 0">
+              Студент не назначен в группу
+            </div>
+
+            <div *ngFor="let studentGroup of student.studentGroups; let i = index" style="display: flex; flex-direction: row">
+              <div class="app-clickable-row" data-toggle="modal" data-target="#studentAssignGroupModal" style="width: 80%" (click)="editExistingGroup(studentGroup, i)">
+                <div style="width: 70%">
+                  {{getGroupName(studentGroup.groupId)}}
+                </div>
+                <div *ngIf="studentGroup.finishTime == null" style="width: 30%">
+                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}}
+                </div>
+                <div *ngIf="studentGroup.finishTime != null" style="width: 30%">
+                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}} по {{studentGroup.finishTime | date: 'dd.MM.yyyy'}}
+                </div>
+              </div>
+
+              <div *ngIf="!!studentGroup.groupId" class="student-group-action" (click)="goToGroup(studentGroup.groupId)">
+                Перейти
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" data-toggle="modal" data-target="#studentAssignGroupModal"
+                  (click)="addNewGroup()">
+            Добавить группу
+          </button>
+
+          <br>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+
+    <app-student-card-information-assign-group-popup
+      [groups]="getMatchingGroups()"
+      [staffMembers]="allStaffMembers"
+      [students]="allStudents">
+    </app-student-card-information-assign-group-popup>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="!student.id" class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+    </button>
+
+    <button class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+    </button>
+  </div>
+</div>

@@ -31,9 +31,7 @@ import {MyDatePickerModule} from 'mydatepicker';
 
 import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
 import {ModalTemplateComponent} from './templates/modal/modal.template';
-import {StudentPaymentRowComponent} from './pages/student/payment/payment-row/student-payment.row';
 import {StudentAttendanceModal} from './parts/student/attendance-modal/student-attendance.modal';
-import {StudentAttendanceRowComponent} from './pages/student/attendance/attendance-row/student-attendance.row';
 import {ClipboardModule} from 'ngx-clipboard';
 import {StudentStatusModal} from './parts/student/student-status-modal/student-status.modal';
 import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
@@ -45,26 +43,26 @@ import {WeekSelectorComponent} from './parts/week-selector/week-selector.compone
 const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
 
-  { path: 'students', component: Pages.StudentsListPageComponent },
-  { path: 'students/:id/information', component: Pages.StudentInformationPageComponent },
-  { path: 'students/:id/status', component: Pages.StudentStatusPageComponent },
-  { path: 'students/:id/attendance', component: Pages.StudentAttendancePageComponent },
-  { path: 'students/:id/payment', component: Pages.StudentPaymentPageComponent },
+  { path: 'students', component: Pages.StudentsListPage },
+  { path: 'students/:id/information', component: Pages.StudentCardInformationPage },
+  { path: 'students/:id/status', component: Pages.StudentCardStatusPage },
+  { path: 'students/:id/attendance', component: Pages.StudentCardAttendancePage },
+  { path: 'students/:id/payment', component: Pages.StudentCardPaymentPage },
 
-  { path: 'cabinets', component: Pages.CabinetsListPageComponent },
-  { path: 'cabinets/:id/information', component: Pages.CabinetInformationPageComponent },
-  { path: 'cabinets/:id/timetable', component: Pages.CabinetTimetablePageComponent },
+  { path: 'cabinets', component: Pages.CabinetsListPage },
+  { path: 'cabinets/:id/information', component: Pages.CabinetInformationPage },
+  { path: 'cabinets/:id/timetable', component: Pages.CabinetTimetablePage },
 
-  { path: 'groups', component: Pages.GroupsListPageComponent },
-  { path: 'groups/:id/information', component: Pages.GroupInformationPageComponent },
-  { path: 'groups/:id/students', component: Pages.GroupStudentsPageComponent },
-  { path: 'groups/:id/timetable', component: Pages.GroupTimetablePageComponent },
+  { path: 'groups', component: Pages.GroupsListPage },
+  { path: 'groups/:id/information', component: Pages.GroupCardInformationPage },
+  { path: 'groups/:id/students', component: Pages.GroupCardStudentsPage },
+  { path: 'groups/:id/timetable', component: Pages.GroupCardTimetablePage },
 
   { path: 'staff-members', component: Pages.StaffMembersListPageComponent },
   { path: 'staff-members/:login/information', component: Pages.StaffMemberCardInformationPageComponent },
   { path: 'staff-members/:login/timetable', component: Pages.StaffMemberCardTimetablePageComponent },
 
-  { path: '**', component: Pages.StudentsListPageComponent }
+  { path: '**', component: Pages.StudentsListPage }
 ];
 
 @NgModule({
@@ -77,35 +75,33 @@ const appRoutes: Routes = [
 
     Pages.LoginPageComponent,
 
-    Pages.StudentInformationPageComponent,
-    Pages.StudentStatusPageComponent,
-    Pages.StudentAttendancePageComponent,
-    Pages.StudentPaymentPageComponent,
-    Pages.StudentMenuPageComponent,
-    Pages.StudentAssignGroupPopupComponent,
+    Pages.StudentCardInformationPage,
+    Pages.StudentCardStatusPage,
+    Pages.StudentCardAttendancePage,
+    Pages.StudentCardAttendanceRow,
+    Pages.StudentCardPaymentPage,
+    Pages.StudentCardPaymentRow,
+    Pages.StudentMenuComponent,
+    Pages.StudentCardInformationAssignGroupPopup,
 
-    Pages.StudentsListPageComponent,
+    Pages.StudentsListPage,
 
-    Pages.CabinetInformationPageComponent,
-    Pages.CabinetTimetablePageComponent,
-    Pages.CabinetMenuPageComponent,
-    Pages.CabinetsListPageComponent,
+    Pages.CabinetInformationPage,
+    Pages.CabinetTimetablePage,
+    Pages.CabinetCardMenuComponent,
+    Pages.CabinetsListPage,
 
-    Pages.GroupInformationPageComponent,
-    Pages.GroupStudentsPageComponent,
-    Pages.GroupTimetablePageComponent,
+    Pages.GroupCardInformationPage, Pages.GroupCardInformationAssignLessonPopup,
+    Pages.GroupCardStudentsPage,
+    Pages.GroupCardTimetablePage,
     Pages.GroupMenuPageComponent,
-    Pages.AssignLessonPopupComponent,
 
-    Pages.GroupsListPageComponent,
+    Pages.GroupsListPage,
 
     Pages.StaffMembersListPageComponent,
     Pages.StaffMemberCardInformationPageComponent,
     Pages.StaffMemberCardTimetablePageComponent,
     Pages.StaffMemberCardMenuComponent,
-
-    StudentPaymentRowComponent,
-    StudentAttendanceRowComponent,
 
     StudentStatusComponent,
 
@@ -152,7 +148,7 @@ const appRoutes: Routes = [
     MyDatePickerModule,
     ReactiveFormsModule,
     ClipboardModule,
-    ChartsModule
+    ChartsModule,
   ],
   providers: [
     {
