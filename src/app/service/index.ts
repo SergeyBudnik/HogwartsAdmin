@@ -1,6 +1,5 @@
 export * from './navigation/navigation.service';
-
-export * from './app-translations.service';
+export * from './translation/translation.service';
 
 export * from './login.service';
 export * from './student-payment.service';

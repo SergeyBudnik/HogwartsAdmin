@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {TranslatableComponent} from '../../../../translation/translation.component';
 import {Group, Lesson, StaffMember} from '../../../../data';
 import {ActivatedRoute} from '@angular/router';
 import {LoginService} from '../../../../service';
@@ -11,7 +10,7 @@ import {endOfWeek, startOfWeek} from 'date-fns';
   templateUrl: './staff-member-card-timetable.page.html',
   styleUrls: ['./staff-member-card-timetable.page.less']
 })
-export class StaffMemberCardTimetablePageComponent extends TranslatableComponent {
+export class StaffMemberCardTimetablePageComponent {
   public teacher: StaffMember = new StaffMember();
   public teacherGroups: Array<Group> = [];
   public teacherLessons: Array<Lesson> = [];
@@ -26,8 +25,6 @@ export class StaffMemberCardTimetablePageComponent extends TranslatableComponent
     private staffMembersHttp: StaffMembersHttp,
     private groupsHttp: GroupsHttp
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const teacherLogin = params.get('login');

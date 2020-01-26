@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../data';
 import {SelectItem} from '../../../controls/select-item';
 import {StudentStatusHttp} from '../../../http';
+import {TranslationService} from '../../../service';
 
 @Component({
   selector: 'app-student-status-modal',
   templateUrl: './student-status.modal.html',
   styleUrls: ['./student-status.modal.less']
 })
-export class StudentStatusModal extends TranslatableComponent {
+export class StudentStatusModal {
   @Output() public statusSaved: EventEmitter<StudentStatus> = new EventEmitter<StudentStatus>();
 
   public modalVisible = true;
@@ -25,14 +25,16 @@ export class StudentStatusModal extends TranslatableComponent {
   public loadingInProgress = true;
   public actionInProgress = false;
 
-  public actionTimeItems = TimeUtils.values.map(it => new SelectItem(
-      this.getTimeTranslation(it), it
-  ));
+  public actionTimeItems = [];
 
   public constructor(
+    private translationService: TranslationService,
     private studentStatusHttp: StudentStatusHttp
   ) {
-    super();
+    this.actionTimeItems = TimeUtils.values.map(it => new SelectItem(
+      this.translationService.time().translate(it),
+      it
+    ));
 
     const date: Date = new Date();
 

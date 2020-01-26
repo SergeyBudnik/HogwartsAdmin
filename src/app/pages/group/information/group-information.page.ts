@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {StudentsService, LoginService, NavigationService} from '../../../service';
+import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {Group, Student, Lesson, Teacher, Cabinet, StaffMember} from '../../../data';
-import {TranslatableComponent} from '../../../translation/translation.component';
-import {CabinetsHttp, GroupsHttp, StaffMembersHttp, TeachersHttp} from '../../../http';
+import {Group, Student, Lesson, Cabinet, StaffMember} from '../../../data';
+import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../http';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupAssignLessonPopupManager} from '../../';
 
@@ -12,7 +11,7 @@ import {GroupAssignLessonPopupManager} from '../../';
   templateUrl: './group-information.page.html',
   styleUrls: ['./group-information.page.less']
 })
-export class GroupInformationPageComponent extends TranslatableComponent {
+export class GroupInformationPageComponent {
   public showInactiveLessons = false;
 
   public group: Group = new Group();
@@ -21,22 +20,19 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   public loadingInProgress = true;
 
-  public teachers: Array<Teacher> = [];
   public staffMembers: Array<StaffMember> = [];
   public cabinets: Array<Cabinet> = [];
 
   public constructor(
+    public translationService: TranslationService,
     private navigationService: NavigationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private teachersHttp: TeachersHttp,
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
     private cabinetsHttp: CabinetsHttp,
     private staffMembersHttp: StaffMembersHttp
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
@@ -70,10 +66,6 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     this.groupsHttp.deleteGroup(this.group.id).then(() => {
       this.navigationService.groups().list().go();
     });
-  }
-
-  public getTeacher(teacherLogin: string): Teacher {
-    return this.teachers.find(it => it.login === teacherLogin);
   }
 
   public getStaffMembersItems(): Array<SelectItem> {
@@ -134,15 +126,13 @@ export class GroupInformationPageComponent extends TranslatableComponent {
     Promise.all([
       this.groupsHttp.getGroup(groupId),
       this.studentsService.getGroupStudents(groupId),
-      this.teachersHttp.getAllTeachers(),
       this.cabinetsHttp.getAllCabinets(),
       this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.group = it[0];
       this.students = it[1];
-      this.teachers = it[2];
-      this.cabinets = it[3];
-      this.staffMembers = it[4];
+      this.cabinets = it[2];
+      this.staffMembers = it[3];
 
       this.lessons = this.getGroupLessons();
 
@@ -152,15 +142,13 @@ export class GroupInformationPageComponent extends TranslatableComponent {
 
   private initNewGroup() {
     Promise.all([
-      this.teachersHttp.getAllTeachers(),
       this.cabinetsHttp.getAllCabinets(),
       this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.group = new Group();
       this.students = [];
-      this.teachers = it[0];
-      this.cabinets = it[1];
-      this.staffMembers = it[2];
+      this.cabinets = it[0];
+      this.staffMembers = it[1];
 
       this.loadingInProgress = false;
     });

@@ -39,13 +39,13 @@
         </div>
       </div>
       <div class="list-row-item groups-type-column">
-        {{getGroupTypeTranslation(group.type)}}
+        {{translationService.groupType().translate(group.type)}}
       </div>
       <div class="list-row-item groups-education-level-column">
-        {{getEducationLevelTranslation(group.educationLevel)}}
+        {{translationService.educationLevel().translate(group.educationLevel)}}
       </div>
       <div class="list-row-item groups-age-column">
-        {{getAgeTranslationAsGroup(group.age)}}
+        {{translationService.age().translate(group.age)}}
       </div>
       <div class="list-row-item groups-cabinets-column">
         {{getGroupCabinet(group.id).name}}

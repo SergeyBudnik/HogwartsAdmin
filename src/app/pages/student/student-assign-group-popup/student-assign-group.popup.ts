@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {TranslatableComponent} from '../../../translation/translation.component';
-import {Group, StaffMember, Student, StudentGroup, Teacher} from '../../../data';
+import {Group, StaffMember, Student, StudentGroup} from '../../../data';
 import {SelectItem} from '../../../controls/select-item';
 import {GroupService} from '../../../service';
 
@@ -47,7 +46,7 @@ type StudentAssignGroupStatus = 'ACTIVE' | 'DISABLED';
   templateUrl: './student-assign-group.popup.html',
   styleUrls: ['./student-assign-group.popup.less']
 })
-export class StudentAssignGroupPopupComponent extends TranslatableComponent {
+export class StudentAssignGroupPopupComponent {
   public modalVisible = true;
 
   public studentGroup: StudentGroup = null;
@@ -59,8 +58,6 @@ export class StudentAssignGroupPopupComponent extends TranslatableComponent {
   @Input('students') public students: Array<Student> = [];
 
   public constructor() {
-    super();
-
     StudentAssignGroupPopupManager.register(this);
   }
 

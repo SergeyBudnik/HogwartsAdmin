@@ -2,7 +2,7 @@
   {{attendance.startTime | date: 'dd.MM.yyyy'}} {{attendance.startTime | date: 'HH:mm'}} - {{attendance.finishTime | date: 'HH:mm'}}
 </div>
 <div class="attendance-type-column">
-  {{getStudentAttendanceTypeTranslation(attendance.type)}}
+  {{translationService.studentAttendanceType().translate(attendance.type)}}
 </div>
 <div class="attendance-actions-column">
   <button class="btn btn-danger" (click)="deleteAttendance()">

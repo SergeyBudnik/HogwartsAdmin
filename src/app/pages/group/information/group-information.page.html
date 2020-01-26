@@ -75,13 +75,13 @@
 
           <div *ngFor="let lesson of lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
             <div class="group-lesson-row-day-of-week">
-              {{getDayOfWeekTranslation(lesson.day)}}
+              {{translationService.dayOfWeek().translate(lesson.day)}}
             </div>
             <div class="group-lesson-row-time">
-              {{getTimeTranslation(lesson.startTime)}} - {{getTimeTranslation(lesson.finishTime)}}
+              {{translationService.time().translate(lesson.startTime)}} - {{translationService.time().translate(lesson.finishTime)}}
             </div>
             <div class="group-lesson-row-teacher">
-              {{getTeacher(lesson.teacherLogin).name}}
+              TODO
             </div>
             <ng-container>
               <div class="group-lesson-row-status" *ngIf="!lesson.id">

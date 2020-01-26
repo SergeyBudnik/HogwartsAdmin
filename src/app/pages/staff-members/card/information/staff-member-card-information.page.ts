@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import {LoginService, NavigationService} from '../../../../service';
 import {PersonContact, StaffMember} from '../../../../data';
 import {ActivatedRoute} from '@angular/router';
-import {TranslatableComponent} from '../../../../translation/translation.component';
 import {StaffMembersHttp} from '../../../../http';
 import {ArrayUtils} from '../../../../utils/array-utils';
 
@@ -11,7 +10,7 @@ import {ArrayUtils} from '../../../../utils/array-utils';
   templateUrl: './staff-member-card-information.page.html',
   styleUrls: ['./staff-member-card-information.page.less']
 })
-export class StaffMemberCardInformationPageComponent extends TranslatableComponent {
+export class StaffMemberCardInformationPageComponent {
   public staffMember: StaffMember = new StaffMember();
   public contacts: Array<PersonContact> = [];
 
@@ -25,8 +24,6 @@ export class StaffMemberCardInformationPageComponent extends TranslatableCompone
     private loginService: LoginService,
     private staffMembersHttp: StaffMembersHttp
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const login = params.get('login');

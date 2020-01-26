@@ -1,4 +1,3 @@
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {Component} from '@angular/core';
 import {LoginService, NavigationService} from '../../../service';
 import {ActivatedRoute} from '@angular/router';
@@ -11,7 +10,7 @@ import {endOfWeek, startOfWeek} from 'date-fns';
   templateUrl: './cabinet-timetable.page.html',
   styleUrls: ['./cabinet-timetable.page.less']
 })
-export class CabinetTimetablePageComponent extends TranslatableComponent {
+export class CabinetTimetablePageComponent {
   public cabinet: Cabinet = new Cabinet(null, null, null);
   private allGroups: Array<Group> = [];
 
@@ -27,8 +26,6 @@ export class CabinetTimetablePageComponent extends TranslatableComponent {
     private cabinetsHttp: CabinetsHttp,
     private groupsHttp: GroupsHttp
   ) {
-    super();
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         this.cabinet.id = Number(params.get('id'));

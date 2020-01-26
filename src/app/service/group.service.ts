@@ -1,4 +1,4 @@
-import {Age, Cabinet, EducationLevel, Group, Lesson, StaffMember, Student, Teacher} from '../data';
+import {Age, Cabinet, EducationLevel, Group, Lesson, StaffMember, Student} from '../data';
 import {Injectable} from '@angular/core';
 
 @Injectable()
