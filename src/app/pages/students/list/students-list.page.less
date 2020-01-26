@@ -1,0 +1,109 @@
+@import "../../../../styles.less";
+
+@students-list-column-width-validation: 5%;
+@students-list-column-width-name: 25%;
+@students-list-column-width-groups: 15%;
+@students-list-column-width-age: 15%;
+@students-list-column-width-education-level: 15%;
+@students-list-column-width-status: 15%;
+
+/**
+ * Header
+ */
+
+.students-list-header-add-new {
+  position: absolute;
+  left: 90%;
+  width: 10%;
+  margin-top: 10px;
+  padding-right: 20px;
+}
+
+.students-list-header-search {
+  padding-right: 20px;
+}
+
+/**
+ * Column: Validation
+ */
+
+.student-validation-column {
+  width: @students-list-column-width-validation;
+}
+
+/**
+ * Column: Name
+ */
+
+.student-name-column {
+  width: @students-list-column-width-name;
+}
+
+/**
+ * Column: Age
+ */
+
+.student-age-column {
+  width: @students-list-column-width-age;
+}
+
+/**
+ * Column: Education level
+ */
+
+.student-education-level-column {
+  width: @students-list-column-width-education-level;
+}
+
+/**
+ * Column: Groups
+ */
+
+.student-groups-column {
+  width: @students-list-column-width-groups;
+}
+
+.student-groups-column-header {
+  width: @students-list-column-width-groups;
+}
+
+.student-groups-column-item {
+  width: @students-list-column-width-groups;
+
+  padding-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.student-groups-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+/**
+ * Column: Status
+ */
+
+.student-status-column {
+  width: @students-list-column-width-status;
+}
+
+.student-status-column-item {
+  width: @students-list-column-width-status;
+  margin-top: 5px;
+  padding-right: 20px;
+}
+
+.student-status-label {
+  padding: 5px 10px;
+  border-radius: 5px;
+  line-height: 20px;
+  margin-top: 10px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.student-groups-circle:hover {
+  opacity: 0.5;
+}
