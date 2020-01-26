@@ -29,6 +29,7 @@ export class StudentCardInformationPage {
   public constructor(
     private navigationService: NavigationService,
     private translationService: TranslationService,
+    private groupsService: GroupService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
@@ -136,7 +137,7 @@ export class StudentCardInformationPage {
   public getGroupName(groupId: number): string {
     let group = this.allGroups.find(it => it.id === groupId);
     let staffMember = this.allStaffMembers.find(it => it.login === group.headTeacherLogin);
-    let students = this.allStudents.filter(student => student.studentGroups.map(it => it.groupId).indexOf(groupId) != -1);
+    let students = this.groupsService.getGroupActiveStudents(group, this.allStudents, new Date().getTime());
 
     return new GroupService().getGroupName(staffMember, students);
   }
