@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="page-elements">
-    <div class="page-left-menu" app-staff-member-menu [staffMemberLogin]="teacher.login" [currentTab]="'TIMETABLE'"></div>
+    <div class="page-left-menu" app-staff-member-menu [isNew]="false" [staffMemberLogin]="teacher.login" [currentTab]="'TIMETABLE'"></div>
 
     <div class="page-content">
       <ng-container *ngIf="!loadingInProgress">

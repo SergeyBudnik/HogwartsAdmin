@@ -1,4 +1,3 @@
-import {TranslatableComponent} from '../../translation/translation.component';
 import {Component} from '@angular/core';
 import {LoginService, NavigationService} from '../../service';
 
@@ -7,7 +6,7 @@ import {LoginService, NavigationService} from '../../service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.less']
 })
-export class LoginPageComponent extends TranslatableComponent {
+export class LoginPageComponent {
   public loginFailed = false;
 
   public login: string;
@@ -19,8 +18,6 @@ export class LoginPageComponent extends TranslatableComponent {
     private navigationService: NavigationService,
     private loginService: LoginService
   ) {
-    super();
-
     if (!!loginService.getAuthToken()) {
       this.navigationService.students().list().go();
     }

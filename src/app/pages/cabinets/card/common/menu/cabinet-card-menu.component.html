@@ -1,0 +1,17 @@
+<ng-container *ngIf="!!cabinetId">
+
+  <app-menu-item
+    [isActive]="currentTab === 'INFORMATION'"
+    [title]="'Информация'"
+    [icon]="'fa-info-circle'"
+    (click)="navigationService.cabinets().id(this.cabinetId).information().go()">
+  </app-menu-item>
+
+  <app-menu-item
+    [isActive]="currentTab === 'TIMETABLE'"
+    [title]="'Расписание'"
+    [icon]="'fa-clock-o'"
+    (click)="navigationService.cabinets().id(this.cabinetId).timetable().go()">
+  </app-menu-item>
+
+</ng-container>

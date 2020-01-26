@@ -1,0 +1,126 @@
+<div class="page">
+  <app-header></app-header>
+
+  <div class="page-elements">
+    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'INFORMATION'"></div>
+
+    <div class="page-content-with-footer">
+      <ng-container *ngIf="!loadingInProgress">
+        <h3 class="app-header">
+          <ng-container *ngIf="!!group.id">
+            Группа '{{group.id}}'
+          </ng-container>
+          <ng-container *ngIf="!group.id">
+            Добавление группы
+          </ng-container>
+        </h3>
+
+        <br>
+
+        <form>
+          <div class="form-group">
+            <label for="color" style="color: #ffffff">Цвет:</label>
+            <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
+          </div>
+
+          <div app-form-select-control class="form-group"
+               [type]="'STRING'"
+               [name]="'headTeacherLogin'"
+               [label]="'Старший преподаватель'"
+               [valid]="!!group.headTeacherLogin"
+               [valueString]="group.headTeacherLogin"
+               [items]="getStaffMembersItems()"
+               [hasEmpty]="true"
+               (onChangeString)="group.headTeacherLogin = $event"></div>
+
+          <div app-form-text-input-control class="form-group"
+               [name]="'bookName'"
+               [label]="'Название учебника'"
+               [placeholder]="'Введите название учебника'"
+               [valid]="!!group.bookName && group.bookName.indexOf('?') === -1"
+               [value]="group.bookName"
+               [editable]="true"
+               (onChange)="group.bookName = $event"></div>
+
+          <app-form-select-control-group-type [groupType]="group.type" (onValueChanged)="group.type = $event"></app-form-select-control-group-type>
+          <app-form-select-control-education-level [educationLevel]="group.educationLevel" (onValueChanged)="group.educationLevel = $event"></app-form-select-control-education-level>
+          <app-form-select-control-age [age]="group.age" (onValueChanged)="group.age = $event"></app-form-select-control-age>
+          <app-form-select-control-cabinet [allCabinets]="cabinets" [cabinetId]="group.cabinetId" (onValueChanged)="group.cabinetId = $event"></app-form-select-control-cabinet>
+
+          <br>
+
+          <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="app-header">Занятия:</div>
+
+            <div class="app-link" (click)="toggleInactiveLessons()">
+              <ng-container *ngIf="!showInactiveLessons">
+                Показывать неактивные
+              </ng-container>
+              <ng-container *ngIf="showInactiveLessons">
+                Скрывать неактивные
+              </ng-container>
+            </div>
+          </div>
+
+          <div *ngIf="lessons.length === 0">
+            <br>
+
+            Занятия не назначены
+
+            <br>
+            <br>
+          </div>
+
+          <br>
+
+          <div *ngFor="let lesson of lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
+            <div class="group-lesson-row-day-of-week">
+              {{translationService.dayOfWeek().translate(lesson.day)}}
+            </div>
+            <div class="group-lesson-row-time">
+              {{translationService.time().translate(lesson.startTime)}} - {{translationService.time().translate(lesson.finishTime)}}
+            </div>
+            <div class="group-lesson-row-teacher">
+              TODO
+            </div>
+            <ng-container>
+              <div class="group-lesson-row-status" *ngIf="!lesson.id">
+              </div>
+              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !lesson.deactivationTime">
+                с {{lesson.creationTime | date: 'dd.MM.yyyy'}}
+              </div>
+              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !!lesson.deactivationTime">
+                с {{lesson.creationTime | date: 'dd.MM.yyyy'}} по {{lesson.deactivationTime | date: 'dd.MM.yyyy'}}
+              </div>
+            </ng-container>
+          </div>
+
+          <br>
+
+          <button class="btn btn-primary" data-toggle="modal" data-target="#groupLessonModal" (click)="setNewModalLesson()">
+            Добавить занятие
+          </button>
+
+          <br>
+        </form>
+      </ng-container>
+    </div>
+
+    <div class="page-right-menu">
+    </div>
+
+    <app-group-card-information-assign-lesson-popup [cabinets]="cabinets" [staffMembers]="staffMembers"></app-group-card-information-assign-lesson-popup>
+  </div>
+
+  <div class="footer">
+    <button [disabled]="loadingInProgress || loadingInProgress || !group.id"
+            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+    </button>
+
+    <button [disabled]="loadingInProgress || loadingInProgress"
+            class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+    </button>
+  </div>
+</div>

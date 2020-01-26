@@ -1,14 +1,13 @@
-import {TranslatableComponent} from '../../translation/translation.component';
 import {Component, Input} from '@angular/core';
 import {Lesson, DayOfWeek, DayOfWeekUtils, Group, Time, TimeUtils} from '../../data';
-import {NavigationService} from '../../service';
+import {NavigationService, TranslationService} from '../../service';
 
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
   styleUrls: ['./timetable.component.less']
 })
-export class TimetableComponent extends TranslatableComponent {
+export class TimetableComponent {
   @Input() public showFilters: boolean;
 
   public daysOfWeek: Array<DayOfWeek> = DayOfWeekUtils.values;
@@ -42,10 +41,9 @@ export class TimetableComponent extends TranslatableComponent {
   }
 
   public constructor(
+    public translationService: TranslationService,
     private navigationService: NavigationService
-  ) {
-    super();
-  }
+  ) {}
 
   public getCurrentDay(): DayOfWeek {
     const day = new Date().getDay();

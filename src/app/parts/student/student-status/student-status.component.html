@@ -3,5 +3,5 @@
   [class.student-status-label-studying]="studentStatusType == 'STUDYING'"
   [class.student-status-label-stopped]="studentStatusType === 'STOPPED'"
   [class.student-status-label-left]="studentStatusType === 'LEFT'">
-  {{getStudentStatusTypeTranslation(studentStatusType)}}
+  {{translationService.studentStatusType().translate(studentStatusType)}}
 </div>

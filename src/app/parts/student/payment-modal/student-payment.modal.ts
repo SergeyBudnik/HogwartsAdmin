@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {StudentPayment} from '../../../data';
 import {IMyDateModel} from 'mydatepicker';
 import {StudentPaymentHttp} from '../../../http';
@@ -9,7 +8,7 @@ import {StudentPaymentHttp} from '../../../http';
   templateUrl: './student-payment.modal.html',
   styleUrls: ['./student-payment.modal.less']
 })
-export class StudentPaymentModal extends TranslatableComponent {
+export class StudentPaymentModal {
   @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
 
   public modalVisible = true;
@@ -28,8 +27,6 @@ export class StudentPaymentModal extends TranslatableComponent {
   public constructor(
     private studentPaymentHttp: StudentPaymentHttp
   ) {
-    super();
-
     const date: Date = new Date();
 
     this.date.date.year = date.getFullYear();

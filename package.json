@@ -24,8 +24,6 @@
     "@angular/platform-browser": "^5.2.5",
     "@angular/platform-browser-dynamic": "^5.2.5",
     "@angular/router": "^5.2.5",
-    "@ngx-translate/core": "9.1.1",
-    "@ngx-translate/http-loader": "^4.0.0",
     "angular-font-awesome": "^3.1.2",
     "angular2-cookie": "^1.2.6",
     "bootstrap": "4.0.0-alpha.6",
@@ -47,6 +45,7 @@
     "ngx-color-picker": "^5.3.3",
     "ngx-gallery": "4.1.1",
     "rxjs": "5.5.6",
+    "webpack": "^4.41.5",
     "zone.js": "0.8.4"
   },
   "devDependencies": {

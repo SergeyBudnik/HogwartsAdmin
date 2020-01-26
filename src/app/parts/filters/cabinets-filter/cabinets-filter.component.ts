@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SelectItem} from '../../../controls/select-item';
 import {Cabinet} from '../../../data';
-import {TranslatableComponent} from '../../../translation/translation.component';
 import {CabinetsHttp} from '../../../http';
 
 @Component({
@@ -9,7 +8,7 @@ import {CabinetsHttp} from '../../../http';
   templateUrl: './cabinets-filter.component.html',
   styleUrls: ['./cabinets-filter.component.less']
 })
-export class CabinetsFilterComponent extends TranslatableComponent {
+export class CabinetsFilterComponent {
   @Output('onChange') public emitter: EventEmitter<number> = new EventEmitter();
 
   public items: Array<SelectItem> = [new SelectItem('Все', '')];
@@ -17,8 +16,6 @@ export class CabinetsFilterComponent extends TranslatableComponent {
   public constructor(
     private cabinetsHttp: CabinetsHttp,
   ) {
-    super();
-
     cabinetsHttp.getAllCabinets().then(cabinets => this.items = this.getItems(cabinets));
   }
 

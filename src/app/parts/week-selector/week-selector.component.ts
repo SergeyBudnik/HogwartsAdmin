@@ -1,12 +1,11 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {TranslatableComponent} from '../../translation/translation.component';
 
 @Component({
   selector: 'app-week-selector',
   templateUrl: './week-selector.component.html',
   styleUrls: ['./week-selector.component.less']
 })
-export class WeekSelectorComponent extends TranslatableComponent {
+export class WeekSelectorComponent {
   private currentWeek = 0;
 
   @Output("onWeekChanged") public emitter = new EventEmitter<number>();
