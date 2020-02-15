@@ -1,0 +1,60 @@
+@import "~styles/abstract/index";
+
+.app-card-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-card-page-elements {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  background: @color-fill_basic_base;
+  overflow: hidden;
+}
+
+.app-card-page-left-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-fill_basic_light;
+}
+
+.app-card-page-right-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-fill_basic_light;
+}
+
+.app-card-page-content {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  padding: 20px;
+}
+
+.app-card-page-content-scrollable {
+  .app-card-page-content;
+
+  overflow-y: auto;
+}
+
+.app-card-page-footer {
+  display: flex;
+  flex-grow: 0;
+
+  justify-content: flex-end;
+
+  width: 100%;
+  padding: @app-size-2 15%;
+  background: @color-fill_basic_light;
+}
+
+.app-card-page-title {
+  .app-font-bold;
+
+  font-size: @font-large;
+  color: @color-fill_text_basic;
+}

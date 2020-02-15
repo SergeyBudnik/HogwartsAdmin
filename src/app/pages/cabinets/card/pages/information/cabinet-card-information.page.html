@@ -1,20 +1,16 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
+  <div class="app-card-page-elements">
     <div class="page-left-menu" app-cabinet-card-menu [cabinetId]="cabinet.id" [currentTab]="'INFORMATION'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!cabinet.id">
+        <h3 class="app-card-page-title" *ngIf="!!cabinet.id">
           Кабинет '{{cabinet.name}}'
         </h3>
 
-        <h3 class="app-header" *ngIf="!cabinet.id">
+        <h3 class="app-card-page-title" *ngIf="!cabinet.id">
           Добавление кабинета
         </h3>
 
@@ -41,11 +37,11 @@
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
+  <div class="app-card-page-footer">
     <button [disabled]="loadingInProgress || actionInProgress || !cabinet.id"
             class="btn btn-danger pull-right horizontal-item" (click)="delete()">
       Удалить

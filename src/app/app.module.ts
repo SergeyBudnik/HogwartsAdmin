@@ -62,6 +62,11 @@ const appRoutes: Routes = [
   { path: 'staff-members/:login/information', component: Pages.StaffMemberCardInformationPageComponent },
   { path: 'staff-members/:login/timetable', component: Pages.StaffMemberCardTimetablePageComponent },
 
+  { path: 'new-students', component: Pages.NewStudentsListPage },
+  { path: 'new-students/:new', component: Pages.NewStudentCardNewPage },
+  { path: 'new-students/:login/information', component: Pages.NewStudentCardInformationPage },
+  { path: 'new-students/:login/actions', component: Pages.NewStudentCardActionsPage },
+
   { path: '**', component: Pages.StudentsListPage }
 ];
 
@@ -103,6 +108,12 @@ const appRoutes: Routes = [
     Pages.StaffMemberCardTimetablePageComponent,
     Pages.StaffMemberCardMenuComponent,
 
+    Pages.NewStudentsListPage,
+    Pages.NewStudentCardInformationPage,
+    Pages.NewStudentCardActionsPage, Pages.NewStudentCardActionsUpdatePopup,
+    Pages.NewStudentCardNewPage,
+    Pages.NewStudentCardMenuComponent,
+
     StudentStatusComponent,
 
     StudentPaymentModal,
@@ -114,6 +125,7 @@ const appRoutes: Routes = [
     ModalTemplateComponent,
 
     Parts.MenuItemPartComponent,
+    Parts.PersonContactsView,
 
     Controls.SearchSelectControl,
     Controls.SearchTextInputControl,
@@ -123,10 +135,13 @@ const appRoutes: Routes = [
     Controls.FormSelectCabinetControl,
     Controls.FormSelectEducationLevelControl,
     Controls.FormSelectGroupTypeControl,
+    Controls.FormSelectStaffMemberControl,
+    Controls.FormSelectTimeControl,
 
     Controls.FormTagControl,
     Controls.FormTextControl,
     Controls.FormDateControl,
+    Controls.FormDateAndTimeControl,
 
     Filters.AgeFilterComponent,
     Filters.CabinetsFilterComponent,
@@ -177,6 +192,7 @@ const appRoutes: Routes = [
     Https.GroupsHttp,
     Https.StudentsHttp,
     Https.StudentAttendanceHttp,
+    Https.StudentOnBoardingHttp,
     Https.StudentPaymentHttp,
     Https.StudentStatusHttp,
     Https.StaffMembersHttp

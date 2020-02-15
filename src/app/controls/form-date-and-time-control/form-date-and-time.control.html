@@ -1,0 +1,15 @@
+<div style="display: flex; flex-direction: row">
+  <div app-form-date-control
+       class="app-form-date-and-time-date"
+       [label]="'Дата'"
+       [value]="dateAndTime.date"
+       (onChange)="onDateChange($event)">
+  </div>
+
+  <app-form-select-control-time
+       class="app-form-date-and-time-time"
+       [label]="'Время'"
+       [value]="dateAndTime.time"
+       (onValueChanged)="onTimeChange($event)">
+  </app-form-select-control-time>
+</div>
