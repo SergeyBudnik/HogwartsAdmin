@@ -1,0 +1,60 @@
+<div class="app-card-page">
+  <app-header></app-header>
+
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-new-student-card-menu
+         [login]="studentOnBoarding?.info?.login"
+         [currentTab]="'ACTIONS'">
+    </div>
+
+    <div class="app-card-page-content-scrollable">
+      <ng-container *ngIf="!loadingInProgress">
+        <h4 class="app-card-page-title">Текущая задача</h4>
+
+        <br>
+
+        <div *ngIf="!!currentAction" class="new-student-card-actions-action">
+          <div class="new-student-card-actions-action-column-assignee">
+            {{currentAction.info.assigneeLogin}}
+          </div>
+          <div class="new-student-card-actions-action-column-description">
+            {{currentAction.info.description}}
+          </div>
+          <div class="new-student-card-actions-action-column-action-time">
+            {{currentAction.info.actionTime | date: 'dd.MM.yyyy HH.mm'}}
+          </div>
+          <div class="new-student-card-actions-action-column-actions"
+               data-toggle="modal" data-target="#newStudentActionsUpdateModal"
+               (click)="updateCurrentAction(currentAction)">
+            Изменить
+          </div>
+        </div>
+
+        <br>
+
+        <h4 class="app-card-page-title">Старые задачи</h4>
+
+        <br>
+
+        <div *ngFor="let action of finishedActions" class="new-student-card-actions-action">
+          <div class="new-student-card-actions-action-column-assignee">
+            {{action.info.assigneeLogin}}
+          </div>
+          <div class="new-student-card-actions-action-column-description">
+            {{action.info.description}}
+          </div>
+          <div class="new-student-card-actions-action-column-action-time">
+            {{action.info.actionTime | date: 'dd.MM.yyyy HH.mm'}}
+          </div>
+        </div>
+
+        <app-new-student-card-actions-update-popup [staffMembers]="staffMembers"></app-new-student-card-actions-update-popup>
+      </ng-container>
+    </div>
+
+    <div class="app-card-page-right-menu"></div>
+  </div>
+
+  <div class="app-card-page-footer">
+  </div>
+</div>
