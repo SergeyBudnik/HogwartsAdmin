@@ -39,6 +39,15 @@
 
       Кабинеты
     </div>
+
+    <div (click)="navigationService.newStudents().list().go()"
+         [class.menu-element-active]="activeSection === 'NEW_STUDENTS'"
+         [class.menu-element-inactive]="activeSection !== 'NEW_STUDENTS'">
+
+      <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
+
+      Заявки
+    </div>
   </div>
 
   <div class="header-logout-section">

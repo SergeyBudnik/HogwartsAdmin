@@ -1,0 +1,18 @@
+<ng-container *ngIf="!!login">
+
+  <app-menu-item
+    [isActive]="currentTab === 'INFORMATION'"
+    [title]="'Информация'"
+    [icon]="'fa-info-circle'"
+    (click)="navigationService.newStudents().card(login).information().go()">
+  </app-menu-item>
+
+  <app-menu-item
+    [isActive]="currentTab === 'ACTIONS'"
+    [title]="'Задачи'"
+    [icon]="'fa-fighter-jet'"
+    (click)="navigationService.newStudents().card(login).actions().go()">
+
+  </app-menu-item>
+
+</ng-container>

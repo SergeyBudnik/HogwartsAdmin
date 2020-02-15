@@ -44,71 +44,10 @@
           <br>
 
           <div class="form-group">
-            <div class="staff-member-contacts-table">
-              <div class="staff-member-contacts-group">
-                <div class="staff-member-contacts-group-title">Телефоны:</div>
-
-                <div *ngFor="let phone of staffMember.person.contacts.phones; let i = index" class="staff-member-contact-list">
-                  <div class="staff-member-contact-row">
-                    <div app-form-text-input-control class="staff-member-contact-row-element"
-                         [name]="'name'"
-                         [placeholder]="'Описание'"
-                         [valid]="!!phone.name"
-                         [value]="phone.name"
-                         [editable]="true"
-                         (onChange)="phone.name = $event"></div>
-
-                    <div app-form-text-input-control class="staff-member-contact-row-element"
-                         [name]="'phone'"
-                         [placeholder]="'Телефон'"
-                         [valid]="!!phone.value"
-                         [value]="phone.value"
-                         [editable]="true"
-                         (onChange)="phone.value = $event"></div>
-
-                    <button class="btn btn-default staff-member-contact-row-button" (click)="removePhone(i)">
-                      Удалить
-                    </button>
-                  </div>
-                </div>
-
-                <button class="btn btn-default" (click)="addNewPhone()">
-                  Добавить
-                </button>
-              </div>
-
-              <div class="staff-member-contacts-group">
-                <div class="staff-member-contacts-group-title">VK:</div>
-
-                <div *ngFor="let vkLink of staffMember.person.contacts.vkLinks; let i = index" class="staff-member-contact-list">
-                  <div class="staff-member-contact-row">
-                    <div app-form-text-input-control class="staff-member-contact-row-element"
-                         [name]="'name'"
-                         [placeholder]="'Описание'"
-                         [valid]="!!vkLink.name"
-                         [value]="vkLink.name"
-                         [editable]="true"
-                         (onChange)="vkLink.name = $event"></div>
-
-                    <div app-form-text-input-control class="staff-member-contact-row-element"
-                         [name]="'vkId'"
-                         [placeholder]="'ID'"
-                         [valid]="!!vkLink.value"
-                         [value]="vkLink.value"
-                         [editable]="true"
-                         (onChange)="vkLink.value = $event"></div>
-
-                    <button class="btn btn-default staff-member-contact-row-button" (click)="removeVkLink(i)">
-                      Удалить
-                    </button>
-                  </div>
-                </div>
-
-                <button class="btn btn-default" (click)="addNewVkLink()">
-                  Добавить
-                </button>
-              </div>
-            </div>
+            <app-person-contacts
+              [personContacts]="staffMember.person.contacts"
+              (onPersonContactsChanged)="staffMember.person.contacts = $event">
+            </app-person-contacts>
           </div>
         </form>
       </ng-container>
