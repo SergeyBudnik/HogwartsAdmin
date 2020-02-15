@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {LoginService, NavigationService} from '../../service';
 
-export type Section = 'STUDENTS' | 'GROUPS' | 'TEACHERS' | 'CABINETS' | 'STAFF_MEMBERS';
+export type Section = 'STUDENTS' | 'GROUPS' | 'CABINETS' | 'STAFF_MEMBERS' | 'NEW_STUDENTS';
 
 @Component({
   selector: 'app-header',

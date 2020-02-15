@@ -1,0 +1,56 @@
+<div class="page">
+  <app-header [activeSection]="'NEW_STUDENTS'"></app-header>
+
+  <div class="list-header-container">
+    <div class="list-header">
+      <div class="new-students-student-name-column">
+        <div class="list-header-label">
+          Имя студента
+        </div>
+      </div>
+
+      <div class="new-students-manager-name-column">
+        <div class="list-header-label">
+          Имя менеджера
+        </div>
+      </div>
+
+      <div class="new-students-next-action-date-column">
+        <div class="list-header-label">
+          Время исполнения
+        </div>
+      </div>
+
+      <div class="new-students-status-column">
+        <div class="list-header-label">
+          Статус
+        </div>
+      </div>
+
+      <div class="new-students-actions-column">
+        <button class="btn btn-primary pull-right" (click)="navigationService.newStudents().new().go()">
+          Добавить
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let studentOnBoarding of getNewStudents()" class="list-row-clickable"
+       (click)="navigationService.newStudents().card(studentOnBoarding.info.login).information().go()">
+    <div class="new-students-student-name-column">
+      {{studentOnBoarding.info.person.name}}
+    </div>
+
+    <div class="new-students-manager-name-column">
+      {{getStaffMember(studentOnBoarding.info.managerLogin).person.name}}
+    </div>
+
+    <div class="new-students-next-action-date-column">
+      {{studentOnBoarding.actions[0].info.actionTime | date: 'dd.MM.yyyy HH:mm'}}
+    </div>
+
+    <div class="new-students-status-column">
+      {{translationService.studentOnBoardingType().translate(studentOnBoarding.result.type)}}
+    </div>
+  </div>
+</div>

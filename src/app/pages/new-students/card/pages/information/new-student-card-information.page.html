@@ -1,0 +1,66 @@
+<div class="app-card-page">
+  <app-header></app-header>
+
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-new-student-card-menu
+         [login]="studentOnBoarding?.info?.login"
+         [currentTab]="'INFORMATION'">
+    </div>
+
+    <div class="app-card-page-content-scrollable">
+      <ng-container *ngIf="!loadingInProgress">
+        <div app-form-text-input-control class="form-group"
+             [name]="'login'"
+             [label]="'Логин'"
+             [placeholder]="'Введите логин (только английские буквы)'"
+             [valid]="!!studentOnBoarding.info.login"
+             [value]="studentOnBoarding.info.login"
+             [editable]="true"
+             (onChange)="studentOnBoarding.info.login = $event"></div>
+
+        <div app-form-text-input-control class="form-group"
+             [name]="'name'"
+             [label]="'Имя / Фамилия'"
+             [placeholder]="'Введите имя и фамилию'"
+             [valid]="!!studentOnBoarding.info.person.name"
+             [value]="studentOnBoarding.info.person.name"
+             [editable]="true"
+             (onChange)="studentOnBoarding.info.person.name = $event"></div>
+
+        <app-form-select-control-staff-member
+          [label]="'Менеджер заявки'"
+          [staffMembers]="staffMembers"
+          [staffMemberLogin]="studentOnBoarding.info.managerLogin"
+          (onValueChanged)="studentOnBoarding.info.managerLogin = $event">
+        </app-form-select-control-staff-member>
+
+        <app-form-select-control-education-level
+          [educationLevel]="studentOnBoarding.info.educationInfo.level"
+          (onValueChanged)="studentOnBoarding.info.educationInfo.level = $event">
+        </app-form-select-control-education-level>
+
+        <app-form-select-control-age
+          [age]="studentOnBoarding.info.educationInfo.age"
+          (onValueChanged)="studentOnBoarding.info.educationInfo.age = $event">
+        </app-form-select-control-age>
+
+        <app-person-contacts
+          [personContacts]="studentOnBoarding.info.person.contacts"
+          (onPersonContactsChanged)="studentOnBoarding.info.person.contacts = $event">
+        </app-person-contacts>
+      </ng-container>
+    </div>
+
+    <div class="app-card-page-right-menu"></div>
+  </div>
+
+  <div class="app-card-page-footer">
+    <button class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+      Удалить
+    </button>
+
+    <button class="btn btn-primary pull-right" (click)="save()">
+      Сохранить
+    </button>
+  </div>
+</div>
