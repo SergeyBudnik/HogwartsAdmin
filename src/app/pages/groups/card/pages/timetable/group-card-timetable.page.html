@@ -6,21 +6,12 @@
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <div class="app-card-page-title">
-          Расписание группы
-        </div>
-
-        <br>
-
-        <app-week-selector (onWeekChanged)="onWeekChanged($event)"></app-week-selector>
-
-        <br>
-
         <app-timetable [groups]="[group]" [lessons]="groupLessons" [showFilters]="false"></app-timetable>
       </ng-container>
     </div>
 
     <div class="app-card-page-right-menu">
+      <app-week-selector (onWeekChanged)="onWeekChanged($event)"></app-week-selector>
     </div>
   </div>
 </div>
