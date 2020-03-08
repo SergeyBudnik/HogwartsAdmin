@@ -1,5 +1,9 @@
 @import "~styles/abstract/index";
 
+/**
+ * Primary components
+ */
+
 .app-card-page {
   display: flex;
   flex-direction: column;
@@ -51,6 +55,36 @@
   padding: @app-size-2 15%;
   background: @color-fill_basic_light;
 }
+
+/**
+ * Secondary components
+ */
+
+.app-card-page-row-with-actions {
+  display: flex;
+  flex-direction: row;
+
+  margin-bottom: @app-size-0-5;
+}
+
+.app-card-page-row-with-actions-info {
+  display: flex;
+  flex-direction: row;
+
+  padding: @app-size-2;
+
+  background: @color-alt_basic_base;
+
+  border-radius: @app-size-0-5;
+}
+
+.app-card-page-row-with-actions-actions {
+  margin-left: 1%;
+}
+
+/**
+ * Text items
+ */
 
 .app-card-page-title {
   .app-font-bold;
