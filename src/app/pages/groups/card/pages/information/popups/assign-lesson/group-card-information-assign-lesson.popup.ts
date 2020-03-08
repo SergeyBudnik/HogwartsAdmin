@@ -1,11 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {Lesson, Cabinet, StaffMember} from '../../../../../../../data';
-import {TranslationService} from '../../../../../../../service';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
+import {GroupLessonInfo} from '../../data';
 
 export class GroupCardInformationAssignLessonPopupManager {
   private static popup: GroupCardInformationAssignLessonPopup = null;
-  private static saveListener: (lesson: Lesson) => void;
+  private static saveListener: (groupLessonInfo: GroupLessonInfo) => void;
   private static deleteListener: () => void;
 
   public static register(popup: GroupCardInformationAssignLessonPopup) {
@@ -15,7 +15,7 @@ export class GroupCardInformationAssignLessonPopupManager {
   public static pushGroupLesson(
     lesson: Lesson,
     lessonIndex: number,
-    saveListener: (lesson: Lesson) => void,
+    saveListener: (groupLessonInfo: GroupLessonInfo) => void,
     deleteListener: () => void
   ) {
     if (!!this.popup) {
@@ -26,9 +26,9 @@ export class GroupCardInformationAssignLessonPopupManager {
     }
   }
 
-  public static notifyGroupLessonSaved(lesson: Lesson) {
+  public static notifyGroupLessonSaved(groupLessonInfo: GroupLessonInfo) {
     if (this.popup != null && this.saveListener != null) {
-      this.saveListener(lesson);
+      this.saveListener(groupLessonInfo);
     }
   }
 
@@ -81,7 +81,11 @@ export class GroupCardInformationAssignLessonPopup {
 
   public save(): void {
     GroupCardInformationAssignLessonPopupManager.notifyGroupLessonSaved(
-      Lesson.copy(this.lesson)
+      new GroupLessonInfo(
+        Lesson.copy(this.lesson),
+        this.lessonIndex,
+        null
+      )
     );
 
     this.modalStatus.visible = false;

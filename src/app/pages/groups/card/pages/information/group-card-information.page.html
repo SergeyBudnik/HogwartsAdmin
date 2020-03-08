@@ -113,10 +113,10 @@
         <br>
 
         <app-group-card-information-lesson-row
-          *ngFor="let lesson of lessons; let i = index;"
-          [lesson]="lesson"
+          *ngFor="let lesson of lessons"
+          [groupLessonInfo]="lesson"
           [staffMembers]="staffMembers"
-          (click)="setExistingModalLesson(lesson, i)">
+          (click)="setExistingModalLesson(lesson)">
         </app-group-card-information-lesson-row>
 
         <br>

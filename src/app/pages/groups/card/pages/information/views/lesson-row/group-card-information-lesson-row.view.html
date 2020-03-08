@@ -1,12 +1,12 @@
-<div class="group-lesson-row">
+<div *ngIf="groupLessonInfo.visible" class="group-lesson-row">
   <div class="group-lesson-row-column-day-of-week">
     <div class="app-card-page-text">
-      {{translationService.dayOfWeek().translate(lesson.day)}}
+      {{translationService.dayOfWeek().translate(groupLessonInfo.lesson.day)}}
     </div>
   </div>
   <div class="group-lesson-row-column-time">
     <div class="app-card-page-text">
-      {{translationService.time().translate(lesson.startTime)}} - {{translationService.time().translate(lesson.finishTime)}}
+      {{translationService.time().translate(groupLessonInfo.lesson.startTime)}} - {{translationService.time().translate(groupLessonInfo.lesson.finishTime)}}
     </div>
   </div>
   <div class="group-lesson-row-column-teacher">
@@ -16,13 +16,13 @@
   </div>
   <div class="group-lesson-row-column-status">
     <div class="app-card-page-text">
-      <ng-container *ngIf="!lesson.id">
+      <ng-container *ngIf="!groupLessonInfo.lesson.id">
       </ng-container>
-      <ng-container *ngIf="!!lesson.id && !!lesson.creationTime && !lesson.deactivationTime">
-        с {{lesson.creationTime | date: 'dd.MM.yyyy'}}
+      <ng-container *ngIf="!!groupLessonInfo.lesson.id && !!groupLessonInfo.lesson.creationTime && !groupLessonInfo.lesson.deactivationTime">
+        с {{groupLessonInfo.lesson.creationTime | date: 'dd.MM.yyyy'}}
       </ng-container>
-      <ng-container *ngIf="!!lesson.id && !!lesson.creationTime && !!lesson.deactivationTime">
-        с {{lesson.creationTime | date: 'dd.MM.yyyy'}} по {{lesson.deactivationTime | date: 'dd.MM.yyyy'}}
+      <ng-container *ngIf="!!groupLessonInfo.lesson.id && !!groupLessonInfo.lesson.creationTime && !!groupLessonInfo.lesson.deactivationTime">
+        с {{groupLessonInfo.lesson.creationTime | date: 'dd.MM.yyyy'}} по {{groupLessonInfo.lesson.deactivationTime | date: 'dd.MM.yyyy'}}
       </ng-container>
     </div>
   </div>
