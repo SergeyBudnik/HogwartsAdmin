@@ -1,37 +1,46 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'STUDENTS'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'STUDENTS'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">
-          Группа '{{group.id}}'
-        </h3>
+        <div class="app-card-page-title">
+          Студенты группы
+        </div>
 
         <br>
 
-        <div
-          *ngFor="let student of students"
-          class="app-clickable-row"
-          [class.app-clickable-row-inactive]="!isStudentActive(student)"
-          (click)="navigationService.students().id(student.id).information().go()">
-          {{student.name}}
+        <div *ngFor="let student of students" class="app-card-page-row-with-actions">
+          <div class="app-group-card-students-row-info">
+            <i class="fa fa-exclamation-circle"
+               [class.app-group-card-students-row-info-status-sign-active]="isStudentActive(student)"
+               [class.app-group-card-students-row-info-status-sign-inactive]="!isStudentActive(student)"
+               [class.fa-thumbs-up]="isStudentActive(student)"
+               [class.fa-thumbs-down]="!isStudentActive(student)"
+               aria-hidden="true"></i>
+
+            <div class="app-card-page-text">
+              {{student.name}}
+            </div>
+          </div>
+
+          <div class="app-group-card-students-row-actions">
+            <div class="app-button-secondary" (click)="navigationService.students().id(student.id).information().go()">
+              Перейти
+            </div>
+          </div>
         </div>
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
-    <button class="btn btn-primary pull-right" (click)="this.navigationService.students().newForGroup(this.group.id).go()">
+  <div class="app-card-page-footer">
+    <button class="app-button-primary pull-right" (click)="this.navigationService.students().newForGroup(this.group.id).go()">
       Добавить ученика
     </button>
   </div>

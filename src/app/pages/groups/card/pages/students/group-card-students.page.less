@@ -1,14 +1,29 @@
 @import "~styles/index";
 
-.group-students-header {
-  padding: 20px 0 0 20px;
+.app-group-card-students-row-info {
+  .app-card-page-row-with-actions-info;
+
+  width: 80%;
 }
 
-.group-students-row {
-  color: @color-fill_text_basic;
-  cursor: pointer;
+.app-group-card-students-row-info-status-sign {
+  margin-right: @app-size-1;
 }
 
-.group-students-row:hover {
-  background-color: @color-alt_contrast_light;
+.app-group-card-students-row-info-status-sign-active {
+  .app-group-card-students-row-info-status-sign;
+
+  color: @color-fill_text_basic_positive;
+}
+
+.app-group-card-students-row-info-status-sign-inactive {
+  .app-group-card-students-row-info-status-sign;
+
+  color: @color-fill_text_basic_light;
+}
+
+.app-group-card-students-row-actions {
+  .app-card-page-row-with-actions-actions;
+
+  width: 20%;
 }

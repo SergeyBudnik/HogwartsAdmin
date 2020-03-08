@@ -1,18 +1,14 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'TIMETABLE'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'TIMETABLE'"></div>
 
-    <div class="page-content">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">
-          Группа '{{group.id}}'
-        </h3>
+        <div class="app-card-page-title">
+          Расписание группы
+        </div>
 
         <br>
 
@@ -24,7 +20,7 @@
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 </div>
