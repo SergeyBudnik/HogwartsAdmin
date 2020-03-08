@@ -18,7 +18,7 @@
 
         <div app-student-card-attendance-row
              *ngFor="let attendance of attendances"
-             class="list-row"
+             class="app-list-row"
              [attendance]="attendance"
              (attendanceDeleted)="onAttendanceDeleted($event)">
         </div>

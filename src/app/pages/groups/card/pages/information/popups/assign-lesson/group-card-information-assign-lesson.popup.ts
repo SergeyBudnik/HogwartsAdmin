@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Lesson, Cabinet, DayOfWeekUtils, TimeUtils, StaffMember} from '../../../../../../../data';
-import {SelectItem} from '../../../../../../../controls/select-item';
+import {Lesson, Cabinet, StaffMember} from '../../../../../../../data';
 import {TranslationService} from '../../../../../../../service';
+import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 
 export class GroupCardInformationAssignLessonPopupManager {
   private static popup: GroupCardInformationAssignLessonPopup = null;
@@ -45,44 +45,23 @@ export class GroupCardInformationAssignLessonPopupManager {
   styleUrls: ['./group-card-information-assign-lesson.popup.less']
 })
 export class GroupCardInformationAssignLessonPopup {
-  public daysOfWeekItems: Array<SelectItem> = [];
-  public timesItems: Array<SelectItem> = [];
-  public modalVisible = true;
-
-  public lessonStatuses = [
-    new SelectItem('Активно', 'ENABLED'),
-    new SelectItem('Выключено', 'DISABLED')
-  ];
-
   public lesson: Lesson = null;
   public lessonIndex: number = null;
-  public lessonStatus: String = 'DISABLED';
+
+  public modalStatus = new ModalStatus(false);
 
   @Input('cabinets') public cabinets: Array<Cabinet> = [];
   @Input('staffMembers') public staffMembers: Array<StaffMember> = [];
 
-  public constructor(private translationService: TranslationService) {
-    this.timesItems = TimeUtils.values.map(it => new SelectItem(
-      this.translationService.time().translate(it),
-      it
-    ));
-
-    this.daysOfWeekItems = DayOfWeekUtils.values.map(it => new SelectItem(
-      this.translationService.dayOfWeek().translate(it),
-      it
-    ));
-
+  public constructor() {
     GroupCardInformationAssignLessonPopupManager.register(this);
   }
 
   public onGroupLessonInit(lesson: Lesson, lessonIndex: number) {
     this.lesson = Lesson.copy(lesson);
     this.lessonIndex = lessonIndex;
-    this.lessonStatus = (lesson.deactivationTime == null) ? 'ENABLED' : 'DISABLED';
-  }
 
-  public getStaffMembersItems(): Array<SelectItem> {
-    return this.staffMembers.map(it => new SelectItem(it.person.name, it.login));
+    this.modalStatus.visible = true;
   }
 
   public isValid(): boolean {
@@ -93,9 +72,7 @@ export class GroupCardInformationAssignLessonPopup {
     let hasCreationTime = !!this.lesson.creationTime;
     let hasDeactivationTime = !!this.lesson.deactivationTime;
 
-    let isEnabled = (this.lessonStatus == 'ENABLED');
-
-    return hasTeacherLogin && hasDay && hasStartTime && hasFinishTime && hasCreationTime && (isEnabled || hasDeactivationTime);
+    return hasTeacherLogin && hasDay && hasStartTime && hasFinishTime && hasCreationTime && hasDeactivationTime;
   }
 
   public isNew(): boolean {
@@ -103,28 +80,20 @@ export class GroupCardInformationAssignLessonPopup {
   }
 
   public save(): void {
-    if (this.lessonStatus == 'ENABLED') {
-      this.lesson.deactivationTime = null;
-    }
-
     GroupCardInformationAssignLessonPopupManager.notifyGroupLessonSaved(
       Lesson.copy(this.lesson)
     );
 
-    this.toggleModal();
+    this.modalStatus.visible = false;
   }
 
   public delete() {
     GroupCardInformationAssignLessonPopupManager.notifyGroupLessonDeleted();
 
-    this.toggleModal();
+    this.modalStatus.visible = false;
   }
 
   public cancel(): void {
-    this.toggleModal();
-  }
-
-  private toggleModal(): void {
-    this.modalVisible = !this.modalVisible;
+    this.modalStatus.visible = false;
   }
 }

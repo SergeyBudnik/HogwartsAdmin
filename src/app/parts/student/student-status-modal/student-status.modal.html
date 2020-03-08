@@ -1,19 +1,19 @@
-<app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'" [modalVisible]="modalVisible">
+<app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'">
   <div class="modal-body">
     <form>
-      <div *ngIf="hasAction" app-form-date-control
-           [label]="'Дата'"
-           [dateFormat]="'dd.mm.yyyy'"
-           [value]="actionDateTime"
-           (onChange)="actionDateTime = $event"></div>
+      <app-date-control
+        *ngIf="hasAction"
+        [value]="actionDateTime"
+        (onChange)="actionDateTime = $event">
+      </app-date-control>
 
-      <div *ngIf="hasAction" app-form-select-control class="form-group"
+      <app-form-select-control *ngIf="hasAction" class="form-group"
            [name]="'actionTime'"
            [label]="'Время'"
            [valid]="true"
            [valueString]="actionTime"
            [items]="actionTimeItems"
-           (onChangeString)="actionTime = $event"></div>
+           (onChangeString)="actionTime = $event"></app-form-select-control>
     </form>
   </div>
 

@@ -21,7 +21,6 @@ import {CookieOptions, CookieService} from 'angular2-cookie/core';
 import * as Pages from './pages';
 import * as Services from './service';
 import * as Https from './http';
-import * as Filters from './parts/filters';
 import * as Controls from './controls';
 import * as Parts from './parts';
 
@@ -88,6 +87,7 @@ const appRoutes: Routes = [
     Pages.StudentCardPaymentRow,
     Pages.StudentMenuComponent,
     Pages.StudentCardInformationAssignGroupPopup,
+    Pages.StudentCardInformationGroupRowView,
 
     Pages.StudentsListPage,
 
@@ -96,7 +96,7 @@ const appRoutes: Routes = [
     Pages.CabinetCardMenuComponent,
     Pages.CabinetsListPage,
 
-    Pages.GroupCardInformationPage, Pages.GroupCardInformationAssignLessonPopup,
+    Pages.GroupCardInformationPage, Pages.GroupCardInformationAssignLessonPopup, Pages.GroupCardInformationLessonRowView,
     Pages.GroupCardStudentsPage,
     Pages.GroupCardTimetablePage,
     Pages.GroupMenuPageComponent,
@@ -127,26 +127,27 @@ const appRoutes: Routes = [
     Parts.MenuItemPartComponent,
     Parts.PersonContactsView,
 
+    Controls.AppDateControl,
+    Controls.AppSelectControl,
+    Controls.AppTagControl,
+    Controls.AppTextControl,
+
+    Controls.AppFormInputControl,
+
+    Controls.AppSelectAgeControl,
+    Controls.AppSelectCabinetControl,
+    Controls.AppSelectDayOfWeekControl,
+    Controls.AppSelectEducationLevelControl,
+    Controls.AppSelectGroupTypeControl,
+    Controls.AppSelectStaffMemberControl,
+    Controls.AppSelectTimeControl,
+
     Controls.SearchSelectControl,
-    Controls.SearchTextInputControl,
 
     Controls.FormSelectControl,
-    Controls.FormSelectAgeControl,
-    Controls.FormSelectCabinetControl,
-    Controls.FormSelectEducationLevelControl,
-    Controls.FormSelectGroupTypeControl,
-    Controls.FormSelectStaffMemberControl,
-    Controls.FormSelectTimeControl,
 
-    Controls.FormTagControl,
     Controls.FormTextControl,
-    Controls.FormDateControl,
     Controls.FormDateAndTimeControl,
-
-    Filters.AgeFilterComponent,
-    Filters.CabinetsFilterComponent,
-    Filters.EducationLevelFilterComponent,
-    Filters.GroupTypeFilterComponent,
 
     WeekSelectorComponent
   ],

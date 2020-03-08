@@ -1,4 +1,4 @@
-<app-modal-template [id]="'studentAttendance'" [title]="'Добавление посещаемости'" [modalVisible]="modalVisible">
+<app-modal-template [id]="'studentAttendance'" [title]="'Добавление посещаемости'">
   <div class="modal-body">
     <form>
       <div class="form-group">
@@ -9,13 +9,13 @@
                         (dateChanged)="onDateChange($event)"></my-date-picker>
       </div>
 
-      <div app-form-select-control class="form-group"
+      <app-form-select-control class="form-group"
           [id]="'attendanceType'"
           [label]="'Статус'"
           [valid]="true"
-           [valueString]="attendanceType"
+          [valueString]="attendanceType"
           [items]="getAttendanceTypeItems()"
-           (onChangeString)="attendanceType = $event"></div>
+          (onChangeString)="attendanceType = $event"></app-form-select-control>
     </form>
   </div>
 

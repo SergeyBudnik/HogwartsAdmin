@@ -7,6 +7,7 @@ import {SelectItem} from '../../../../../controls/select-item';
 import {GroupsHttp, StaffMembersHttp} from '../../../../../http';
 import {GroupService} from '../../../../../service';
 import {StudentCardInformationAssignGroupPopupManager} from './components';
+import {StudentGroupAndIndex} from './data/student-group-and-index';
 
 @Component({
   selector: 'app-student-card-information-page',
@@ -50,21 +51,18 @@ export class StudentCardInformationPage {
     ));
   }
 
-  public addNewGroup(): void {
-    StudentCardInformationAssignGroupPopupManager.pushStudentGroup(
-      new StudentGroup(null, new Date().getTime(), null),
-      null,
-      (studentGroup: StudentGroup) => this.onGroupSaved(studentGroup, null),
-      () => {}
-    );
+  public buildStudentGroupAndIndex(studentGroup: StudentGroup, studentGroupIndex: number): StudentGroupAndIndex {
+    return new StudentGroupAndIndex(studentGroup, studentGroupIndex);
   }
 
-  public editExistingGroup(studentGroup: StudentGroup, index: number) {
+  public addNewGroup(): void {
     StudentCardInformationAssignGroupPopupManager.pushStudentGroup(
-      studentGroup,
-      index,
-      (studentGroup: StudentGroup) => this.onGroupSaved(studentGroup, index),
-      () => this.onGroupDeleted(index)
+      new StudentGroupAndIndex(
+        new StudentGroup(null, new Date().getTime(), null),
+        null
+      ),
+      (studentGroup: StudentGroup) => this.onGroupSaved(new StudentGroupAndIndex(studentGroup, null)),
+      () => {}
     );
   }
 
@@ -72,17 +70,11 @@ export class StudentCardInformationPage {
     this.navigationService.students().id(this.student.id).status().go();
   }
 
-  public goToGroup(groupId: number) {
-    if (groupId !== null) {
-      this.navigationService.groups().id(groupId).information().go();
-    }
-  }
-
-  private onGroupSaved(studentGroup: StudentGroup, studentGroupIndex: number) {
-    if (studentGroupIndex == null) {
-      this.student.studentGroups.push(studentGroup);
+  private onGroupSaved(studentGroupAndIndex: StudentGroupAndIndex) {
+    if (studentGroupAndIndex.index == null) {
+      this.student.studentGroups.push(studentGroupAndIndex.group);
     } else {
-      this.student.studentGroups[studentGroupIndex] = studentGroup;
+      this.student.studentGroups[studentGroupAndIndex.index] = studentGroupAndIndex.group;
     }
   }
 
@@ -117,8 +109,6 @@ export class StudentCardInformationPage {
   private saveExisting() {
     this.studentsService.editStudent(this.student).then(() => {
       this.loadingInProgress = false;
-
-      this.toastr.success(`Студент '${this.student.name}' успешно сохранён.`);
     });
   }
 
@@ -132,14 +122,6 @@ export class StudentCardInformationPage {
 
   public getMatchingGroups(): Array<Group> {
     return new GroupService().getMatchingGroups(this.allGroups, this.student.age, this.student.educationLevel);
-  }
-
-  public getGroupName(groupId: number): string {
-    let group = this.allGroups.find(it => it.id === groupId);
-    let staffMember = this.allStaffMembers.find(it => it.login === group.headTeacherLogin);
-    let students = this.groupsService.getGroupActiveStudents(group, this.allStudents, new Date().getTime());
-
-    return new GroupService().getGroupName(staffMember, students);
   }
 
   public hasAtLeastOneContact(): boolean {

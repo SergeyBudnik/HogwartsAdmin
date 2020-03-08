@@ -1,13 +1,13 @@
-<div class="input-group">
-  <span class="input-group-addon app-input-icon">
+<div class="app-search-select-with-icon">
+  <div class="app-search-select-with-icon-icon">
     <i class="fa fa-search" aria-hidden="true"></i>
-  </span>
+  </div>
 
-  <div app-form-select-control class="form-group" style="width: 100%"
+  <app-form-select-control class="app-search-select-icon-input"
        [name]="''"
        [label]="''"
        [valid]="false"
        [valueString]="currentValue"
        [items]="items"
-       (onChangeString)="onValueChange($event)"></div>
+       (onChangeString)="onValueChange($event)"></app-form-select-control>
 </div>

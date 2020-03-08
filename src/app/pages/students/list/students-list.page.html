@@ -1,64 +1,68 @@
-<div class="page">
+<div class="app-list-page">
   <app-header [activeSection]="'STUDENTS'"></app-header>
 
-  <div class="list-header-container">
-    <div class="list-header">
-      <div class="student-validation-column"></div>
+  <div class="app-list-header">
+    <div class="app-students-list-column-validation"></div>
 
-      <div app-search-text-input-control class="students-list-header-search student-name-column"
-           [placeholder]="'Имя или номер телефона'"
-           (onChange)="onFilterChange($event,  undefined, undefined, undefined)"></div>
+    <app-text-control
+      class="app-students-list-column-name"
+      [icon]="'fa-search'"
+      [placeholder]="'Имя или номер телефона'"
+      (onChange)="onFilterChange($event,  undefined, undefined, undefined)">
+    </app-text-control>
 
-      <div class="student-groups-column-header">
-        <div class="list-header-label">
-          Группы
-        </div>
+    <div class="app-students-list-column-groups app-list-header-label">
+      Группы
+    </div>
+
+    <app-select-age-control
+      class="app-students-list-column-age"
+      (onChange)="onFilterChange(undefined, $event, undefined, undefined)">
+    </app-select-age-control>
+
+    <app-select-education-level-control
+      class="app-students-list-column-education-level"
+      (onChange)="onFilterChange(undefined, undefined, $event, undefined)">
+    </app-select-education-level-control>
+
+    <div app-search-select-control class="app-students-list-column-status"
+         [empty]="'Все'"
+         [items]="getStatusItems()"
+         [defaultItem]="'STUDYING'"
+         (onChange)="onFilterChange(undefined, undefined, undefined, $event)"></div>
+
+      <div class="app-students-list-column-actions">
+        <button class="app-button-primary pull-right" (click)="this.navigationService.students().new().go()">
+          Добавить
+        </button>
       </div>
-
-      <app-filter-age (onChange)="onFilterChange(undefined, $event, undefined, undefined)" class="students-list-header-search student-education-level-column"></app-filter-age>
-      <app-filter-education-level (onChange)="onFilterChange(undefined, undefined, $event, undefined)" class="students-list-header-search student-age-column"></app-filter-education-level>
-
-      <div app-search-select-control class="students-list-header-search student-status-column"
-           [empty]="'Все'"
-           [items]="getStatusItems()"
-           [defaultItem]="'STUDYING'"
-           (onChange)="onFilterChange(undefined, undefined, undefined, $event)"></div>
-
-    </div>
-
-    <div class="students-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="this.navigationService.students().new().go()">
-        Добавить
-      </button>
-    </div>
   </div>
 
-  <div class="list-content">
-    <div class="page-loading" *ngIf="loadingInProgress">
-      <div class="app-loader"></div>
-    </div>
-
+  <div class="app-list-content">
     <div *ngFor="let student of students" (click)="navigationService.students().id(student.id).information().go()" class="list-row-clickable">
-      <div class="list-row-item student-validation-column">
-        <app-field-validation-sign *ngIf="student.statusType === 'STUDYING' || student.statusType === 'STOPPED'" [valid]="isStudentFilled(student)"></app-field-validation-sign>
+      <div class="list-row-item app-students-list-column-validation">
+        <app-field-validation-sign
+          *ngIf="student.statusType === 'STUDYING' || student.statusType === 'STOPPED'" [valid]="isStudentFilled(student)">
+        </app-field-validation-sign>
       </div>
-      <div class="list-row-item student-name-column">
+      <div class="list-row-item app-students-list-column-name">
         <div>{{student.name}}</div>
       </div>
-      <div class="list-row-item student-groups-column-item">
+      <div class="list-row-item app-students-list-column-groups">
         <div *ngFor="let studentGroup of getStudentsActiveGroups(student)">
           <div app-group-icon [group]="getGroup(studentGroup.groupId)"></div>
         </div>
       </div>
-      <div class="list-row-item student-age-column">
+      <div class="list-row-item app-students-list-column-age">
         {{translationService.age().translate(student.age)}}
       </div>
-      <div class="list-row-item student-education-level-column">
+      <div class="list-row-item app-students-list-column-education-level">
         {{translationService.educationLevel().translate(student.educationLevel)}}
       </div>
-      <div class="list-row-item student-status-column-item">
+      <div class="list-row-item app-students-list-column-status">
         <div app-student-status [studentStatusType]="student.statusType"></div>
       </div>
+      <div class="list-row-item app-students-list-column-actions"></div>
     </div>
   </div>
 </div>

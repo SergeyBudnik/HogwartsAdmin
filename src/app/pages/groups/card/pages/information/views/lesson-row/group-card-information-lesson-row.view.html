@@ -1,0 +1,29 @@
+<div class="group-lesson-row">
+  <div class="group-lesson-row-column-day-of-week">
+    <div class="app-card-page-text">
+      {{translationService.dayOfWeek().translate(lesson.day)}}
+    </div>
+  </div>
+  <div class="group-lesson-row-column-time">
+    <div class="app-card-page-text">
+      {{translationService.time().translate(lesson.startTime)}} - {{translationService.time().translate(lesson.finishTime)}}
+    </div>
+  </div>
+  <div class="group-lesson-row-column-teacher">
+    <div class="app-card-page-text">
+      {{getTeacherName()}}
+    </div>
+  </div>
+  <div class="group-lesson-row-column-status">
+    <div class="app-card-page-text">
+      <ng-container *ngIf="!lesson.id">
+      </ng-container>
+      <ng-container *ngIf="!!lesson.id && !!lesson.creationTime && !lesson.deactivationTime">
+        с {{lesson.creationTime | date: 'dd.MM.yyyy'}}
+      </ng-container>
+      <ng-container *ngIf="!!lesson.id && !!lesson.creationTime && !!lesson.deactivationTime">
+        с {{lesson.creationTime | date: 'dd.MM.yyyy'}} по {{lesson.deactivationTime | date: 'dd.MM.yyyy'}}
+      </ng-container>
+    </div>
+  </div>
+</div>

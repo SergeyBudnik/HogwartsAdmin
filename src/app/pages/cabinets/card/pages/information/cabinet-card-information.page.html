@@ -17,22 +17,23 @@
         <br>
 
         <form>
-          <div app-form-text-input-control class="form-group"
-               [name]="'name'"
-               [label]="'Название'"
-               [placeholder]="'Введите название'"
-               [valid]="!!cabinet.name"
-               [value]="cabinet.name"
-               [editable]="true"
-               (onChange)="cabinet.name = $event"></div>
+          <app-form-input-control [label]="'Название'" [valid]="!!cabinet.name">
+            <app-text-control
+              [value]="cabinet.name"
+              [placeholder]="'Введите название'"
+              (onChange)="cabinet.name = $event">
+            </app-text-control>
+          </app-form-input-control>
 
-          <div app-form-select-control class="form-group"
-               [name]="'educationLevel'"
-               [label]="'Уровень подготовки'"
-               [valid]="cabinet.cabinetType !== 'UNKNOWN'"
-               [valueString]="cabinet.cabinetType"
-               [items]="cabinetTypes"
-               (onChangeString)="cabinet.cabinetType = $event"></div>
+          <app-form-input-control [label]="'Тип'" [valid]="!!cabinet.cabinetType">
+            <app-form-select-control class="form-group"
+                 [name]="'educationLevel'"
+                 [label]="'Уровень подготовки'"
+                 [valid]="cabinet.cabinetType !== 'UNKNOWN'"
+                 [valueString]="cabinet.cabinetType"
+                 [items]="cabinetTypes"
+                 (onChangeString)="cabinet.cabinetType = $event"></app-form-select-control>
+          </app-form-input-control>
         </form>
       </ng-container>
     </div>

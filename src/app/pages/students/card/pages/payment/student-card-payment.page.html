@@ -43,7 +43,7 @@
 
         <div app-student-card-payment-row
              *ngFor="let payment of payments"
-             class="list-row"
+             class="app-list-row"
              [payment]="payment"
              [staffMembers]="staffMembers"
              (paymentDeleted)="onPaymentDeleted($event)">

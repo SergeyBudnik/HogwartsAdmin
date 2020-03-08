@@ -1,58 +1,57 @@
-<app-modal-template [id]="'studentAssignGroupModal'" [title]="'Добавление группы'" [modalVisible]="modalVisible">
-  <div class="modal-body">
-    <form *ngIf="!!studentGroup"  >
-      <div app-form-select-control
-           [type]="'NUMERIC'"
-           [name]="'group'"
-           [label]="'Группа'"
-           [valid]="!!studentGroup.groupId"
-           [valueNumber]="studentGroup.groupId"
-           [items]="getGroupItems()"
-           [hasEmpty]="true"
-           (onChangeNumber)="studentGroup.groupId = $event"></div>
+<app-modal-template [modalStatus]="modalStatus">
+  <div class="app-modal-content" *ngIf="!!studentGroup">
+    <div class="app-modal-title">
+      Добавление группы
+    </div>
+
+    <div class="app-modal-body">
+      <app-form-select-control
+        [type]="'NUMERIC'"
+        [name]="'group'"
+        [label]="'Группа'"
+        [valid]="!!studentGroup.groupId"
+        [valueNumber]="studentGroup.groupId"
+        [items]="getGroupItems()"
+        [hasEmpty]="true"
+        (onChangeNumber)="studentGroup.groupId = $event"></app-form-select-control>
 
       <br>
 
-      <div style="display: flex; flex-direction: row">
-        <div app-form-select-control style="width: 32%"
-             [name]="'studentGroupAssignStatus'"
-             [label]="'Статус'"
-             [valid]="true"
-             [valueString]="studentGroupStatus"
-             [items]="getStatusItems()"
-             [hasEmpty]="false"
-             (onChangeString)="studentGroupStatus = $event"></div>
+      <div class="student-card-information-assign-group-popup-dates">
+        <app-form-input-control
+          class="student-card-information-assign-group-popup-dates-column"
+          [label]="'Вступил в группу'"
+          [valid]="true">
+          <app-date-control
+            [value]="studentGroup.startTime"
+            (onChange)="studentGroup.startTime = $event">
+          </app-date-control>
+        </app-form-input-control>
 
-        <div style="width: 2%"></div>
-
-        <div app-form-date-control style="width: 32%"
-             [label]="'Записан'"
-             [dateFormat]="'dd.mm.yyyy'"
-             [value]="studentGroup.startTime"
-             (onChange)="studentGroup.startTime = $event"></div>
-
-        <div style="width: 2%"></div>
-
-        <div app-form-date-control style="width: 32%"
-             *ngIf="studentGroupStatus == 'DISABLED'"
-             [label]="'Покинул'"
-             [dateFormat]="'dd.mm.yyyy'"
-             [value]="studentGroup.finishTime"
-             (onChange)="studentGroup.finishTime = $event"></div>
+        <app-form-input-control
+          class="student-card-information-assign-group-popup-dates-column"
+          [label]="'Покинул группу'"
+          [valid]="true">
+          <app-date-control
+            [value]="studentGroup.finishTime"
+            (onChange)="studentGroup.finishTime = $event">
+          </app-date-control>
+        </app-form-input-control>
       </div>
-    </form>
-  </div>
-  <div *ngIf="!!studentGroup" class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="cancel()">
-      Отмена
-    </button>
+    </div>
 
-    <button type="button" class="btn btn-danger" [disabled]="isNew()" (click)="delete()">
-      Удалить
-    </button>
+    <div class="app-modal-footer">
+      <button class="app-button-secondary pull-right" (click)="cancel()">
+        Отмена
+      </button>
 
-    <button type="button" class="btn btn-primary" [disabled]="!isValid()" (click)="save()">
-      Сохранить
-    </button>
+      <button class="app-button-danger pull-right" [disabled]="isNew()" (click)="delete()">
+        Удалить
+      </button>
+
+      <button class="app-button-primary pull-right" [disabled]="!isValid()" (click)="save()">
+        Сохранить
+      </button>
+    </div>
   </div>
 </app-modal-template>

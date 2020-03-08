@@ -1,11 +1,11 @@
-<app-field-validation-sign *ngIf="!!label" [valid]="valid"></app-field-validation-sign>
-
-<label *ngIf="!!label" class="app-label" for="{{name}}">
+<div class="app-input-label">
   {{label}}:
-</label>
+</div>
 
-<input id="{{name}}" name="{{name}}" class="form-control app-text-input"
-       required minlength="1"
-       [value]="value"
-       [disabled]="!editable"
-       (keyup)="onValueChange($event.target.value)"/>
+<app-text-control
+  [value]="value"
+  [placeholder]="placeholder"
+  [icon]="valid ? 'fa-check-circle' : 'fa-exclamation-circle'"
+  [enabled]="editable"
+  (onChange)="onValueChange($event)">
+</app-text-control>

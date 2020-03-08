@@ -1,6 +1,10 @@
+@import "~styles/abstract/index";
+
+@app-scroll-width: @app-size-2;
+
 ::-webkit-scrollbar-button {
   background: none no-repeat;
-  width: 10px;
+  width: @app-scroll-width;
   height: 0
 }
 
@@ -20,10 +24,10 @@
 
 ::-webkit-resizer{
   background: none no-repeat;
-  width: 10px;
+  width: @app-scroll-width;
   height: 0;
 }
 
 ::-webkit-scrollbar{
-  width: 10px;
+  width: @app-scroll-width;
 }
