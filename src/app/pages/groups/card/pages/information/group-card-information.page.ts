@@ -78,7 +78,7 @@ export class GroupCardInformationPage {
     this.lessons = this.getGroupLessons();
   }
 
-  public setExistingModalLesson(groupLessonInfo: GroupLessonInfo) {
+  public editLesson(groupLessonInfo: GroupLessonInfo) {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
       groupLessonInfo.lesson,
       groupLessonInfo.index,
@@ -87,7 +87,7 @@ export class GroupCardInformationPage {
     );
   }
 
-  public setNewModalLesson() {
+  public addLesson() {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
       new Lesson(),
       -1,

@@ -81,16 +81,16 @@
     </div>
 
     <div class="app-modal-footer">
-      <button class="app-button-secondary" (click)="cancel()">
+      <button class="app-button-primary app-modal-footer-buttons" [disabled]="!isValid()" (click)="save()">
+        Сохранить
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
         Отмена
       </button>
 
-      <button class="app-button-danger" [disabled]="isNew()" (click)="delete()">
+      <button class="app-button-danger app-modal-footer-buttons" [disabled]="isNew()" (click)="delete()">
         Удалить
-      </button>
-
-      <button class="app-button-primary" [disabled]="!isValid()" (click)="save()">
-        Сохранить
       </button>
     </div>
   </div>
