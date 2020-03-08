@@ -25,11 +25,10 @@
       (onChange)="onFilterChange(undefined, undefined, $event, undefined)">
     </app-select-education-level-control>
 
-    <div app-search-select-control class="app-students-list-column-status"
-         [empty]="'Все'"
-         [items]="getStatusItems()"
-         [defaultItem]="'STUDYING'"
-         (onChange)="onFilterChange(undefined, undefined, undefined, $event)"></div>
+    <app-select-student-status-control
+      class="app-students-list-column-status"
+      (onChange)="onFilterChange(undefined, undefined, undefined, $event)">
+    </app-select-student-status-control>
 
       <div class="app-students-list-column-actions">
         <button class="app-button-primary pull-right" (click)="this.navigationService.students().new().go()">

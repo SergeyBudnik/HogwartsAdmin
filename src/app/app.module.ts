@@ -141,9 +141,8 @@ const appRoutes: Routes = [
     Controls.AppSelectEducationLevelControl,
     Controls.AppSelectGroupTypeControl,
     Controls.AppSelectStaffMemberControl,
+    Controls.AppSelectStudentStatusControl,
     Controls.AppSelectTimeControl,
-
-    Controls.SearchSelectControl,
 
     Controls.FormSelectControl,
 
