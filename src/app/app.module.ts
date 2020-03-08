@@ -127,6 +127,7 @@ const appRoutes: Routes = [
     Parts.MenuItemPartComponent,
     Parts.PersonContactsView,
 
+    Controls.AppColorPickerControl,
     Controls.AppDateControl,
     Controls.AppSelectControl,
     Controls.AppTagControl,
