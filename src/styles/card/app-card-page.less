@@ -57,12 +57,24 @@
 }
 
 /**
- * Secondary components
+ * Footer buttons
+ */
+
+.app-card-page-footer-button {
+  float: right;
+
+  margin: 0 @app-size-0-5;
+}
+
+/**
+ * Row with actions
  */
 
 .app-card-page-row-with-actions {
   display: flex;
   flex-direction: row;
+
+  width: 100%;
 
   margin-bottom: @app-size-0-5;
 }
@@ -105,4 +117,10 @@
 
   font-size: @font-normal;
   color: @color-fill_text_basic_action_link;
+}
+
+.app-card-page-link:hover {
+  cursor: pointer;
+
+  opacity: 0.7;
 }
