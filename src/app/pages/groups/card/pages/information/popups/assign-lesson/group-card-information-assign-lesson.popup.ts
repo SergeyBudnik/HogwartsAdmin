@@ -83,7 +83,8 @@ export class GroupCardInformationAssignLessonPopup {
     GroupCardInformationAssignLessonPopupManager.notifyGroupLessonSaved(
       new GroupLessonInfo(
         Lesson.copy(this.lesson),
-        this.lessonIndex
+        this.lessonIndex,
+        null
       )
     );
 
