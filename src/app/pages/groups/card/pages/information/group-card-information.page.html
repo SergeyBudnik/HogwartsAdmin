@@ -12,10 +12,14 @@
 
         <br>
 
-        <div class="form-group">
-          <label for="color" style="color: #ffffff">Цвет:</label>
-          <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
-        </div>
+        <app-form-input-control
+          [label]="'Цвет группы'"
+          [valid]="!!group.color">
+          <app-color-picker-control
+            [value]="group.color"
+            (onChange)="group.color = $event">
+          </app-color-picker-control>
+        </app-form-input-control>
 
         <br>
 
