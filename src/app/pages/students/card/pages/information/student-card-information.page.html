@@ -1,131 +1,132 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'INFORMATION'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'INFORMATION'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!student.id">
-          {{student.name}} - Информация
-        </h3>
-
-        <h3 class="app-header" *ngIf="!student.id">
-          Добавление информации об ученике
-        </h3>
+        <div class="app-card-page-title">
+          Информация
+        </div>
 
         <br>
 
-        <form>
-          <div app-form-text-input-control class="form-group"
-               [name]="'name'"
-               [label]="'Имя'"
-               [placeholder]="'Введите имя'"
-               [valid]="!!student.name && student.name.indexOf('?') === -1"
-               [value]="student.name"
-               [editable]="true"
-               (onChange)="student.name = $event"></div>
+        <app-form-input-control
+          [label]="'Имя'"
+          [valid]="!!student.name && student.name.indexOf('?') === -1">
+          <app-text-control
+            [placeholder]="'Имя'"
+            [value]="student.name"
+            (onChange)="student.name = $event">
+          </app-text-control>
+        </app-form-input-control>
 
-          <div app-form-tag-control class="form-group"
-               [name]="'telephones'"
-               [label]="'Телефоны'"
-               [placeholder]="'Введите телефон'"
-               [valid]="hasAtLeastOneContact()"
-               [value]="student.phones"
-               (onChange)="student.phones = $event"></div>
+        <br>
 
+        <app-form-input-control
+          [label]="'Телефон'"
+          [valid]="hasAtLeastOneContact()">
+          <app-tag-control
+            class="form-group"
+            [placeholder]="'Введите телефон'"
+            [value]="student.phones"
+            (onChange)="student.phones = $event">
+          </app-tag-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Ссылка VK'"
+          [valid]="hasAtLeastOneContact()">
           <div class="student-vkLink-container">
-            <div app-form-text-input-control class="form-group student-vkLink"
-                 [name]="'vkLink'"
-                 [label]="'Ссылка VK'"
-                 [placeholder]="'Введите ссылку'"
-                 [valid]="hasAtLeastOneContact()"
-                 [value]="student.vkLink"
-                 [editable]="true"
-                 (onChange)="student.vkLink = $event"></div>
+            <app-text-control
+              class="student-vkLink"
+              [placeholder]="'Введите ссылку'"
+              [value]="student.vkLink"
+              (onChange)="student.vkLink = $event">
+            </app-text-control>
 
-            <button class="btn btn-primary student-vkLink-action" [disabled]="!student.vkLink" (click)="goToVk()">Перейти</button>
+            <button class="app-button-primary student-vkLink-action" [disabled]="!student.vkLink" (click)="goToVk()">Перейти</button>
           </div>
+        </app-form-input-control>
 
-          <div app-form-select-control class="form-group"
-               [name]="'educationLevel'"
-               [label]="'Уровень подготовки'"
-               [valid]="student.educationLevel !== 'UNKNOWN'"
-               [valueString]="student.educationLevel"
-               [items]="educationLevelItems"
-               (onChangeString)="student.educationLevel = $event"></div>
+        <br>
 
-          <app-form-select-control-age [age]="student.age" (onValueChanged)="student.age = $event"></app-form-select-control-age>
+        <app-form-input-control [label]="'Уровень подготовки'" [valid]="student.educationLevel !== 'UNKNOWN'">
+          <app-select-education-level-control
+            [value]="student.educationLevel"
+            (onChange)="student.educationLevel = $event">
+          </app-select-education-level-control>
+        </app-form-input-control>
 
-          <div class="form-group" *ngIf="!!student.id">
-            <label class="app-label h-full">Статус:</label>
+        <br>
 
-            <div class="student-status-container">
-              <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
+        <app-form-input-control [label]="'Возраст'" [valid]="student.age !== 'UNKNOWN'">
+          <app-select-age-control [value]="student.age" (onChange)="student.age = $event"></app-select-age-control>
+        </app-form-input-control>
 
-              <button class="btn btn-primary student-status-action" (click)="goToStatus()">Изменить статус</button>
-            </div>
+        <br>
+
+        <app-form-input-control
+          *ngIf="!!student.id"
+          [label]="'Статус'"
+          [valid]="true">
+          <div class="student-status-container">
+            <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
+
+            <button class="app-button-primary student-status-action" (click)="goToStatus()">Изменить статус</button>
           </div>
+        </app-form-input-control>
 
-          <div class="form-group">
-            <label class="app-label h-full">
-              Группы:
-            </label>
+        <br>
 
-            <div class="app-text" *ngIf="student.studentGroups.length === 0">
-              Студент не назначен в группу
-            </div>
+        <div class="app-card-page-title">
+          Группы
+        </div>
 
-            <div *ngFor="let studentGroup of student.studentGroups; let i = index" style="display: flex; flex-direction: row">
-              <div class="app-clickable-row" data-toggle="modal" data-target="#studentAssignGroupModal" style="width: 80%" (click)="editExistingGroup(studentGroup, i)">
-                <div style="width: 70%">
-                  {{getGroupName(studentGroup.groupId)}}
-                </div>
-                <div *ngIf="studentGroup.finishTime == null" style="width: 30%">
-                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}}
-                </div>
-                <div *ngIf="studentGroup.finishTime != null" style="width: 30%">
-                  с {{studentGroup.startTime | date: 'dd.MM.yyyy'}} по {{studentGroup.finishTime | date: 'dd.MM.yyyy'}}
-                </div>
-              </div>
+        <br>
 
-              <div *ngIf="!!studentGroup.groupId" class="student-group-action" (click)="goToGroup(studentGroup.groupId)">
-                Перейти
-              </div>
-            </div>
-          </div>
+        <div class="app-card-page-text" *ngIf="student.studentGroups.length === 0">
+          Студент не назначен в группу
+        </div>
 
-          <button class="btn btn-secondary" data-toggle="modal" data-target="#studentAssignGroupModal"
-                  (click)="addNewGroup()">
-            Добавить группу
-          </button>
+        <app-student-card-information-group-row
+          *ngFor="let studentGroup of student.studentGroups; let i = index"
+          [studentGroupAndIndex]="buildStudentGroupAndIndex(studentGroup, i)"
+          [allStudents]="allStudents"
+          [allGroups]="allGroups"
+          [allStaffMembers]="allStaffMembers"
+          (onGroupSaved)="onGroupSaved($event)"
+          (onGroupDeleted)="onGroupDeleted($event)">
+        </app-student-card-information-group-row>
 
-          <br>
-        </form>
+        <br>
+
+        <button class="app-button-secondary" (click)="addNewGroup()">
+          Добавить группу
+        </button>
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
+    </div>
+  </div>
+
+  <div class="app-card-page-footer">
+    <div class="app-button-danger pull-right" (click)="delete()">
+      Удалить
     </div>
 
-    <app-student-card-information-assign-group-popup
-      [groups]="getMatchingGroups()"
-      [staffMembers]="allStaffMembers"
-      [students]="allStudents">
-    </app-student-card-information-assign-group-popup>
-  </div>
-
-  <div class="footer">
-    <button [disabled]="!student.id" class="btn btn-danger pull-right horizontal-item" (click)="delete()">
-      Удалить
-    </button>
-
-    <button class="btn btn-primary pull-right" (click)="save()">
+    <div class="app-button-primary pull-right" (click)="save()">
       Сохранить
-    </button>
+    </div>
   </div>
 </div>
+
+<app-student-card-information-assign-group-popup
+  [groups]="getMatchingGroups()"
+  [staffMembers]="allStaffMembers"
+  [students]="allStudents">
+</app-student-card-information-assign-group-popup>

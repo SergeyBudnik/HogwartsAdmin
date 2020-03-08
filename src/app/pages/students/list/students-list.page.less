@@ -1,106 +1,65 @@
-@import "../../../../styles.less";
+@import "~styles/index";
 
-@students-list-column-width-validation: 5%;
-@students-list-column-width-name: 25%;
-@students-list-column-width-groups: 15%;
-@students-list-column-width-age: 15%;
-@students-list-column-width-education-level: 15%;
-@students-list-column-width-status: 15%;
+@students-list-column-width-separation: 2%;
 
-/**
- * Header
- */
-
-.students-list-header-add-new {
-  position: absolute;
-  left: 90%;
-  width: 10%;
-  margin-top: 10px;
-  padding-right: 20px;
-}
-
-.students-list-header-search {
-  padding-right: 20px;
-}
+@students-list-column-width-validation: 3%;
+@students-list-column-width-name: 23%;
+@students-list-column-width-groups: 13%;
+@students-list-column-width-age: 13%;
+@students-list-column-width-education-level: 13%;
+@students-list-column-width-status: 13%;
+@students-list-column-width-actions: 10%;
 
 /**
- * Column: Validation
+ * Columns
  */
 
-.student-validation-column {
+.app-students-list-column-validation {
   width: @students-list-column-width-validation;
+  margin-right: @students-list-column-width-separation;
 }
 
-/**
- * Column: Name
- */
-
-.student-name-column {
+.app-students-list-column-name {
   width: @students-list-column-width-name;
+  margin-right: @students-list-column-width-separation;
 }
 
-/**
- * Column: Age
- */
-
-.student-age-column {
+.app-students-list-column-age {
   width: @students-list-column-width-age;
+  margin-right: @students-list-column-width-separation;
 }
 
-/**
- * Column: Education level
- */
-
-.student-education-level-column {
+.app-students-list-column-education-level {
   width: @students-list-column-width-education-level;
+  margin-right: @students-list-column-width-separation;
+}
+
+.app-students-list-column-groups {
+  width: @students-list-column-width-groups;
+  margin-right: @students-list-column-width-separation;
+}
+
+.app-students-list-column-status {
+  width: @students-list-column-width-status;
+  margin-right: @students-list-column-width-separation;
+}
+
+.app-students-list-column-actions {
+  width: @students-list-column-width-actions;
 }
 
 /**
- * Column: Groups
+ * Other
  */
-
-.student-groups-column {
-  width: @students-list-column-width-groups;
-}
-
-.student-groups-column-header {
-  width: @students-list-column-width-groups;
-}
-
-.student-groups-column-item {
-  width: @students-list-column-width-groups;
-
-  padding-top: 15px;
-  display: flex;
-  flex-direction: row;
-}
 
 .student-groups-circle {
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
-}
-
-/**
- * Column: Status
- */
-
-.student-status-column {
-  width: @students-list-column-width-status;
-}
-
-.student-status-column-item {
-  width: @students-list-column-width-status;
-  margin-top: 5px;
-  padding-right: 20px;
+  width: @app-size-4;
+  height: @app-size-4;
+  border-radius: @app-size-2;
 }
 
 .student-status-label {
-  padding: 5px 10px;
-  border-radius: 5px;
-  line-height: 20px;
-  margin-top: 10px;
-  margin-right: 20px;
+  border-radius: @app-size-0-5;
   text-align: center;
 }
 

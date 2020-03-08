@@ -32,22 +32,21 @@
              [editable]="true"
              (onChange)="studentOnBoarding.info.person.name = $event"></div>
 
-        <app-form-select-control-staff-member
-          [label]="'Менеджер заявки'"
-          [staffMembers]="staffMembers"
+        <app-select-staff-member-control
+          [items]="staffMembers"
           [staffMemberLogin]="studentOnBoarding.info.managerLogin"
-          (onValueChanged)="studentOnBoarding.info.managerLogin = $event">
-        </app-form-select-control-staff-member>
+          (onChange)="studentOnBoarding.info.managerLogin = $event">
+        </app-select-staff-member-control>
 
-        <app-form-select-control-education-level
-          [educationLevel]="studentOnBoarding.info.educationInfo.level"
-          (onValueChanged)="studentOnBoarding.info.educationInfo.level = $event">
-        </app-form-select-control-education-level>
+        <app-select-education-level-control
+          [value]="studentOnBoarding.info.educationInfo.level"
+          (onChange)="studentOnBoarding.info.educationInfo.level = $event">
+        </app-select-education-level-control>
 
-        <app-form-select-control-age
-          [age]="studentOnBoarding.info.educationInfo.age"
-          (onValueChanged)="studentOnBoarding.info.educationInfo.age = $event">
-        </app-form-select-control-age>
+        <app-select-age-control
+          [value]="studentOnBoarding.info.educationInfo.age"
+          (onChange)="studentOnBoarding.info.educationInfo.age = $event">
+        </app-select-age-control>
 
         <app-person-contacts
           [personContacts]="studentOnBoarding.info.person.contacts"
@@ -60,12 +59,11 @@
 
         <br>
 
-        <app-form-select-control-staff-member
-          [label]="'Исполнитель'"
-          [staffMembers]="staffMembers"
+        <app-select-staff-member-control
+          [items]="staffMembers"
           [staffMemberLogin]="studentOnBoarding.action.info.assigneeLogin"
-          (onValueChanged)="studentOnBoarding.action.info.assigneeLogin = $event">
-        </app-form-select-control-staff-member>
+          (onChange)="studentOnBoarding.action.info.assigneeLogin = $event">
+        </app-select-staff-member-control>
 
         <div app-form-text-input-control class="form-group"
              [name]="'actionDescription'"

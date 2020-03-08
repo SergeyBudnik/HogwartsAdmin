@@ -1,0 +1,30 @@
+<ng-container *ngIf="!!studentGroupAndIndex">
+  <div class="app-student-card-information-group-row">
+    <div class="app-student-card-information-group-row-info" (click)="editExistingGroup(studentGroupAndIndex)">
+      <div class="app-student-card-information-group-row-info-column-name">
+        <div class="app-card-page-text">
+          {{getGroupName(studentGroupAndIndex.group.groupId)}}
+        </div>
+      </div>
+      <div class="app-student-card-information-group-row-info-column-dates">
+        <div class="app-card-page-text">
+          <ng-container *ngIf="studentGroupAndIndex.group.finishTime == null">
+            с {{studentGroupAndIndex.group.startTime | date: 'dd.MM.yyyy'}}
+          </ng-container>
+          <ng-container *ngIf="studentGroupAndIndex.group.finishTime != null">
+            с {{studentGroupAndIndex.group.startTime | date: 'dd.MM.yyyy'}} по {{studentGroupAndIndex.group.finishTime | date: 'dd.MM.yyyy'}}
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-student-card-information-group-row-actions">
+      <div
+        *ngIf="!!studentGroupAndIndex.group.groupId"
+        class="app-button-primary"
+        (click)="navigationService.groups().id(studentGroupAndIndex.group.groupId).information().go()">
+        Перейти
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -1,0 +1,88 @@
+@import "~styles/abstract/index";
+
+.app-list-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-list-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: auto;
+  min-height: @app-size-8;
+  max-height: @app-size-8;
+
+  padding-left: @app-size-2;
+  padding-right: @app-size-4;
+
+  background: @color-fill_basic_light;
+}
+
+.app-list-header-label {
+  .app-font-regular;
+
+  display: flex;
+  align-items: center;
+
+  height: @app-size-6;
+
+  padding-left: @app-size-2;
+
+  color: @color-fill_text_basic;
+  font-size: @font-normal;
+  text-align: center;
+
+  border-radius: @app-size-0-5;
+  background: @color-alt_basic_base;
+
+  box-sizing: border-box;
+}
+
+.app-list-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
+  overflow-y: scroll;
+  background: @color-fill_basic_base;
+}
+
+.app-list-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  min-height: @app-size-8;
+  max-height: @app-size-8;
+
+  padding: 0 @app-size-2;
+  border-bottom: 1px solid @color-line_contrast_base;
+  color: @color-fill_text_basic;
+}
+
+.list-row-clickable {
+  .app-list-row;
+
+  cursor: pointer;
+}
+
+.list-row-inactive {
+  color: @color-fill_text_basic_subtle;
+}
+
+.list-row-clickable:hover {
+  background: @color-alt_contrast_light;
+}
+
+.list-row-item {
+  .app-font-regular;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: @font-normal;
+}

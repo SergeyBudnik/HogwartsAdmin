@@ -1,0 +1,5 @@
+<select class="app-select-control" [(ngModel)]="value" (change)="onValueChange($event.target.value)">
+  <option *ngFor="let item of getItems()" [value]="item.value">
+    {{item.name === '-' ? item.value : item.name}}
+  </option>
+</select>

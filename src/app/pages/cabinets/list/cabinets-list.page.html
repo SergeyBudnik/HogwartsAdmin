@@ -1,45 +1,24 @@
-<div class="page">
+<div class="app-list-page">
   <app-header [activeSection]="'CABINETS'"></app-header>
 
-  <div class="list-header-container">
-    <div class="list-header">
-      <div app-search-text-input-control class="cabinets-list-name-column"
-           [placeholder]="'Название'"
-           (onChange)="onSearchChange($event)"></div>
+  <div class="app-list-header">
+    <app-text-control class="app-cabinets-list-column-name"
+      [icon]="'fa-search'"
+      [placeholder]="'Название'"
+      (onChange)="onSearchChange($event)">
+    </app-text-control>
 
-      <div class="cabinets-list-load-column">
-        <div class="list-header-label">
-          Загруженность
-        </div>
-      </div>
-
-      <div class="cabinets-economy-column">
-        <div class="list-header-label">
-          Доход
-        </div>
-      </div>
-    </div>
-
-    <div class="cabinets-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="navigationService.cabinets().new().go()">
+    <div class="app-cabinets-list-column-actions">
+      <button class="app-button-primary pull-right" (click)="navigationService.cabinets().new().go()">
         Добавить
       </button>
     </div>
   </div>
 
-
-  <div class="list-content">
+  <div class="app-list-content">
     <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="navigationService.cabinets().id(cabinet.id).go()">
-      <div class="list-row-item cabinets-list-name-column">
+      <div class="list-row-item app-cabinets-list-column-name">
         {{cabinet.name}}
-      </div>
-
-      <div class="list-row-item cabinets-list-load-column">
-        {{getLoad(cabinet.id) / 60}} часов
-      </div>
-
-      <div class="list-row-item cabinets-economy-column">
-        {{getIncome(cabinet.id)}} Р
       </div>
     </div>
   </div>

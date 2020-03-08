@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import {Group, StaffMember, Student, StudentGroup} from '../../../../../../../data';
 import {SelectItem} from '../../../../../../../controls/select-item';
 import {GroupService} from '../../../../../../../service';
+import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
+import {StudentGroupAndIndex} from '../../data/student-group-and-index';
 
 export class StudentCardInformationAssignGroupPopupManager {
   private static popup: StudentCardInformationAssignGroupPopup = null;
@@ -13,13 +15,12 @@ export class StudentCardInformationAssignGroupPopupManager {
   }
 
   public static pushStudentGroup(
-    studentGroup: StudentGroup,
-    studentGroupIndex: number,
+    studentGroupAndIndex: StudentGroupAndIndex,
     saveListener: (studentGroup: StudentGroup) => void,
     deleteListener: () => void
   ) {
     if (!!this.popup) {
-      this.popup.onStudentGroupInit(studentGroup, studentGroupIndex);
+      this.popup.onStudentGroupInit(studentGroupAndIndex.group, studentGroupAndIndex.index);
 
       this.saveListener = saveListener;
       this.deleteListener = deleteListener;
@@ -47,7 +48,7 @@ type StudentAssignGroupStatus = 'ACTIVE' | 'DISABLED';
   styleUrls: ['./student-card-information-assign-group.popup.less']
 })
 export class StudentCardInformationAssignGroupPopup {
-  public modalVisible = true;
+  public modalStatus: ModalStatus = new ModalStatus(false);
 
   public studentGroup: StudentGroup = null;
   public studentGroupIndex: number = null;
@@ -65,14 +66,12 @@ export class StudentCardInformationAssignGroupPopup {
     this.studentGroup = StudentGroup.copy(studentGroup);
     this.studentGroupIndex = studentGroupIndex;
     this.studentGroupStatus = (studentGroup.finishTime == null) ? 'ACTIVE' : 'DISABLED';
+
+    this.modalStatus = new ModalStatus(true);
   }
 
   public getGroupItems(): Array<SelectItem> {
     return this.groups.map(it => new SelectItem(this.getGroupName(it), '' + it.id));
-  }
-
-  public getStatusItems(): Array<SelectItem> {
-    return [new SelectItem('Записан', 'ACTIVE'), new SelectItem('Покинул', 'DISABLED')];
   }
 
   public getGroupName(group: Group): string {
@@ -101,20 +100,20 @@ export class StudentCardInformationAssignGroupPopup {
       StudentGroup.copy(this.studentGroup)
     );
 
-    this.toggleModal();
+    this.hideModal();
+  }
+
+  public cancel() {
+    this.hideModal();
   }
 
   public delete() {
     StudentCardInformationAssignGroupPopupManager.notifyGroupDeleted();
 
-    this.toggleModal();
+    this.hideModal();
   }
 
-  public cancel() {
-    this.toggleModal();
-  }
-
-  private toggleModal() {
-    this.modalVisible = !this.modalVisible;
+  private hideModal() {
+    this.modalStatus.visible = false;
   }
 }

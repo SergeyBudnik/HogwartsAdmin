@@ -1,0 +1,66 @@
+@import "~styles/abstract/index";
+
+.app-button {
+  min-height: @app-size-6;
+  max-height: @app-size-6;
+
+  line-height: @app-size-6;
+
+  padding: 0 @app-size-2;
+
+  border: none;
+  border-radius: @app-size-0-5;
+  cursor: pointer;
+}
+
+.app-button-hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* Primary */
+
+.app-button-primary {
+  .app-button;
+  .app-font-regular;
+
+  background: @color-fill_accent_strong;
+  color: @color-fill_text_basic;
+  font-size: @font-normal;
+}
+
+.app-button-primary:hover {
+  .app-button-hover;
+}
+
+/* Secondary */
+
+.app-button-secondary {
+  .app-button;
+  .app-font-regular;
+
+  background: @color-alt_contrast_base;
+  color: @color-fill_text_basic;
+  font-size: @font-normal;
+
+  border: 1px solid @color-stroke_accent_base;
+}
+
+.app-button-secondary:hover {
+  .app-button-hover;
+}
+
+/* Danger */
+
+.app-button-danger {
+  .app-button;
+  .app-font-regular;
+
+  background: @color-status_error_base;
+  color: @color-fill_text_basic;
+  font-size: @font-normal;
+}
+
+.app-button-danger:hover {
+  .app-button-hover;
+}

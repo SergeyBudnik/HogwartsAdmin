@@ -1,44 +1,24 @@
-<div class="page">
+<div class="app-list-page">
   <app-header [activeSection]="'STAFF_MEMBERS'"></app-header>
 
-  <div class="list-header-container">
-    <div class="list-header">
-      <div app-search-text-input-control class="staff-member-name-column"
-           [placeholder]="'Имя'"
-           (onChange)="onSearchChange($event)">
-      </div>
+  <div class="app-list-header">
+    <app-text-control
+      [icon]="'fa-search'"
+      [placeholder]="'Имя'"
+      (onChange)="onSearchChange($event)">
+    </app-text-control>
 
-      <div class="staff-member-load-column">
-        <div class="list-header-label">
-          Учебная нагрузка в неделю
-        </div>
-      </div>
-
-      <div class="staff-member-groups-column">
-        <div class="list-header-label">
-          Группы
-        </div>
-      </div>
-    </div>
-
-    <div class="staff-members-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="openNewStaffMemberPage()">
+    <div class="app-staff-members-list-column-actions">
+      <button class="app-button-primary pull-right" (click)="openNewStaffMemberPage()">
         Добавить
       </button>
     </div>
   </div>
 
-  <div class="list-content">
-    <div class="page-loading" *ngIf="loadingInProgress">
-      <fa name="spinner" class="loading-sign" animation="spin"></fa>
-    </div>
-
+  <div class="app-list-content">
     <div *ngFor="let staffMember of staffMembers" class="list-row-clickable" (click)="openStaffMemberPage(staffMember.login)">
-      <div class="list-row-item staff-member-name-column">
+      <div class="list-row-item app-staff-members-list-column-name">
         {{staffMember.person.name}}
-      </div>
-
-      <div class="list-row-item staff-member-groups-item">
       </div>
     </div>
   </div>

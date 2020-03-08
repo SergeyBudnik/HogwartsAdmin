@@ -3,7 +3,6 @@ import {StudentsService, LoginService, NavigationService, TranslationService} fr
 import {ActivatedRoute} from '@angular/router';
 import {Group, Student, Lesson, Cabinet, StaffMember} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../../../http';
-import {SelectItem} from '../../../../../controls/select-item';
 import {GroupCardInformationAssignLessonPopupManager} from './popups';
 
 @Component({
@@ -66,10 +65,6 @@ export class GroupCardInformationPage {
     this.groupsHttp.deleteGroup(this.group.id).then(() => {
       this.navigationService.groups().list().go();
     });
-  }
-
-  public getStaffMembersItems(): Array<SelectItem> {
-    return this.staffMembers.map(it => new SelectItem(it.person.name, it.login));
   }
 
   public toggleInactiveLessons() {

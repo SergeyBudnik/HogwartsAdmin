@@ -1,36 +1,66 @@
-@import "../../../../styles.less";
+@import "~styles/index";
 
-.groups-list-header-color {
-  width: 5%;
+@groups-list-column-separation-width: 2%;
+
+@groups-list-column-color-width: 3%;
+@groups-list-column-group-type-width: 10%;
+@groups-list-column-education-level-width: 13%;
+@groups-list-column-education-age-width: 13%;
+@groups-list-column-cabinets-width: 13%;
+@groups-list-column-students-width: 28%;
+@groups-list-column-actions: 8%;
+
+/**
+ * Columns
+ */
+
+.app-groups-list-column {
+  margin-right: @groups-list-column-separation-width;
 }
 
-.groups-list-header-search {
-  padding-right: 20px;
+.app-groups-list-column-color {
+  .app-groups-list-column;
+
+  width: @groups-list-column-color-width;
 }
 
-.groups-type-column {
-  width: 15%;
+.app-groups-list-column-type {
+  .app-groups-list-column;
+
+  width: @groups-list-column-group-type-width;
 }
 
-.groups-book-name-column {
-  width: 15%;
+.app-groups-list-column-education-level {
+  .app-groups-list-column;
+
+  width: @groups-list-column-education-level-width;
 }
 
-.groups-age-column {
-  width: 15%;
+.app-groups-list-column-age {
+  .app-groups-list-column;
+
+  width: @groups-list-column-education-age-width;
 }
 
-.groups-cabinets-column {
-  width: 15%;
+.app-groups-list-column-cabinets {
+  .app-groups-list-column;
+
+  width: @groups-list-column-cabinets-width;
 }
 
-.groups-education-level-column {
-  width: 15%;
+.app-groups-list-column-students {
+  .app-groups-list-column;
+
+  width: @groups-list-column-students-width;
 }
 
-.groups-students-column {
-  width: 30%;
+.app-groups-list-column-actions {
+  width: @groups-list-column-actions;
 }
+
+/**
+ * Other
+ */
 
 .groups-list-header-add-new {
   position: absolute;

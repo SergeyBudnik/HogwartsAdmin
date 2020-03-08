@@ -1,0 +1,10 @@
+<tag-input class="app-tag-control"
+  [ngModel]="value"
+  [modelAsStrings]="true"
+  [separatorKeyCodes]="[9, 14, 32]"
+  [placeholder]="placeholder"
+  [secondaryPlaceholder]="placeholder"
+  (onAdd)="onValueAdded($event)"
+  (onRemove)="onValueRemoved($event)"
+  (onSelect)="onValueSelected($event)">
+</tag-input>

@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.less",
+        "styles/index.less",
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "../node_modules/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css"

@@ -1,0 +1,10 @@
+<div class="app-text-control">
+  <span class="app-text-control-icon" *ngIf="icon">
+    <i class="fa {{icon}}" aria-hidden="true"></i>
+  </span>
+
+  <input class="app-text-control-field"
+         placeholder="{{placeholder}}"
+         [value]="value"
+         (keyup)="doOnChange($event.target.value)">
+</div>
