@@ -9,11 +9,9 @@
 <div class="timetable-body">
   <div *ngFor="let time of timeRange" class="timetable-body-row">
     <div *ngFor="let dayOfWeek of daysOfWeek"
-         [class.timetable-current-day]="dayOfWeek === getCurrentDay()"
-         [class.timetable-current-time]="time === getCurrentTime()"
-         [class.timetable-current-time-clickable]="!!getGroup(dayOfWeek, time)"
-         [style.background-color]="!!getGroup(dayOfWeek, time) ? getGroup(dayOfWeek, time).color : '#202F42'"
          class="timetable-body-row-item"
+         [class.timetable-body-row-item-clickable]="!!getGroup(dayOfWeek, time)"
+         [style.background-color]="!!getGroup(dayOfWeek, time) ? getGroup(dayOfWeek, time).color : '#202F42'"
          (click)="onTimeSlotClick(dayOfWeek, time)">
       {{translationService.time().translate(time)}}
     </div>

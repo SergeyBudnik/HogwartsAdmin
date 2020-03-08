@@ -1,26 +1,17 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-staff-member-menu [isNew]="false" [staffMemberLogin]="teacher.login" [currentTab]="'TIMETABLE'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-staff-member-menu [isNew]="false" [staffMemberLogin]="teacher.login" [currentTab]="'TIMETABLE'"></div>
 
-    <div class="page-content">
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">
-          Сотрудник '{{teacher.person.name}}'
-        </h3>
-
-        <br>
-
-        <app-week-selector (onWeekChanged)="onWeekChanged($event)"></app-week-selector>
-
-        <br>
-
         <app-timetable [groups]="teacherGroups" [lessons]="teacherLessons" [showFilters]="false"></app-timetable>
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
+      <app-week-selector (onWeekChanged)="onWeekChanged($event)"></app-week-selector>
     </div>
   </div>
 </div>
