@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Group, Student, Lesson, Cabinet, StaffMember} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../../../http';
 import {GroupCardInformationAssignLessonPopupManager} from './popups';
+import {GroupLessonInfo} from './data';
 
 @Component({
   selector: 'app-group-card-information-page',
@@ -11,10 +12,12 @@ import {GroupCardInformationAssignLessonPopupManager} from './popups';
   styleUrls: ['./group-card-information.page.less']
 })
 export class GroupCardInformationPage {
+  private currentTime = null;
+
   public showInactiveLessons = false;
 
   public group: Group = new Group();
-  public lessons: Array<Lesson> = [];
+  public lessons: Array<GroupLessonInfo> = [];
   public students: Array<Student> = [];
 
   public loadingInProgress = true;
@@ -32,6 +35,8 @@ export class GroupCardInformationPage {
     private cabinetsHttp: CabinetsHttp,
     private staffMembersHttp: StaffMembersHttp
   ) {
+    this.currentTime = new Date().getTime();
+
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');
@@ -73,26 +78,26 @@ export class GroupCardInformationPage {
     this.lessons = this.getGroupLessons();
   }
 
-  public setExistingModalLesson(lesson: Lesson, index: number) {
+  public setExistingModalLesson(groupLessonInfo: GroupLessonInfo) {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
-      lesson,
-      index,
-      (lesson: Lesson) => this.onLessonSaved(lesson, index),
-      () => this.onLessonDeleted(index)
+      groupLessonInfo.lesson,
+      groupLessonInfo.index,
+      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
+      () => this.onLessonDeleted(groupLessonInfo.index)
     );
   }
 
   public setNewModalLesson() {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
       new Lesson(),
-      null,
-      (lesson: Lesson) => this.onLessonSaved(lesson, null),
+      -1,
+      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
       () => {}
     );
   }
 
   public onLessonSaved(lesson: Lesson, lessonIndex: number) {
-    if (lessonIndex == null) {
+    if (lessonIndex == -1) {
       this.group.lessons.push(lesson);
     } else {
       this.group.lessons[lessonIndex] = lesson;
@@ -149,19 +154,34 @@ export class GroupCardInformationPage {
     });
   }
 
-  private getGroupLessons(): Array<Lesson> {
-    const currentTime = new Date().getTime();
+  private getGroupLessons(): Array<GroupLessonInfo> {
+    const groupLessonsInfo = Array<GroupLessonInfo>();
 
-    return this.group.lessons
-      .filter(lesson => {
-        if (this.showInactiveLessons) {
-          return true;
-        } else {
-          const creationTimeMatches = lesson.creationTime <= currentTime;
-          const deactivationTimeMatches = !lesson.deactivationTime || currentTime <= lesson.deactivationTime;
+    let index = 0;
 
-          return creationTimeMatches && deactivationTimeMatches;
-        }
-      });
+    this.group.lessons.forEach(lesson => {
+      groupLessonsInfo.push(
+        new GroupLessonInfo(
+          lesson,
+          index,
+          this.isGroupLessonVisible(lesson)
+        )
+      );
+
+      index++;
+    });
+
+    return groupLessonsInfo;
+  }
+
+  private isGroupLessonVisible(lesson: Lesson): boolean {
+    if (this.showInactiveLessons) {
+      return true;
+    } else {
+      const creationTimeMatches = lesson.creationTime <= this.currentTime;
+      const deactivationTimeMatches = !lesson.deactivationTime || this.currentTime <= lesson.deactivationTime;
+
+      return creationTimeMatches && deactivationTimeMatches;
+    }
   }
 }

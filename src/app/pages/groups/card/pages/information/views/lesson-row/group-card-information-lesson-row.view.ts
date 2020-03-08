@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {Lesson, StaffMember} from '../../../../../../../data';
+import {StaffMember} from '../../../../../../../data';
 import {TranslationService} from '../../../../../../../service';
+import {GroupLessonInfo} from '../../data';
 
 @Component({
   selector: 'app-group-card-information-lesson-row',
@@ -8,13 +9,13 @@ import {TranslationService} from '../../../../../../../service';
   styleUrls: ['./group-card-information-lesson-row.view.less']
 })
 export class GroupCardInformationLessonRowView {
-  @Input('lesson') public lesson: Lesson;
+  @Input('groupLessonInfo') public groupLessonInfo: GroupLessonInfo;
   @Input('staffMembers') public staffMembers: Array<StaffMember>;
 
   constructor(public translationService: TranslationService) {}
 
   public getTeacherName(): string {
-    let teacher = this.staffMembers.find(it => it.login === this.lesson.teacherLogin);
+    let teacher = this.staffMembers.find(it => it.login === this.groupLessonInfo.lesson.teacherLogin);
 
     return !!teacher ? teacher.person.name : "?";
   }
