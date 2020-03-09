@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../data';
-import {SelectItem} from '../../../controls/select-item';
-import {StudentStatusHttp} from '../../../http';
-import {TranslationService} from '../../../service';
+import {StudentStatus, StudentStatusType, Time, TimeUtils} from '../../../../../../../data';
+import {SelectItem} from '../../../../../../../controls/select-item';
+import {StudentStatusHttp} from '../../../../../../../http';
+import {TranslationService} from '../../../../../../../service';
 
 @Component({
-  selector: 'app-student-status-modal',
-  templateUrl: './student-status.modal.html',
-  styleUrls: ['./student-status.modal.less']
+  selector: 'app-card-student-status-change-popup',
+  templateUrl: './student-card-status-change-popup.view.html',
+  styleUrls: ['./student-card-status-change-popup.view.less']
 })
-export class StudentStatusModal {
+export class StudentCardStatusChangePopupView {
   @Output() public statusSaved: EventEmitter<StudentStatus> = new EventEmitter<StudentStatus>();
 
   public modalVisible = true;

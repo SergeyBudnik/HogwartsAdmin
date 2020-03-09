@@ -1,8 +1,8 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Group, StaffMember, Student, StudentGroup} from '../../../../../../../data';
 import {GroupService, NavigationService} from '../../../../../../../service';
-import {StudentCardInformationAssignGroupPopupManager} from '../../components';
 import {StudentGroupAndIndex} from '../../data/student-group-and-index';
+import {StudentCardInformationAssignGroupPopupManager} from '../assign-group-popup/student-card-information-assign-group-popup.view';
 
 @Component({
   selector: 'app-student-card-information-group-row',

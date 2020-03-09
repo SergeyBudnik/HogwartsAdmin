@@ -3,8 +3,8 @@ import {StudentsService, LoginService, NavigationService, TranslationService} fr
 import {ActivatedRoute} from '@angular/router';
 import {Group, Student, Lesson, Cabinet, StaffMember} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../../../http';
-import {GroupCardInformationAssignLessonPopupManager} from './popups';
 import {GroupLessonInfo} from './data';
+import {GroupCardInformationAssignLessonPopupManager} from './views';
 
 @Component({
   selector: 'app-group-card-information-page',

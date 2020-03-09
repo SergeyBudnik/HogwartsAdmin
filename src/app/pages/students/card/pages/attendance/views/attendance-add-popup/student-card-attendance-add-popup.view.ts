@@ -1,16 +1,16 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} from '../../../data';
 import {IMyDateModel} from 'mydatepicker';
-import {SelectItem} from '../../../controls/select-item';
-import {StudentAttendanceHttp} from '../../../http';
-import {TranslationService} from '../../../service';
+import {StudentAttendance, StudentAttendanceType, StudentAttendanceTypeUtils} from '../../../../../../../data';
+import {TranslationService} from '../../../../../../../service';
+import {StudentAttendanceHttp} from '../../../../../../../http';
+import {SelectItem} from '../../../../../../../controls/select-item';
 
 @Component({
-  selector: 'app-student-attendance-modal',
-  templateUrl: './student-attendance.modal.html',
-  styleUrls: ['./student-attendance.modal.less']
+  selector: 'app-student-attendance-add-popup',
+  templateUrl: './student-card-attendance-add-popup.view.html',
+  styleUrls: ['./student-card-attendance-add-popup.view.less']
 })
-export class StudentAttendanceModal {
+export class StudentCardAttendanceAddPopupView {
   @Output() public attendanceAdded: EventEmitter<StudentAttendance> = new EventEmitter<StudentAttendance>();
 
   public modalVisible = true;

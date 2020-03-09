@@ -6,8 +6,8 @@ import {ToastsManager} from 'ng2-toastr';
 import {SelectItem} from '../../../../../controls/select-item';
 import {GroupsHttp, StaffMembersHttp} from '../../../../../http';
 import {GroupService} from '../../../../../service';
-import {StudentCardInformationAssignGroupPopupManager} from './components';
 import {StudentGroupAndIndex} from './data/student-group-and-index';
+import {StudentCardInformationAssignGroupPopupManager} from './views';
 
 @Component({
   selector: 'app-student-card-information-page',

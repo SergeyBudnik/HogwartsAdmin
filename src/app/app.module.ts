@@ -1,20 +1,27 @@
+import 'rxjs/Rx';
+
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
-import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {TagInputModule} from 'ngx-chips';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
-import {ColorPickerModule} from 'ngx-color-picker';
+
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
+
 import {ToastModule} from 'ng2-toastr/ng2-toastr';
+import {ChartsModule} from 'ng2-charts';
+
+import {TagInputModule} from 'ngx-chips';
+import {ColorPickerModule} from 'ngx-color-picker';
+import {ClipboardModule} from 'ngx-clipboard';
+
+import {MyDatePickerModule} from 'mydatepicker';
 
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AuthInterceptor} from './interceptors/auth.interceptor';
 
 import {AppComponent} from './app.component';
-import {HeaderComponent} from './parts/header/header.component';
-import {TimetableComponent} from './parts/timetable/timetable.component';
 
 import {CookieOptions, CookieService} from 'angular2-cookie/core';
 
@@ -24,18 +31,11 @@ import * as Https from './http';
 import * as Controls from './controls';
 import * as Parts from './parts';
 
-import 'rxjs/Rx';
+import {HeaderComponent} from './parts/header/header.component';
+import {TimetableComponent} from './parts/timetable/timetable.component';
 import {FieldValidationSignComponent} from './parts/field-validation-sign/field-validation-sign.component';
-import {MyDatePickerModule} from 'mydatepicker';
-
-import {StudentPaymentModal} from './parts/student/payment-modal/student-payment.modal';
 import {ModalTemplateComponent} from './templates/modal/modal.template';
-import {StudentAttendanceModal} from './parts/student/attendance-modal/student-attendance.modal';
-import {ClipboardModule} from 'ngx-clipboard';
-import {StudentStatusModal} from './parts/student/student-status-modal/student-status.modal';
 import {StudentStatusComponent} from './parts/student/student-status/student-status.component';
-
-import {ChartsModule} from 'ng2-charts';
 import {GroupIconComponent} from './parts/group/group-icon/group-icon.component';
 import {WeekSelectorComponent} from './parts/week-selector/week-selector.component';
 
@@ -79,34 +79,48 @@ const appRoutes: Routes = [
 
     Pages.LoginPageComponent,
 
-    Pages.StudentCardInformationPage,
-    Pages.StudentCardStatusPage,
-    Pages.StudentCardAttendancePage,
-    Pages.StudentCardAttendanceRow,
-    Pages.StudentCardPaymentPage,
-    Pages.StudentCardPaymentRow,
-    Pages.StudentMenuComponent,
-    Pages.StudentCardInformationAssignGroupPopup,
-    Pages.StudentCardInformationGroupRowView,
+    /**
+     * Pages: Student
+     */
 
+    Pages.StudentCardInformationPage, Pages.StudentCardInformationGroupRowView, Pages.StudentCardInformationAssignGroupPopupView,
+    Pages.StudentCardStatusPage, Pages.StudentCardStatusChangePopupView,
+    Pages.StudentCardAttendancePage, Pages.StudentCardAttendanceRowView, Pages.StudentCardAttendanceAddPopupView,
+    Pages.StudentCardPaymentPage, Pages.StudentCardPaymentRowView, Pages.StudentCardPaymentAddPopupView,
+    Pages.StudentMenuComponent,
     Pages.StudentsListPage,
+
+    /**
+     * Pages: Cabinet
+     */
 
     Pages.CabinetInformationPage,
     Pages.CabinetTimetablePage,
     Pages.CabinetCardMenuComponent,
     Pages.CabinetsListPage,
 
-    Pages.GroupCardInformationPage, Pages.GroupCardInformationAssignLessonPopup, Pages.GroupCardInformationLessonRowView,
+    /**
+     * Pages: Group
+     */
+
+    Pages.GroupCardInformationPage, Pages.GroupCardInformationAssignLessonPopupView, Pages.GroupCardInformationLessonRowView,
     Pages.GroupCardStudentsPage,
     Pages.GroupCardTimetablePage,
     Pages.GroupMenuPageComponent,
-
     Pages.GroupsListPage,
+
+    /**
+     * Pages: Staff Member
+     */
 
     Pages.StaffMembersListPageComponent,
     Pages.StaffMemberCardInformationPageComponent,
     Pages.StaffMemberCardTimetablePageComponent,
     Pages.StaffMemberCardMenuComponent,
+
+    /**
+     * Pages: New student
+     */
 
     Pages.NewStudentsListPage,
     Pages.NewStudentCardInformationPage,
@@ -114,11 +128,11 @@ const appRoutes: Routes = [
     Pages.NewStudentCardNewPage,
     Pages.NewStudentCardMenuComponent,
 
-    StudentStatusComponent,
+    /**
+     * Parts
+     */
 
-    StudentPaymentModal,
-    StudentAttendanceModal,
-    StudentStatusModal,
+    StudentStatusComponent,
 
     GroupIconComponent,
 
@@ -126,6 +140,10 @@ const appRoutes: Routes = [
 
     Parts.MenuItemPartComponent,
     Parts.PersonContactsView,
+
+    /**
+     * Controls
+     */
 
     Controls.AppColorPickerControl,
     Controls.AppDateControl,

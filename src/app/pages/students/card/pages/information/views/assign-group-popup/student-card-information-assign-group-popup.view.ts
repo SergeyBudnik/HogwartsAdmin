@@ -6,11 +6,11 @@ import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 import {StudentGroupAndIndex} from '../../data/student-group-and-index';
 
 export class StudentCardInformationAssignGroupPopupManager {
-  private static popup: StudentCardInformationAssignGroupPopup = null;
+  private static popup: StudentCardInformationAssignGroupPopupView = null;
   private static saveListener: (studentGroup: StudentGroup) => void = null;
   private static deleteListener: () => void = null;
 
-  public static register(popup: StudentCardInformationAssignGroupPopup) {
+  public static register(popup: StudentCardInformationAssignGroupPopupView) {
     this.popup = popup;
   }
 
@@ -44,10 +44,10 @@ type StudentAssignGroupStatus = 'ACTIVE' | 'DISABLED';
 
 @Component({
   selector: 'app-student-card-information-assign-group-popup',
-  templateUrl: './student-card-information-assign-group.popup.html',
-  styleUrls: ['./student-card-information-assign-group.popup.less']
+  templateUrl: './student-card-information-assign-group-popup.view.html',
+  styleUrls: ['./student-card-information-assign-group-popup.view.less']
 })
-export class StudentCardInformationAssignGroupPopup {
+export class StudentCardInformationAssignGroupPopupView {
   public modalStatus: ModalStatus = new ModalStatus(false);
 
   public studentGroup: StudentGroup = null;
