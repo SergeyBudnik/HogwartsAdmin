@@ -4,6 +4,7 @@ export class StudentPayment {
     public studentId: number,
     public staffMemberLogin: string,
     public amount: number,
-    public time: number
+    public time: number,
+    public processed: boolean
   ) {}
 }
