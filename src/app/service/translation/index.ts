@@ -1,5 +1,4 @@
 export * from './translation-age.service';
-export * from './translation-cabinet-type.service';
 export * from './translation-day-of-week.service';
 export * from './translation-education-level.service';
 export * from './translation-group-type.service';

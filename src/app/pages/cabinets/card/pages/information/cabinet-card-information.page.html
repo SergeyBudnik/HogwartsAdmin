@@ -6,35 +6,19 @@
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-card-page-title" *ngIf="!!cabinet.id">
-          Кабинет '{{cabinet.name}}'
-        </h3>
-
-        <h3 class="app-card-page-title" *ngIf="!cabinet.id">
-          Добавление кабинета
-        </h3>
+        <div class="app-card-page-title">
+          Информация
+        </div>
 
         <br>
 
-        <form>
-          <app-form-input-control [label]="'Название'" [valid]="!!cabinet.name">
-            <app-text-control
-              [value]="cabinet.name"
-              [placeholder]="'Введите название'"
-              (onChange)="cabinet.name = $event">
-            </app-text-control>
-          </app-form-input-control>
-
-          <app-form-input-control [label]="'Тип'" [valid]="!!cabinet.cabinetType">
-            <app-form-select-control class="form-group"
-                 [name]="'educationLevel'"
-                 [label]="'Уровень подготовки'"
-                 [valid]="cabinet.cabinetType !== 'UNKNOWN'"
-                 [valueString]="cabinet.cabinetType"
-                 [items]="cabinetTypes"
-                 (onChangeString)="cabinet.cabinetType = $event"></app-form-select-control>
-          </app-form-input-control>
-        </form>
+        <app-form-input-control [label]="'Название'" [valid]="!!cabinet.name">
+          <app-text-control
+            [value]="cabinet.name"
+            [placeholder]="'Введите название'"
+            (onChange)="cabinet.name = $event">
+          </app-text-control>
+        </app-form-input-control>
       </ng-container>
     </div>
 
@@ -43,16 +27,12 @@
   </div>
 
   <div class="app-card-page-footer">
-    <button [disabled]="loadingInProgress || actionInProgress || !cabinet.id"
-            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+    <button *ngIf="!!cabinet.id" class="app-button-danger app-card-page-footer-button" (click)="delete()">
       Удалить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
 
-    <button [disabled]="loadingInProgress || actionInProgress"
-            class="btn btn-primary pull-right" (click)="save()">
+    <button class="app-button-primary app-card-page-footer-button" (click)="save()">
       Сохранить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
   </div>
 </div>
