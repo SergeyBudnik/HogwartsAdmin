@@ -4,11 +4,11 @@ import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 import {GroupLessonInfo} from '../../data';
 
 export class GroupCardInformationAssignLessonPopupManager {
-  private static popup: GroupCardInformationAssignLessonPopup = null;
+  private static popup: GroupCardInformationAssignLessonPopupView = null;
   private static saveListener: (groupLessonInfo: GroupLessonInfo) => void;
   private static deleteListener: () => void;
 
-  public static register(popup: GroupCardInformationAssignLessonPopup) {
+  public static register(popup: GroupCardInformationAssignLessonPopupView) {
     this.popup = popup;
   }
 
@@ -41,10 +41,10 @@ export class GroupCardInformationAssignLessonPopupManager {
 
 @Component({
   selector: 'app-group-card-information-assign-lesson-popup',
-  templateUrl: './group-card-information-assign-lesson.popup.html',
-  styleUrls: ['./group-card-information-assign-lesson.popup.less']
+  templateUrl: './group-card-information-assign-lesson-popup.view.html',
+  styleUrls: ['./group-card-information-assign-lesson-popup.view.less']
 })
-export class GroupCardInformationAssignLessonPopup {
+export class GroupCardInformationAssignLessonPopupView {
   public lesson: Lesson = null;
   public lessonIndex: number = null;
 

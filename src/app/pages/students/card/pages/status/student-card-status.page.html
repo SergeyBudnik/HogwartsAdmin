@@ -85,14 +85,14 @@
         </form>
       </ng-container>
 
-      <app-student-status-modal
+      <app-card-student-status-change-popup
         *ngIf="!loadingInProgress"
         [studentId]="student.id"
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
         [hasAction]="hasAction(newStudentStatus)"
         (statusSaved)="onStatusSaved($event)">
-      </app-student-status-modal>
+      </app-card-student-status-change-popup>
     </div>
 
     <div class="page-right-menu">

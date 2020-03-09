@@ -5,10 +5,10 @@ import {NavigationService} from '../../../../../../../service';
 
 @Component({
   selector: 'app-student-card-payment-row',
-  templateUrl: './student-card-payment.row.html',
-  styleUrls: ['./student-card-payment.row.less']
+  templateUrl: './student-card-payment-row.view.html',
+  styleUrls: ['./student-card-payment-row.view.less']
 })
-export class StudentCardPaymentRow {
+export class StudentCardPaymentRowView {
   @Input() public payment: StudentPayment;
   @Input() public staffMembers: Array<StaffMember>;
 

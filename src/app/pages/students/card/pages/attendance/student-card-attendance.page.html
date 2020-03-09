@@ -16,15 +16,18 @@
 
         <br>
 
-        <div app-student-card-attendance-row
-             *ngFor="let attendance of attendances"
-             class="app-list-row"
-             [attendance]="attendance"
-             (attendanceDeleted)="onAttendanceDeleted($event)">
-        </div>
+        <app-student-card-attendance-row
+          *ngFor="let attendance of attendances"
+          class="app-list-row"
+          [attendance]="attendance"
+          (attendanceDeleted)="onAttendanceDeleted($event)">
+        </app-student-card-attendance-row>
       </ng-container>
 
-      <app-student-attendance-modal [studentId]="student.id" (attendanceAdded)="onAttendanceAdded($event)"></app-student-attendance-modal>
+      <app-student-attendance-add-popup
+        [studentId]="student.id"
+        (attendanceAdded)="onAttendanceAdded($event)">
+      </app-student-attendance-add-popup>
     </div>
 
     <div class="page-right-menu">

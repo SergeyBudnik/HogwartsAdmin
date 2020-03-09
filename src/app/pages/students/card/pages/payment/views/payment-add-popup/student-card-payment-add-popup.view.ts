@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StudentPayment} from '../../../data';
+import {StudentPayment} from '../../../../../../../data';
 import {IMyDateModel} from 'mydatepicker';
-import {StudentPaymentHttp} from '../../../http';
+import {StudentPaymentHttp} from '../../../../../../../http';
 
 @Component({
-  selector: 'app-student-payment-modal',
-  templateUrl: './student-payment.modal.html',
-  styleUrls: ['./student-payment.modal.less']
+  selector: 'app-student-payment-add-popup',
+  templateUrl: './student-card-payment-add-popup.view.html',
+  styleUrls: ['./student-card-payment-add-popup.view.less']
 })
-export class StudentPaymentModal {
+export class StudentCardPaymentAddPopupView {
   @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
 
   public modalVisible = true;

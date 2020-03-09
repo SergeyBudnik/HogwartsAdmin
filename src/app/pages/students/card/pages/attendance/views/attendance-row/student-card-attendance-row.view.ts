@@ -4,11 +4,11 @@ import {StudentAttendanceHttp} from '../../../../../../../http';
 import {TranslationService} from '../../../../../../../service';
 
 @Component({
-  selector: '[app-student-card-attendance-row]',
-  templateUrl: './student-card-attendance.row.html',
-  styleUrls: ['./student-card-attendance.row.less']
+  selector: 'app-student-card-attendance-row',
+  templateUrl: './student-card-attendance-row.view.html',
+  styleUrls: ['./student-card-attendance-row.view.less']
 })
-export class StudentCardAttendanceRow {
+export class StudentCardAttendanceRowView {
   @Input() public attendance: StudentAttendance;
 
   @Output() public attendanceDeleted: EventEmitter<number> = new EventEmitter<number>();
