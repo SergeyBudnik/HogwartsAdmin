@@ -1,65 +1,37 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'PAYMENT'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'PAYMENT'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!student.id">
-          {{student.name}} - Оплата
-        </h3>
+        <div class="app-card-page-title">
+          {{student.name}}. Оплата
+        </div>
 
         <br>
 
-        <div class="list-header-container">
-          <div class="list-header">
-            <div style="width: 20%">
-              <div class="list-header-label">
-                Дата
-              </div>
-            </div>
-            <div style="width: 20%">
-              <div class="list-header-label">
-                Сумма
-              </div>
-            </div>
-            <div style="width: 20%">
-              <div class="list-header-label">
-                Преподаватель
-              </div>
-            </div>
-            <div style="width: 20%">
-              <div class="list-header-label">
-                Учтено
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div app-student-card-payment-row
-             *ngFor="let payment of payments"
-             class="app-list-row"
-             [payment]="payment"
-             [staffMembers]="staffMembers"
-             (paymentDeleted)="onPaymentDeleted($event)">
-        </div>
-
+        <app-student-card-payment-row
+          *ngFor="let payment of payments"
+          [payment]="payment"
+          [staffMembers]="staffMembers"
+          (paymentDeleted)="onPaymentDeleted($event)">
+        </app-student-card-payment-row>
       </ng-container>
 
-      <app-student-payment-modal [studentId]="student.id" (paymentAdded)="onPaymentAdded($event)"></app-student-payment-modal>
+      <app-student-payment-modal
+        [studentId]="student.id"
+        (paymentAdded)="onPaymentAdded($event)">
+      </app-student-payment-modal>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
-    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#studentPayment">
+  <div class="app-card-page-footer">
+    <button class="app-button-primary app-card-page-footer-button">
       Добавить оплату
     </button>
   </div>

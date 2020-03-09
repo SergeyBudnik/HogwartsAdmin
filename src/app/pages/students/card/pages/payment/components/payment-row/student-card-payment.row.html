@@ -1,21 +1,29 @@
-<div class="payments-date-column">
-  {{payment.time | date: 'dd.MM.yyyy'}}
-</div>
-<div class="payments-date-column">
-  {{payment.amount}}₽
-</div>
-<div class="payments-teachers-column">
-  {{getStaffMember().person.name}}
-</div>
-<div class="payments-teachers-column">
-  <div class="student-status">
-    Учтено
+<div class="app-card-page-row-with-actions">
+  <div class="app-student-card-payment-row-info">
+    <div class="payments-date-column">
+      <div class="app-card-page-text">
+        {{payment.time | date: 'dd.MM.yyyy HH:mm'}}
+      </div>
+    </div>
+    <div class="payments-date-column">
+      <div class="app-card-page-text">
+        {{payment.amount}}Р
+      </div>
+    </div>
+    <div class="payments-teachers-column">
+      <div class="app-card-page-link" (click)="navigationService.staffMembers().id(getStaffMember().login).information().go()">
+        {{getStaffMember().person.name}}
+      </div>
+    </div>
+    <div class="payments-teachers-column">
+      <div class="app-card-page-text">
+        {{payment.processed ? 'Учтено' : 'Не учтено'}}
+      </div>
+    </div>
   </div>
-</div>
-<div class="payments-actions-column">
-  <button class="btn btn-danger" (click)="deletePayment()">
-    Удалить
-
-    <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
-  </button>
+  <div class="app-student-card-payment-row-actions">
+    <button class="app-button-danger app-student-card-payment-row-actions-delete" (click)="deletePayment()">
+      Удалить
+    </button>
+  </div>
 </div>
