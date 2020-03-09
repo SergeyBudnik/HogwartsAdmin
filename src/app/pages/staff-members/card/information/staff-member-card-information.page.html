@@ -1,10 +1,10 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-staff-member-menu [isNew]="isNew" [staffMemberLogin]="staffMember.login" [currentTab]="'INFORMATION'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-staff-member-menu [isNew]="isNew" [staffMemberLogin]="staffMember.login" [currentTab]="'INFORMATION'"></div>
 
-    <div class="page-content-with-footer">
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
         <h3 class="app-header" *ngIf="!isNew">
           Сотрудник '{{staffMember.person.name}}'
@@ -53,11 +53,11 @@
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
+  <div class="app-card-page-footer">
     <button [disabled]="loadingInProgress && !isNew" class="btn btn-danger pull-right horizontal-item" (click)="delete()">
       Удалить
     </button>

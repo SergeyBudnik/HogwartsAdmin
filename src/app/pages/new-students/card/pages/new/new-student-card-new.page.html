@@ -1,10 +1,10 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
+  <div class="app-card-page-elements">
     <div class="page-left-menu"></div>
 
-    <div class="page-content">
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
         <h3 class="app-header">Добавление нового студента</h3>
 
@@ -84,10 +84,10 @@
       </ng-container>
     </div>
 
-    <div class="page-right-menu"></div>
+    <div class="app-card-page-right-menu"></div>
   </div>
 
-  <div class="footer">
+  <div class="app-card-page-footer">
     <button class="btn btn-primary pull-right" (click)="save()">
       Сохранить
     </button>
