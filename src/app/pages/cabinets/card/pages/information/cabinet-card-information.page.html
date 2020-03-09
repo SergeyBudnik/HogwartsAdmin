@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="page-left-menu" app-cabinet-card-menu [cabinetId]="cabinet.id" [currentTab]="'INFORMATION'"></div>
+    <div class="app-card-page-left-menu" app-cabinet-card-menu [cabinetId]="cabinet.id" [currentTab]="'INFORMATION'"></div>
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">

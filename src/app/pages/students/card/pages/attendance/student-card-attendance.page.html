@@ -1,24 +1,19 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'ATTENDANCE'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'ATTENDANCE'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!student.id">
-          {{student.name}} - Посещаемость
-        </h3>
+        <div class="app-card-page-title">
+          {{student.name}}. Посещаемость
+        </div>
 
         <br>
 
         <app-student-card-attendance-row
           *ngFor="let attendance of attendances"
-          class="app-list-row"
           [attendance]="attendance"
           (attendanceDeleted)="onAttendanceDeleted($event)">
         </app-student-card-attendance-row>
@@ -30,12 +25,12 @@
       </app-student-attendance-add-popup>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
-    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#studentAttendance">
+  <div class="app-card-page-footer">
+    <button class="app-card-page-footer-button app-button-primary">
       Добавить посещаемость
     </button>
   </div>
