@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../../../service';
-import {Group, Student, Cabinet, CabinetTypeUtils} from '../../../../../data';
+import {Cabinet, Group, Student} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../../../http';
-import {SelectItem} from '../../../../../controls/select-item';
 
 @Component({
   selector: 'app-cabinet-card-information-page',
@@ -11,9 +10,7 @@ import {SelectItem} from '../../../../../controls/select-item';
   styleUrls: ['./cabinet-card-information.page.less']
 })
 export class CabinetInformationPage {
-  public cabinetTypes: Array<SelectItem> = [];
-
-  public cabinet: Cabinet = new Cabinet(null, null, null);
+  public cabinet: Cabinet = new Cabinet(null, null);
   public groups: Array<Group> = [];
   public students: Array<Student> = [];
 
@@ -29,11 +26,6 @@ export class CabinetInformationPage {
     private groupsHttp: GroupsHttp,
     private studentsService: StudentsService,
   ) {
-    this.cabinetTypes = CabinetTypeUtils.values.map(it => new SelectItem(
-      this.translationService.cabinetType().translate(it),
-      it
-    ));
-
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
         const id = params.get('id');

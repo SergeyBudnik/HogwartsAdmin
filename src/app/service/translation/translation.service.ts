@@ -1,6 +1,5 @@
 import {
   TranslationAgeService,
-  TranslationCabinetTypeService,
   TranslationDayOfWeekService,
   TranslationEducationLevelService,
   TranslationGroupTypeService,
@@ -13,10 +12,6 @@ import {
 export class TranslationService {
   public age(): TranslationAgeService {
     return new TranslationAgeService();
-  }
-
-  public cabinetType(): TranslationCabinetTypeService {
-    return new TranslationCabinetTypeService();
   }
 
   public dayOfWeek(): TranslationDayOfWeekService {
