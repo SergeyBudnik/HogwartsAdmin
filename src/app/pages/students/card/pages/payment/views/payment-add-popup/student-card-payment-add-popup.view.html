@@ -1,35 +1,37 @@
-<app-modal-template [id]="'studentPayment'" [title]="'Добавление оплаты'">
-  <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label for="date">Дата:</label>
-        <my-date-picker id="date" name="date"
-                        [(ngModel)]="date"
-                        [options]="{dateFormat: 'dd.mm.yyyy'}"
-                        (dateChanged)="onDateChange($event)"></my-date-picker>
-      </div>
+<app-modal-template [modalStatus]="modalStatus">
+  <div class="app-modal-content" *ngIf="!!newStudentPayment">
+    <div class="app-modal-title">
+      Добавление группы
+    </div>
 
-      <div app-form-text-input-control class="form-group"
-           [name]="'amount'"
-           [label]="'Сумма'"
-           [placeholder]="'Введите сумму'"
-           [value]="amountString"
-           [valid]="!!amount"
-           [editable]="true"
-           (onChange)="onAmountChange($event)">
-      </div>
-    </form>
-  </div>
+    <div class="app-modal-body">
+      <app-form-input-control
+        [label]="'Сумма'"
+        [valid]="true">
+        <app-text-control (onChange)="onAmountChange($event)">
+        </app-text-control>
+      </app-form-input-control>
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="close() ">
-      Отмена
-    </button>
+      <br>
 
-    <button [disabled]="!amount" type="button" class="btn btn-primary" (click)="addPayment()">
-      Добавить
+      <app-form-input-control
+        [label]="'Принял оплату'"
+        [valid]="true">
+        <app-select-staff-member-control
+          [items]="staffMembers"
+          (onChange)="newStudentPayment.staffMemberLogin = $event">
+        </app-select-staff-member-control>
+      </app-form-input-control>
+    </div>
 
-      <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
-    </button>
+    <div class="app-modal-footer">
+      <button class="app-button-primary app-modal-footer-buttons" (click)="addPayment()">
+        Сохранить
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
+        Отмена
+      </button>
+    </div>
   </div>
 </app-modal-template>

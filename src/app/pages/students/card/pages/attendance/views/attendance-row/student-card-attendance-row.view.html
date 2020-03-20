@@ -1,13 +1,19 @@
-<div class="attendance-date-column">
-  {{attendance.startTime | date: 'dd.MM.yyyy'}} {{attendance.startTime | date: 'HH:mm'}} - {{attendance.finishTime | date: 'HH:mm'}}
-</div>
-<div class="attendance-type-column">
-  {{translationService.studentAttendanceType().translate(attendance.type)}}
-</div>
-<div class="attendance-actions-column">
-  <button class="btn btn-danger" (click)="deleteAttendance()">
-    Удалить
-
-    <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
-  </button>
+<div class="app-card-page-row-with-actions">
+  <div class="app-student-card-attendance-row-info">
+    <div class="app-student-card-attendance-row-info-date-column">
+      <div class="app-card-page-text">
+        {{attendance.startTime | date: 'dd.MM.yyyy'}} {{attendance.startTime | date: 'HH:mm'}} - {{attendance.finishTime | date: 'HH:mm'}}
+      </div>
+    </div>
+    <div class="app-student-card-attendance-row-info-status-column">
+      <div class="app-card-page-text">
+        {{translationService.studentAttendanceType().translate(attendance.type)}}
+      </div>
+    </div>
+  </div>
+  <div class="app-student-card-attendance-row-actions">
+    <button class="app-button-danger app-student-card-attendance-row-actions-delete" (click)="deleteAttendance()">
+      Удалить
+    </button>
+  </div>
 </div>

@@ -85,7 +85,7 @@ const appRoutes: Routes = [
 
     Pages.StudentCardInformationPage, Pages.StudentCardInformationGroupRowView, Pages.StudentCardInformationAssignGroupPopupView,
     Pages.StudentCardStatusPage, Pages.StudentCardStatusChangePopupView,
-    Pages.StudentCardAttendancePage, Pages.StudentCardAttendanceRowView, Pages.StudentCardAttendanceAddPopupView,
+    Pages.StudentCardAttendancePage, Pages.StudentCardAttendanceRowView,
     Pages.StudentCardPaymentPage, Pages.StudentCardPaymentRowView, Pages.StudentCardPaymentAddPopupView,
     Pages.StudentMenuComponent,
     Pages.StudentsListPage,

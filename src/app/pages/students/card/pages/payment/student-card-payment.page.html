@@ -16,14 +16,10 @@
           *ngFor="let payment of payments"
           [payment]="payment"
           [staffMembers]="staffMembers"
-          (paymentDeleted)="onPaymentDeleted($event)">
+          (paymentDeleted)="onPaymentDeleted($event)"
+          (paymentProcessed)="onPaymentProcessed($event)">
         </app-student-card-payment-row>
       </ng-container>
-
-      <app-student-payment-add-popup
-        [studentId]="student.id"
-        (paymentAdded)="onPaymentAdded($event)">
-      </app-student-payment-add-popup>
     </div>
 
     <div class="app-card-page-right-menu">
@@ -31,8 +27,12 @@
   </div>
 
   <div class="app-card-page-footer">
-    <button class="app-button-primary app-card-page-footer-button">
+    <button class="app-button-primary app-card-page-footer-button" (click)="addPayment()">
       Добавить оплату
     </button>
   </div>
 </div>
+
+<app-student-payment-add-popup
+  (paymentAdded)="onPaymentAdded($event)">
+</app-student-payment-add-popup>

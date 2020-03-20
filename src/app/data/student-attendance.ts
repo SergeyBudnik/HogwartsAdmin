@@ -8,7 +8,6 @@ export class StudentAttendanceTypeUtils {
 
 export class StudentAttendance {
   public constructor(
-    public id: number,
     public studentId: number,
     public type: StudentAttendanceType,
     public startTime: number,

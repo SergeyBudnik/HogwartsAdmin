@@ -22,8 +22,24 @@
     </div>
   </div>
   <div class="app-student-card-payment-row-actions">
-    <button class="app-button-danger app-student-card-payment-row-actions-delete" (click)="deletePayment()">
+    <button
+      class="app-button-danger app-student-card-payment-row-actions-delete"
+      (click)="deletePayment()">
       Удалить
+    </button>
+
+    <button
+      *ngIf="payment.processed"
+      class="app-button-secondary app-student-card-payment-row-actions-process"
+      (click)="processPayment(false)">
+      Не учтено
+    </button>
+
+    <button
+      *ngIf="!payment.processed"
+      class="app-button-primary app-student-card-payment-row-actions-process"
+      (click)="processPayment(true)">
+      Учтено
     </button>
   </div>
 </div>

@@ -11,7 +11,7 @@ import {TranslationService} from '../../../../../../../service';
 export class StudentCardAttendanceRowView {
   @Input() public attendance: StudentAttendance;
 
-  @Output() public attendanceDeleted: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public attendanceDeleted: EventEmitter<StudentAttendance> = new EventEmitter<StudentAttendance>();
 
   public actionInProgress = false;
 
@@ -24,11 +24,11 @@ export class StudentCardAttendanceRowView {
     this.actionInProgress = true;
 
     this.studentAttendanceHttp
-      .deleteAttendance(this.attendance.id)
+      .deleteAttendance(this.attendance.studentId, this.attendance.startTime)
       .then(() => {
         this.actionInProgress = false;
 
-        this.attendanceDeleted.emit(this.attendance.id);
+        this.attendanceDeleted.emit(this.attendance);
       });
   }
 }

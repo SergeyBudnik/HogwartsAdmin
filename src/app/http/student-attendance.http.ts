@@ -24,9 +24,9 @@ export class StudentAttendanceHttp {
       .then(it => Number(it));
   }
 
-  public deleteAttendance(attendanceId: number): Promise<void> {
+  public deleteAttendance(studentId: number, startTime: number): Promise<void> {
     return this.http
-      .delete(`${this.root}/${attendanceId}`)
+      .delete(`${this.root}/student/${studentId}/start-time/${startTime}`)
       .toPromise()
       .then(() => {});
   }

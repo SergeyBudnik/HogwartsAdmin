@@ -18,20 +18,9 @@
           (attendanceDeleted)="onAttendanceDeleted($event)">
         </app-student-card-attendance-row>
       </ng-container>
-
-      <app-student-attendance-add-popup
-        [studentId]="student.id"
-        (attendanceAdded)="onAttendanceAdded($event)">
-      </app-student-attendance-add-popup>
     </div>
 
     <div class="app-card-page-right-menu">
     </div>
-  </div>
-
-  <div class="app-card-page-footer">
-    <button class="app-card-page-footer-button app-button-primary">
-      Добавить посещаемость
-    </button>
   </div>
 </div>

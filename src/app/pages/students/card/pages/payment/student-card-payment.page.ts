@@ -3,6 +3,8 @@ import {StaffMember, Student, StudentPayment} from '../../../../../data';
 import {LoginService, StudentsService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
 import {StaffMembersHttp, StudentPaymentHttp} from '../../../../../http';
+import {StudentCardPaymentAddPopupManager} from './views';
+import {PaymentProcessInfo} from './data/payment-process-info';
 
 @Component({
   selector: 'app-student-card-payment-page',
@@ -42,11 +44,26 @@ export class StudentCardPaymentPage {
     });
   }
 
+  public addPayment() {
+    StudentCardPaymentAddPopupManager.show(
+      this.student.id,
+      this.staffMembers
+    );
+  }
+
   public onPaymentAdded(payment: StudentPayment) {
     this.payments.push(payment);
   }
 
   public onPaymentDeleted(paymentId: number): void {
     this.payments = this.payments.filter(it => it.id !== paymentId);
+  }
+
+  public onPaymentProcessed(paymentProcessInfo: PaymentProcessInfo): void {
+    this.payments = this.payments.map(it => {
+      let processed = it.id === paymentProcessInfo.paymentId ? paymentProcessInfo.processed : it.processed;
+
+      return StudentPayment.createProcessed(it, processed);
+    })
   }
 }

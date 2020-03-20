@@ -1,7 +1,27 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {StudentPayment} from '../../../../../../../data';
-import {IMyDateModel} from 'mydatepicker';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {NewStudentPayment, StaffMember, StudentPayment} from '../../../../../../../data';
 import {StudentPaymentHttp} from '../../../../../../../http';
+import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
+
+export class StudentCardPaymentAddPopupManager {
+  private static popup: StudentCardPaymentAddPopupView = null;
+
+  public static register(popup: StudentCardPaymentAddPopupView) {
+    this.popup = popup;
+  }
+
+  public static show(
+    studentId: number,
+    staffMembers: Array<StaffMember>
+  ) {
+    if (!!this.popup) {
+      this.popup.show(
+        studentId,
+        staffMembers
+      );
+    }
+  }
+}
 
 @Component({
   selector: 'app-student-payment-add-popup',
@@ -11,83 +31,52 @@ import {StudentPaymentHttp} from '../../../../../../../http';
 export class StudentCardPaymentAddPopupView {
   @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
 
-  public modalVisible = true;
+  public modalStatus = new ModalStatus(false);
 
-  public studentId;
+  public newStudentPayment = NewStudentPayment.createNew();
 
-  public date = {date: {year: 0, month: 0, day: 0}};
-  public time: number;
-
-  public loadingInProgress = true;
-  public actionInProgress = false;
-
-  public amountString: string = '';
-  public amount: number = null;
+  public staffMembers: Array<StaffMember> = [];
 
   public constructor(
     private studentPaymentHttp: StudentPaymentHttp
   ) {
-    const date: Date = new Date();
-
-    this.date.date.year = date.getFullYear();
-    this.date.date.month = date.getMonth() + 1;
-    this.date.date.day = date.getDate();
-
-    this.time = this.getTime(this.date);
+    StudentCardPaymentAddPopupManager.register(this);
   }
 
-  @Input('studentId') public set setStudentId(studentId: number) {
-    if (!!studentId) {
-      this.studentId = studentId;
-    }
+  public show(studentId: number, staffMember: Array<StaffMember>) {
+    this.newStudentPayment.studentId = studentId;
+    this.newStudentPayment.time = new Date().getTime();
+
+    this.staffMembers = staffMember;
+
+    this.modalStatus.visible = true;
   }
 
   public onAmountChange(amountString: string): void {
-    this.amountString = amountString;
-
     const amount = Number.parseInt(amountString);
 
     if (!!amount && amount > 0) {
-      this.amount = amount;
+      this.newStudentPayment.amount = amount;
     } else {
-      this.amount = null;
+      this.newStudentPayment.amount = null;
     }
   }
 
-  public onDateChange(event: IMyDateModel): void {
-    this.time = this.getTime(event);
-  }
-
   public addPayment(): void {
-    this.actionInProgress = true;
+    this.studentPaymentHttp
+      .addPayment(this.newStudentPayment)
+      .then(paymentId => {
+        this.paymentAdded.emit(StudentPayment.createNew(paymentId, this.newStudentPayment));
 
-    this.studentPaymentHttp.addPayment(
-      this.studentId,
-      this.amount,
-      this.time
-    ).then(paymentId => {
-      // todo this.paymentAdded.emit(new StudentPayment(paymentId, this.studentId, 0, this.amount, this.time));
-
-      this.hideModal();
-
-      this.actionInProgress = false;
-    });
+        this.hideModal();
+      });
   }
 
-  public close(): void {
+  public cancel(): void {
     this.hideModal();
   }
 
   private hideModal(): void {
-    this.modalVisible = !this.modalVisible;
-  }
-
-  private getTime(event: any): number {
-    return new Date(
-      event.date.year,
-      event.date.month - 1,
-      event.date.day,
-      0, 0, 0, 0
-    ).getTime();
+    this.modalStatus.visible = false;
   }
 }
