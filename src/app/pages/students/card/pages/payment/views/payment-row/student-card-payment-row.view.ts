@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {StaffMember, StudentPayment} from '../../../../../../../data';
 import {StudentPaymentHttp} from '../../../../../../../http';
 import {NavigationService} from '../../../../../../../service';
+import {PaymentProcessInfo} from '../../data/payment-process-info';
 
 @Component({
   selector: 'app-student-card-payment-row',
@@ -13,6 +14,7 @@ export class StudentCardPaymentRowView {
   @Input() public staffMembers: Array<StaffMember>;
 
   @Output() public paymentDeleted: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public paymentProcessed: EventEmitter<PaymentProcessInfo> = new EventEmitter<PaymentProcessInfo>();
 
   public constructor(
     public navigationService: NavigationService,
@@ -21,6 +23,14 @@ export class StudentCardPaymentRowView {
 
   public getStaffMember(): StaffMember {
     return this.staffMembers.find(it => it.login === this.payment.staffMemberLogin);
+  }
+
+  public processPayment(processed: boolean): void {
+    this.studentPaymentHttp
+      .processPayment(this.payment.id, processed)
+      .then(() => {
+        this.paymentProcessed.emit(new PaymentProcessInfo(this.payment.id, processed));
+      });
   }
 
   public deletePayment(): void {

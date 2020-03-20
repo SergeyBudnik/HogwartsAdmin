@@ -42,7 +42,13 @@ export class StudentCardAttendancePage {
     this.attendances.push(attendance);
   }
 
-  public onAttendanceDeleted(attendanceId: number): void {
-    this.attendances = this.attendances.filter(it => it.id !== attendanceId);
+  public onAttendanceDeleted(studentAttendance: StudentAttendance): void {
+    this.attendances = this.attendances
+      .filter(it => {
+        let studentIdMatches = it.studentId === studentAttendance.studentId;
+        let startTimeMatches = it.startTime === studentAttendance.startTime;
+
+        return !(studentIdMatches && startTimeMatches);
+      });
   }
 }
