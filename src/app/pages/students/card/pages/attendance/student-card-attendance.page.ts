@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Student, StudentAttendance} from '../../../../../data';
-import {LoginService, StudentsService} from '../../../../../service';
+import {LoginService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {StudentAttendanceHttp} from '../../../../../http';
+import {StudentAttendanceHttp, StudentsHttp} from '../../../../../http';
 
 @Component({
   selector: 'app-student-card-attendance-page',
@@ -10,7 +10,7 @@ import {StudentAttendanceHttp} from '../../../../../http';
   styleUrls: ['./student-card-attendance.page.less']
 })
 export class StudentCardAttendancePage {
-  public student: Student = new Student();
+  public student: Student = null;
   public loadingInProgress = true;
 
   public attendances: Array<StudentAttendance> = [];
@@ -18,16 +18,16 @@ export class StudentCardAttendancePage {
   public constructor(
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private studentsService: StudentsService,
+    private studentsHttp: StudentsHttp,
     private studentAttendanceHttp: StudentAttendanceHttp
   ) {
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
-        this.student.id = Number(params.get('id'));
+        let studentLogin = params.get('login');
 
         Promise.all([
-          this.studentsService.getStudent(this.student.id),
-          this.studentAttendanceHttp.getAttendances(this.student.id)
+          this.studentsHttp.getStudent(studentLogin),
+          this.studentAttendanceHttp.getAttendances(studentLogin)
         ]).then(it => {
           this.student = it[0];
           this.attendances = it[1].sort((o1, o2) => o2.startTime - o1.startTime);
@@ -45,10 +45,11 @@ export class StudentCardAttendancePage {
   public onAttendanceDeleted(studentAttendance: StudentAttendance): void {
     this.attendances = this.attendances
       .filter(it => {
-        let studentIdMatches = it.studentId === studentAttendance.studentId;
+        let studentIdMatches = it.studentLogin === studentAttendance.studentLogin;
         let startTimeMatches = it.startTime === studentAttendance.startTime;
+        let finishTimeMatches = it.finishTime === studentAttendance.finishTime;
 
-        return !(studentIdMatches && startTimeMatches);
+        return !(studentIdMatches && startTimeMatches && finishTimeMatches);
       });
   }
 }

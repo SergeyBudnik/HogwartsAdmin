@@ -2,12 +2,17 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'PAYMENT'"></div>
+    <div
+      app-student-menu
+      class="app-card-page-left-menu"
+      [studentLogin]="student?.login"
+      [currentTab]="'PAYMENT'">
+    </div>
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
         <div class="app-card-page-title">
-          {{student.name}}. Оплата
+          {{student.person.name}}. Оплата
         </div>
 
         <br>

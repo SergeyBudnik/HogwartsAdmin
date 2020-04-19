@@ -60,7 +60,7 @@ export class GroupService {
       return 'Нет студентов';
     } else {
       return groupStudents
-        .map(it => it.name)
+        .map(it => it.person.name)
         .map(it => it.split(' ')[0]).reduce((n1, n2) => `${n1}; ${n2}`);
     }
   }

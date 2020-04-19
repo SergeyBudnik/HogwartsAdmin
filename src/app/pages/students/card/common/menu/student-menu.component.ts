@@ -9,7 +9,7 @@ type Tab = 'INFORMATION' | 'STATUS' | 'ATTENDANCE' | 'PAYMENT';
   styleUrls: ['./student-menu.component.less']
 })
 export class StudentMenuComponent {
-  @Input() public studentId: number;
+  @Input() public studentLogin: string;
   @Input() public currentTab: Tab;
 
   public constructor(public navigationService: NavigationService) {}

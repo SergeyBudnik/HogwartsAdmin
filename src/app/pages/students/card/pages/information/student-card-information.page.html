@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'INFORMATION'"></div>
+    <div class="app-card-page-left-menu" app-student-menu [studentLogin]="student.login" [currentTab]="'INFORMATION'"></div>
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
@@ -13,72 +13,74 @@
         <br>
 
         <app-form-input-control
-          [label]="'Имя'"
-          [valid]="!!student.name && student.name.indexOf('?') === -1">
+          [label]="'Логин'"
+          [valid]="!!student.login">
           <app-text-control
-            [placeholder]="'Имя'"
-            [value]="student.name"
-            (onChange)="student.name = $event">
+            [placeholder]="'Логин'"
+            [value]="student.login"
+            (onChange)="student.login = $event">
           </app-text-control>
         </app-form-input-control>
 
         <br>
 
         <app-form-input-control
-          [label]="'Телефон'"
-          [valid]="hasAtLeastOneContact()">
-          <app-tag-control
-            class="form-group"
-            [placeholder]="'Введите телефон'"
-            [value]="student.phones"
-            (onChange)="student.phones = $event">
-          </app-tag-control>
+          [label]="'Имя'"
+          [valid]="!!student.person.name && student.person.name.indexOf('?') === -1">
+          <app-text-control
+            [placeholder]="'Имя'"
+            [value]="student.person.name"
+            (onChange)="student.person.name = $event">
+          </app-text-control>
         </app-form-input-control>
 
         <br>
 
         <app-form-input-control
-          [label]="'Ссылка VK'"
-          [valid]="hasAtLeastOneContact()">
-          <div class="student-vkLink-container">
-            <app-text-control
-              class="student-vkLink"
-              [placeholder]="'Введите ссылку'"
-              [value]="student.vkLink"
-              (onChange)="student.vkLink = $event">
-            </app-text-control>
-
-            <button class="app-button-primary student-vkLink-action" [disabled]="!student.vkLink" (click)="goToVk()">Перейти</button>
-          </div>
-        </app-form-input-control>
-
-        <br>
-
-        <app-form-input-control [label]="'Уровень подготовки'" [valid]="student.educationLevel !== 'UNKNOWN'">
+          [label]="'Уровень подготовки'"
+          [valid]="student.educationInfo.level !== 'UNKNOWN'">
           <app-select-education-level-control
-            [value]="student.educationLevel"
-            (onChange)="student.educationLevel = $event">
+            [value]="student.educationInfo.level"
+            (onChange)="student.educationInfo.level = $event">
           </app-select-education-level-control>
         </app-form-input-control>
 
         <br>
 
-        <app-form-input-control [label]="'Возраст'" [valid]="student.age !== 'UNKNOWN'">
-          <app-select-age-control [value]="student.age" (onChange)="student.age = $event"></app-select-age-control>
+        <app-form-input-control
+          [label]="'Возраст'"
+          [valid]="student.educationInfo.age !== 'UNKNOWN'">
+          <app-select-age-control
+            [value]="student.educationInfo.age"
+            (onChange)="student.educationInfo.age = $event">
+          </app-select-age-control>
         </app-form-input-control>
 
         <br>
 
-        <app-form-input-control
-          *ngIf="!!student.id"
-          [label]="'Статус'"
-          [valid]="true">
-          <div class="student-status-container">
-            <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>
+        <div class="app-card-page-title">
+          Контакты
+        </div>
 
-            <button class="app-button-primary student-status-action" (click)="goToStatus()">Изменить статус</button>
-          </div>
-        </app-form-input-control>
+        <br>
+
+        <app-person-contacts
+          [personContacts]="student.person.contacts"
+          (onPersonContactsChanged)="student.person.contacts = $event">
+        </app-person-contacts>
+
+<!--        <br>-->
+
+<!--        <app-form-input-control-->
+<!--          *ngIf="!!student.id"-->
+<!--          [label]="'Статус'"-->
+<!--          [valid]="true">-->
+<!--          <div class="student-status-container">-->
+<!--            <div class="student-status" app-student-status [studentStatusType]="student.statusType"></div>-->
+
+<!--            <button class="app-button-primary student-status-action" (click)="goToStatus()">Изменить статус</button>-->
+<!--          </div>-->
+<!--        </app-form-input-control>-->
 
         <br>
 

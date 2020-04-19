@@ -1,31 +1,31 @@
-<ng-container *ngIf="!!studentId">
+<ng-container *ngIf="!!studentLogin">
 
   <app-menu-item
     [isActive]="currentTab === 'INFORMATION'"
     [title]="'Информация'"
     [icon]="'fa-info-circle'"
-    (click)="navigationService.students().id(studentId).information().go()">
+    (click)="navigationService.students().login(studentLogin).information().go()">
   </app-menu-item>
 
   <app-menu-item
     [isActive]="currentTab === 'STATUS'"
     [title]="'Статус'"
     [icon]="'fa-road'"
-    (click)="navigationService.students().id(studentId).status().go()">
+    (click)="navigationService.students().login(studentLogin).status().go()">
   </app-menu-item>
 
   <app-menu-item
     [isActive]="currentTab === 'ATTENDANCE'"
     [title]="'Посещаемость'"
     [icon]="'fa-users'"
-    (click)="navigationService.students().id(studentId).attendance().go()">
+    (click)="navigationService.students().login(studentLogin).attendance().go()">
   </app-menu-item>
 
   <app-menu-item
     [isActive]="currentTab === 'PAYMENT'"
     [title]="'Оплата'"
     [icon]="'fa-money'"
-    (click)="navigationService.students().id(studentId).payment().go()">
+    (click)="navigationService.students().login(studentLogin).payment().go()">
   </app-menu-item>
 
 </ng-container>

@@ -1,14 +1,7 @@
 @import "~styles/index";
 
-.person-contacts-table {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
 .person-contacts-group {
-  width: 49%;
-  margin-right: 1%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -18,29 +11,30 @@
   margin-bottom: 12px;
 }
 
-.person-contact-list {
-  margin-bottom: 6px;
-  display: flex;
-  flex-direction: column;
+.person-contacts-group-add {
+  width: 20%;
+}
+
+.app-person-contacts-row-info {
+  .app-card-page-row-with-actions-info;
+
+  width: 80%;
+}
+
+.app-person-contacts-row-info-name-column {
+  width: 50%;
+}
+
+.app-person-contacts-row-info-value-column {
+  width: 50%;
+}
+
+.app-person-contacts-row-actions {
+  .app-card-page-row-with-actions-actions;
+
+  width: 20%;
+}
+
+.app-person-contacts-row-actions-delete {
   width: 100%;
-}
-
-.person-contact-row {
-  width: 100%;
-  padding: 6px;
-  display: flex;
-  flex-direction: row;
-  background: @color-fill_basic_light;
-}
-
-.person-contact-row-element {
-  width: 39%;
-  margin-left: 0.5%;
-  margin-right: 0.5%;
-}
-
-.person-contact-row-button {
-  width: 19%;
-  margin-left: 0.5%;
-  margin-right: 0.5%;
 }

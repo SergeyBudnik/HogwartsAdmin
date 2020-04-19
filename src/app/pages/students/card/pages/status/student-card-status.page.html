@@ -2,7 +2,7 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="app-card-page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'STATUS'"></div>
+    <div class="app-card-page-left-menu" app-student-menu [studentLogin]="''" [currentTab]="'STATUS'"></div>
 
     <div class="app-card-page-content-scrollable" *ngIf="!!student.id">
       <ng-container *ngIf="!loadingInProgress">

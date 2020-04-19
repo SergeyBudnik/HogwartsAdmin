@@ -1,10 +1,8 @@
-import {Component, ViewContainerRef} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {StudentsService, LoginService, NavigationService, TranslationService,} from '../../../../../service';
-import {Student, EducationLevelUtils, Group, StudentGroup,  StaffMember} from '../../../../../data';
-import {ToastsManager} from 'ng2-toastr';
-import {SelectItem} from '../../../../../controls/select-item';
-import {GroupsHttp, StaffMembersHttp} from '../../../../../http';
+import {LoginService, NavigationService, TranslationService,} from '../../../../../service';
+import {Group, StudentGroup, StaffMember, Student} from '../../../../../data';
+import {GroupsHttp, StaffMembersHttp, StudentsHttp} from '../../../../../http';
 import {GroupService} from '../../../../../service';
 import {StudentGroupAndIndex} from './data/student-group-and-index';
 import {StudentCardInformationAssignGroupPopupManager} from './views';
@@ -15,13 +13,9 @@ import {StudentCardInformationAssignGroupPopupManager} from './views';
   styleUrls: ['./student-card-information.page.less']
 })
 export class StudentCardInformationPage {
-  public educationLevelItems = [];
-
-  public student: Student = new Student();
+  public student: Student = Student.createNew();
 
   public loadingInProgress = true;
-
-  private requestedGroupId: number;
 
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
@@ -34,21 +28,12 @@ export class StudentCardInformationPage {
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsHttp: GroupsHttp,
-    private studentsService: StudentsService,
+    private studentsHttp: StudentsHttp,
     private staffMembersHttp: StaffMembersHttp,
-    private toastr: ToastsManager,
-    private vcr: ViewContainerRef
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
-
     this.loginService.ifAuthenticated(() => {
-      this.parseParams((studentId, groupId) => this.initStudent(studentId, groupId));
+      this.parseParams((studentLogin) => this.initStudent(studentLogin));
     });
-
-    this.educationLevelItems = EducationLevelUtils.values.map(it => new SelectItem(
-      this.translationService.educationLevel().translate(it),
-      it
-    ));
   }
 
   public buildStudentGroupAndIndex(studentGroup: StudentGroup, studentGroupIndex: number): StudentGroupAndIndex {
@@ -67,7 +52,7 @@ export class StudentCardInformationPage {
   }
 
   public goToStatus() {
-    this.navigationService.students().id(this.student.id).status().go();
+    // this.navigationService.students().id(this.student.id).status().go();
   }
 
   private onGroupSaved(studentGroupAndIndex: StudentGroupAndIndex) {
@@ -93,21 +78,7 @@ export class StudentCardInformationPage {
   public save(): void {
     this.loadingInProgress = true;
 
-    if (this.student.id == null) { this.saveNew()} else { this.saveExisting() }
-  }
-
-  private saveNew() {
-    this.studentsService.createStudent(this.student).then(studentId => {
-      if (!!this.requestedGroupId) {
-        this.navigationService.groups().id(this.requestedGroupId).students().go();
-      } else {
-        this.navigationService.students().id(studentId).information().go();
-      }
-    });
-  }
-
-  private saveExisting() {
-    this.studentsService.editStudent(this.student).then(() => {
+    this.studentsHttp.editStudent(this.student).then(() => {
       this.loadingInProgress = false;
     });
   }
@@ -115,26 +86,29 @@ export class StudentCardInformationPage {
   public delete(): void {
     this.loadingInProgress = true;
 
-    this.studentsService.deleteStudent(this.student.id).then(() => {
-      this.navigationService.students().list().go();
-    });
+    // this.studentsHttp.deleteStudent(this.student.id).then(() => {
+    //   this.navigationService.students().list().go();
+    // });
   }
 
   public getMatchingGroups(): Array<Group> {
-    return new GroupService().getMatchingGroups(this.allGroups, this.student.age, this.student.educationLevel);
+    return new GroupService().getMatchingGroups(
+      this.allGroups,
+      this.student.educationInfo.age, this.student.educationInfo.level
+    );
   }
 
   public hasAtLeastOneContact(): boolean {
-    return this.student.phones.length !== 0 || !!this.student.vkLink;
+    return this.student.person.contacts.phones.length !== 0 || !!this.student.person.contacts.vkLinks;
   }
 
   public goToVk() {
-    window.open(`https://vk.com/${this.student.vkLink}`, '_blank');
+    // window.open(`https://vk.com/${this.student.vkLink}`, '_blank');
   }
 
-  private initStudent(studentId: number, groupId: number): void {
+  private initStudent(studentLogin: string): void {
     Promise.all([
-      this.studentsService.getAllStudents(),
+      this.studentsHttp.getAllStudents(),
       this.groupsHttp.getAllGroups(),
       this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
@@ -142,41 +116,17 @@ export class StudentCardInformationPage {
       this.allGroups = it[1];
       this.allStaffMembers = it[2];
 
-      if (studentId == null) {
-        this.student = new Student();
-
-        if (groupId != null) {
-          let group = this.allGroups.find(group => group.id === groupId);
-
-          this.student.age = group.age;
-          this.student.educationLevel = group.educationLevel;
-          this.student.studentGroups = [new StudentGroup(group.id, new Date().getTime(), null)];
-        }
-      } else {
-        this.student = this.allStudents.find(student => student.id === studentId);
-      }
+      this.student = this.allStudents.find(student => student.login === studentLogin);
 
       this.loadingInProgress = false;
     })
   }
 
-  private parseParams(onStudent: (studentId: number, groupId: number) => any) {
+  private parseParams(onStudent: (studentLogin: string) => any) {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
+      const login = params.get('login');
 
-      if (id === 'new') {
-        this.route.queryParams.subscribe(queryParams => {
-            const groupId = queryParams['groupId'];
-
-            if (!!groupId) {
-              onStudent(null, Number(groupId));
-            } else {
-              onStudent(null, null);
-            }
-          });
-      } else {
-        onStudent(Number(id), null);
-      }
+      onStudent(login);
     });
   }
 }

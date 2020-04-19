@@ -2,12 +2,12 @@
   <div class="app-student-card-payment-row-info">
     <div class="payments-date-column">
       <div class="app-card-page-text">
-        {{payment.time | date: 'dd.MM.yyyy HH:mm'}}
+        {{payment.info.time | date: 'dd.MM.yyyy HH:mm'}}
       </div>
     </div>
     <div class="payments-date-column">
       <div class="app-card-page-text">
-        {{payment.amount}}Р
+        {{payment.info.amount}}Р
       </div>
     </div>
     <div class="payments-teachers-column">

@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {Group, Student, Lesson, Cabinet, StaffMember} from '../../../../../data';
+import {Group, Lesson, Cabinet, StaffMember, Student} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../../../http';
 import {GroupLessonInfo} from './data';
 import {GroupCardInformationAssignLessonPopupManager} from './views';
