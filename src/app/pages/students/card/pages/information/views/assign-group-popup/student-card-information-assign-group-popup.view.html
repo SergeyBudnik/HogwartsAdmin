@@ -5,23 +5,25 @@
     </div>
 
     <div class="app-modal-body">
-      <app-form-select-control
-        [type]="'NUMERIC'"
-        [name]="'group'"
-        [label]="'Группа'"
-        [valid]="!!studentGroup.groupId"
-        [valueNumber]="studentGroup.groupId"
-        [items]="getGroupItems()"
-        [hasEmpty]="true"
-        (onChangeNumber)="studentGroup.groupId = $event"></app-form-select-control>
+      <app-form-input-control
+        [label]="'Преподаватель'"
+        [valid]="!!studentGroup.groupId">
+        <app-select-group-control
+          [value]="studentGroup.groupId"
+          [groups]="groups"
+          [students]="students"
+          [staffMembers]="staffMembers"
+          (onChange)="studentGroup.groupId = $event">
+        </app-select-group-control>
+      </app-form-input-control>
 
       <br>
 
       <div class="student-card-information-assign-group-popup-dates">
         <app-form-input-control
           class="student-card-information-assign-group-popup-dates-column"
-          [label]="'Вступил в группу'"
-          [valid]="true">
+          [label]="'Записался в группу'"
+          [valid]="!!studentGroup.startTime">
           <app-date-control
             [value]="studentGroup.startTime"
             (onChange)="studentGroup.startTime = $event">
@@ -31,7 +33,7 @@
         <app-form-input-control
           class="student-card-information-assign-group-popup-dates-column"
           [label]="'Покинул группу'"
-          [valid]="true">
+          [valid]="!!studentGroup.finishTime">
           <app-date-control
             [value]="studentGroup.finishTime"
             (onChange)="studentGroup.finishTime = $event">
