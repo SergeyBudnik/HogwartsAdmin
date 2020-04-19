@@ -22,12 +22,12 @@
                aria-hidden="true"></i>
 
             <div class="app-card-page-text">
-              {{student.name}}
+              {{student.person.name}}
             </div>
           </div>
 
           <div class="app-group-card-students-row-actions">
-            <div class="app-button-secondary" (click)="navigationService.students().login('').information().go()">
+            <div class="app-button-secondary" (click)="navigationService.students().login(student.login).information().go()">
               Перейти
             </div>
           </div>
