@@ -159,6 +159,7 @@ const appRoutes: Routes = [
     Controls.AppSelectCabinetControl,
     Controls.AppSelectDayOfWeekControl,
     Controls.AppSelectEducationLevelControl,
+    Controls.AppSelectGroupControl,
     Controls.AppSelectGroupTypeControl,
     Controls.AppSelectStaffMemberControl,
     Controls.AppSelectTimeControl,

@@ -9,6 +9,10 @@ export class GroupService {
       .filter(group => group.educationLevel === educationLevel)
   }
 
+  public getGroupHeadTeacher(group: Group, staffMembers: Array<StaffMember>): StaffMember {
+    return staffMembers.find(staffMember => staffMember.login === group.headTeacherLogin);
+  }
+
   public getGroupCabinet(group: Group, allCabinets: Array<Cabinet>): Cabinet {
     return allCabinets.find(cabinet => cabinet.id === group.cabinetId);
   }
