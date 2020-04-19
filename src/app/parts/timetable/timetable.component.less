@@ -1,21 +1,29 @@
-@import '../../../styles.less';
+@import "~styles/index";
 
 .timetable-header {
   display: flex;
   flex-direction: row;
   width: 100%;
+
   background: @color-fill_basic_light;
+
   border: 1px solid @color-stroke_basic_light;
-  color: @color-fill_text_basic;
 }
 
 .timetable-header-item {
+  .app-font-regular;
+
   text-align: center;
   width: 14.28%;
-  padding: 5px 0;
+  padding: @app-size-1 0;
+
+  color: @color-fill_text_basic_accent;
+  font-size: @font-normal;
 }
 
 .timetable-body {
+  width: 100%;
+
   border-left: 1px solid @color-stroke_basic_light;
   border-right: 1px solid @color-stroke_basic_light;
   border-bottom: 1px solid @color-stroke_basic_light;
@@ -27,23 +35,17 @@
 }
 
 .timetable-body-row-item {
+  .app-font-regular;
+
   text-align: center;
   width: 14.28%;
-  padding: 5px 0;
+  padding: @app-size-1 0;
+
   color: @color-fill_text_basic;
+  font-size: @font-small;
 }
 
-.timetable-current-day {
-  border-left: 1px solid @color-stroke_basic_light;
-  border-right: 1px solid @color-stroke_basic_light;
-}
-
-.timetable-current-time {
-  border-top: 1px solid @color-stroke_basic_light;
-  border-bottom: 1px solid @color-stroke_basic_light;
-}
-
-.timetable-current-time-clickable:hover {
+.timetable-body-row-item-clickable:hover {
   cursor: pointer;
   opacity: 0.9;
 }

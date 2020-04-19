@@ -1,3 +1,3 @@
-export * from './student-card-information.page';
+export * from './views';
 
-export * from './components';
+export * from './student-card-information.page';

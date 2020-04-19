@@ -1,18 +1,17 @@
 import {
-  TranslationAgeService, TranslationCabinetTypeService,
+  TranslationAgeService,
   TranslationDayOfWeekService,
   TranslationEducationLevelService,
   TranslationGroupTypeService,
-  TranslationStudentAttendanceTypeService, TranslationStudentStatusTypeService, TranslationTimeService
+  TranslationStudentAttendanceTypeService,
+  TranslationStudentOnBoardingTypeService,
+  TranslationStudentStatusTypeService,
+  TranslationTimeService
 } from '.';
 
 export class TranslationService {
   public age(): TranslationAgeService {
     return new TranslationAgeService();
-  }
-
-  public cabinetType(): TranslationCabinetTypeService {
-    return new TranslationCabinetTypeService();
   }
 
   public dayOfWeek(): TranslationDayOfWeekService {
@@ -29,6 +28,10 @@ export class TranslationService {
 
   public studentAttendanceType(): TranslationStudentAttendanceTypeService {
     return new TranslationStudentAttendanceTypeService();
+  }
+
+  public studentOnBoardingType(): TranslationStudentOnBoardingTypeService {
+    return new TranslationStudentOnBoardingTypeService();
   }
 
   public studentStatusType(): TranslationStudentStatusTypeService {

@@ -1,0 +1,31 @@
+<app-modal-template [id]="'studentStatus'" [title]="'Изменение статуса'">
+  <div class="modal-body">
+    <form>
+      <app-date-control
+        *ngIf="hasAction"
+        [value]="actionDateTime"
+        (onChange)="actionDateTime = $event">
+      </app-date-control>
+
+      <app-form-select-control *ngIf="hasAction" class="form-group"
+           [name]="'actionTime'"
+           [label]="'Время'"
+           [valid]="true"
+           [valueString]="actionTime"
+           [items]="actionTimeItems"
+           (onChangeString)="actionTime = $event"></app-form-select-control>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close() ">
+      Отмена
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="changeStudentStatus()">
+      Сохранить
+
+      <fa *ngIf="actionInProgress" name="spinner" class="horizontal-item loading-sign" animation="spin"></fa>
+    </button>
+  </div>
+</app-modal-template>

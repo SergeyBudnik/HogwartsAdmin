@@ -1,31 +1,31 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {StudentPayment} from '../data';
+import {NewStudentPayment, ExistingStudentPayment} from '../data';
 import {HttpConfig} from './http-config';
 
 @Injectable()
 export class StudentPaymentHttp {
-  private root = `${HttpConfig.getBackendRoot()}/student-payment`;
+  private root = `${HttpConfig.getBackendRoot()}/admin/students/payments`;
 
   public constructor(
     readonly http: HttpClient
   ) {}
 
-  public getAllPayments(): Promise<Array<StudentPayment>> {
+  public getAllPayments(): Promise<Array<ExistingStudentPayment>> {
     return this.http
-      .get<Array<StudentPayment>>(`${this.root}`)
+      .get<Array<ExistingStudentPayment>>(`${this.root}`)
       .toPromise()
   }
 
-  public getPayments(studentId: number): Promise<Array<StudentPayment>> {
+  public getPayments(studentLogin: string): Promise<Array<ExistingStudentPayment>> {
     return this.http
-      .get<Array<StudentPayment>>(`${this.root}/${studentId}`)
+      .get<Array<ExistingStudentPayment>>(`${this.root}/student/${studentLogin}`)
       .toPromise()
   }
 
-  public addPayment(studentId: number, amount: number, time: number): Promise<number> {
+  public addPayment(newStudentPayment: NewStudentPayment): Promise<number> {
     return this.http
-      .post(`${this.root}`, {studentId: studentId, amount: amount, time: time})
+      .post(`${this.root}`, newStudentPayment)
       .toPromise()
       .then(it => Number(it));
   }
@@ -35,5 +35,12 @@ export class StudentPaymentHttp {
       .delete(`${this.root}/${paymentId}`)
       .toPromise()
       .then(() => {});
+  }
+
+  public processPayment(paymentId: number, processed: boolean): Promise<void> {
+    return this.http
+      .put(`${this.root}/${paymentId}/processed/${processed}`, {})
+      .toPromise()
+      .then(() => {})
   }
 }

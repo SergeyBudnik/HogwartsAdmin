@@ -1,0 +1,59 @@
+<app-modal-template [modalStatus]="modalStatus">
+  <div class="app-modal-content" *ngIf="!!studentGroup">
+    <div class="app-modal-title">
+      Добавление группы
+    </div>
+
+    <div class="app-modal-body">
+      <app-form-input-control
+        [label]="'Преподаватель'"
+        [valid]="!!studentGroup.groupId">
+        <app-select-group-control
+          [value]="studentGroup.groupId"
+          [groups]="groups"
+          [students]="students"
+          [staffMembers]="staffMembers"
+          (onChange)="studentGroup.groupId = $event">
+        </app-select-group-control>
+      </app-form-input-control>
+
+      <br>
+
+      <div class="student-card-information-assign-group-popup-dates">
+        <app-form-input-control
+          class="student-card-information-assign-group-popup-dates-column"
+          [label]="'Записался в группу'"
+          [valid]="!!studentGroup.startTime">
+          <app-date-control
+            [value]="studentGroup.startTime"
+            (onChange)="studentGroup.startTime = $event">
+          </app-date-control>
+        </app-form-input-control>
+
+        <app-form-input-control
+          class="student-card-information-assign-group-popup-dates-column"
+          [label]="'Покинул группу'"
+          [valid]="!!studentGroup.finishTime">
+          <app-date-control
+            [value]="studentGroup.finishTime"
+            (onChange)="studentGroup.finishTime = $event">
+          </app-date-control>
+        </app-form-input-control>
+      </div>
+    </div>
+
+    <div class="app-modal-footer">
+      <button class="app-button-secondary pull-right" (click)="cancel()">
+        Отмена
+      </button>
+
+      <button class="app-button-danger pull-right" [disabled]="isNew()" (click)="delete()">
+        Удалить
+      </button>
+
+      <button class="app-button-primary pull-right" [disabled]="!isValid()" (click)="save()">
+        Сохранить
+      </button>
+    </div>
+  </div>
+</app-modal-template>

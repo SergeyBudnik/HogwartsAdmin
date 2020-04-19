@@ -11,7 +11,7 @@ import {endOfWeek, startOfWeek} from 'date-fns';
   styleUrls: ['./cabinet-card-timetable.page.less']
 })
 export class CabinetTimetablePage {
-  public cabinet: Cabinet = new Cabinet(null, null, null);
+  public cabinet: Cabinet = new Cabinet(null, null);
   private allGroups: Array<Group> = [];
 
   public cabinetGroups: Array<Group> = [];

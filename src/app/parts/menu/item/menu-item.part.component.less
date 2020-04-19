@@ -1,0 +1,32 @@
+@import "~styles/index";
+
+.page-left-menu-item {
+  padding: 15px 20px;
+  border-bottom: 1px solid @color-stroke_basic_light;
+}
+
+.page-left-menu-item-active {
+  .app-font-regular;
+  .page-left-menu-item;
+
+  color: @color-fill_text_basic;
+  border-right: 2px solid @color-fill_accent_strong;
+  font-size: @font-normal;
+}
+
+.page-left-menu-item-inactive {
+  .app-font-regular;
+  .page-left-menu-item;
+
+  cursor: pointer;
+  color: @color-fill_text_basic_action_link;
+  font-size: @font-normal;
+}
+
+.page-left-menu-item-inactive:hover {
+  opacity: 0.7;
+}
+
+.menu-item-icon {
+  width: 30px;
+}

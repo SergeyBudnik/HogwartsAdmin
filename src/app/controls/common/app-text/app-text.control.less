@@ -1,0 +1,40 @@
+@import "~styles/index";
+
+.app-text-control {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+}
+
+.app-text-control-icon {
+  width: @app-size-6;
+  height: @app-size-6;
+
+  line-height: @app-size-6;
+
+  background: @color-alt_basic_base;
+
+  text-align: center;
+  vertical-align: center;
+  color: @color-fill_text_basic;
+
+  border-radius: @app-size-0-5 0 0 @app-size-0-5;
+}
+
+.app-text-control-field {
+  .app-font-regular;
+
+  flex-grow: 1;
+
+  height: @app-size-6;
+
+  padding: 0 @app-size-2;
+
+  color: @color-fill_text_basic;
+  font-size: @font-normal;
+
+  border: none;
+  border-radius: 0 @app-size-0-5 @app-size-0-5 0;
+  background: @color-alt_basic_base;
+}

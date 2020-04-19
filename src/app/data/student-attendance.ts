@@ -8,9 +8,16 @@ export class StudentAttendanceTypeUtils {
 
 export class StudentAttendance {
   public constructor(
-    public id: number,
-    public studentId: number,
+    public studentLogin: string,
     public type: StudentAttendanceType,
+    public startTime: number,
+    public finishTime: number
+  ) {}
+}
+
+export class StudentAttendanceId {
+  constructor(
+    public studentLogin: string,
     public startTime: number,
     public finishTime: number
   ) {}

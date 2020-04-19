@@ -1,25 +1,66 @@
-@import "../../../styles/colors.less";
+@import "~styles/index";
 
-.header {
+@header-height: @app-size-8;
+
+.app-header {
   display: flex;
   flex-direction: row;
-  height: 50px;
-  padding: 0 20px;
-  line-height: 50px;
-  background: @color-fill_contrast_base;
+  align-items: center;
+  height: @header-height;
+  padding: 0 @app-size-2;
+  background: @color-fill_basic_subtle;
 }
 
-.header-title-section {
-  color: @color-fill_text_inverse;
+/* Title */
+
+.app-header-title-section {
+  .app-font-bold;
+
   width: 15%;
-  font-family: hogwartsBold;
+  color: @color-fill_text_inverse;
+  font-size: @font-normal;
 }
 
-.header-body-section {
+/* Tabs */
+
+.app-header-tabs-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
   width: 70%;
 }
 
-.header-logout-section {
+.app-header-tabs-section-element {
+  .app-font-regular;
+
+  height: @header-height;
+  line-height: @header-height;
+  padding: 0 @app-size-4;
+  font-size: @font-normal;
+}
+
+.app-header-tabs-section-element-active {
+  .app-header-tabs-section-element;
+
+  color: @color-fill_text_inverse_accent;
+  border-bottom: 2px solid @color-fill_text_inverse_accent;
+}
+
+.app-header-tabs-section-element-inactive {
+  .app-header-tabs-section-element;
+
+  color: @color-fill_text_basic;
+}
+
+.app-header-tabs-section-element-inactive:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+/* Actions */
+
+.app-header-actions-section {
   width: 15%;
 }
 
@@ -34,36 +75,9 @@
   margin-right: 20px;
 }
 
-.header-logout-button {
-  margin-top: 5px;
-}
-
-.menu-element {
-  padding: 0 20px;
-  line-height: 50px;
-  height: 50px;
-  display: inline-block;
-}
-
-.menu-element-inactive {
-  .menu-element;
-
-  font-family: hogwartsRegular;
-  color: @color-fill_text_basic;
-}
-
 .menu-element-inactive:hover {
   cursor: pointer;
   opacity: 0.7;
-}
-
-.menu-element-active {
-  .menu-element;
-
-  font-family: hogwartsBold;
-  opacity: 1;
-  border-bottom: 2px solid @color-fill_text_inverse_accent;
-  color: @color-fill_text_inverse_accent;
 }
 
 .menu-element-icon {

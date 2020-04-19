@@ -1,4 +1,8 @@
-@import '../../../../../../styles.less';
+@import "~styles/index";
+
+/**
+ * VK link
+ */
 
 .student-vkLink-container {
   display: flex;
@@ -7,40 +11,20 @@
 
 .student-vkLink {
   width: 80%;
+  margin-right: 1%;
 }
 
 .student-vkLink-action {
   width: 19%;
-  margin-top: 32px;
-  margin-left: 1%;
 }
+
+/**
+ * Group
+ */
 
 .student-group-container {
   display: flex;
   flex-direction: row;
-  margin-bottom: 5px;
-}
-
-.student-group-link {
-  .clickable;
-
-  line-height: 38px;
-  color: @color-primary-normal-1;
-  cursor: pointer;
-}
-
-.student-status-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.student-status {
-  width: 80%;
-}
-
-.student-status-action {
-  width: 19%;
-  margin-left: 1%;
 }
 
 .student-group {
@@ -57,16 +41,30 @@
 }
 
 .student-group-action {
-  width: 12%;
+  width: 19%;
   margin-left: 1%;
-  line-height: 40px;
-  color: @color-fill_text_basic_action_link;
-  cursor: pointer;
-  border: 1px solid @color-fill_basic_subtle;
-  border-radius: 5px;
-  text-align: center;
 }
 
-.student-group-action:hover {
-  opacity: 0.7;
+.student-group-link {
+  line-height: @app-size-6;
+  color: @color-primary-normal-1;
+  cursor: pointer;
+}
+
+/**
+ * Status
+ */
+
+.student-status-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.student-status {
+  width: 80%;
+}
+
+.student-status-action {
+  width: 19%;
+  margin-left: 1%;
 }

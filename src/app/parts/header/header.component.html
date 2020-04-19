@@ -1,12 +1,12 @@
-<div class="header">
-  <div class="header-title-section">
+<div class="app-header">
+  <div class="app-header-title-section">
     <span>Hogwarts Admin v2.0.0</span>
   </div>
 
-  <div class="header-body-section">
+  <div class="app-header-tabs-section">
     <div (click)="navigationService.students().list().go()"
-         [class.menu-element-active]="activeSection === 'STUDENTS'"
-         [class.menu-element-inactive]="activeSection !== 'STUDENTS'">
+         [class.app-header-tabs-section-element-active]="activeSection === 'STUDENTS'"
+         [class.app-header-tabs-section-element-inactive]="activeSection !== 'STUDENTS'">
 
       <i class="fa fa-user menu-element-icon" aria-hidden="true"></i>
 
@@ -14,8 +14,8 @@
     </div>
 
     <div (click)="navigationService.groups().list().go()"
-         [class.menu-element-active]="activeSection === 'GROUPS'"
-         [class.menu-element-inactive]="activeSection !== 'GROUPS'">
+         [class.app-header-tabs-section-element-active]="activeSection === 'GROUPS'"
+         [class.app-header-tabs-section-element-inactive]="activeSection !== 'GROUPS'">
 
       <i class="fa fa-users menu-element-icon" aria-hidden="true"></i>
 
@@ -23,8 +23,8 @@
     </div>
 
     <div (click)="navigationService.staffMembers().list().go()"
-         [class.menu-element-active]="activeSection === 'STAFF_MEMBERS'"
-         [class.menu-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
+         [class.app-header-tabs-section-element-active]="activeSection === 'STAFF_MEMBERS'"
+         [class.app-header-tabs-section-element-inactive]="activeSection !== 'STAFF_MEMBERS'">
 
       <i class="fa fa-graduation-cap menu-element-icon" aria-hidden="true"></i>
 
@@ -32,16 +32,25 @@
     </div>
 
     <div (click)="navigationService.cabinets().list().go()"
-         [class.menu-element-active]="activeSection === 'CABINETS'"
-         [class.menu-element-inactive]="activeSection !== 'CABINETS'">
+         [class.app-header-tabs-section-element-active]="activeSection === 'CABINETS'"
+         [class.app-header-tabs-section-element-inactive]="activeSection !== 'CABINETS'">
 
       <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
 
       Кабинеты
     </div>
+
+    <div (click)="navigationService.newStudents().list().go()"
+         [class.app-header-tabs-section-element-active]="activeSection === 'NEW_STUDENTS'"
+         [class.app-header-tabs-section-element-inactive]="activeSection !== 'NEW_STUDENTS'">
+
+      <i class="fa fa-building menu-element-icon" aria-hidden="true"></i>
+
+      Заявки
+    </div>
   </div>
 
-  <div class="header-logout-section">
-    <button class="header-logout-button app-button btn btn-default pull-right" (click)="logOff()">Выйти</button>
+  <div class="app-header-actions-section">
+    <button class="app-button-secondary pull-right" (click)="logOff()">Выйти</button>
   </div>
 </div>

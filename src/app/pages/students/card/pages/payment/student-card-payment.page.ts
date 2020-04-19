@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {StaffMember, Student, StudentPayment} from '../../../../../data';
-import {LoginService, StudentsService} from '../../../../../service';
+import {StaffMember, ExistingStudentPayment, Student} from '../../../../../data';
+import {LoginService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {StaffMembersHttp, StudentPaymentHttp} from '../../../../../http';
+import {StaffMembersHttp, StudentPaymentHttp, StudentsHttp} from '../../../../../http';
+import {StudentCardPaymentAddPopupManager} from './views';
+import {PaymentProcessInfo} from './data/payment-process-info';
 
 @Component({
   selector: 'app-student-card-payment-page',
@@ -10,26 +12,27 @@ import {StaffMembersHttp, StudentPaymentHttp} from '../../../../../http';
   styleUrls: ['./student-card-payment.page.less']
 })
 export class StudentCardPaymentPage {
-  public student: Student = new Student();
   public loadingInProgress = true;
 
-  public payments: Array<StudentPayment> = [];
+  public student: Student = null;
+
+  public payments: Array<ExistingStudentPayment> = [];
   public staffMembers: Array<StaffMember> = [];
 
   public constructor(
     private route: ActivatedRoute,
     private loginService: LoginService,
-    private studentsService: StudentsService,
+    private studentsHttp: StudentsHttp,
     private studentPaymentHttp: StudentPaymentHttp,
     private staffMembersHttp: StaffMembersHttp,
   ) {
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
-        this.student.id = Number(params.get('id'));
+        let login = params.get('login');
 
         Promise.all([
-          this.studentsService.getStudent(this.student.id),
-          this.studentPaymentHttp.getPayments(this.student.id),
+          this.studentsHttp.getStudent(login),
+          this.studentPaymentHttp.getPayments(login),
           this.staffMembersHttp.getAllStaffMembers()
         ]).then(it => {
           this.student = it[0];
@@ -42,11 +45,26 @@ export class StudentCardPaymentPage {
     });
   }
 
-  public onPaymentAdded(payment: StudentPayment) {
+  public addPayment() {
+    StudentCardPaymentAddPopupManager.show(
+      this.student.login,
+      this.staffMembers
+    );
+  }
+
+  public onPaymentAdded(payment: ExistingStudentPayment) {
     this.payments.push(payment);
   }
 
   public onPaymentDeleted(paymentId: number): void {
     this.payments = this.payments.filter(it => it.id !== paymentId);
+  }
+
+  public onPaymentProcessed(paymentProcessInfo: PaymentProcessInfo): void {
+    this.payments = this.payments.map(it => {
+      let processed = it.id === paymentProcessInfo.paymentId ? paymentProcessInfo.processed : it.processed;
+
+      return ExistingStudentPayment.createProcessed(it, processed);
+    })
   }
 }

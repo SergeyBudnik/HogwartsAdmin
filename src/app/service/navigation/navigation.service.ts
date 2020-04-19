@@ -5,7 +5,7 @@ import {
   NavigationGroupsService,
   NavigationStaffMembersService,
   NavigationCabinetsService,
-  NavigationExecutor
+  NavigationExecutor, NavigationNewStudentsService
 } from '.';
 
 @Injectable()
@@ -30,5 +30,9 @@ export class NavigationService {
 
   public cabinets(): NavigationCabinetsService {
     return new NavigationCabinetsService(this.router);
+  }
+
+  public newStudents(): NavigationNewStudentsService {
+    return new NavigationNewStudentsService(this.router);
   }
 }

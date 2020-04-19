@@ -1,0 +1,143 @@
+@import "~styles/abstract/index";
+
+/**
+ * Primary components
+ */
+
+.app-card-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-card-page-elements {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  background: @color-fill_basic_base;
+  overflow: hidden;
+}
+
+.app-card-page-left-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-fill_basic_light;
+}
+
+.app-card-page-right-menu {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background: @color-fill_basic_light;
+}
+
+.app-card-page-content {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  padding: 20px;
+}
+
+.app-card-page-content-scrollable {
+  .app-card-page-content;
+
+  overflow-y: auto;
+}
+
+.app-card-page-footer {
+  display: flex;
+  flex-grow: 0;
+
+  justify-content: flex-end;
+
+  width: 70%;
+  padding: @app-size-2 15%;
+  background: @color-fill_basic_light;
+}
+
+/**
+ * Footer buttons
+ */
+
+.app-card-page-footer-button {
+  float: right;
+
+  margin: 0 @app-size-0-5;
+}
+
+/**
+ * Row with actions
+ */
+
+.app-card-page-row-with-actions {
+  display: flex;
+  flex-direction: row;
+
+  width: 100%;
+
+  height: @app-size-6;
+
+  margin-bottom: @app-size-0-5;
+}
+
+.app-card-page-row-with-actions-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  height: @app-size-6;
+
+  padding: 0 @app-size-2;
+
+  background: @color-alt_basic_base;
+
+  border-radius: @app-size-0-5;
+
+  box-sizing: border-box;
+}
+
+.app-card-page-row-with-actions-actions {
+  display: flex;
+  flex-direction: row;
+
+  margin-left: 1%;
+}
+
+/**
+ * Text items
+ */
+
+.app-card-page-title {
+  .app-font-bold;
+
+  font-size: @font-large;
+  color: @color-fill_text_basic_accent;
+}
+
+.app-card-page-text {
+  .app-font-regular;
+
+  font-size: @font-normal;
+  color: @color-fill_text_basic;
+}
+
+.app-card-page-info {
+  .app-font-regular;
+
+  font-size: @font-normal;
+  color: @color-fill_text_basic_light;
+}
+
+.app-card-page-link {
+  .app-font-regular;
+
+  font-size: @font-normal;
+  color: @color-fill_text_basic_action_link;
+}
+
+.app-card-page-link:hover {
+  cursor: pointer;
+
+  opacity: 0.7;
+}

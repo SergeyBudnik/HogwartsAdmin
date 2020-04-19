@@ -1,0 +1,78 @@
+@import "~styles/abstract/index";
+
+.app-modal-layout {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: @color-alt_basic_medium;
+}
+
+.app-modal {
+  position: absolute;
+
+  top: 15%;
+  left: 15%;
+
+  width: 70%;
+  height: 70%;
+
+  background: @color-fill_basic_base;
+
+  border-radius: @app-size-0-5;
+
+  z-index: 9999;
+}
+
+.app-modal-close-icon {
+  text-shadow: none;
+}
+
+.app-modal-content {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+.app-modal-title {
+  .app-font-regular;
+
+  width: 100%;
+
+  padding: @app-size-2;
+
+  box-sizing: border-box;
+
+  color: @color-fill_text_basic_accent;
+  font-size: @font-large;
+
+  background: @color-fill_basic_subtle;
+}
+
+.app-modal-body {
+  flex-grow: 1;
+
+  padding: @app-size-2;
+}
+
+.app-modal-footer {
+  width: 100%;
+
+  padding: @app-size-2;
+
+  box-sizing: border-box;
+
+  background: @color-fill_basic_subtle;
+}
+
+.app-modal-footer-buttons {
+  float: right;
+
+  margin: 0 @app-size-0-5;
+}
+

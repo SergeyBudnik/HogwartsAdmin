@@ -4,7 +4,7 @@ import {SelectItem} from '../select-item';
 export type FormSelectControlType = 'NUMERIC' | 'STRING';
 
 @Component({
-  selector: '[app-form-select-control]',
+  selector: 'app-form-select-control',
   templateUrl: './form-select.control.html',
   styleUrls: ['./form-select.control.less']
 })

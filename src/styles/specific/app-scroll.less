@@ -1,0 +1,33 @@
+@import "~styles/abstract/index";
+
+@app-scroll-width: @app-size-2;
+
+::-webkit-scrollbar-button {
+  background: none no-repeat;
+  width: @app-scroll-width;
+  height: 0
+}
+
+::-webkit-scrollbar-track {
+  background-color: @color-fill_contrast_subtle;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background-color: @color-fill_accent_strong;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: @color-fill_accent_strong;
+}
+
+::-webkit-resizer{
+  background: none no-repeat;
+  width: @app-scroll-width;
+  height: 0;
+}
+
+::-webkit-scrollbar{
+  width: @app-scroll-width;
+}

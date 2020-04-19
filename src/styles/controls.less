@@ -1,26 +1,4 @@
-@import "fonts.less";
-@import "colors.less";
-
-.app-header {
-  color: @color-fill_text_basic;
-}
-
-.app-link {
-  color: @color-fill_text_basic_action_link;
-}
-
-.app-link:hover {
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-.app-text {
-  color: @color-fill_text_basic;
-}
-
-.app-label {
-  color: @color-fill_text_basic;
-}
+@import "~styles/abstract/index";
 
 .app-text-input {
   font-size: 14px;
@@ -41,59 +19,9 @@
   border: 1px solid @color-stroke_accent_strong;
 }
 
-.app-tag-input {
-  background: @color-fill_basic_subtle;
-}
-
 .app-input-icon {
   font-size: 14px;
   height: 40px !important;
   background: @color-fill_contrast_subtle;
   color: @color-fill_text_basic;
-}
-
-.btn-primary, .btn-primary:active, .btn-primary:visited {
-  background-color: @color-primary-light-1;
-  color: @color-white;
-  font-family: hogwartsRegular;
-}
-
-.btn-primary:hover {
-  background-color: @color-primary-light-2;
-  color: @color-white;
-}
-
-.btn-default, .btn-default:active, .btn-default:visited {
-  background-color: @color-primary-light-3;
-  border: 1px solid @color-primary-light-1;
-  color: @color-white;
-  font-family: hogwartsRegular;
-}
-
-.btn-default:hover {
-  background-color: @color-primary-light-2;
-  border: 1px solid @color-primary-light-1;
-  color: @color-white;
-}
-
-.btn-info, .btn-info:active, .btn-info:visited {
-  background-color: @color-white;
-  border: 1px solid @color-primary-light-1;
-  color: @color-primary-normal-1;
-  font-family: hogwartsRegular;
-}
-
-.btn-info:hover {
-  background-color: @color-primary-light-3;
-  color: @color-primary-normal-1;
-}
-
-.ng2-tag-input tag {
-  background-color: @color-fill_contrast_subtle !important;
-  color: @color-fill_text_basic !important;
-}
-
-.ng2-tag-input input {
-  background-color: @color-fill_basic_subtle !important;
-  color: @color-fill_text_basic !important;
 }

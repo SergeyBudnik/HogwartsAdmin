@@ -72,6 +72,43 @@ export class TimeUtils {
     return res;
   }
 
+  public static fromDate(date: Date): Time {
+    let h = date.getHours();
+    let m = date.getMinutes();
+
+    if      (h ==  7 && m ==  0) { return 'T_07_00'; }
+    else if (h ==  7 && m == 30) { return 'T_07_30'; }
+    else if (h ==  8 && m ==  0) { return 'T_08_00'; }
+    else if (h ==  8 && m == 30) { return 'T_08_30'; }
+    else if (h ==  9 && m ==  0) { return 'T_09_00'; }
+    else if (h ==  9 && m == 30) { return 'T_09_30'; }
+    else if (h == 10 && m ==  0) { return 'T_10_00'; }
+    else if (h == 10 && m == 30) { return 'T_10_30'; }
+    else if (h == 11 && m ==  0) { return 'T_11_00'; }
+    else if (h == 11 && m == 30) { return 'T_11_30'; }
+    else if (h == 12 && m ==  0) { return 'T_12_00'; }
+    else if (h == 12 && m == 30) { return 'T_12_30'; }
+    else if (h == 13 && m ==  0) { return 'T_13_00'; }
+    else if (h == 13 && m == 30) { return 'T_13_30'; }
+    else if (h == 14 && m ==  0) { return 'T_14_00'; }
+    else if (h == 14 && m == 30) { return 'T_14_30'; }
+    else if (h == 15 && m ==  0) { return 'T_15_00'; }
+    else if (h == 15 && m == 30) { return 'T_15_30'; }
+    else if (h == 16 && m ==  0) { return 'T_16_00'; }
+    else if (h == 16 && m == 30) { return 'T_16_30'; }
+    else if (h == 17 && m ==  0) { return 'T_17_00'; }
+    else if (h == 17 && m == 30) { return 'T_17_30'; }
+    else if (h == 18 && m ==  0) { return 'T_18_00'; }
+    else if (h == 18 && m == 30) { return 'T_18_30'; }
+    else if (h == 19 && m ==  0) { return 'T_19_00'; }
+    else if (h == 19 && m == 30) { return 'T_19_30'; }
+    else if (h == 20 && m ==  0) { return 'T_20_00'; }
+    else if (h == 20 && m == 30) { return 'T_20_30'; }
+    else if (h == 21 && m ==  0) { return 'T_21_00'; }
+    else if (h == 21 && m == 30) { return 'T_21_30'; }
+    else                         { return 'T_08_00'; }
+  }
+
   public static getTimeMills(time: Time): number {
     let minute = 60 * 1000;
     let hour = 60 * minute;

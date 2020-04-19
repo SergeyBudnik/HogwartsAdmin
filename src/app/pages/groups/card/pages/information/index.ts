@@ -1,3 +1,4 @@
-export * from './group-card-information.page';
+export * from './data';
+export * from './views';
 
-export * from './popups/assign-lesson/group-card-information-assign-lesson.popup';
+export * from './group-card-information.page';

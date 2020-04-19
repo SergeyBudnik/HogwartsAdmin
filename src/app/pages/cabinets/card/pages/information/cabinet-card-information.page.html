@@ -1,61 +1,38 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-cabinet-card-menu [cabinetId]="cabinet.id" [currentTab]="'INFORMATION'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-cabinet-card-menu [cabinetId]="cabinet.id" [currentTab]="'INFORMATION'"></div>
 
-    <div class="page-content-with-footer">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" class="loading-sign" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!!cabinet.id">
-          Кабинет '{{cabinet.name}}'
-        </h3>
-
-        <h3 class="app-header" *ngIf="!cabinet.id">
-          Добавление кабинета
-        </h3>
+        <div class="app-card-page-title">
+          Информация
+        </div>
 
         <br>
 
-        <form>
-          <div app-form-text-input-control class="form-group"
-               [name]="'name'"
-               [label]="'Название'"
-               [placeholder]="'Введите название'"
-               [valid]="!!cabinet.name"
-               [value]="cabinet.name"
-               [editable]="true"
-               (onChange)="cabinet.name = $event"></div>
-
-          <div app-form-select-control class="form-group"
-               [name]="'educationLevel'"
-               [label]="'Уровень подготовки'"
-               [valid]="cabinet.cabinetType !== 'UNKNOWN'"
-               [valueString]="cabinet.cabinetType"
-               [items]="cabinetTypes"
-               (onChangeString)="cabinet.cabinetType = $event"></div>
-        </form>
+        <app-form-input-control [label]="'Название'" [valid]="!!cabinet.name">
+          <app-text-control
+            [value]="cabinet.name"
+            [placeholder]="'Введите название'"
+            (onChange)="cabinet.name = $event">
+          </app-text-control>
+        </app-form-input-control>
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
   </div>
 
-  <div class="footer">
-    <button [disabled]="loadingInProgress || actionInProgress || !cabinet.id"
-            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+  <div class="app-card-page-footer">
+    <button *ngIf="!!cabinet.id" class="app-button-danger app-card-page-footer-button" (click)="delete()">
       Удалить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
 
-    <button [disabled]="loadingInProgress || actionInProgress"
-            class="btn btn-primary pull-right" (click)="save()">
+    <button class="app-button-primary app-card-page-footer-button" (click)="save()">
       Сохранить
-      <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
     </button>
   </div>
 </div>

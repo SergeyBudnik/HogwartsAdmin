@@ -9,8 +9,8 @@ import {LoginService, NavigationService} from '../../service';
 export class LoginPageComponent {
   public loginFailed = false;
 
-  public login: string;
-  public password: string;
+  public login: string = '';
+  public password: string = '';
 
   public actionInProgress = false;
 

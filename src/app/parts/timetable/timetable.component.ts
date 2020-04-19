@@ -51,16 +51,6 @@ export class TimetableComponent {
     return DayOfWeekUtils.values[day === 0 ? 6 : day - 1];
   }
 
-  public getCurrentTime(): Time {
-    const hour = new Date().getHours();
-    const minute = new Date().getMinutes();
-
-    const index = 2 * (hour - 7) + minute / 30;
-
-    return 0 <= index && index < TimeUtils.values.length ?
-      TimeUtils.values[index] : null;
-  }
-
   public getGroup(dayOfWeek: DayOfWeek, time: Time): Group {
     if (this.lessons != null && this.groups != null) {
       const lesson = this.lessons.get(dayOfWeek).get(time);

@@ -1,0 +1,39 @@
+<div *ngIf="groupLessonInfo.visible" class="app-group-card-information-group-lesson-row">
+  <div class="app-group-card-information-group-lesson-row-info">
+    <div class="group-lesson-row-column-day-of-week">
+      <div class="app-card-page-text">
+        {{translationService.dayOfWeek().translate(groupLessonInfo.lesson.day)}}
+      </div>
+    </div>
+    <div class="group-lesson-row-column-time">
+      <div class="app-card-page-text">
+        {{translationService.time().translate(groupLessonInfo.lesson.startTime)}}
+        -
+        {{translationService.time().translate(groupLessonInfo.lesson.finishTime)}}
+      </div>
+    </div>
+    <div class="group-lesson-row-column-teacher">
+      <div class="app-card-page-text">
+        {{getTeacherName()}}
+      </div>
+    </div>
+    <div class="group-lesson-row-column-status">
+      <div class="app-card-page-text">
+        <ng-container *ngIf="!groupLessonInfo.lesson.id">
+        </ng-container>
+        <ng-container *ngIf="!!groupLessonInfo.lesson.id">
+          с
+          {{groupLessonInfo.lesson.creationTime | date: 'dd.MM.yyyy'}}
+          по
+          {{groupLessonInfo.lesson.deactivationTime | date: 'dd.MM.yyyy'}}
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-group-card-information-group-lesson-row-actions">
+    <div class="app-button-secondary" (click)="editLesson()">
+      Редактировать
+    </div>
+  </div>
+</div>

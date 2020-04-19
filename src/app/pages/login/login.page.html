@@ -1,21 +1,33 @@
 <div class="login-page">
   <div class="login-form">
     <form>
-      <div class="form-group">
-        <label class="app-label" for="login">Логин:</label>
-        <input id="login" name="login" class="form-control app-text-input" [(ngModel)]="login">
-      </div>
-
-      <div class="form-group">
-        <label class="app-label" for="password">Пароль:</label>
-        <input id="password" name="password" type="password" class="form-control app-text-input" [(ngModel)]="password">
-      </div>
+      <app-form-input-control
+        [label]="'Логин'">
+        <app-text-control
+          [value]="login"
+          [placeholder]="'Логин'"
+          (onChange)="login = $event">
+        </app-text-control>
+      </app-form-input-control>
 
       <br>
 
-      <button class="btn btn-primary h-full" (click)="runLogin()">
+      <app-form-input-control
+        [label]="'Пароль'">
+        <app-text-control
+          [value]="password"
+          [placeholder]="'Пароль'"
+          (onChange)="password = $event">
+        </app-text-control>
+      </app-form-input-control>
+
+      <br>
+
+      <button
+        class="app-button-primary"
+        [disabled]="actionInProgress"
+        (click)="runLogin()">
         Войти
-        <fa *ngIf="actionInProgress" name="spinner" class="loading-sign horizontal-item" animation="spin"></fa>
       </button>
 
       <br>

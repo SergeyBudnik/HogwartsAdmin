@@ -1,0 +1,97 @@
+<app-modal-template [modalStatus]="modalStatus">
+  <div class="app-modal-content" *ngIf="!!lesson">
+    <div class="app-modal-title">
+      Добавление занятия в группу
+    </div>
+
+    <div class="app-modal-body">
+      <app-form-input-control
+        [label]="'Преподаватель'"
+        [valid]="!!lesson.teacherLogin">
+        <app-select-staff-member-control
+          [items]="staffMembers"
+          [staffMemberLogin]="lesson.teacherLogin"
+          (onChange)="lesson.teacherLogin = $event">
+        </app-select-staff-member-control>
+      </app-form-input-control>
+
+      <br>
+
+      <div class="app-group-card-information-assign-lesson-row">
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'День недели'"
+          [valid]="!!lesson.day">
+          <app-select-day-of-week-control
+            [value]="lesson.day"
+            (onChange)="lesson.day = $event">
+          </app-select-day-of-week-control>
+        </app-form-input-control>
+
+        <div class="app-group-card-information-assign-lesson-column-separator"></div>
+
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'Время начала занятия'"
+          [valid]="!!lesson.startTime">
+          <app-select-time-control
+            [value]="lesson.startTime"
+            (onChange)="lesson.startTime = $event">
+          </app-select-time-control>
+        </app-form-input-control>
+
+        <div class="app-group-card-information-assign-lesson-column-separator"></div>
+
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'Время окончания занятия'"
+          [valid]="!!lesson.finishTime">
+          <app-select-time-control
+            [value]="lesson.finishTime"
+            (onChange)="lesson.finishTime = $event">
+          </app-select-time-control>
+        </app-form-input-control>
+      </div>
+
+      <br>
+
+      <div class="app-group-card-information-assign-lesson-row">
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'Дата запуска занятия (00:00:00)'"
+          [valid]="!!lesson.creationTime">
+          <app-date-control
+            [value]="lesson.creationTime"
+            (onChange)="lesson.creationTime = $event">
+          </app-date-control>
+        </app-form-input-control>
+
+        <div class="app-group-card-information-assign-lesson-column-separator"></div>
+
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'Дата отключения занятия (23:59:00)'"
+          [valid]="!!lesson.deactivationTime">
+          <app-date-control
+            [value]="lesson.deactivationTime"
+            (onChange)="lesson.deactivationTime = $event">
+          </app-date-control>
+        </app-form-input-control>
+      </div>
+    </div>
+
+    <div class="app-modal-footer">
+      <button class="app-button-primary app-modal-footer-buttons" [disabled]="!isValid()" (click)="save()">
+        Сохранить
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
+        Отмена
+      </button>
+
+      <button class="app-button-danger app-modal-footer-buttons" [disabled]="isNew()" (click)="delete()">
+        Удалить
+      </button>
+    </div>
+  </div>
+</app-modal-template>

@@ -24,9 +24,9 @@ export class StudentStatusHttp {
       .then(() => {});
   }
 
-  public getStatuses(studentId: number): Promise<Array<StudentStatus>> {
+  public getStatuses(studentLogin: string): Promise<Array<StudentStatus>> {
     return this.http
-      .get<Array<StudentStatus>>(`${this.root}/${studentId}`)
+      .get<Array<StudentStatus>>(`${this.root}/${studentLogin}`)
       .toPromise()
   }
 }

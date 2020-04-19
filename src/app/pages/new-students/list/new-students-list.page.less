@@ -1,0 +1,41 @@
+@import "~styles/index";
+
+@new-students-list-column-width-separation: 2%;
+
+@new-students-list-column-width-student-name: 18%;
+@new-students-list-column-width-manager-name: 18%;
+@new-students-list-column-width-action-date: 18%;
+@new-students-list-column-width-status: 18%;
+@new-students-list-column-width-actions: 20%;
+
+.new-students-list-column {
+  margin-right: @new-students-list-column-width-separation;
+}
+
+.new-students-list-column-student-name {
+  .new-students-list-column;
+
+  width: @new-students-list-column-width-student-name;
+}
+
+.new-students-list-column-manager-name {
+  .new-students-list-column;
+
+  width: @new-students-list-column-width-manager-name;
+}
+
+.new-students-list-column-action-date {
+  .new-students-list-column;
+
+  width: @new-students-list-column-width-action-date;
+}
+
+.new-students-list-column-status {
+  .new-students-list-column;
+
+  width: @new-students-list-column-width-status;
+}
+
+.new-students-list-column-actions {
+  width: @new-students-list-column-width-actions;
+}

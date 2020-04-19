@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
-import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils, StudentUtils} from '../../../data';
+import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils} from '../../../data';
 import {LoginService, NavigationService, StudentGroupsService, TranslationService} from '../../../service';
 import {SelectItem} from '../../../controls/select-item';
-import {GroupsHttp, StudentsHttp} from '../../../http';
+import {GroupsHttp} from '../../../http';
+import {StudentsHttp} from '../../../http';
 
 @Component({
   selector: 'app-students-list-page',
@@ -63,7 +64,7 @@ export class StudentsListPage {
   }
 
   public isStudentFilled(student: Student): boolean {
-    return StudentUtils.isValid(student);
+    return true; // StudentUtils.isValid(student);
   }
 
   public onFilterChange(
@@ -83,15 +84,14 @@ export class StudentsListPage {
   private getFilteredStudents(): Array<Student> {
     return this.allStudents
       .filter(it => {
-        let nameMatches = it.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1;
-        let phoneMatches = it.phones.filter(phone => phone.indexOf(this.nameFilter) != -1).length != 0;
+        let nameMatches = it.person.name.toLowerCase().indexOf(this.nameFilter.toLowerCase()) !== -1;
+        let phoneMatches = it.person.contacts.phones.filter(phone => phone.value.indexOf(this.nameFilter) != -1).length != 0;
 
         return nameMatches || phoneMatches;
       })
-      .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
+      .filter(it => this.ageFilter === 'UNKNOWN' || it.educationInfo.age === this.ageFilter)
+      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationInfo.level === this.educationLevelFilter)
       .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
-      .sort((s1, s2) => s1.id - s2.id)
       .sort((s1, s2) => {
         const s1ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s1);
         const s2ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s2);

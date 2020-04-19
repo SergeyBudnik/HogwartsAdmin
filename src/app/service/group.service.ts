@@ -9,6 +9,10 @@ export class GroupService {
       .filter(group => group.educationLevel === educationLevel)
   }
 
+  public getGroupHeadTeacher(group: Group, staffMembers: Array<StaffMember>): StaffMember {
+    return staffMembers.find(staffMember => staffMember.login === group.headTeacherLogin);
+  }
+
   public getGroupCabinet(group: Group, allCabinets: Array<Cabinet>): Cabinet {
     return allCabinets.find(cabinet => cabinet.id === group.cabinetId);
   }
@@ -60,7 +64,7 @@ export class GroupService {
       return 'Нет студентов';
     } else {
       return groupStudents
-        .map(it => it.name)
+        .map(it => it.person.name)
         .map(it => it.split(' ')[0]).reduce((n1, n2) => `${n1}; ${n2}`);
     }
   }

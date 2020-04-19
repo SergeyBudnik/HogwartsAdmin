@@ -1,56 +1,64 @@
-<div class="page">
+<div class="app-list-page">
   <app-header [activeSection]="'GROUPS'"></app-header>
 
-  <div class="list-header-container">
-    <div class="list-header">
-      <div class="groups-list-header-color"></div>
+  <div class="app-list-header">
+    <div class="app-groups-list-column-color"></div>
 
-      <app-filter-group-type class="groups-list-header-search groups-type-column" (onChange)="onGroupTypeFilterChange($event)"></app-filter-group-type>
-      <app-filter-education-level class="groups-list-header-search groups-education-level-column" (onChange)="onEducationLevelFilterChange($event)"></app-filter-education-level>
-      <app-filter-age class="groups-list-header-search groups-age-column" (onChange)="onAgeFilterChange($event)"></app-filter-age>
-      <app-filter-cabinets class="groups-list-header-search groups-cabinets-column" (onChange)="onCabinetFilterChange($event)"></app-filter-cabinets>
+    <app-select-group-type-control
+      class="app-groups-list-column-type"
+      (onChange)="onGroupTypeFilterChange($event)">
+    </app-select-group-type-control>
 
-      <div class="groups-students-column">
-        <div class="list-header-label">
-          Студенты
-        </div>
-      </div>
+    <app-select-education-level-control
+      class="app-groups-list-column-education-level"
+      (onChange)="onEducationLevelFilterChange($event)">
+    </app-select-education-level-control>
+
+    <app-select-age-control
+      class="app-groups-list-column-age"
+      (onChange)="onAgeFilterChange($event)">
+    </app-select-age-control>
+
+    <app-select-cabinet-control
+      class="app-groups-list-column-cabinets"
+      [items]="[]"
+      (onChange)="onCabinetFilterChange($event)">
+    </app-select-cabinet-control>
+
+    <div class="app-groups-list-column-students app-list-header-label">
+      Студенты
     </div>
 
-    <div class="groups-list-header-add-new">
-      <button class="btn btn-primary pull-right" (click)="this.navigationService.groups().new().go()">
+    <div class="app-groups-list-column-actions">
+      <button class="app-button-primary pull-right" (click)="this.navigationService.groups().new().go()">
         Добавить
       </button>
     </div>
   </div>
 
-  <div class="list-content">
-    <div class="page-loading" *ngIf="loadingInProgress">
-      <div class="app-loader"></div>
-    </div>
-
+  <div class="app-list-content">
     <div *ngFor="let group of groups"
          class="list-row-clickable"
          [class.list-row-inactive]="!isGroupActive(group.id)"
          (click)="openGroupPage(group.id)">
 
-      <div class="groups-list-item-color">
+      <div class="list-row-item app-groups-list-column-color">
         <div class="groups-list-item-color-circle" [style.background-color]="group.color">
         </div>
       </div>
-      <div class="list-row-item groups-type-column">
+      <div class="list-row-item app-groups-list-column-type">
         {{translationService.groupType().translate(group.type)}}
       </div>
-      <div class="list-row-item groups-education-level-column">
+      <div class="list-row-item app-groups-list-column-education-level">
         {{translationService.educationLevel().translate(group.educationLevel)}}
       </div>
-      <div class="list-row-item groups-age-column">
+      <div class="list-row-item app-groups-list-column-age">
         {{translationService.age().translate(group.age)}}
       </div>
-      <div class="list-row-item groups-cabinets-column">
+      <div class="list-row-item app-groups-list-column-cabinets">
         {{getGroupCabinet(group.id).name}}
       </div>
-      <div class="list-row-item groups-students-column">
+      <div class="list-row-item app-groups-list-column-students">
         {{getGroupStudentsString(group.id)}}
       </div>
     </div>

@@ -1,104 +1,95 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-student-menu [studentId]="student.id" [currentTab]="'STATUS'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-student-menu [studentLogin]="''" [currentTab]="'STATUS'"></div>
 
-    <div class="page-content-with-footer" *ngIf="!!student.id">
-      <div *ngIf="loadingInProgress" class="page-loading">
-        <fa name="spinner" animation="spin"></fa>
-      </div>
-
+    <div class="app-card-page-content-scrollable" *ngIf="!!student.id">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">
+        <div class="app-card-page-title">
           {{student.name}} - Статус
-        </h3>
+        </div>
 
         <br>
 
-        <form>
-          <div app-student-status [studentStatusType]="currentStudentStatus.status"></div>
+        <div app-student-status [studentStatusType]="currentStudentStatus.status"></div>
 
-          <br>
+        <br>
 
-          <div *ngIf="hasAction(currentStudentStatus)" app-form-text-input-control class="form-group"
-               [name]="'currentActionDate'"
-               [label]="getActionLabel()"
-               [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'"
-               [editable]="false"
-               [placeholder]="''"
-               [valid]="true"></div>
+        <div *ngIf="hasAction(currentStudentStatus)" app-form-text-input-control class="form-group"
+             [name]="'currentActionDate'"
+             [label]="getActionLabel()"
+             [value]="currentStudentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'"
+             [editable]="false"
+             [placeholder]="''"
+             [valid]="true"></div>
 
-          <!-- Status update buttons -->
+        <!-- Status update buttons -->
 
-          <div>
-            <button *ngFor="let statusAction of getStatusActions(currentStudentStatus.status)"
-                    class="btn horizontal-item"
-                    [class.btn-primary]="statusAction.isPrimary"
-                    [class.btn-secondary]="!statusAction.isPrimary"
-                    (click)="setNewStudentStatus(statusAction.newStatus)"
-                    data-toggle="modal" data-target="#studentStatus">
-              {{statusAction.label}}
-            </button>
-          </div>
+        <div>
+          <button *ngFor="let statusAction of getStatusActions(currentStudentStatus.status)"
+                  class="btn horizontal-item"
+                  [class.btn-primary]="statusAction.isPrimary"
+                  [class.btn-secondary]="!statusAction.isPrimary"
+                  (click)="setNewStudentStatus(statusAction.newStatus)"
+                  data-toggle="modal" data-target="#studentStatus">
+            {{statusAction.label}}
+          </button>
+        </div>
 
-          <br>
+        <br>
 
-          <!-- History -->
+        <!-- History -->
 
-          <div class="list-header-container">
-            <div class="list-header">
-              <div style="width: 35%; margin-left: 10px; color: #ffffff">
-                <b>Дата изменения</b>
-              </div>
-              <div style="width: 35%; margin-left: 10px; color: #ffffff">
-                <b>Дата действия</b>
-              </div>
-              <div style="width: 30%">
-              </div>
+        <div class="list-header-container">
+          <div class="list-header">
+            <div style="width: 35%; margin-left: 10px; color: #ffffff">
+              <b>Дата изменения</b>
+            </div>
+            <div style="width: 35%; margin-left: 10px; color: #ffffff">
+              <b>Дата действия</b>
+            </div>
+            <div style="width: 30%">
             </div>
           </div>
+        </div>
 
-          <div class="list-content" style="overflow: visible">
-            <div *ngFor="let studentStatus of studentStatuses" class="list-row">
-              <div class="list-row-item" style="width: 35%;">
-                <span *ngIf="studentStatus.creationTime === 0">
-                  -
-                </span>
-                <span *ngIf="studentStatus.creationTime !== -1">
-                  {{studentStatus.creationTime | date: 'dd.MM.yyyy HH:mm'}}
-                </span>
-              </div>
-              <div class="list-row-item" style="width: 35%;">
-                <span *ngIf="!hasAction(studentStatus)">
-                  Действие не требуется
-                </span>
-                <span *ngIf="hasAction(studentStatus)">
-                  {{studentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'}}
-                </span>
-              </div>
-              <div class="list-row-item" style="width: 30%;">
-                <div app-student-status [studentStatusType]="studentStatus.status" style="margin-top: 10px;"></div>
-              </div>
+        <div class="list-content" style="overflow: visible">
+          <div *ngFor="let studentStatus of studentStatuses" class="app-list-row">
+            <div class="list-row-item" style="width: 35%;">
+              <span *ngIf="studentStatus.creationTime === 0">
+                -
+              </span>
+              <span *ngIf="studentStatus.creationTime !== -1">
+                {{studentStatus.creationTime | date: 'dd.MM.yyyy HH:mm'}}
+              </span>
+            </div>
+            <div class="list-row-item" style="width: 35%;">
+              <span *ngIf="!hasAction(studentStatus)">
+                Действие не требуется
+              </span>
+              <span *ngIf="hasAction(studentStatus)">
+                {{studentStatus.actionTime | date: 'dd.MM.yyyy HH:mm'}}
+              </span>
+            </div>
+            <div class="list-row-item" style="width: 30%;">
+              <div app-student-status [studentStatusType]="studentStatus.status" style="margin-top: 10px;"></div>
             </div>
           </div>
-        </form>
+        </div>
       </ng-container>
 
-      <app-student-status-modal
+      <app-card-student-status-change-popup
         *ngIf="!loadingInProgress"
         [studentId]="student.id"
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
         [hasAction]="hasAction(newStudentStatus)"
         (statusSaved)="onStatusSaved($event)">
-      </app-student-status-modal>
+      </app-card-student-status-change-popup>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
-  </div>
-
-  <div class="footer">
   </div>
 </div>

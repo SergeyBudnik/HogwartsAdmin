@@ -1,0 +1,58 @@
+<app-modal-template *ngIf="!!oldAction" [id]="'newStudentActionsUpdateModal'" [title]="'Изменение статуса'">
+  <div class="modal-body">
+    <div style="display: flex; flex-direction: row; width: 100%">
+      <div style="display: flex; flex-direction: column; width: 50%; padding: 0 12px">
+        <app-select-staff-member-control
+          [items]="staffMembers"
+          [staffMemberLogin]="oldAction.info.assigneeLogin">
+        </app-select-staff-member-control>
+
+        <app-form-date-and-time-control
+          [dateLabel]="'Дата'"
+          [timeLabel]="'Время'"
+          [dateAndTime]="getDateAndTime(oldAction.info.actionTime)">
+        </app-form-date-and-time-control>
+
+        <div app-form-text-input-control class="form-group"
+          [label]="'Описание'"
+          [valid]="true"
+          [value]="oldAction.info.description"
+          [editable]="false">
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; width: 50%; padding: 0 12px">
+        <app-select-staff-member-control
+          [items]="staffMembers"
+          [staffMemberLogin]="newAction.info.assigneeLogin"
+          (onChange)="newAction.info.assigneeLogin = $event">
+        </app-select-staff-member-control>
+
+        <app-form-date-and-time-control
+          [dateLabel]="'Дата'"
+          [timeLabel]="'Время'"
+          [dateAndTime]="getDateAndTime(newAction.info.actionTime)"
+          (onChange)="newAction.info.actionTime = fromDateAndTime($event)">
+        </app-form-date-and-time-control>
+
+        <div app-form-text-input-control class="form-group"
+          [label]="'Описание'"
+          [valid]="true"
+          [value]="newAction.info.description"
+          [editable]="true"
+          (onChange)="newAction.info.description = $event">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      Отмена
+    </button>
+
+    <button type="button" class="btn btn-primary" (click)="save()">
+      Сохранить
+    </button>
+  </div>
+</app-modal-template>

@@ -1,3 +1,5 @@
+@import "~styles/abstract/index";
+
 tag-input {
   padding: 0 !important;
 }
@@ -20,4 +22,28 @@ tag-input {
 
 .ng2-tags-container tag delete-icon {
   margin-top: -5px !important;
+}
+
+.ng2-tag-input tag {
+  .app-font-regular;
+
+  min-height: @app-size-6;
+  max-height: @app-size-6;
+  line-height: @app-size-6;
+
+  background-color: @color-fill_contrast_base !important;
+  color: @color-fill_text_basic !important;
+  font-size: @font-normal;
+}
+
+.ng2-tag-input input {
+  .app-font-regular;
+
+  min-height: @app-size-6;
+  max-height: @app-size-6;
+  line-height: @app-size-6;
+
+  background-color: @color-fill_contrast_base !important;
+  color: @color-fill_text_basic !important;
+  font-size: @font-normal;
 }

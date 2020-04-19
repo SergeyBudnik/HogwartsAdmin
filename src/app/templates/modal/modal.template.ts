@@ -1,4 +1,9 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
+
+export class ModalStatus {
+  constructor(public visible: boolean) {
+  }
+}
 
 @Component({
   selector: 'app-modal-template',
@@ -6,12 +11,7 @@ import {Component, ElementRef, Input, ViewChild} from '@angular/core';
   styleUrls: ['./modal.template.less']
 })
 export class ModalTemplateComponent {
-  @ViewChild('closeButton') closeButton: ElementRef;
-
-  @Input() id: string;
-  @Input() title: string;
-
-  @Input('modalVisible') set modalVisible(value: boolean) {
-    this.closeButton.nativeElement.click();
-  }
+  @Input() id: string = '';
+  @Input() title: string = '';
+  @Input() modalStatus: ModalStatus = new ModalStatus(false);
 }

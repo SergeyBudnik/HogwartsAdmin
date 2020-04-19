@@ -1,14 +1,5 @@
-<div id="{{id}}" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" #modal>
-  <div class="modal-dialog" role="document" style="min-width: 700px">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addAttendanceLabel">{{title}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #closeButton>
-          <span class="app-modal-close-icon" aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <ng-content></ng-content>
-    </div>
+<div class="app-modal-layout" *ngIf="modalStatus.visible">
+  <div class="app-modal">
+    <ng-content></ng-content>
   </div>
 </div>

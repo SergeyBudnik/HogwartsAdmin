@@ -1,126 +1,154 @@
-<div class="page">
+<div class="app-card-page">
   <app-header></app-header>
 
-  <div class="page-elements">
-    <div class="page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'INFORMATION'"></div>
+  <div class="app-card-page-elements">
+    <div class="app-card-page-left-menu" app-group-menu [groupId]="group.id" [currentTab]="'INFORMATION'"></div>
 
-    <div class="page-content-with-footer">
+    <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">
-          <ng-container *ngIf="!!group.id">
-            Группа '{{group.id}}'
-          </ng-container>
-          <ng-container *ngIf="!group.id">
-            Добавление группы
-          </ng-container>
-        </h3>
+        <div class="app-card-page-title">
+          Информация
+        </div>
 
         <br>
 
-        <form>
-          <div class="form-group">
-            <label for="color" style="color: #ffffff">Цвет:</label>
-            <input class="form-control" id="color" [(colorPicker)]="group.color" [style.background]="group.color"/>
-          </div>
+        <app-form-input-control
+          [label]="'Цвет группы'"
+          [valid]="!!group.color">
+          <app-color-picker-control
+            [value]="group.color"
+            (onChange)="group.color = $event">
+          </app-color-picker-control>
+        </app-form-input-control>
 
-          <div app-form-select-control class="form-group"
-               [type]="'STRING'"
-               [name]="'headTeacherLogin'"
-               [label]="'Старший преподаватель'"
-               [valid]="!!group.headTeacherLogin"
-               [valueString]="group.headTeacherLogin"
-               [items]="getStaffMembersItems()"
-               [hasEmpty]="true"
-               (onChangeString)="group.headTeacherLogin = $event"></div>
+        <br>
 
-          <div app-form-text-input-control class="form-group"
-               [name]="'bookName'"
-               [label]="'Название учебника'"
-               [placeholder]="'Введите название учебника'"
-               [valid]="!!group.bookName && group.bookName.indexOf('?') === -1"
-               [value]="group.bookName"
-               [editable]="true"
-               (onChange)="group.bookName = $event"></div>
+        <app-form-input-control
+          [label]="'Старший преподаватель'"
+          [valid]="!!group.bookName && group.bookName.indexOf('?') === -1">
+          <app-select-staff-member-control
+            [items]="staffMembers"
+            [staffMemberLogin]="group.headTeacherLogin"
+            (onChange)="group.headTeacherLogin = $event">
+          </app-select-staff-member-control>
+        </app-form-input-control>
 
-          <app-form-select-control-group-type [groupType]="group.type" (onValueChanged)="group.type = $event"></app-form-select-control-group-type>
-          <app-form-select-control-education-level [educationLevel]="group.educationLevel" (onValueChanged)="group.educationLevel = $event"></app-form-select-control-education-level>
-          <app-form-select-control-age [age]="group.age" (onValueChanged)="group.age = $event"></app-form-select-control-age>
-          <app-form-select-control-cabinet [allCabinets]="cabinets" [cabinetId]="group.cabinetId" (onValueChanged)="group.cabinetId = $event"></app-form-select-control-cabinet>
+        <br>
 
-          <br>
+        <app-form-input-control
+          [label]="'Название учебника'"
+          [valid]="!!group.bookName && group.bookName.indexOf('?') === -1">
+          <app-text-control
+            [value]="group.bookName"
+            [placeholder]="'Название учебника'"
+            (onChange)="group.bookName = $event">
+          </app-text-control>
+        </app-form-input-control>
 
-          <div style="display: flex; flex-direction: row; justify-content: space-between;">
-            <div class="app-header">Занятия:</div>
+        <br>
 
-            <div class="app-link" (click)="toggleInactiveLessons()">
-              <ng-container *ngIf="!showInactiveLessons">
-                Показывать неактивные
-              </ng-container>
-              <ng-container *ngIf="showInactiveLessons">
-                Скрывать неактивные
-              </ng-container>
-            </div>
-          </div>
+        <app-form-input-control
+          [label]="'Тип группы'"
+          [valid]="!!group.type">
+          <app-select-group-type-control
+            [value]="group.type"
+            (onChange)="group.type = $event">
+          </app-select-group-type-control>
+        </app-form-input-control>
 
-          <div *ngIf="lessons.length === 0">
-            <br>
+        <br>
 
-            Занятия не назначены
+        <app-form-input-control
+          [label]="'Уровень'"
+          [valid]="!!group.educationLevel">
+          <app-select-education-level-control
+            [value]="group.educationLevel"
+            (onChange)="group.educationLevel = $event">
+          </app-select-education-level-control>
+        </app-form-input-control>
 
-            <br>
-            <br>
-          </div>
+        <br>
 
-          <br>
+        <app-form-input-control
+          [label]="'Возраст'"
+          [valid]="!!group.educationLevel">
+          <app-select-age-control
+            [value]="group.age"
+            (onChange)="group.age = $event">
+          </app-select-age-control>
+        </app-form-input-control>
 
-          <div *ngFor="let lesson of lessons; let i = index;" class="app-clickable-row" (click)="setExistingModalLesson(lesson, i)" data-toggle="modal" data-target="#groupLessonModal">
-            <div class="group-lesson-row-day-of-week">
-              {{translationService.dayOfWeek().translate(lesson.day)}}
-            </div>
-            <div class="group-lesson-row-time">
-              {{translationService.time().translate(lesson.startTime)}} - {{translationService.time().translate(lesson.finishTime)}}
-            </div>
-            <div class="group-lesson-row-teacher">
-              TODO
-            </div>
-            <ng-container>
-              <div class="group-lesson-row-status" *ngIf="!lesson.id">
-              </div>
-              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !lesson.deactivationTime">
-                с {{lesson.creationTime | date: 'dd.MM.yyyy'}}
-              </div>
-              <div class="group-lesson-row-status" *ngIf="!!lesson.id && !!lesson.creationTime && !!lesson.deactivationTime">
-                с {{lesson.creationTime | date: 'dd.MM.yyyy'}} по {{lesson.deactivationTime | date: 'dd.MM.yyyy'}}
-              </div>
+        <br>
+
+        <app-form-input-control
+          [label]="'Кабинет'"
+          [valid]="!!group.educationLevel">
+          <app-select-cabinet-control
+            [items]="cabinets"
+            [cabinetId]="group.cabinetId"
+            (onChange)="group.cabinetId = $event">
+          </app-select-cabinet-control>
+        </app-form-input-control>
+
+        <br>
+
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+          <div class="app-card-page-title">Занятия</div>
+
+          <div class="app-card-page-link" (click)="toggleInactiveLessons()">
+            <ng-container *ngIf="!showInactiveLessons">
+              Показывать неактивные
+            </ng-container>
+            <ng-container *ngIf="showInactiveLessons">
+              Скрывать неактивные
             </ng-container>
           </div>
+        </div>
 
-          <br>
+        <br>
 
-          <button class="btn btn-primary" data-toggle="modal" data-target="#groupLessonModal" (click)="setNewModalLesson()">
-            Добавить занятие
-          </button>
+        <div class="app-card-page-text" *ngIf="lessons.length === 0">
+          Занятия не назначены
+        </div>
 
-          <br>
-        </form>
+        <app-group-card-information-lesson-row
+          *ngFor="let lesson of lessons"
+          [groupLessonInfo]="lesson"
+          [staffMembers]="staffMembers"
+          (editLesson)="editLesson($event)">
+        </app-group-card-information-lesson-row>
+
+        <br>
+
+        <button class="app-button-primary app-group-card-information-add-group" (click)="addLesson()">
+          Добавить занятие
+        </button>
+
+        <br>
       </ng-container>
     </div>
 
-    <div class="page-right-menu">
+    <div class="app-card-page-right-menu">
     </div>
-
-    <app-group-card-information-assign-lesson-popup [cabinets]="cabinets" [staffMembers]="staffMembers"></app-group-card-information-assign-lesson-popup>
   </div>
 
-  <div class="footer">
-    <button [disabled]="loadingInProgress || loadingInProgress || !group.id"
-            class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+  <div class="app-card-page-footer">
+    <button
+      [disabled]="loadingInProgress || loadingInProgress || !group.id"
+      class="app-button-danger app-card-page-footer-button"
+      (click)="delete()">
       Удалить
     </button>
 
-    <button [disabled]="loadingInProgress || loadingInProgress"
-            class="btn btn-primary pull-right" (click)="save()">
+    <button
+      [disabled]="loadingInProgress || loadingInProgress"
+      class="app-button-primary app-card-page-footer-button" (click)="save()">
       Сохранить
     </button>
   </div>
 </div>
+
+<app-group-card-information-assign-lesson-popup
+  [cabinets]="cabinets"
+  [staffMembers]="staffMembers">
+</app-group-card-information-assign-lesson-popup>
