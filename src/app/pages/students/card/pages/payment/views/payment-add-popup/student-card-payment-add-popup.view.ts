@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {NewStudentPayment, StaffMember, StudentPayment} from '../../../../../../../data';
+import {NewStudentPayment, StaffMember, ExistingStudentPayment} from '../../../../../../../data';
 import {StudentPaymentHttp} from '../../../../../../../http';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 
@@ -11,12 +11,12 @@ export class StudentCardPaymentAddPopupManager {
   }
 
   public static show(
-    studentId: number,
+    studentLogin: string,
     staffMembers: Array<StaffMember>
   ) {
     if (!!this.popup) {
       this.popup.show(
-        studentId,
+        studentLogin,
         staffMembers
       );
     }
@@ -29,7 +29,7 @@ export class StudentCardPaymentAddPopupManager {
   styleUrls: ['./student-card-payment-add-popup.view.less']
 })
 export class StudentCardPaymentAddPopupView {
-  @Output() public paymentAdded: EventEmitter<StudentPayment> = new EventEmitter<StudentPayment>();
+  @Output() public paymentAdded: EventEmitter<ExistingStudentPayment> = new EventEmitter<ExistingStudentPayment>();
 
   public modalStatus = new ModalStatus(false);
 
@@ -43,9 +43,9 @@ export class StudentCardPaymentAddPopupView {
     StudentCardPaymentAddPopupManager.register(this);
   }
 
-  public show(studentId: number, staffMember: Array<StaffMember>) {
-    this.newStudentPayment.studentId = studentId;
-    this.newStudentPayment.time = new Date().getTime();
+  public show(studentLogin: string, staffMember: Array<StaffMember>) {
+    this.newStudentPayment.info.studentLogin = studentLogin;
+    this.newStudentPayment.info.time = new Date().getTime();
 
     this.staffMembers = staffMember;
 
@@ -56,9 +56,9 @@ export class StudentCardPaymentAddPopupView {
     const amount = Number.parseInt(amountString);
 
     if (!!amount && amount > 0) {
-      this.newStudentPayment.amount = amount;
+      this.newStudentPayment.info.amount = amount;
     } else {
-      this.newStudentPayment.amount = null;
+      this.newStudentPayment.info.amount = null;
     }
   }
 
@@ -66,7 +66,7 @@ export class StudentCardPaymentAddPopupView {
     this.studentPaymentHttp
       .addPayment(this.newStudentPayment)
       .then(paymentId => {
-        this.paymentAdded.emit(StudentPayment.createNew(paymentId, this.newStudentPayment));
+        this.paymentAdded.emit(ExistingStudentPayment.createNew(paymentId, this.newStudentPayment));
 
         this.hideModal();
       });

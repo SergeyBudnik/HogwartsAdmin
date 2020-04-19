@@ -1,4 +1,3 @@
-export * from './students.http';
 export * from './groups.http';
 export * from './login.http';
 export * from './staff-members.http';
@@ -7,3 +6,4 @@ export * from './student-attendance.http';
 export * from './student-on-boarding.http';
 export * from './student-payment.http';
 export * from './student-status.http';
+export * from './students.http';

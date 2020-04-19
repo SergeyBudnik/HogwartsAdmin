@@ -39,14 +39,14 @@
   </div>
 
   <div class="app-list-content">
-    <div *ngFor="let student of students" (click)="navigationService.students().id(student.id).information().go()" class="list-row-clickable">
+    <div *ngFor="let student of students" class="list-row-clickable" (click)="navigationService.students().login(student.login).information().go()">
       <div class="list-row-item app-students-list-column-validation">
         <app-field-validation-sign
           *ngIf="student.statusType === 'STUDYING' || student.statusType === 'STOPPED'" [valid]="isStudentFilled(student)">
         </app-field-validation-sign>
       </div>
       <div class="list-row-item app-students-list-column-name">
-        <div>{{student.name}}</div>
+        <div>{{student.person.name}}</div>
       </div>
       <div class="list-row-item app-students-list-column-groups">
         <div *ngFor="let studentGroup of getStudentsActiveGroups(student)">
@@ -54,10 +54,10 @@
         </div>
       </div>
       <div class="list-row-item app-students-list-column-age">
-        {{translationService.age().translate(student.age)}}
+        {{translationService.age().translate(student.educationInfo.age)}}
       </div>
       <div class="list-row-item app-students-list-column-education-level">
-        {{translationService.educationLevel().translate(student.educationLevel)}}
+        {{translationService.educationLevel().translate(student.educationInfo.level)}}
       </div>
       <div class="list-row-item app-students-list-column-status">
         <div app-student-status [studentStatusType]="student.statusType"></div>

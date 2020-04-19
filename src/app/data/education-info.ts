@@ -5,6 +5,5 @@ export class EducationInfo {
   constructor(
     public age: Age = 'UNKNOWN',
     public level: EducationLevel = 'UNKNOWN'
-  ) {
-  }
+  ) {}
 }

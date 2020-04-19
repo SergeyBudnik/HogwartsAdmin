@@ -19,7 +19,7 @@ export class StatusAction {
   styleUrls: ['./student-card-status.page.less']
 })
 export class StudentCardStatusPage {
-  public student: Student = new Student();
+  public student: Student = Student.createNew();
   public studentStatuses: Array<StudentStatus> = [];
   public currentStudentStatus: StudentStatus;
 
@@ -40,9 +40,9 @@ export class StudentCardStatusPage {
 
     this.loginService.ifAuthenticated(() => {
       this.route.paramMap.subscribe(params => {
-        const id = params.get('id');
+        const id = params.get('login');
 
-        this.init(Number(id));
+        this.init(id);
       });
     });
   }
@@ -90,12 +90,12 @@ export class StudentCardStatusPage {
     }
   }
 
-  private init(studentId: number): void {
-    this.student.id = studentId;
+  private init(studentLogin: string): void {
+    this.student.login = studentLogin;
 
     Promise.all([
-      this.studentsService.getStudent(studentId),
-      this.studentStatusHttp.getStatuses(studentId)
+      this.studentsService.getStudent(studentLogin),
+      this.studentStatusHttp.getStatuses(studentLogin)
     ]).then(it => {
       this.student = it[0];
       this.studentStatuses = it[1].sort((o1, o2) => o2.creationTime - o1.creationTime);

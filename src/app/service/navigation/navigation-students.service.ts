@@ -9,34 +9,34 @@ export class NavigationStudentsService {
   }
 
   public new(): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/new/information`);
+    return new NavigationExecutor(this.router, `students/new`);
   }
 
   public newForGroup(groupId: number): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/new/information`, {queryParams: {groupId: groupId}});
+    return new NavigationExecutor(this.router, `students/new`, {queryParams: {groupId: groupId}});
   }
 
-  public id(id: number): NavigationStudentService {
-    return new NavigationStudentService(this.router, id);
+  public login(login: string): NavigationStudentService {
+    return new NavigationStudentService(this.router, login);
   }
 }
 
 export class NavigationStudentService {
-  constructor(private router: Router, private id: number) {}
+  constructor(private router: Router, private login: string) {}
 
   public information(): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/${this.id}/information`);
+    return new NavigationExecutor(this.router, `students/${this.login}/information`);
   }
 
   public status(): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/${this.id}/status`);
+    return new NavigationExecutor(this.router, `students/${this.login}/status`);
   }
 
   public attendance(): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/${this.id}/attendance`);
+    return new NavigationExecutor(this.router, `students/${this.login}/attendance`);
   }
 
   public payment(): NavigationExecutor {
-    return new NavigationExecutor(this.router, `students/${this.id}/payment`);
+    return new NavigationExecutor(this.router, `students/${this.login}/payment`);
   }
 }

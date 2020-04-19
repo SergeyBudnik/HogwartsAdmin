@@ -50,7 +50,7 @@ export class GroupCardStudentsPage {
     const currentTime = new Date().getTime();
 
     return students
-      .sort((o1, o2) => o1.id - o2.id)
+      .sort((o1, o2) => o1.person.name.localeCompare(o2.person.name))
       .sort((o1, o2) => {
         const o1Active = this.groupService.isStudentActive(this.group, o1, currentTime) ? 1 : 0;
         const o2Active = this.groupService.isStudentActive(this.group, o2, currentTime) ? 1 : 0;

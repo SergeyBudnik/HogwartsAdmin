@@ -43,10 +43,11 @@ const appRoutes: Routes = [
   { path: 'login', component: Pages.LoginPageComponent },
 
   { path: 'students', component: Pages.StudentsListPage },
-  { path: 'students/:id/information', component: Pages.StudentCardInformationPage },
-  { path: 'students/:id/status', component: Pages.StudentCardStatusPage },
-  { path: 'students/:id/attendance', component: Pages.StudentCardAttendancePage },
-  { path: 'students/:id/payment', component: Pages.StudentCardPaymentPage },
+  { path: 'students/new', component: Pages.StudentCardNewPage },
+  { path: 'students/:login/information', component: Pages.StudentCardInformationPage },
+  { path: 'students/:login/status', component: Pages.StudentCardStatusPage },
+  { path: 'students/:login/attendance', component: Pages.StudentCardAttendancePage },
+  { path: 'students/:login/payment', component: Pages.StudentCardPaymentPage },
 
   { path: 'cabinets', component: Pages.CabinetsListPage },
   { path: 'cabinets/:id/information', component: Pages.CabinetInformationPage },
@@ -83,6 +84,7 @@ const appRoutes: Routes = [
      * Pages: Student
      */
 
+    Pages.StudentCardNewPage,
     Pages.StudentCardInformationPage, Pages.StudentCardInformationGroupRowView, Pages.StudentCardInformationAssignGroupPopupView,
     Pages.StudentCardStatusPage, Pages.StudentCardStatusChangePopupView,
     Pages.StudentCardAttendancePage, Pages.StudentCardAttendanceRowView,

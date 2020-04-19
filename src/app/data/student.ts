@@ -1,30 +1,18 @@
-import {EducationLevel} from './education-level';
-import {Age} from './age';
-import {StudentStatusType} from './student-status';
+import {Person} from './person';
+import {EducationInfo} from './education-info';
 import {StudentGroup} from './student-group';
+import {StudentStatusType} from './student-status';
 
 export class Student {
-  public constructor(
-    public id: number = null,
-    public studentGroups: Array<StudentGroup> = [],
-    public name: string = null,
-    public statusType: StudentStatusType = 'STUDYING',
-    public emails: Array<string> = [],
-    public phones: Array<string> = [],
-    public vkLink: string = "",
-    public age: Age = 'UNKNOWN',
-    public educationLevel: EducationLevel = 'UNKNOWN'
+  constructor(
+    public login: string,
+    public person: Person,
+    public educationInfo: EducationInfo,
+    public studentGroups: Array<StudentGroup>,
+    public statusType: StudentStatusType
   ) {}
-}
 
-export class StudentUtils {
-  public static isValid(student: Student) {
-    const nameValid = !!student.name && student.name.indexOf('?') === -1;
-
-    const educationLevelKnown = student.educationLevel !== 'UNKNOWN';
-    const ageKnown = student.age !== 'UNKNOWN';
-    const hasAtLeastOneContact = student.phones.length !== 0 || student.emails.length !== 0 || !!student.vkLink;
-
-    return nameValid && educationLevelKnown && ageKnown && hasAtLeastOneContact;
+  public static createNew(): Student {
+    return new Student("", new Person(), new EducationInfo(), [], 'STUDYING');
   }
 }

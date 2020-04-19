@@ -23,12 +23,13 @@ export class StudentCardAttendanceRowView {
   public deleteAttendance(): void {
     this.actionInProgress = true;
 
-    this.studentAttendanceHttp
-      .deleteAttendance(this.attendance.studentId, this.attendance.startTime)
-      .then(() => {
-        this.actionInProgress = false;
-
-        this.attendanceDeleted.emit(this.attendance);
-      });
+    // todo
+    // this.studentAttendanceHttp
+    //   .deleteAttendance(this.attendance.studentId, this.attendance.startTime)
+    //   .then(() => {
+    //     this.actionInProgress = false;
+    //
+    //     this.attendanceDeleted.emit(this.attendance);
+    //   });
   }
 }

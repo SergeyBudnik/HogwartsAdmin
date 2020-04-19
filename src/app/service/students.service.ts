@@ -18,19 +18,7 @@ export class StudentsService {
       .then(students => students.filter(student => student.studentGroups.map(it => it.groupId).find(it => it === groupId)));
   }
 
-  public getStudent(studentId: number): Promise<Student> {
-    return this.studentsHttp.getStudent(studentId);
-  }
-
-  public createStudent(student: Student): Promise<number> {
-    return this.studentsHttp.createStudent(student);
-  }
-
-  public editStudent(student: Student): Promise<void> {
-    return this.studentsHttp.editStudent(student);
-  }
-
-  public deleteStudent(studentId: number): Promise<void> {
-    return this.studentsHttp.deleteStudent(studentId);
+  public getStudent(studentLogin: string): Promise<Student> {
+    return this.studentsHttp.getStudent(studentLogin);
   }
 }

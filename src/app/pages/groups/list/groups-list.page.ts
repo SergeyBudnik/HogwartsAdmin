@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {LoginService, GroupService, StudentsService, NavigationService, TranslationService} from '../../../service';
-import {Age, Cabinet, Group, GroupType, Student, EducationLevel} from '../../../data';
+import {Age, Cabinet, Group, GroupType, EducationLevel, Student} from '../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../http';
 
 @Component({
@@ -59,7 +59,7 @@ export class GroupsListPage {
     );
 
     const groupActiveStudentsNames = groupActiveStudents
-      .map(it => it.name)
+      .map(it => it.person.name)
       .map(it => it.split(' ')[0])
       .reduce((previous, current) => {
         if (!previous) {

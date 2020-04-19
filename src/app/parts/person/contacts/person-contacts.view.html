@@ -1,65 +1,83 @@
-<div class="person-contacts-table">
-  <div class="person-contacts-group">
-    <div class="person-contacts-group-title">Телефоны:</div>
-
-    <div *ngFor="let phone of personContacts.phones; let i = index" class="person-contact-list">
-      <div class="person-contact-row">
-        <div app-form-text-input-control class="person-contact-row-element"
-             [name]="'name'"
-             [placeholder]="'Описание'"
-             [valid]="!!phone.name"
-             [value]="phone.name"
-             [editable]="true"
-             (onChange)="phone.name = $event; notifyPersonContactsChanged();"></div>
-
-        <div app-form-text-input-control class="person-contact-row-element"
-             [name]="'phone'"
-             [placeholder]="'Телефон'"
-             [valid]="!!phone.value"
-             [value]="phone.value"
-             [editable]="true"
-             (onChange)="phone.value = $event; notifyPersonContactsChanged();"></div>
-
-        <button class="btn btn-default person-contact-row-button" (click)="removePhone(i)">
-          Удалить
-        </button>
-      </div>
+<div class="person-contacts-group">
+  <div class="person-contacts-group-title">
+    <div class="app-card-page-text">
+      Телефоны:
     </div>
-
-    <button class="btn btn-default" (click)="addPhone()">
-      Добавить
-    </button>
   </div>
 
-  <div class="person-contacts-group">
-    <div class="person-contacts-group-title">VK:</div>
-
-    <div *ngFor="let vkLink of personContacts.vkLinks; let i = index" class="person-contact-list">
-      <div class="person-contact-row">
-        <div app-form-text-input-control class="person-contact-row-element"
-             [name]="'name'"
-             [placeholder]="'Описание'"
-             [valid]="!!vkLink.name"
-             [value]="vkLink.name"
-             [editable]="true"
-             (onChange)="vkLink.name = $event; notifyPersonContactsChanged();"></div>
-
-        <div app-form-text-input-control class="person-contact-row-element"
-             [name]="'vkId'"
-             [placeholder]="'ID'"
-             [valid]="!!vkLink.value"
-             [value]="vkLink.value"
-             [editable]="true"
-             (onChange)="vkLink.value = $event; notifyPersonContactsChanged();"></div>
-
-        <button class="btn btn-default person-contact-row-button" (click)="removeVkLink(i)">
-          Удалить
-        </button>
-      </div>
-    </div>
-
-    <button class="btn btn-default" (click)="addVkLink()">
-      Добавить
-    </button>
+  <div *ngIf="personContacts.phones.length === 0" class="app-card-page-info">
+    Нет добавленных телефонных номеров
   </div>
+
+  <div *ngFor="let phone of personContacts.phones; let i = index" class="app-card-page-row-with-actions">
+    <div class="app-person-contacts-row-info">
+      <app-text-control
+        class="app-person-contacts-row-info-name-column"
+        [placeholder]="'Описание'"
+        [value]="phone.name"
+        (onChange)="phone.name = $event; notifyPersonContactsChanged();">
+      </app-text-control>
+
+      <app-text-control
+        class="app-person-contacts-row-info-value-column"
+        [placeholder]="'Телефон'"
+        [value]="phone.value"
+        (onChange)="phone.value = $event; notifyPersonContactsChanged();">
+      </app-text-control>
+    </div>
+    <div class="app-person-contacts-row-actions">
+      <button class="app-button-secondary app-person-contacts-row-actions-delete" (click)="removePhone(i)">
+        Удалить
+      </button>
+    </div>
+  </div>
+
+  <br>
+
+  <button class="app-button-primary person-contacts-group-add" (click)="addPhone()">
+    Добавить
+  </button>
+</div>
+
+<br>
+
+<div class="person-contacts-group">
+  <div class="person-contacts-group-title">
+    <div class="app-card-page-text">
+      VK:
+    </div>
+  </div>
+
+  <div *ngIf="personContacts.vkLinks.length === 0" class="app-card-page-info">
+    Нет добавленных ссылок VK
+  </div>
+
+  <div *ngFor="let vkLink of personContacts.vkLinks; let i = index" class="app-card-page-row-with-actions">
+    <div class="app-person-contacts-row-info">
+      <app-text-control
+        class="app-person-contacts-row-info-name-column"
+        [placeholder]="'Описание'"
+        [value]="vkLink.name"
+        (onChange)="vkLink.name = $event; notifyPersonContactsChanged();">
+      </app-text-control>
+
+      <app-text-control
+        class="app-person-contacts-row-info-value-column"
+        [placeholder]="'Телефон'"
+        [value]="vkLink.value"
+        (onChange)="vkLink.value = $event; notifyPersonContactsChanged();">
+      </app-text-control>
+    </div>
+    <div class="app-person-contacts-row-actions">
+      <button class="app-button-secondary app-person-contacts-row-actions-delete" (click)="removeVkLink(i)">
+        Удалить
+      </button>
+    </div>
+  </div>
+
+  <br>
+
+  <button class="app-button-primary person-contacts-group-add" (click)="addVkLink()">
+    Добавить
+  </button>
 </div>
