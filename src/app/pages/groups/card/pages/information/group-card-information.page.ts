@@ -90,14 +90,14 @@ export class GroupCardInformationPage {
   public addLesson() {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
       new Lesson(),
-      -1,
-      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
+      null,
+      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, null),
       () => {}
     );
   }
 
   public onLessonSaved(lesson: Lesson, lessonIndex: number) {
-    if (lessonIndex == -1) {
+    if (lessonIndex == null) {
       this.group.lessons.push(lesson);
     } else {
       this.group.lessons[lessonIndex] = lesson;
