@@ -1,5 +1,6 @@
 import {Time} from './time';
 import {DayOfWeek} from './day-of-week';
+import {DatesUtils} from '../utils/dates-utils';
 
 export class Lesson {
   public constructor(
@@ -8,8 +9,8 @@ export class Lesson {
     public day: DayOfWeek = null,
     public startTime: Time = null,
     public finishTime: Time = null,
-    public creationTime: number = null,
-    public deactivationTime: number = null
+    public creationTime: number = DatesUtils.buildDateYMDFromDate(new Date()).getTime(),
+    public deactivationTime: number = DatesUtils.buildDateYMDFromDate(new Date()).getTime()
   ) {}
 
   public static copy(lesson: Lesson): Lesson {
