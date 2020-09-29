@@ -22,6 +22,11 @@
   opacity: 0.8;
 }
 
+.app-button-disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
 /* Primary */
 
 .app-button-primary {
@@ -35,6 +40,10 @@
 
 .app-button-primary:hover {
   .app-button-hover;
+}
+
+.app-button-primary:disabled {
+  .app-button-disabled;
 }
 
 /* Secondary */
@@ -54,6 +63,10 @@
   .app-button-hover;
 }
 
+.app-button-secondary:disabled {
+  .app-button-disabled;
+}
+
 /* Danger */
 
 .app-button-danger {
@@ -67,4 +80,8 @@
 
 .app-button-danger:hover {
   .app-button-hover;
+}
+
+.app-button-danger:disabled {
+  .app-button-disabled;
 }
