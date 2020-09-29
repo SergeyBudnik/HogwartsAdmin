@@ -19,8 +19,8 @@ export class StudentsListPage {
   public loadingInProgress = true;
 
   private nameFilter: string = '';
-  private ageFilter: Age = 'UNKNOWN';
-  private educationLevelFilter: EducationLevel = 'UNKNOWN';
+  private ageFilter: Age = null;
+  private educationLevelFilter: EducationLevel = null;
   private statusFilter: StudentStatusType = null;
 
   public constructor(
@@ -89,8 +89,8 @@ export class StudentsListPage {
 
         return nameMatches || phoneMatches;
       })
-      .filter(it => this.ageFilter === 'UNKNOWN' || it.educationInfo.age === this.ageFilter)
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationInfo.level === this.educationLevelFilter)
+      .filter(it => this.ageFilter === null || it.educationInfo.age === this.ageFilter)
+      .filter(it => this.educationLevelFilter === null || it.educationInfo.level === this.educationLevelFilter)
       .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
       .sort((s1, s2) => {
         const s1ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s1);
