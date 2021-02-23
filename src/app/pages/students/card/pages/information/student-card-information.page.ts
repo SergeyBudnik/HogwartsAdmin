@@ -17,9 +17,9 @@ export class StudentCardInformationPage {
 
   public loadingInProgress = true;
 
-  private allStudents: Array<Student> = [];
-  private allGroups: Array<Group> = [];
-  private allStaffMembers: Array<StaffMember> = [];
+  public allStudents: Array<Student> = [];
+  public allGroups: Array<Group> = [];
+  public allStaffMembers: Array<StaffMember> = [];
 
   public constructor(
     private navigationService: NavigationService,
@@ -55,7 +55,7 @@ export class StudentCardInformationPage {
     // this.navigationService.students().id(this.student.id).status().go();
   }
 
-  private onGroupSaved(studentGroupAndIndex: StudentGroupAndIndex) {
+  public onGroupSaved(studentGroupAndIndex: StudentGroupAndIndex) {
     if (studentGroupAndIndex.index == null) {
       this.student.studentGroups.push(studentGroupAndIndex.group);
     } else {
@@ -63,7 +63,7 @@ export class StudentCardInformationPage {
     }
   }
 
-  private onGroupDeleted(studentGroupIndex: number) {
+  public onGroupDeleted(studentGroupIndex: number) {
     let studentGroups: Array<StudentGroup> = [];
 
     for (let i = 0; i < this.student.studentGroups.length; i++) {
@@ -92,7 +92,7 @@ export class StudentCardInformationPage {
   }
 
   public getMatchingGroups(): Array<Group> {
-    return new GroupService().getMatchingGroups(
+    return this.groupsService.getMatchingGroups(
       this.allGroups,
       this.student.educationInfo.age, this.student.educationInfo.level
     );

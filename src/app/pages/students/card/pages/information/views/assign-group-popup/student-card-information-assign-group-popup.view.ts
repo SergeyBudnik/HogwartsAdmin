@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Group, StaffMember, Student, StudentGroup} from '../../../../../../../data';
-import {SelectItem} from '../../../../../../../controls/select-item';
 import {GroupService} from '../../../../../../../service';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 import {StudentGroupAndIndex} from '../../data/student-group-and-index';
@@ -40,8 +39,6 @@ export class StudentCardInformationAssignGroupPopupManager {
   }
 }
 
-type StudentAssignGroupStatus = 'ACTIVE' | 'DISABLED';
-
 @Component({
   selector: 'app-student-card-information-assign-group-popup',
   templateUrl: './student-card-information-assign-group-popup.view.html',
@@ -52,33 +49,47 @@ export class StudentCardInformationAssignGroupPopupView {
 
   public studentGroup: StudentGroup = null;
   public studentGroupIndex: number = null;
-  public studentGroupStatus: StudentAssignGroupStatus = null;
 
   @Input('groups') public groups: Array<Group> = [];
   @Input('staffMembers') public staffMembers: Array<StaffMember> = [];
   @Input('students') public students: Array<Student> = [];
 
-  public constructor() {
+  public constructor(
+    private groupService: GroupService
+  ) {
     StudentCardInformationAssignGroupPopupManager.register(this);
   }
 
   public onStudentGroupInit(studentGroup: StudentGroup, studentGroupIndex: number) {
     this.studentGroup = StudentGroup.copy(studentGroup);
     this.studentGroupIndex = studentGroupIndex;
-    this.studentGroupStatus = (studentGroup.finishTime == null) ? 'ACTIVE' : 'DISABLED';
 
     this.modalStatus = new ModalStatus(true);
-  }
-
-  public getGroupItems(): Array<SelectItem> {
-    return this.groups.map(it => new SelectItem(this.getGroupName(it), '' + it.id));
   }
 
   public getGroupName(group: Group): string {
     let staffMember = this.staffMembers.find(it => it.login === group.headTeacherLogin);
     let students = this.students.filter(student => student.studentGroups.map(it => it.groupId).indexOf(group.id) != -1);
 
-    return (staffMember != null) ? new GroupService().getGroupName(staffMember, students) : "?";
+    return (staffMember != null) ? this.groupService.getGroupName(
+      group,
+      staffMember,
+      students
+    ) : "?";
+  }
+
+  public onGroupChanged(groupId: number) {
+    const finishTime = this.groups
+      .find(it => it.id === groupId)
+      .lessons
+      .map(it => it.deactivationTime)
+      .reduce((previous, current) => Math.max(previous, current), -1);
+
+    this.studentGroup.groupId = groupId
+
+    if (finishTime != -1) {
+      this.studentGroup.finishTime = finishTime;
+    }
   }
 
   public isNew(): boolean {
@@ -90,9 +101,7 @@ export class StudentCardInformationAssignGroupPopupView {
     let hasStartTime = !!this.studentGroup.startTime;
     let hasFinishTime = !!this.studentGroup.finishTime;
 
-    let isActive = this.studentGroupStatus === 'ACTIVE';
-
-    return hasGroupId && hasStartTime && (isActive || hasFinishTime);
+    return hasGroupId && hasStartTime && hasFinishTime;
   }
 
   public save() {

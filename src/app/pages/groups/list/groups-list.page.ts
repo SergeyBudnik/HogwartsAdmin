@@ -10,13 +10,13 @@ import {CabinetsHttp, GroupsHttp} from '../../../http';
 })
 export class GroupsListPage {
   private students: Array<Student> = [];
-  private cabinets: Array<Cabinet> = [];
 
+  public cabinets: Array<Cabinet> = [];
   public groups: Array<Group> = [];
 
   public groupTypeFilter: GroupType = null;
-  public ageFilter: Age = 'UNKNOWN';
-  public educationLevelFilter: EducationLevel = 'UNKNOWN';
+  public ageFilter: Age = null;
+  public educationLevelFilter: EducationLevel = null;
   public cabinetFilter: number = null;
 
   public loadingInProgress = true;
@@ -114,8 +114,8 @@ export class GroupsListPage {
   private getFilteredGroups(): Array<Group> {
     return this.unfilteredGroups
       .filter(it => !this.groupTypeFilter || it.type === this.groupTypeFilter)
-      .filter(it => this.ageFilter === 'UNKNOWN' || it.age === this.ageFilter)
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationLevel === this.educationLevelFilter)
+      .filter(it => this.ageFilter === null || it.age === this.ageFilter)
+      .filter(it => this.educationLevelFilter === null || it.educationLevel === this.educationLevelFilter)
       .filter(it => !this.cabinetFilter || it.cabinetId === this.cabinetFilter)
       .sort((o1, o2) => o1.id - o2.id)
       .sort((o1, o2) => {

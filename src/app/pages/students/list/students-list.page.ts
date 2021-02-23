@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
-import {Age, EducationLevel, Group, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils} from '../../../data';
+import {Age, EducationLevel, Group, StaffMember, Student, StudentGroup, StudentStatusType, StudentStatusTypeUtils} from '../../../data';
 import {LoginService, NavigationService, StudentGroupsService, TranslationService} from '../../../service';
 import {SelectItem} from '../../../controls/select-item';
-import {GroupsHttp} from '../../../http';
+import {GroupsHttp, StaffMembersHttp} from '../../../http';
 import {StudentsHttp} from '../../../http';
 
 @Component({
@@ -11,6 +11,7 @@ import {StudentsHttp} from '../../../http';
   styleUrls: ['./students-list.page.less']
 })
 export class StudentsListPage {
+  public allStaffMembers: Array<StaffMember> = [];
   private allStudents: Array<Student> = [];
   private allGroups: Array<Group> = [];
 
@@ -19,8 +20,7 @@ export class StudentsListPage {
   public loadingInProgress = true;
 
   private nameFilter: string = '';
-  private ageFilter: Age = 'UNKNOWN';
-  private educationLevelFilter: EducationLevel = 'UNKNOWN';
+  private managerLoginFilter: string = null;
   private statusFilter: StudentStatusType = null;
 
   public constructor(
@@ -29,7 +29,8 @@ export class StudentsListPage {
     private loginService: LoginService,
     private studentsHttp: StudentsHttp,
     private groupsHttp: GroupsHttp,
-    private studentGroupsService: StudentGroupsService
+    private studentGroupsService: StudentGroupsService,
+    private staffMembersHttp: StaffMembersHttp
   ) {
     this.loginService.ifAuthenticated(() => this.init());
   }
@@ -37,10 +38,12 @@ export class StudentsListPage {
   private init() {
     Promise.all([
       this.studentsHttp.getAllStudents(),
-      this.groupsHttp.getAllGroups()
+      this.groupsHttp.getAllGroups(),
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.allStudents = it[0];
       this.allGroups = it[1];
+      this.allStaffMembers = it[2];
 
       this.students = this.getFilteredStudents();
 
@@ -56,6 +59,10 @@ export class StudentsListPage {
     return this.allGroups.find(it => it.id === groupId);
   }
 
+  public getManager(managerLogin: string): StaffMember {
+    return this.allStaffMembers.find(it => it.login == managerLogin);
+  }
+
   public getStatusItems(): Array<SelectItem> {
     return StudentStatusTypeUtils.values.map(it => new SelectItem(
         this.translationService.studentStatusType().translate(it),
@@ -69,13 +76,11 @@ export class StudentsListPage {
 
   public onFilterChange(
     nameFilter: string,
-    ageFilter: Age,
-    educationLevelFilter: EducationLevel,
-    statusFilter: StudentStatusType,
+    managerLoginFilter: string,
+    statusFilter: StudentStatusType
   ) {
     this.nameFilter = nameFilter === undefined ? this.nameFilter : nameFilter;
-    this.ageFilter = ageFilter === undefined ? this.ageFilter : ageFilter;
-    this.educationLevelFilter = educationLevelFilter === undefined ? this.educationLevelFilter : educationLevelFilter;
+    this.managerLoginFilter = managerLoginFilter === undefined ? this.managerLoginFilter : managerLoginFilter;
     this.statusFilter = statusFilter === undefined ? this.statusFilter : statusFilter;
 
     this.students = this.getFilteredStudents();
@@ -89,8 +94,7 @@ export class StudentsListPage {
 
         return nameMatches || phoneMatches;
       })
-      .filter(it => this.ageFilter === 'UNKNOWN' || it.educationInfo.age === this.ageFilter)
-      .filter(it => this.educationLevelFilter === 'UNKNOWN' || it.educationInfo.level === this.educationLevelFilter)
+      .filter(it => this.managerLoginFilter === null || it.managerLogin === this.managerLoginFilter)
       .filter(it => !this.statusFilter || it.statusType === this.statusFilter)
       .sort((s1, s2) => {
         const s1ActiveGroups = this.studentGroupsService.getStudentActiveGroups(s1);

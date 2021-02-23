@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {StudentsService, LoginService, NavigationService, TranslationService} from '../../../../../service';
-import {Cabinet, Group, Student} from '../../../../../data';
+import {Cabinet, CabinetInfo, Group, Student} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../../../http';
 
 @Component({
@@ -10,7 +10,7 @@ import {CabinetsHttp, GroupsHttp} from '../../../../../http';
   styleUrls: ['./cabinet-card-information.page.less']
 })
 export class CabinetInformationPage {
-  public cabinet: Cabinet = new Cabinet(null, null);
+  public cabinet: Cabinet = new Cabinet(null, new CabinetInfo(null));
   public groups: Array<Group> = [];
   public students: Array<Student> = [];
 

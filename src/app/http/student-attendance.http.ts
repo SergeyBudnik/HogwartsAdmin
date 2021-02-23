@@ -18,10 +18,11 @@ export class StudentAttendanceHttp {
   }
 
   public deleteAttendance(attendanceId: StudentAttendanceId): Promise<void> {
-    // todo
-    return this.http
-      .delete(`${this.root}`)
-      .toPromise()
-      .then(() => {});
+    // return this.http
+    //   .delete(`${this.root}`, attendanceId)
+    //   .toPromise()
+    //   .then(() => {});
+
+    return null;
   }
 }

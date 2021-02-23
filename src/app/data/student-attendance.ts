@@ -1,8 +1,8 @@
-export type StudentAttendanceType = 'VISITED' | 'VALID_SKIP' | 'INVALID_SKIP';
+export type StudentAttendanceType = 'VISITED' | 'VALID_SKIP' | 'INVALID_SKIP' | 'FREE_LESSON';
 
 export class StudentAttendanceTypeUtils {
   public static values: Array<StudentAttendanceType> = [
-    'VISITED', 'VALID_SKIP', 'INVALID_SKIP'
+    'VISITED', 'VALID_SKIP', 'INVALID_SKIP', 'FREE_LESSON'
   ];
 }
 

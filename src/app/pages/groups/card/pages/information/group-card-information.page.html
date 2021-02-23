@@ -134,14 +134,14 @@
 
   <div class="app-card-page-footer">
     <button
-      [disabled]="loadingInProgress || loadingInProgress || !group.id"
+      [disabled]="loadingInProgress || !group.id"
       class="app-button-danger app-card-page-footer-button"
       (click)="delete()">
       Удалить
     </button>
 
     <button
-      [disabled]="loadingInProgress || loadingInProgress"
+      [disabled]="loadingInProgress"
       class="app-button-primary app-card-page-footer-button" (click)="save()">
       Сохранить
     </button>

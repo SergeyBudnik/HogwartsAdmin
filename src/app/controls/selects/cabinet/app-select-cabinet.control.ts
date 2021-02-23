@@ -13,7 +13,7 @@ export class AppSelectCabinetControl {
   @Input('cabinetId') public cabinetId: number = null;
 
   @Input('items') set setCabinets(cabinets: Array<Cabinet>) {
-    this.items = cabinets.map(it => new SelectItem(it.name, "" + it.id));
+    this.items = cabinets.map(it => new SelectItem(it.info.name, "" + it.id));
   }
 
   @Output('onChange') public emitter = new EventEmitter<number>();

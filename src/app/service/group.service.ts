@@ -1,8 +1,13 @@
 import {Age, Cabinet, EducationLevel, Group, Lesson, StaffMember, Student} from '../data';
 import {Injectable} from '@angular/core';
+import {TranslationService} from './translation/translation.service';
 
 @Injectable()
 export class GroupService {
+  public constructor(
+    private translationService: TranslationService
+  ) {}
+
   public getMatchingGroups(groups: Array<Group>, age: Age, educationLevel: EducationLevel): Array<Group> {
     return groups
       .filter(group => group.age === age)
@@ -51,12 +56,23 @@ export class GroupService {
     return this.getGroupActiveLessons(group, time).length !== 0;
   }
 
-  public getGroupName(staffMember: StaffMember, groupStudents: Array<Student>): string {
-    if (!staffMember) {
-      return ""
-    } else {
-      return `${staffMember.person.name} - ${this.getGroupStudentsNames(groupStudents)}`;
-    }
+  public getGroupName(group: Group, staffMember: StaffMember, groupStudents: Array<Student>): string {
+    const teacherName = staffMember ? staffMember.person.name : "Преподаватель не назначен"
+
+    const time = group
+      .lessons
+      .map(lesson => this.getGroupLessonName(lesson))
+      .reduce((previous, current) => {
+        if (!previous) {
+          return `${current}`;
+        } else {
+          return `${previous}; ${current}`;
+        }
+      }, "");
+
+    const students = this.getGroupStudentsNames(groupStudents);
+
+    return `${teacherName} - (${time}) - ${students}`
   }
 
   private getGroupStudentsNames(groupStudents: Array<Student>): String {
@@ -67,5 +83,13 @@ export class GroupService {
         .map(it => it.person.name)
         .map(it => it.split(' ')[0]).reduce((n1, n2) => `${n1}; ${n2}`);
     }
+  }
+
+  private getGroupLessonName(lesson: Lesson) {
+    const day = this.translationService.dayOfWeek().translate(lesson.day);
+    const startTime = this.translationService.time().translate(lesson.startTime);
+    const finishTime = this.translationService.time().translate(lesson.finishTime);
+
+    return `${day} ${startTime} - ${finishTime}`
   }
 }

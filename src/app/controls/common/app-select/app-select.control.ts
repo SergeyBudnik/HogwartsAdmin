@@ -36,7 +36,7 @@ export class AppSelectControl {
   public onValueChange(value: string) {
     switch (this.type) {
       case 'STRING':
-        this.onChangeString.emit(value);
+        this.onChangeString.emit(value == '' ? null : value);
         break;
       case 'NUMBER':
         this.onChangeNumber.emit(value == '' ? null : Number(value));

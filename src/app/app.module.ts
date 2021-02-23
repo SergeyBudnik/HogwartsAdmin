@@ -163,6 +163,7 @@ const appRoutes: Routes = [
     Controls.AppSelectGroupTypeControl,
     Controls.AppSelectStaffMemberControl,
     Controls.AppSelectTimeControl,
+    Controls.AppSelectYesNoControl,
 
     Controls.SearchSelectControl,
 

@@ -8,28 +8,24 @@
       class="app-students-list-column-name"
       [icon]="'fa-search'"
       [placeholder]="'Имя или номер телефона'"
-      (onChange)="onFilterChange($event,  undefined, undefined, undefined)">
+      (onChange)="onFilterChange($event,  undefined, undefined)">
     </app-text-control>
 
     <div class="app-students-list-column-groups app-list-header-label">
       Группы
     </div>
 
-    <app-select-age-control
-      class="app-students-list-column-age"
-      (onChange)="onFilterChange(undefined, $event, undefined, undefined)">
-    </app-select-age-control>
-
-    <app-select-education-level-control
-      class="app-students-list-column-education-level"
-      (onChange)="onFilterChange(undefined, undefined, $event, undefined)">
-    </app-select-education-level-control>
+    <app-select-staff-member-control
+      class="app-students-list-column-manager"
+      [items]="allStaffMembers"
+      (onChange)="onFilterChange(undefined, $event, undefined)">
+    </app-select-staff-member-control>
 
     <div app-search-select-control class="app-students-list-column-status"
          [empty]="'Все'"
          [items]="getStatusItems()"
          [defaultItem]="'STUDYING'"
-         (onChange)="onFilterChange(undefined, undefined, undefined, $event)"></div>
+         (onChange)="onFilterChange(undefined, undefined, $event)"></div>
 
       <div class="app-students-list-column-actions">
         <button class="app-button-primary pull-right" (click)="this.navigationService.students().new().go()">
@@ -53,11 +49,8 @@
           <div app-group-icon [group]="getGroup(studentGroup.groupId)"></div>
         </div>
       </div>
-      <div class="list-row-item app-students-list-column-age">
-        {{translationService.age().translate(student.educationInfo.age)}}
-      </div>
-      <div class="list-row-item app-students-list-column-education-level">
-        {{translationService.educationLevel().translate(student.educationInfo.level)}}
+      <div class="list-row-item app-students-list-column-manager">
+        <div>{{getManager(student.managerLogin).person.name}}</div>
       </div>
       <div class="list-row-item app-students-list-column-status">
         <div app-student-status [studentStatusType]="student.statusType"></div>

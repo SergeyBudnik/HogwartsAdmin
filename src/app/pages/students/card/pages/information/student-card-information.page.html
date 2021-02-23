@@ -37,6 +37,18 @@
         <br>
 
         <app-form-input-control
+          [label]="'Менеджер'"
+          [valid]="!!student.managerLogin">
+          <app-select-staff-member-control
+            [items]="allStaffMembers"
+            [staffMemberLogin]="student.managerLogin"
+            (onChange)="student.managerLogin = $event">
+          </app-select-staff-member-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
           [label]="'Уровень подготовки'"
           [valid]="student.educationInfo.level !== 'UNKNOWN'">
           <app-select-education-level-control
@@ -117,13 +129,19 @@
   </div>
 
   <div class="app-card-page-footer">
-    <div class="app-button-danger pull-right" (click)="delete()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-danger app-card-page-footer-button"
+      (click)="delete()">
       Удалить
-    </div>
+    </button>
 
-    <div class="app-button-primary pull-right" (click)="save()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-primary app-card-page-footer-button"
+      (click)="save()">
       Сохранить
-    </div>
+    </button>
   </div>
 </div>
 

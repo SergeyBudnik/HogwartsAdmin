@@ -23,7 +23,6 @@ export class StudentCardAttendanceRowView {
   public deleteAttendance(): void {
     this.actionInProgress = true;
 
-    // todo
     // this.studentAttendanceHttp
     //   .deleteAttendance(this.attendance.studentId, this.attendance.startTime)
     //   .then(() => {

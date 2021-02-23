@@ -9,6 +9,8 @@ export class TranslationStudentAttendanceTypeService {
         return 'Уважительный пропуск';
       case 'INVALID_SKIP':
         return 'Пропуск';
+      case 'FREE_LESSON':
+        return 'Бесплатный урок';
       default:
         throw new Error(`Unexpected attendance type ${studentAttendanceType}`);
     }

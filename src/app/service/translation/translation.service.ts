@@ -6,7 +6,7 @@ import {
   TranslationStudentAttendanceTypeService,
   TranslationStudentOnBoardingTypeService,
   TranslationStudentStatusTypeService,
-  TranslationTimeService
+  TranslationTimeService, TranslationYesNoService
 } from '.';
 
 export class TranslationService {
@@ -40,5 +40,9 @@ export class TranslationService {
 
   public time(): TranslationTimeService {
     return new TranslationTimeService();
+  }
+
+  public yesNo(): TranslationYesNoService {
+    return new TranslationYesNoService();
   }
 }
