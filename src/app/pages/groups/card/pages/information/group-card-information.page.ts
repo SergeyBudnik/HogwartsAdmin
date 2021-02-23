@@ -81,6 +81,7 @@ export class GroupCardInformationPage {
 
   public editLesson(groupLessonInfo: GroupLessonInfo) {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
+      this.group,
       groupLessonInfo.lesson,
       groupLessonInfo.index,
       (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
@@ -90,10 +91,13 @@ export class GroupCardInformationPage {
 
   public addLesson() {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
+      this.group,
       new Lesson(
         null,
         this.group.headTeacherLogin,
         null,
+        false,
+        false,
         null,
         null,
         DatesUtils.buildDateYMDFromDate(new Date()).getTime(),

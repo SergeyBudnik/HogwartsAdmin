@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Lesson, Cabinet, StaffMember} from '../../../../../../../data';
+import {Lesson, Cabinet, StaffMember, Time, TimeUtils, Group} from '../../../../../../../data';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 import {GroupLessonInfo} from '../../data';
 
@@ -13,13 +13,14 @@ export class GroupCardInformationAssignLessonPopupManager {
   }
 
   public static pushGroupLesson(
+    group: Group,
     lesson: Lesson,
     lessonIndex: number,
     saveListener: (groupLessonInfo: GroupLessonInfo) => void,
     deleteListener: () => void
   ) {
     if (!!this.popup) {
-      this.popup.onGroupLessonInit(lesson, lessonIndex);
+      this.popup.onGroupLessonInit(group, lesson, lessonIndex);
 
       this.saveListener = saveListener;
       this.deleteListener = deleteListener;
@@ -45,6 +46,7 @@ export class GroupCardInformationAssignLessonPopupManager {
   styleUrls: ['./group-card-information-assign-lesson-popup.view.less']
 })
 export class GroupCardInformationAssignLessonPopupView {
+  public group: Group = null;
   public lesson: Lesson = null;
   public lessonIndex: number = null;
 
@@ -57,11 +59,19 @@ export class GroupCardInformationAssignLessonPopupView {
     GroupCardInformationAssignLessonPopupManager.register(this);
   }
 
-  public onGroupLessonInit(lesson: Lesson, lessonIndex: number) {
+  public onGroupLessonInit(group: Group, lesson: Lesson, lessonIndex: number) {
+    this.group = group;
     this.lesson = Lesson.copy(lesson);
     this.lessonIndex = lessonIndex;
 
     this.modalStatus.visible = true;
+  }
+
+  public onStartTimeChanged(startTime: Time) {
+    const finishTimeDelta = this.group.type === 'GROUP' ? 3 : 2;
+
+    this.lesson.startTime = startTime;
+    this.lesson.finishTime = TimeUtils.byIndex(TimeUtils.index(startTime) + finishTimeDelta);
   }
 
   public isValid(): boolean {

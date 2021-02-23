@@ -5,7 +5,7 @@ import {HttpConfig} from './http-config';
 
 @Injectable()
 export class CabinetsHttp {
-  private root = `${HttpConfig.getBackendRoot()}/cabinets`;
+  private root = `${HttpConfig.getBackendRoot()}/admin/cabinets/management`;
 
   public constructor(
     private http: HttpClient

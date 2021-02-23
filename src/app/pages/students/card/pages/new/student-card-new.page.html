@@ -13,6 +13,18 @@
         <br>
 
         <app-form-input-control
+          [label]="'Логин'"
+          [valid]="!!student.login">
+          <app-text-control
+            [placeholder]="'Логин'"
+            [value]="student.login"
+            (onChange)="student.login = $event">
+          </app-text-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
           [label]="'Имя'"
           [valid]="!!student.person.name && student.person.name.indexOf('?') === -1">
           <app-text-control
@@ -20,6 +32,18 @@
             [value]="student.person.name"
             (onChange)="student.person.name = $event">
           </app-text-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Менеджер'"
+          [valid]="!!student.managerLogin">
+          <app-select-staff-member-control
+            [items]="allStaffMembers"
+            [staffMemberLogin]="student.managerLogin"
+            (onChange)="student.managerLogin = $event">
+          </app-select-staff-member-control>
         </app-form-input-control>
 
         <br>
@@ -58,12 +82,18 @@
   </div>
 
   <div class="app-card-page-footer">
-    <div class="app-button-secondary pull-right" (click)="navigationService.students().list().go()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-secondary app-card-page-footer-button"
+      (click)="navigationService.students().list().go()">
       Отменить
-    </div>
+    </button>
 
-    <div class="app-button-primary pull-right" (click)="save()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-primary app-card-page-footer-button"
+      (click)="save()">
       Сохранить
-    </div>
+    </button>
   </div>
 </div>

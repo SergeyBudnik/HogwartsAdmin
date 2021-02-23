@@ -12,11 +12,11 @@
 
         <br>
 
-        <app-form-input-control [label]="'Название'" [valid]="!!cabinet.name">
+        <app-form-input-control [label]="'Название'" [valid]="!!cabinet.info.name">
           <app-text-control
-            [value]="cabinet.name"
+            [value]="cabinet.info.name"
             [placeholder]="'Введите название'"
-            (onChange)="cabinet.name = $event">
+            (onChange)="cabinet.info.name = $event">
           </app-text-control>
         </app-form-input-control>
       </ng-container>

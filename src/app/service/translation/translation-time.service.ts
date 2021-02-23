@@ -63,6 +63,8 @@ export class TranslationTimeService {
         return '21:00';
       case 'T_21_30':
         return '21:30';
+      case 'T_22_00':
+        return '22:00';
       default:
         throw new Error(`Unexpected time ${time}`);
     }

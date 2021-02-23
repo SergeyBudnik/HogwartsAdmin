@@ -6,50 +6,64 @@
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header" *ngIf="!isNew">
+        <div class="app-card-page-title" *ngIf="!isNew">
           Сотрудник '{{staffMember.person.name}}'
-        </h3>
+        </div>
 
-        <h3 class="app-header" *ngIf="isNew">
+        <div class="app-card-page-title" *ngIf="isNew">
           Добавление cотрудника
-        </h3>
+        </div>
 
         <br>
 
-        <form>
-          <div app-form-text-input-control class="form-group"
-               [name]="'name'"
-               [label]="'Имя'"
-               [placeholder]="'Введите имя'"
-               [valid]="!!staffMember.person.name && staffMember.person.name.indexOf('?') === -1"
-               [value]="staffMember.person.name"
-               [editable]="true"
-               (onChange)="staffMember.person.name = $event"></div>
+        <app-form-input-control
+          [label]="'Логин'"
+          [valid]="!!staffMember.login">
+          <app-text-control
+            [value]="staffMember.login"
+            [placeholder]="'Введите логин'"
+            (onChange)="staffMember.login = $event">
+          </app-text-control>
+        </app-form-input-control>
 
-          <div app-form-text-input-control class="form-group"
-               [name]="'login'"
-               [label]="'Логин'"
-               [placeholder]="'Введите логин'"
-               [valid]="!!staffMember.login"
-               [value]="staffMember.login"
-               [editable]="true"
-               (onChange)="staffMember.login = $event"></div>
+        <br>
 
-          <br>
+        <app-form-input-control
+          [label]="'Имя'"
+          [valid]="!!staffMember.person.name && staffMember.person.name.indexOf('?') === -1">
+          <app-text-control
+            [value]="staffMember.person.name"
+            [placeholder]="'Введите имя'"
+            (onChange)="staffMember.person.name = $event">
+          </app-text-control>
+        </app-form-input-control>
 
-          <h5 class="app-header">
-            Контакты:
-          </h5>
+        <br>
 
-          <br>
+        <app-form-input-control
+          [label]="'Зарплата'"
+          [valid]="!!staffMember.salaryIn30m">
+          <app-text-control
+            [value]="staffMember.salaryIn30m.toString()"
+            [placeholder]="'Введите зарплату'"
+            (onChange)="onSalaryIn30MChanged($event)">
+          </app-text-control>
+        </app-form-input-control>
 
-          <div class="form-group">
-            <app-person-contacts
-              [personContacts]="staffMember.person.contacts"
-              (onPersonContactsChanged)="staffMember.person.contacts = $event">
-            </app-person-contacts>
-          </div>
-        </form>
+        <br>
+
+        <div class="app-card-page-title">
+          Контакты:
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <app-person-contacts
+            [personContacts]="staffMember.person.contacts"
+            (onPersonContactsChanged)="staffMember.person.contacts = $event">
+          </app-person-contacts>
+        </div>
       </ng-container>
     </div>
 
@@ -58,11 +72,11 @@
   </div>
 
   <div class="app-card-page-footer">
-    <button [disabled]="loadingInProgress && !isNew" class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+    <button [disabled]="loadingInProgress && !isNew" class="app-button-danger app-card-page-footer-button" (click)="delete()">
       Удалить
     </button>
 
-    <button [disabled]="loadingInProgress" class="btn btn-primary pull-right" (click)="save()">
+    <button [disabled]="loadingInProgress" class="app-button-primary app-card-page-footer-button" (click)="save()">
       Сохранить
     </button>
   </div>

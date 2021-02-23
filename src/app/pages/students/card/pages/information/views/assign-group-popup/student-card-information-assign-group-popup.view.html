@@ -6,14 +6,14 @@
 
     <div class="app-modal-body">
       <app-form-input-control
-        [label]="'Преподаватель'"
+        [label]="'Группа'"
         [valid]="!!studentGroup.groupId">
         <app-select-group-control
           [value]="studentGroup.groupId"
           [groups]="groups"
           [students]="students"
           [staffMembers]="staffMembers"
-          (onChange)="studentGroup.groupId = $event">
+          (onChange)="onGroupChanged($event)">
         </app-select-group-control>
       </app-form-input-control>
 
@@ -22,7 +22,7 @@
       <div class="student-card-information-assign-group-popup-dates">
         <app-form-input-control
           class="student-card-information-assign-group-popup-dates-column"
-          [label]="'Записался в группу'"
+          [label]="'Записался в группу (00:00:00)'"
           [valid]="!!studentGroup.startTime">
           <app-date-control
             [value]="studentGroup.startTime"
@@ -30,9 +30,11 @@
           </app-date-control>
         </app-form-input-control>
 
+        <div class="student-card-information-assign-group-popup-dates-column-separator"></div>
+
         <app-form-input-control
           class="student-card-information-assign-group-popup-dates-column"
-          [label]="'Покинул группу'"
+          [label]="'Покинул группу (23:59:59)'"
           [valid]="!!studentGroup.finishTime">
           <app-date-control
             [value]="studentGroup.finishTime"
@@ -43,16 +45,16 @@
     </div>
 
     <div class="app-modal-footer">
-      <button class="app-button-secondary pull-right" (click)="cancel()">
+      <button class="app-button-primary app-modal-footer-buttons" [disabled]="!isValid()" (click)="save()">
+        Сохранить
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
         Отмена
       </button>
 
-      <button class="app-button-danger pull-right" [disabled]="isNew()" (click)="delete()">
+      <button class="app-button-danger app-modal-footer-buttons" [disabled]="isNew()" (click)="delete()">
         Удалить
-      </button>
-
-      <button class="app-button-primary pull-right" [disabled]="!isValid()" (click)="save()">
-        Сохранить
       </button>
     </div>
   </div>

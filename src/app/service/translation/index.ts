@@ -6,3 +6,4 @@ export * from './translation-student-on-boarding-type.service';
 export * from './translation-student-attendance-type.service';
 export * from './translation-student-status-type.service';
 export * from './translation-time.service';
+export * from './translation-yes-no.service';

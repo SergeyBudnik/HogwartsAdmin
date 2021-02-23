@@ -37,8 +37,7 @@ export class AppSelectGroupControl {
 
   @Output('onChange') public emitter = new EventEmitter<number>();
 
-  constructor(private groupService: GroupService) {
-  }
+  constructor(private groupService: GroupService) {}
 
   public onValueChanged(value: number) {
     this.emitter.emit(value);
@@ -48,6 +47,7 @@ export class AppSelectGroupControl {
     if (this.staffMembers != null && this.students != null && this.groups != null) {
       return this.groups.map(group => new SelectItem(
         this.groupService.getGroupName(
+          group,
           this.groupService.getGroupHeadTeacher(group, this.staffMembers),
           this.groupService.getGroupActiveStudents(group, this.students, new Date().getTime())
         ),

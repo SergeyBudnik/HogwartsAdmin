@@ -2,12 +2,12 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="app-card-page-left-menu" app-student-menu [studentLogin]="''" [currentTab]="'STATUS'"></div>
+    <div class="app-card-page-left-menu" app-student-menu [studentLogin]="student.login" [currentTab]="'STATUS'"></div>
 
-    <div class="app-card-page-content-scrollable" *ngIf="!!student.id">
+    <div class="app-card-page-content-scrollable" *ngIf="!!student">
       <ng-container *ngIf="!loadingInProgress">
         <div class="app-card-page-title">
-          {{student.name}} - Статус
+          {{student.person.name}} - Статус
         </div>
 
         <br>
@@ -81,7 +81,7 @@
 
       <app-card-student-status-change-popup
         *ngIf="!loadingInProgress"
-        [studentId]="student.id"
+        [studentId]="0"
         [previousStatus]="currentStudentStatus.status"
         [newStatus]="newStudentStatus"
         [hasAction]="hasAction(newStudentStatus)"

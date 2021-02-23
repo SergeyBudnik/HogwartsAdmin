@@ -39,6 +39,10 @@ export class StaffMemberCardInformationPageComponent {
     });
   }
 
+  public onSalaryIn30MChanged(salaryIn30MString: string) {
+    this.staffMember.salaryIn30m = Number(salaryIn30MString);
+  }
+
   public addNewPhone() {
     this.staffMember.person.contacts.phones.push(new PersonContact());
   }
