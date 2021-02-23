@@ -41,7 +41,7 @@ export class StudentsListPage {
       this.groupsHttp.getAllGroups(),
       this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
-      this.allStudents = it[0];
+      this.allStudents = (it[0] as Array<Student>).filter(it => it.person != undefined);
       this.allGroups = it[1];
       this.allStaffMembers = it[2];
 

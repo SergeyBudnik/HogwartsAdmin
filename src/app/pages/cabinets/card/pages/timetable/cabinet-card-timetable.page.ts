@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {LoginService, NavigationService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {Cabinet, Group, Lesson} from '../../../../../data';
+import {Cabinet, CabinetInfo, Group, Lesson} from '../../../../../data';
 import {CabinetsHttp, GroupsHttp} from '../../../../../http';
 import {endOfWeek, startOfWeek} from 'date-fns';
 
@@ -11,7 +11,7 @@ import {endOfWeek, startOfWeek} from 'date-fns';
   styleUrls: ['./cabinet-card-timetable.page.less']
 })
 export class CabinetTimetablePage {
-  public cabinet: Cabinet = new Cabinet(null, null);
+  public cabinet: Cabinet = new Cabinet(null, new CabinetInfo(null));
   private allGroups: Array<Group> = [];
 
   public cabinetGroups: Array<Group> = [];

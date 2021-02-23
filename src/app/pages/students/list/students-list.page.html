@@ -50,7 +50,12 @@
         </div>
       </div>
       <div class="list-row-item app-students-list-column-manager">
-        <div>{{getManager(student.managerLogin).person.name}}</div>
+        <div *ngIf="getManager(student.managerLogin)">
+          {{getManager(student.managerLogin).person.name}}
+        </div>
+        <div *ngIf=!getManager(student.managerLogin)>
+          -
+        </div>
       </div>
       <div class="list-row-item app-students-list-column-status">
         <div app-student-status [studentStatusType]="student.statusType"></div>
