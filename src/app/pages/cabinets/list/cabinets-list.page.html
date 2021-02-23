@@ -18,7 +18,7 @@
   <div class="app-list-content">
     <div *ngFor="let cabinet of cabinets" class="list-row-clickable" (click)="navigationService.cabinets().id(cabinet.id).go()">
       <div class="list-row-item app-cabinets-list-column-name">
-        {{cabinet.name}}
+        {{cabinet.info.name}}
       </div>
     </div>
   </div>

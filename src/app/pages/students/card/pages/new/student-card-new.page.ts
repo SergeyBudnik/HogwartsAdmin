@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {LoginService, NavigationService, TranslationService,} from '../../../../../service';
-import {Group, StudentGroup, Student} from '../../../../../data';
-import {GroupsHttp, StudentsHttp} from '../../../../../http';
+import {Group, StudentGroup, Student, StaffMember} from '../../../../../data';
+import {GroupsHttp, StaffMembersHttp, StudentsHttp} from '../../../../../http';
 import {GroupService} from '../../../../../service';
 
 @Component({
@@ -15,18 +15,21 @@ export class StudentCardNewPage {
 
   public loadingInProgress = true;
 
+  public allStaffMembers: Array<StaffMember> = [];
+
   private requestedGroupId: number;
 
   private allGroups: Array<Group> = [];
 
   public constructor(
-    private navigationService: NavigationService,
+    public navigationService: NavigationService,
     private translationService: TranslationService,
     private route: ActivatedRoute,
     private loginService: LoginService,
     private groupsService: GroupService,
     private groupsHttp: GroupsHttp,
     private studentsHttp: StudentsHttp,
+    private staffMembersHttp: StaffMembersHttp,
   ) {
     this.loadingInProgress = true;
 
@@ -50,8 +53,10 @@ export class StudentCardNewPage {
   private initStudent(groupId: number): void {
     Promise.all([
       this.groupsHttp.getAllGroups(),
+      this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
       this.allGroups = it[0];
+      this.allStaffMembers = it[1];
 
       this.student = Student.createNew();
 

@@ -36,7 +36,7 @@
           [valid]="!!lesson.startTime">
           <app-select-time-control
             [value]="lesson.startTime"
-            (onChange)="lesson.startTime = $event">
+            (onChange)="onStartTimeChanged($event)">
           </app-select-time-control>
         </app-form-input-control>
 
@@ -58,6 +58,32 @@
       <div class="app-group-card-information-assign-lesson-row">
         <app-form-input-control
           class="app-group-card-information-assign-lesson-column"
+          [label]="'Онлайн'"
+          [valid]="true">
+          <app-select-yes-no-control
+            [value]="lesson.online"
+            (onChange)="lesson.online = $event">
+          </app-select-yes-no-control>
+        </app-form-input-control>
+
+        <div class="app-group-card-information-assign-lesson-column-separator"></div>
+
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
+          [label]="'Игнорировать пересчет при одном студенте'"
+          [valid]="true">
+          <app-select-yes-no-control
+            [value]="lesson.ignoreSingleStudentPricing"
+            (onChange)="lesson.ignoreSingleStudentPricing = $event">
+          </app-select-yes-no-control>
+        </app-form-input-control>
+      </div>
+
+      <br>
+
+      <div class="app-group-card-information-assign-lesson-row">
+        <app-form-input-control
+          class="app-group-card-information-assign-lesson-column"
           [label]="'Дата запуска занятия (00:00:00)'"
           [valid]="!!lesson.creationTime">
           <app-date-control
@@ -70,7 +96,7 @@
 
         <app-form-input-control
           class="app-group-card-information-assign-lesson-column"
-          [label]="'Дата отключения занятия (23:59:00)'"
+          [label]="'Дата отключения занятия (23:59:59)'"
           [valid]="!!lesson.deactivationTime">
           <app-date-control
             [value]="lesson.deactivationTime"
@@ -89,7 +115,7 @@
         Отмена
       </button>
 
-      <button class="app-button-danger app-modal-footer-buttons" [disabled]="isNew()" (click)="delete()">
+      <button *ngIf="!isNew()" class="app-button-danger app-modal-footer-buttons" (click)="delete()">
         Удалить
       </button>
     </div>

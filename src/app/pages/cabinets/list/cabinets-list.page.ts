@@ -43,6 +43,6 @@ export class CabinetsListPage {
 
   private getFilteredCabinets(cabinetNameFilter: string): Array<Cabinet> {
     return this.allCabinets
-      .filter(it => it.name.toLowerCase().indexOf(cabinetNameFilter.toLowerCase()) !== -1);
+      .filter(it => it.info.name.toLowerCase().indexOf(cabinetNameFilter.toLowerCase()) !== -1);
   }
 }

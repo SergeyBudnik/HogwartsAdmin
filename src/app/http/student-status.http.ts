@@ -5,7 +5,7 @@ import {StudentStatus, StudentStatusType} from '../data';
 
 @Injectable()
 export class StudentStatusHttp {
-  private root = `${HttpConfig.getBackendRoot()}/students-status`;
+  private root = `${HttpConfig.getBackendRoot()}/admin/students/statuses`;
 
   public constructor(
     readonly http: HttpClient
@@ -26,7 +26,7 @@ export class StudentStatusHttp {
 
   public getStatuses(studentLogin: string): Promise<Array<StudentStatus>> {
     return this.http
-      .get<Array<StudentStatus>>(`${this.root}/${studentLogin}`)
+      .get<Array<StudentStatus>>(`${this.root}/student/${studentLogin}`)
       .toPromise()
   }
 }

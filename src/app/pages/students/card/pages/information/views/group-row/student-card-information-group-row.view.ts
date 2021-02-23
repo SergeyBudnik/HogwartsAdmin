@@ -37,6 +37,6 @@ export class StudentCardInformationGroupRowView {
     let staffMember = this.allStaffMembers.find(it => it.login === group.headTeacherLogin);
     let students = this.groupsService.getGroupActiveStudents(group, this.allStudents, new Date().getTime());
 
-    return new GroupService().getGroupName(staffMember, students);
+    return this.groupsService.getGroupName(group, staffMember, students);
   }
 }

@@ -13,7 +13,8 @@ export type Time =
   'T_18_00' | 'T_18_30' |
   'T_19_00' | 'T_19_30' |
   'T_20_00' | 'T_20_30' |
-  'T_21_00' | 'T_21_30';
+  'T_21_00' | 'T_21_30' |
+  'T_22_00';
 
 export class TimeUtils {
   public static values: Array<Time> =
@@ -33,6 +34,7 @@ export class TimeUtils {
       'T_19_00', 'T_19_30',
       'T_20_00', 'T_20_30',
       'T_21_00', 'T_21_30',
+      'T_22_00'
     ];
 
   public static earlier(t1: Time, t2: Time) {
@@ -106,6 +108,7 @@ export class TimeUtils {
     else if (h == 20 && m == 30) { return 'T_20_30'; }
     else if (h == 21 && m ==  0) { return 'T_21_00'; }
     else if (h == 21 && m == 30) { return 'T_21_30'; }
+    else if (h == 22 && m ==  0) { return 'T_22_00'; }
     else                         { return 'T_08_00'; }
   }
 
@@ -174,6 +177,8 @@ export class TimeUtils {
         return 21 * hour;
       case 'T_21_30':
         return 21 * hour + 30 * minute;
+      case 'T_22_00':
+        return 22 * hour;
       default:
         throw new Error(`Unexpected time ${time}`);
     }
@@ -187,5 +192,13 @@ export class TimeUtils {
     }
 
     throw new Error(`Unexpected time ${time}`);
+  }
+
+  public static byIndex(index: number): Time {
+    if (TimeUtils.values.length <= index) {
+      throw new Error(`Unexpected time index ${index}`);
+    } else {
+      return TimeUtils.values[index];
+    }
   }
 }

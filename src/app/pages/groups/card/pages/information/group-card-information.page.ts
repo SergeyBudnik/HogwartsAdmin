@@ -5,6 +5,7 @@ import {Group, Lesson, Cabinet, StaffMember, Student} from '../../../../../data'
 import {CabinetsHttp, GroupsHttp, StaffMembersHttp} from '../../../../../http';
 import {GroupLessonInfo} from './data';
 import {GroupCardInformationAssignLessonPopupManager} from './views';
+import {DatesUtils} from '../../../../../utils/dates-utils';
 
 @Component({
   selector: 'app-group-card-information-page',
@@ -60,7 +61,7 @@ export class GroupCardInformationPage {
     } else {
       this.groupsHttp
         .createGroup(this.group)
-        .then(it => this.navigationService.groups().id(it).information());
+        .then(it => this.navigationService.groups().id(it).information().go());
     }
   }
 
@@ -80,6 +81,7 @@ export class GroupCardInformationPage {
 
   public editLesson(groupLessonInfo: GroupLessonInfo) {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
+      this.group,
       groupLessonInfo.lesson,
       groupLessonInfo.index,
       (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
@@ -89,15 +91,26 @@ export class GroupCardInformationPage {
 
   public addLesson() {
     GroupCardInformationAssignLessonPopupManager.pushGroupLesson(
-      new Lesson(),
-      -1,
-      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, groupLessonInfo.index),
+      this.group,
+      new Lesson(
+        null,
+        this.group.headTeacherLogin,
+        null,
+        false,
+        false,
+        null,
+        null,
+        DatesUtils.buildDateYMDFromDate(new Date()).getTime(),
+        DatesUtils.buildDateYMDFromDate(new Date()).getTime()
+      ),
+      null,
+      (groupLessonInfo) => this.onLessonSaved(groupLessonInfo.lesson, null),
       () => {}
     );
   }
 
   public onLessonSaved(lesson: Lesson, lessonIndex: number) {
-    if (lessonIndex == -1) {
+    if (lessonIndex == null) {
       this.group.lessons.push(lesson);
     } else {
       this.group.lessons[lessonIndex] = lesson;

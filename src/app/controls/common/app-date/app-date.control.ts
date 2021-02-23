@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
-import {IMyDateModel} from 'mydatepicker';
+import {IMyDate, IMyDateModel} from 'mydatepicker';
+import {DatesUtils} from '../../../utils/dates-utils';
 
 @Component({
   selector: 'app-date-control',
@@ -10,35 +11,45 @@ import {IMyDateModel} from 'mydatepicker';
 export class AppDateControl {
   @Input() public dateFormat: string = 'dd.mm.yyyy';
 
-  public value: number;
-  public date = {date: {year: 0, month: 0, day: 0}};
+  public model: AppDateControlModel = new AppDateControlModel(new Date());
 
   @Output() public onChange: EventEmitter<number> = new EventEmitter();
 
   @Input('value') set setValue(value: number) {
-    this.value = value;
+    let date: Date;
 
-    const date: Date = new Date(value);
+    if (value === null || value === 0) {
+      date = new Date();
+    } else {
+      date = new Date(value);
+    }
 
-    this.date = {date: {year: 0, month: 0, day: 0}};
+    this.model = new AppDateControlModel(date);
 
-    this.date.date.year = date.getFullYear();
-    this.date.date.month = date.getMonth() + 1;
-    this.date.date.day = date.getDate();
+    this.onChange.emit(
+      DatesUtils.buildDateYMDFromDate(date).getTime()
+    );
   }
 
   public onDateChange(event: IMyDateModel): void {
-    this.value = AppDateControl.getTime(event);
-
-    this.onChange.emit(this.value);
-  }
-
-  private static getTime(event: any): number {
-    return new Date(
+    const value = DatesUtils.buildDateYMDFromYMD(
       event.date.year,
       event.date.month - 1,
-      event.date.day,
-      0, 0, 0, 0
+      event.date.day
     ).getTime();
+
+    this.onChange.emit(value);
+  }
+}
+
+export class AppDateControlModel {
+  public date: IMyDate;
+
+  public constructor(date: Date) {
+    this.date = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate()
+    };
   }
 }
