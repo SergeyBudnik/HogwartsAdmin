@@ -15,6 +15,7 @@
         class="app-person-contacts-row-info-name-column"
         [placeholder]="'Описание'"
         [value]="phone.name"
+        [editable]="editable"
         (onChange)="phone.name = $event; notifyPersonContactsChanged();">
       </app-text-control>
 
@@ -22,10 +23,11 @@
         class="app-person-contacts-row-info-value-column"
         [placeholder]="'Телефон'"
         [value]="phone.value"
+        [editable]="editable"
         (onChange)="phone.value = $event; notifyPersonContactsChanged();">
       </app-text-control>
     </div>
-    <div class="app-person-contacts-row-actions">
+    <div class="app-person-contacts-row-actions" *ngIf="editable">
       <button class="app-button-secondary app-person-contacts-row-actions-delete" (click)="removePhone(i)">
         Удалить
       </button>
@@ -34,7 +36,7 @@
 
   <br>
 
-  <button class="app-button-primary person-contacts-group-add" (click)="addPhone()">
+  <button class="app-button-primary person-contacts-group-add" (click)="addPhone()" *ngIf="editable">
     Добавить
   </button>
 </div>
@@ -58,6 +60,7 @@
         class="app-person-contacts-row-info-name-column"
         [placeholder]="'Описание'"
         [value]="vkLink.name"
+        [editable]="editable"
         (onChange)="vkLink.name = $event; notifyPersonContactsChanged();">
       </app-text-control>
 
@@ -65,11 +68,12 @@
         class="app-person-contacts-row-info-value-column"
         [placeholder]="'Телефон'"
         [value]="vkLink.value"
+        [editable]="editable"
         (onChange)="vkLink.value = $event; notifyPersonContactsChanged();">
       </app-text-control>
     </div>
     <div class="app-person-contacts-row-actions">
-      <button class="app-button-secondary app-person-contacts-row-actions-delete" (click)="removeVkLink(i)">
+      <button class="app-button-secondary app-person-contacts-row-actions-delete" (click)="removeVkLink(i)" *ngIf="editable">
         Удалить
       </button>
     </div>
@@ -77,7 +81,7 @@
 
   <br>
 
-  <button class="app-button-primary person-contacts-group-add" (click)="addVkLink()">
+  <button class="app-button-primary person-contacts-group-add" (click)="addVkLink()" *ngIf="editable">
     Добавить
   </button>
 </div>

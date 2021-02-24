@@ -12,6 +12,7 @@ export class FormDateAndTimeControl {
   @Input() public dateLabel: string = '';
   @Input() public timeLabel: string = '';
   @Input() public dateAndTime: DateAndTime = new DateAndTime(0, 'T_08_00');
+  @Input() public editable: boolean = true;
 
   @Output() public onChange: EventEmitter<DateAndTime> = new EventEmitter();
 

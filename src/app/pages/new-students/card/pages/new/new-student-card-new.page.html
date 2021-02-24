@@ -2,51 +2,79 @@
   <app-header></app-header>
 
   <div class="app-card-page-elements">
-    <div class="page-left-menu"></div>
+    <div class="app-card-page-left-menu"></div>
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h3 class="app-header">Добавление нового студента</h3>
+        <div class="app-card-page-title">
+          Информация
+        </div>
 
         <br>
 
-        <h4 class="app-header">Информация</h4>
+        <app-form-input-control
+          [label]="'Логин (только английские буквы)'"
+          [valid]="!!studentOnBoarding.info.login">
+          <app-text-control
+            [placeholder]="'Логин'"
+            [value]="studentOnBoarding.info.login"
+            (onChange)="studentOnBoarding.info.login = $event">
+          </app-text-control>
+        </app-form-input-control>
 
         <br>
 
-        <div app-form-text-input-control class="form-group"
-             [name]="'login'"
-             [label]="'Логин'"
-             [placeholder]="'Введите логин (только английские буквы)'"
-             [valid]="!!studentOnBoarding.info.login"
-             [value]="studentOnBoarding.info.login"
-             [editable]="true"
-             (onChange)="studentOnBoarding.info.login = $event"></div>
+        <app-form-input-control
+          [label]="'Имя / Фамилия'"
+          [valid]="!!studentOnBoarding.info.person.name">
+          <app-text-control
+            [placeholder]="'Имя / Фамилия'"
+            [value]="studentOnBoarding.info.person.name"
+            (onChange)="studentOnBoarding.info.person.name = $event">
+          </app-text-control>
+        </app-form-input-control>
 
-        <div app-form-text-input-control class="form-group"
-             [name]="'name'"
-             [label]="'Имя / Фамилия'"
-             [placeholder]="'Введите имя и фамилию'"
-             [valid]="!!studentOnBoarding.info.person.name"
-             [value]="studentOnBoarding.info.person.name"
-             [editable]="true"
-             (onChange)="studentOnBoarding.info.person.name = $event"></div>
+        <br>
 
-        <app-select-staff-member-control
-          [items]="staffMembers"
-          [staffMemberLogin]="studentOnBoarding.info.managerLogin"
-          (onChange)="studentOnBoarding.info.managerLogin = $event">
-        </app-select-staff-member-control>
+        <app-form-input-control
+          [label]="'Менеджер'"
+          [valid]="!!studentOnBoarding.info.managerLogin">
+          <app-select-staff-member-control
+            [items]="staffMembers"
+            [staffMemberLogin]="studentOnBoarding.info.managerLogin"
+            (onChange)="studentOnBoarding.info.managerLogin = $event">
+          </app-select-staff-member-control>
+        </app-form-input-control>
 
-        <app-select-education-level-control
-          [value]="studentOnBoarding.info.educationInfo.level"
-          (onChange)="studentOnBoarding.info.educationInfo.level = $event">
-        </app-select-education-level-control>
+        <br>
 
-        <app-select-age-control
-          [value]="studentOnBoarding.info.educationInfo.age"
-          (onChange)="studentOnBoarding.info.educationInfo.age = $event">
-        </app-select-age-control>
+        <app-form-input-control
+          [label]="'Уровень подготовки'"
+          [valid]="true">
+          <app-select-education-level-control
+            [value]="studentOnBoarding.info.educationInfo.level"
+            (onChange)="studentOnBoarding.info.educationInfo.level = $event">
+          </app-select-education-level-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Возраст'"
+          [valid]="true">
+          <app-select-age-control
+            [value]="studentOnBoarding.info.educationInfo.age"
+            (onChange)="studentOnBoarding.info.educationInfo.age = $event">
+          </app-select-age-control>
+        </app-form-input-control>
+
+        <br>
+
+        <div class="app-card-page-title">
+          Контакты
+        </div>
+
+        <br>
 
         <app-person-contacts
           [personContacts]="studentOnBoarding.info.person.contacts"
@@ -55,32 +83,46 @@
 
         <br>
 
-        <h4 class="app-header">Задача</h4>
+        <div class="app-card-page-title">
+          Задача
+        </div>
 
         <br>
 
-        <app-select-staff-member-control
-          [items]="staffMembers"
-          [staffMemberLogin]="studentOnBoarding.action.info.assigneeLogin"
-          (onChange)="studentOnBoarding.action.info.assigneeLogin = $event">
-        </app-select-staff-member-control>
+        <app-form-input-control
+          [label]="'Исполнитель'"
+          [valid]="true">
+          <app-select-staff-member-control
+            [items]="staffMembers"
+            [staffMemberLogin]="studentOnBoarding.action.info.assigneeLogin"
+            (onChange)="studentOnBoarding.action.info.assigneeLogin = $event">
+          </app-select-staff-member-control>
+        </app-form-input-control>
 
-        <div app-form-text-input-control class="form-group"
-             [name]="'actionDescription'"
-             [label]="'Описание'"
-             [placeholder]="'Краткое описание задачи'"
-             [valid]="!!studentOnBoarding.action.info.description"
-             [value]="studentOnBoarding.action.info.description"
-             [editable]="true"
-             (onChange)="studentOnBoarding.action.info.description = $event"></div>
+        <br>
 
-        <app-form-date-and-time-control
-          [dateLabel]="'Дата исполнения задачи'"
-          [timeLabel]="'Время исполнения задачи'"
-          (onChange)="onActionDateAndTimeChange($event)">
-        </app-form-date-and-time-control>
+        <app-form-input-control
+          [label]="'Дата и время исполнения'"
+          [valid]="true">
+          <app-form-date-and-time-control
+            [dateLabel]="'Дата'"
+            [timeLabel]="'Время'"
+            [dateAndTime]="getDateAndTime(studentOnBoarding.action.info.actionTime)"
+            (onChange)="onActionDateAndTimeChange($event)">
+          </app-form-date-and-time-control>
+        </app-form-input-control>
 
-        <br><br>
+        <br>
+
+        <app-form-input-control
+          [label]="'Описание'"
+          [valid]="true">
+          <app-text-control
+            [placeholder]="'Описание'"
+            [value]="studentOnBoarding.action.info.description"
+            (onChange)="studentOnBoarding.action.info.description = $event">
+          </app-text-control>
+        </app-form-input-control>
       </ng-container>
     </div>
 
@@ -88,7 +130,10 @@
   </div>
 
   <div class="app-card-page-footer">
-    <button class="btn btn-primary pull-right" (click)="save()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-primary app-card-page-footer-button"
+      (click)="save()">
       Сохранить
     </button>
   </div>

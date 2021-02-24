@@ -11,6 +11,7 @@ export class AppSelectStaffMemberControl {
   public items: Array<SelectItem> = [];
 
   @Input('staffMemberLogin') public staffMemberLogin: string = null;
+  @Input('editable') public editable: boolean = true;
 
   @Input('items') set setStaffMembers(staffMembers: Array<StaffMember>) {
     this.items = staffMembers.map(it => new SelectItem(

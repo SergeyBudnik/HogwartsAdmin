@@ -46,6 +46,10 @@ export class NewStudentCardNewPage {
       })
   }
 
+  public getDateAndTime(time: number): DateAndTime {
+    return DateAndTimeUtils.fromMilliseconds(time);
+  }
+
   private load() {
     Promise.all([
       this.staffMembersHttp.getAllStaffMembers()

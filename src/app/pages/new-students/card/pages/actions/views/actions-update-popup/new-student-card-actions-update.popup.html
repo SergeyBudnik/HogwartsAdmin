@@ -1,0 +1,109 @@
+<app-modal-template [modalStatus]="modalStatus" *ngIf="!!newAction && !!oldAction">
+  <div class="app-modal-content">
+    <div class="app-modal-title">
+      Изменение статуса
+    </div>
+
+    <div class="app-modal-body">
+      <div class="new-student-card-actions-actions-update-table">
+        <div class="new-student-card-actions-actions-update-section">
+          <div class="app-modal-section-header">
+            Текущая задача
+          </div>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Исполнитель'"
+            [valid]="!!oldAction.info.assigneeLogin">
+            <app-select-staff-member-control
+              [items]="staffMembers"
+              [staffMemberLogin]="oldAction.info.assigneeLogin"
+              [editable]="false">
+            </app-select-staff-member-control>
+          </app-form-input-control>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Дата и время исполнения'"
+            [valid]="!!oldAction.info.assigneeLogin">
+            <app-form-date-and-time-control
+              [dateLabel]="'Дата'"
+              [timeLabel]="'Время'"
+              [dateAndTime]="getDateAndTime(oldAction.info.actionTime)"
+              [editable]="false">
+            </app-form-date-and-time-control>
+          </app-form-input-control>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Описание'"
+            [valid]="!!oldAction.info.description">
+            <app-text-control
+              [placeholder]="'Описание'"
+              [value]="oldAction.info.description"
+              [editable]="false">
+            </app-text-control>
+          </app-form-input-control>
+        </div>
+
+        <div class="new-student-card-actions-actions-update-separator"></div>
+
+        <div class="new-student-card-actions-actions-update-section">
+          <div class="app-modal-section-header">
+            Новая задача
+          </div>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Исполнитель'"
+            [valid]="!!newAction.info.assigneeLogin">
+            <app-select-staff-member-control
+              [items]="staffMembers"
+              [staffMemberLogin]="newAction.info.assigneeLogin"
+              (onChange)="newAction.info.assigneeLogin = $event">
+            </app-select-staff-member-control>
+          </app-form-input-control>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Дата и время исполнения'"
+            [valid]="!!newAction.info.assigneeLogin">
+            <app-form-date-and-time-control
+              [dateLabel]="'Дата'"
+              [timeLabel]="'Время'"
+              [dateAndTime]="getDateAndTime(newAction.info.actionTime)"
+              (onChange)="newAction.info.actionTime = fromDateAndTime($event)">
+            </app-form-date-and-time-control>
+          </app-form-input-control>
+
+          <br>
+
+          <app-form-input-control
+            [label]="'Описание'"
+            [valid]="!!newAction.info.description">
+            <app-text-control
+              [placeholder]="'Описание'"
+              [value]="newAction.info.description"
+              (onChange)="newAction.info.description = $event">
+            </app-text-control>
+          </app-form-input-control>
+        </div>
+      </div>
+    </div>
+
+    <div class="app-modal-footer">
+      <button class="app-button-primary app-modal-footer-buttons" (click)="save()">
+        Сохранить
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
+        Отмена
+      </button>
+    </div>
+  </div>
+</app-modal-template>

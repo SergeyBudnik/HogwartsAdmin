@@ -128,7 +128,7 @@ const appRoutes: Routes = [
     Pages.NewStudentCardInformationPage,
     Pages.NewStudentCardActionsPage, Pages.NewStudentCardActionsUpdatePopup,
     Pages.NewStudentCardNewPage,
-    Pages.NewStudentCardMenuComponent,
+    Pages.NewStudentCardMenuComponent, Pages.NewStudentCardInformationCompletePopup,
 
     /**
      * Parts

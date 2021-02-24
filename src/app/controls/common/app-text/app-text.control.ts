@@ -10,6 +10,7 @@ export class AppTextControl {
   @Input() public placeholder: string = '';
   @Input() public enabled: boolean = true;
   @Input() public icon: string = null;
+  @Input() public editable: boolean = true;
 
   @Output() public onChange: EventEmitter<string> = new EventEmitter();
 
