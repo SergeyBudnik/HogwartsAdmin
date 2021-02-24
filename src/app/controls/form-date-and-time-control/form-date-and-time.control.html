@@ -2,12 +2,14 @@
   <app-date-control
        class="app-form-date-and-time-date"
        [value]="dateAndTime.date"
+       [editable]="editable"
        (onChange)="onDateChange($event)">
   </app-date-control>
 
   <app-select-time-control
        class="app-form-date-and-time-time"
        [value]="dateAndTime.time"
+       [editable]="editable"
        (onChange)="onTimeChange($event)">
   </app-select-time-control>
 </div>

@@ -1,0 +1,40 @@
+<app-modal-template [modalStatus]="modalStatus">
+  <div class="app-modal-content">
+    <div class="app-modal-title">
+      Изменение статуса
+    </div>
+
+    <div class="app-modal-body">
+      <app-form-input-control
+        [label]="'Комментарий'"
+        [valid]="!!result.comment">
+        <app-text-control
+          [value]="result.comment"
+          (onChange)="result.comment = $event">
+        </app-text-control>
+      </app-form-input-control>
+
+      <br>
+
+      <app-form-input-control
+        [label]="'Статус'"
+        [valid]="!!result.type">
+        <app-select-control
+          [items]="getStatusItems()"
+          [valueString]="result.type"
+          (onChangeString)="result.type = $event">
+        </app-select-control>
+      </app-form-input-control>
+    </div>
+
+    <div class="app-modal-footer">
+      <button class="app-button-primary app-modal-footer-buttons" (click)="save()">
+        Готово
+      </button>
+
+      <button class="app-button-secondary app-modal-footer-buttons" (click)="cancel()">
+        Отмена
+      </button>
+    </div>
+  </div>
+</app-modal-template>

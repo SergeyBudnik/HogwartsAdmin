@@ -1,6 +1,12 @@
 import {HttpConfig} from './http-config';
 import {HttpClient} from '@angular/common/http';
-import {ExistingStudentOnBoarding, NewStudentOnBoarding, NewStudentOnBoardingAction, StudentOnBoardingInfo} from '../data';
+import {
+  ExistingStudentOnBoarding,
+  NewStudentOnBoarding,
+  NewStudentOnBoardingAction,
+  StudentOnBoardingInfo,
+  StudentOnBoardingResult
+} from '../data';
 import {Injectable} from '@angular/core';
 
 @Injectable()
@@ -33,6 +39,13 @@ export class StudentOnBoardingHttp {
   public update(login: string, studentOnBoardingInfo: StudentOnBoardingInfo): Promise<void> {
     return this.http
       .put(`${this.root}/${login}/update`, studentOnBoardingInfo)
+      .toPromise()
+      .then(() => {});
+  }
+
+  public complete(login: string, result: StudentOnBoardingResult): Promise<void> {
+    return this.http
+      .put(`${this.root}/${login}/complete`, result)
       .toPromise()
       .then(() => {});
   }

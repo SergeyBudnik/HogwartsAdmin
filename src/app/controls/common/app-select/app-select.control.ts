@@ -14,6 +14,7 @@ export class AppSelectControl {
   @Input() items: Array<SelectItem> = [];
   @Input() type: AppInputSelectValueType = 'STRING';
   @Input() hasEmpty: Boolean = false;
+  @Input() editable: boolean = true;
 
   @Input('valueString') set setValueString(val: string) { this.value = val == null ? '' : val; }
   @Input('valueNumber') set setValueNumber(val: number) { this.value = val == null ? '' : String(val); }

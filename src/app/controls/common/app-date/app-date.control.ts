@@ -10,6 +10,7 @@ import {DatesUtils} from '../../../utils/dates-utils';
 })
 export class AppDateControl {
   @Input() public dateFormat: string = 'dd.mm.yyyy';
+  @Input() public editable: boolean = true;
 
   public model: AppDateControlModel = new AppDateControlModel(new Date());
 

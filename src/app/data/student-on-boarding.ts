@@ -32,7 +32,7 @@ export class StudentOnBoardingResult {
   ) {}
 }
 
-export type StudentOnBoardingType = 'PROGRESS' | 'ON_BOARDED' | 'CANCEL';
+export type StudentOnBoardingType = 'PROGRESS' | 'ON_BOARDED' | 'CANCELED';
 
 export class NewStudentOnBoardingAction {
   constructor(

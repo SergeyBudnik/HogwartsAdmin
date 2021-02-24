@@ -1,4 +1,5 @@
 <my-date-picker id="date" class="app-date-picker"
   [(ngModel)]="model"
   [options]="{dateFormat: dateFormat}"
+  [disabled]="!editable"
   (dateChanged)="onDateChange($event)"></my-date-picker>

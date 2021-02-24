@@ -11,7 +11,9 @@ import {SelectItem} from '../../select-item';
 export class AppSelectAgeControl {
   public items = [];
 
-  @Input('value') public value: Age = null;
+  @Input() public value: Age = null;
+  @Input() public editable: boolean = true;
+
   @Output('onChange') public emitter = new EventEmitter<Age>();
 
   constructor(public translationService: TranslationService) {

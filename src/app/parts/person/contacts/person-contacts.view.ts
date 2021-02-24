@@ -9,6 +9,7 @@ import {ArrayUtils} from '../../../utils/array-utils';
 })
 export class PersonContactsView {
   @Input() public personContacts: PersonContacts;
+  @Input() public editable: boolean = true;
 
   @Output('onPersonContactsChanged') public onPersonContactsChanged = new EventEmitter<PersonContacts>();
 

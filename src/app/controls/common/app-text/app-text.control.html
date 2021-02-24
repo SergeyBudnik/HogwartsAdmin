@@ -3,8 +3,10 @@
     <i class="fa {{icon}}" aria-hidden="true"></i>
   </span>
 
-  <input class="app-text-control-field"
-         placeholder="{{placeholder}}"
-         [value]="value"
-         (keyup)="doOnChange($event.target.value)">
+  <input
+    class="app-text-control-field"
+    placeholder="{{placeholder}}"
+    [disabled]="!editable"
+    [value]="value"
+    (keyup)="doOnChange($event.target.value)">
 </div>

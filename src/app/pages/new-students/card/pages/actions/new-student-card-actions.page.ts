@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {ExistingStudentOnBoarding, ExistingStudentOnBoardingAction, StaffMember} from '../../../../../data';
+import {ExistingStudentOnBoarding, ExistingStudentOnBoardingAction, StaffMember, StudentOnBoardingActionInfo} from '../../../../../data';
 import {LoginService, NavigationService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
 import {StaffMembersHttp, StudentOnBoardingHttp} from '../../../../../http';
-import {NewStudentCardActionsUpdatePopupManager} from './views/actions-update/new-student-card-actions-update.popup';
+import {NewStudentCardActionsUpdatePopupManager} from './views/actions-update-popup/new-student-card-actions-update.popup';
 
 @Component({
   selector: 'app-new-student-card-actions-page',
@@ -33,11 +33,31 @@ export class NewStudentCardActionsPage {
     });
   }
 
+  public getStaffMemberName(staffMemberLogin: string): string {
+    const staffMember = this.staffMembers.find(it => it.login === staffMemberLogin);
+
+    if (!!staffMember) {
+      return staffMember.person.name;
+    } else {
+      return '-';
+    }
+  }
+
   public updateCurrentAction(action: ExistingStudentOnBoardingAction) {
     NewStudentCardActionsUpdatePopupManager.showPopup(
       this.studentOnBoarding.info.login,
       action,
-      () => {}
+      (oldAction, newAction) => {
+        const currentTime = new Date().getTime();
+
+        this.currentAction = new ExistingStudentOnBoardingAction(
+          newAction.info,
+          currentTime,
+          null
+        );
+
+        this.finishedActions.push(oldAction);
+      }
     );
   }
 
@@ -54,8 +74,8 @@ export class NewStudentCardActionsPage {
       this.studentOnBoardingHttp.getByLogin(login),
       this.staffMembersHttp.getAllStaffMembers()
     ]).then(it => {
-      this.studentOnBoarding = it[0];
-      this.staffMembers = it[1];
+      this.studentOnBoarding = it[0] as ExistingStudentOnBoarding;
+      this.staffMembers = it[1] as Array<StaffMember>;
 
       this.currentAction = this.studentOnBoarding.actions.find(it => it.completionTime == null);
 
