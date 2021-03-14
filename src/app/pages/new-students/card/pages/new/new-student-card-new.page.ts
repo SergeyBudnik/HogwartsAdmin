@@ -16,8 +16,6 @@ export class NewStudentCardNewPage {
   public studentOnBoarding: NewStudentOnBoarding = null;
   public staffMembers: Array<StaffMember> = [];
 
-  public actionDateAndTime: DateAndTime = new DateAndTime(0, 'T_08_00');
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private loginService: LoginService,
@@ -28,22 +26,20 @@ export class NewStudentCardNewPage {
     this.loadingInProgress = true;
 
     this.loginService.ifAuthenticated(() => {
-      this.load()
+      this.load();
     });
   }
 
-  public onActionDateAndTimeChange(actionDateAndTime: DateAndTime) {
-    this.actionDateAndTime = actionDateAndTime;
-  }
-
   public save() {
-    this.studentOnBoarding.action.info.actionTime = DateAndTimeUtils.toMilliseconds(this.actionDateAndTime);
-
     this.studentOnBoardingHttp
       .create(this.studentOnBoarding)
       .then(() => {
         this.navigationService.newStudents().card(this.studentOnBoarding.info.login).information().go();
-      })
+      });
+  }
+
+  public fromDateAndTime(dateAndTime: DateAndTime): number {
+    return DateAndTimeUtils.toMilliseconds(dateAndTime);
   }
 
   public getDateAndTime(time: number): DateAndTime {
