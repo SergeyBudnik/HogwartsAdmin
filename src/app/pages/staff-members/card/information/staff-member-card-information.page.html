@@ -69,6 +69,17 @@
 
         <br>
 
+        <app-form-input-control
+          [label]="'Неув. пропуски студентов'"
+          [valid]="true">
+          <app-select-yes-no-control
+            [value]="staffMember.subscriptions.studentInvalidSkip"
+            (onChange)="staffMember.subscriptions.studentInvalidSkip = $event">
+          </app-select-yes-no-control>
+        </app-form-input-control>
+
+        <br>
+
         <div class="app-card-page-title">
           Контакты:
         </div>

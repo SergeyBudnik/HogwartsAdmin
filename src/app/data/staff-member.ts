@@ -11,6 +11,7 @@ export class StaffMember {
 
 export class StaffMemberSubscriptions {
   constructor(
-    public freeLessonRequest: Boolean = false
+    public freeLessonRequest: Boolean = false,
+    public studentInvalidSkip: Boolean = false
   ) {}
 }
