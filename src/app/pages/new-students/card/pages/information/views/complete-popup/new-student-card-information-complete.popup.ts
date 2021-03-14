@@ -1,6 +1,6 @@
 import {
   ExistingStudentOnBoardingAction,
-  NewStudentOnBoardingAction, StudentOnBoardingResult,
+  NewStudentOnBoardingAction, StudentOnBoardingResult, StudentOnBoardingType,
 } from '../../../../../../../data';
 import {Component, Input} from '@angular/core';
 import {StudentOnBoardingHttp} from '../../../../../../../http';
@@ -66,7 +66,7 @@ export class NewStudentCardInformationCompletePopup {
       'ON_BOARDED',
       'CANCELED'
     ].map(it => new SelectItem(
-        this.translationService.studentOnBoardingType().translate(it),
+        this.translationService.studentOnBoardingType().translate(it as StudentOnBoardingType),
         it
       )
     );
