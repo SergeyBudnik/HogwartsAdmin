@@ -9,13 +9,15 @@
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <h4 class="app-card-page-title">Текущая задача</h4>
+        <div class="app-card-page-title">
+          Текущая задача
+        </div>
 
         <br>
 
         <div *ngIf="!!currentAction" class="new-student-card-actions-action">
           <div class="new-student-card-actions-action-column-assignee">
-            {{currentAction.info.assigneeLogin}}
+            {{getStaffMemberName(currentAction.info.assigneeLogin)}}
           </div>
           <div class="new-student-card-actions-action-column-description">
             {{currentAction.info.description}}
@@ -23,22 +25,24 @@
           <div class="new-student-card-actions-action-column-action-time">
             {{currentAction.info.actionTime | date: 'dd.MM.yyyy HH.mm'}}
           </div>
-          <div class="new-student-card-actions-action-column-actions"
-               data-toggle="modal" data-target="#newStudentActionsUpdateModal"
-               (click)="updateCurrentAction(currentAction)">
-            Изменить
+          <div class="new-student-card-actions-action-column-actions">
+            <button class="app-button-primary app-card-page-footer-button" (click)="updateCurrentAction(currentAction)">
+              Изменить
+            </button>
           </div>
         </div>
 
         <br>
 
-        <h4 class="app-card-page-title">Старые задачи</h4>
+        <div class="app-card-page-title">
+          История
+        </div>
 
         <br>
 
         <div *ngFor="let action of finishedActions" class="new-student-card-actions-action">
           <div class="new-student-card-actions-action-column-assignee">
-            {{action.info.assigneeLogin}}
+            {{getStaffMemberName(action.info.assigneeLogin)}}
           </div>
           <div class="new-student-card-actions-action-column-description">
             {{action.info.description}}
@@ -58,3 +62,7 @@
   <div class="app-card-page-footer">
   </div>
 </div>
+
+<app-new-student-card-actions-update-popup
+  [staffMembers]="staffMembers">
+</app-new-student-card-actions-update-popup>

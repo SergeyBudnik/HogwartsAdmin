@@ -12,6 +12,8 @@ export class AppSelectTimeControl {
   public items = [];
 
   @Input('value') public value: Time = null;
+  @Input('editable') public editable: boolean = true;
+
   @Output('onChange') public emitter = new EventEmitter<Time>();
 
   constructor(public translationService: TranslationService) {

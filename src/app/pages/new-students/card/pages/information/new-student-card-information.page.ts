@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {StaffMembersHttp, StudentOnBoardingHttp} from '../../../../../http';
-import {LoginService, NavigationService} from '../../../../../service';
+import {LoginService, NavigationService, TranslationService} from '../../../../../service';
 import {ActivatedRoute} from '@angular/router';
-import {ExistingStudentOnBoarding, StaffMember} from '../../../../../data';
+import {ExistingStudentOnBoarding, StaffMember, StudentOnBoardingResult} from '../../../../../data';
+import {NewStudentCardInformationCompletePopupManager} from './views/complete-popup/new-student-card-information-complete.popup';
 
 @Component({
   selector: 'app-new-student-card-information-page',
@@ -16,17 +17,26 @@ export class NewStudentCardInformationPage {
   public staffMembers: Array<StaffMember> = [];
 
   constructor(
+    public translationService: TranslationService,
     public navigationService: NavigationService,
     private activatedRoute: ActivatedRoute,
     private loginService: LoginService,
     private studentOnBoardingHttp: StudentOnBoardingHttp,
-    private staffMembersHttp: StaffMembersHttp,
+    private staffMembersHttp: StaffMembersHttp
   ) {
     this.loadingInProgress = true;
 
     this.loginService.ifAuthenticated(() => {
       this.parseParams((login) => this.load(login));
     });
+  }
+
+  public isCompleted(): boolean {
+    if (this.loadingInProgress) {
+      return false;
+    } else {
+      return this.studentOnBoarding.result.type !== 'PROGRESS'
+    }
   }
 
   public save() {
@@ -47,6 +57,13 @@ export class NewStudentCardInformationPage {
       });
   }
 
+  public complete() {
+    NewStudentCardInformationCompletePopupManager.showPopup(
+      this.studentOnBoarding.info.login,
+      this.studentOnBoarding.result
+    );
+  }
+
   private parseParams(actions: (string) => void) {
     this.activatedRoute.paramMap.subscribe(params => {
       const login = params.get('login');
@@ -60,8 +77,8 @@ export class NewStudentCardInformationPage {
       this.studentOnBoardingHttp.getByLogin(login),
       this.staffMembersHttp.getAllStaffMembers(),
     ]).then(it => {
-      this.studentOnBoarding = it[0];
-      this.staffMembers = it[1];
+      this.studentOnBoarding = it[0] as ExistingStudentOnBoarding;
+      this.staffMembers = it[1] as Array<StaffMember>;
 
       this.loadingInProgress = false;
     });

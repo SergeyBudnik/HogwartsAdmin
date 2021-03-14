@@ -3,9 +3,9 @@ import {
   NewStudentOnBoardingAction, StaffMember,
 } from '../../../../../../../data';
 import {Component, Input} from '@angular/core';
-import {TranslationService} from '../../../../../../../service';
 import {DateAndTime, DateAndTimeUtils} from '../../../../../../../data/date-and-time';
 import {StudentOnBoardingHttp} from '../../../../../../../http';
+import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 
 export class NewStudentCardActionsUpdatePopupManager {
   private static popup: NewStudentCardActionsUpdatePopup = null;
@@ -42,7 +42,7 @@ export class NewStudentCardActionsUpdatePopupManager {
 export class NewStudentCardActionsUpdatePopup {
   @Input() public staffMembers: Array<StaffMember> = [];
 
-  public modalVisible = false;
+  public modalStatus = new ModalStatus(false);
 
   public oldAction: ExistingStudentOnBoardingAction = null;
   public newAction: NewStudentOnBoardingAction = null;
@@ -60,10 +60,8 @@ export class NewStudentCardActionsUpdatePopup {
 
     this.oldAction = oldAction;
     this.newAction = new NewStudentOnBoardingAction();
-  }
 
-  public cancel(): void {
-    this.toggleModal();
+    this.modalStatus = new ModalStatus(true);
   }
 
   public getDateAndTime(time: number): DateAndTime {
@@ -78,11 +76,20 @@ export class NewStudentCardActionsUpdatePopup {
     this.studentOnBoardingHttp
       .completeAction(this.login, this.newAction)
       .then(() => {
+        this.hideModal();
 
+        NewStudentCardActionsUpdatePopupManager.notifySaved(
+          this.oldAction,
+          this.newAction
+        );
       });
   }
 
-  private toggleModal(): void {
-    this.modalVisible = !this.modalVisible;
+  public cancel() {
+    this.hideModal();
+  }
+
+  private hideModal() {
+    this.modalStatus.visible = false;
   }
 }

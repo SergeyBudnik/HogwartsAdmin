@@ -11,7 +11,9 @@ import {SelectItem} from '../../select-item';
 export class AppSelectEducationLevelControl {
   public items = [];
 
-  @Input('value') public value: EducationLevel = null;
+  @Input() public value: EducationLevel = null;
+  @Input() public editable: boolean = true;
+
   @Output('onChange') public emitter = new EventEmitter<EducationLevel>();
 
   constructor(public translationService: TranslationService) {

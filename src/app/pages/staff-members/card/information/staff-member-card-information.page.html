@@ -53,6 +53,23 @@
         <br>
 
         <div class="app-card-page-title">
+          Подписки:
+        </div>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Запись на бесплатный урок'"
+          [valid]="true">
+          <app-select-yes-no-control
+            [value]="staffMember.subscriptions.freeLessonRequest"
+            (onChange)="staffMember.subscriptions.freeLessonRequest = $event">
+          </app-select-yes-no-control>
+        </app-form-input-control>
+
+        <br>
+
+        <div class="app-card-page-title">
           Контакты:
         </div>
 

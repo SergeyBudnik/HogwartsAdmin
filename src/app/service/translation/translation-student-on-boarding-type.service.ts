@@ -7,7 +7,7 @@ export class TranslationStudentOnBoardingTypeService {
         return 'В процессе';
       case 'ON_BOARDED':
         return 'Вступил';
-      case 'CANCEL':
+      case 'CANCELED':
         return 'Отмена';
       default:
         throw Error(`Unexpected on-boarding type ${studentOnBoardingType}`);

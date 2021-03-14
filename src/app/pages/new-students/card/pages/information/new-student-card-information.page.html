@@ -9,42 +9,116 @@
 
     <div class="app-card-page-content-scrollable">
       <ng-container *ngIf="!loadingInProgress">
-        <div app-form-text-input-control class="form-group"
-             [name]="'login'"
-             [label]="'Логин'"
-             [placeholder]="'Введите логин (только английские буквы)'"
-             [valid]="!!studentOnBoarding.info.login"
-             [value]="studentOnBoarding.info.login"
-             [editable]="true"
-             (onChange)="studentOnBoarding.info.login = $event"></div>
+        <ng-container *ngIf="isCompleted()">
+          <div class="app-card-page-title">
+            Статус
+          </div>
 
-        <div app-form-text-input-control class="form-group"
-             [name]="'name'"
-             [label]="'Имя / Фамилия'"
-             [placeholder]="'Введите имя и фамилию'"
-             [valid]="!!studentOnBoarding.info.person.name"
-             [value]="studentOnBoarding.info.person.name"
-             [editable]="true"
-             (onChange)="studentOnBoarding.info.person.name = $event"></div>
+          <br>
 
-        <app-select-staff-member-control
-          [items]="staffMembers"
-          [staffMemberLogin]="studentOnBoarding.info.managerLogin"
-          (onChange)="studentOnBoarding.info.managerLogin = $event">
-        </app-select-staff-member-control>
+          <app-form-input-control
+            [label]="'Комментарий'"
+            [valid]="true">
+            <app-text-control
+              [placeholder]="'Комментарий'"
+              [value]="studentOnBoarding.result.comment"
+              [editable]="false">
+            </app-text-control>
+          </app-form-input-control>
 
-        <app-select-education-level-control
-          [value]="studentOnBoarding.info.educationInfo.level"
-          (onChange)="studentOnBoarding.info.educationInfo.level = $event">
-        </app-select-education-level-control>
+          <br>
 
-        <app-select-age-control
-          [value]="studentOnBoarding.info.educationInfo.age"
-          (onChange)="studentOnBoarding.info.educationInfo.age = $event">
-        </app-select-age-control>
+          <app-form-input-control
+            [label]="'Статус'"
+            [valid]="true">
+            <app-text-control
+              [placeholder]="'Статус'"
+              [value]="translationService.studentOnBoardingType().translate(studentOnBoarding.result.type)"
+              [editable]="false">
+            </app-text-control>
+          </app-form-input-control>
+
+          <br>
+        </ng-container>
+
+        <div class="app-card-page-title">
+          Информация
+        </div>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Логин (только английские буквы)'"
+          [valid]="!!studentOnBoarding.info.login">
+          <app-text-control
+            [placeholder]="'Логин'"
+            [value]="studentOnBoarding.info.login"
+            [editable]="!isCompleted()"
+            (onChange)="studentOnBoarding.info.login = $event">
+          </app-text-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Имя / Фамилия'"
+          [valid]="!!studentOnBoarding.info.person.name">
+          <app-text-control
+            [placeholder]="'Имя / Фамилия'"
+            [value]="studentOnBoarding.info.person.name"
+            [editable]="!isCompleted()"
+            (onChange)="studentOnBoarding.info.person.name = $event">
+          </app-text-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Менеджер'"
+          [valid]="!!studentOnBoarding.info.managerLogin">
+          <app-select-staff-member-control
+            [items]="staffMembers"
+            [staffMemberLogin]="studentOnBoarding.info.managerLogin"
+            [editable]="!isCompleted()"
+            (onChange)="studentOnBoarding.info.managerLogin = $event">
+          </app-select-staff-member-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Уровень подготовки'"
+          [valid]="true">
+          <app-select-education-level-control
+            [value]="studentOnBoarding.info.educationInfo.level"
+            [editable]="!isCompleted()"
+            (onChange)="studentOnBoarding.info.educationInfo.level = $event">
+          </app-select-education-level-control>
+        </app-form-input-control>
+
+        <br>
+
+        <app-form-input-control
+          [label]="'Возраст'"
+          [valid]="true">
+          <app-select-age-control
+            [value]="studentOnBoarding.info.educationInfo.age"
+            [editable]="!isCompleted()"
+            (onChange)="studentOnBoarding.info.educationInfo.age = $event">
+          </app-select-age-control>
+        </app-form-input-control>
+
+        <br>
+
+        <div class="app-card-page-title">
+          Контакты
+        </div>
+
+        <br>
 
         <app-person-contacts
           [personContacts]="studentOnBoarding.info.person.contacts"
+          [editable]="!isCompleted()"
           (onPersonContactsChanged)="studentOnBoarding.info.person.contacts = $event">
         </app-person-contacts>
       </ng-container>
@@ -54,12 +128,30 @@
   </div>
 
   <div class="app-card-page-footer">
-    <button class="btn btn-danger pull-right horizontal-item" (click)="delete()">
+    <button
+      [disabled]="loadingInProgress"
+      class="app-button-danger app-card-page-footer-button"
+      (click)="delete()">
       Удалить
     </button>
 
-    <button class="btn btn-primary pull-right" (click)="save()">
+    <button
+      *ngIf="!isCompleted()"
+      [disabled]="loadingInProgress"
+      class="app-button-secondary app-card-page-footer-button"
+      (click)="complete()">
+      Завершить
+    </button>
+
+    <button
+      *ngIf="!isCompleted()"
+      [disabled]="loadingInProgress"
+      class="app-button-primary app-card-page-footer-button"
+      (click)="save()">
       Сохранить
     </button>
   </div>
 </div>
+
+<app-new-student-card-information-complete-popup>
+</app-new-student-card-information-complete-popup>
