@@ -162,6 +162,7 @@ const appRoutes: Routes = [
     Controls.AppSelectGroupControl,
     Controls.AppSelectGroupTypeControl,
     Controls.AppSelectStaffMemberControl,
+    Controls.AppSelectStudentOnBoardingTypeControl,
     Controls.AppSelectTimeControl,
     Controls.AppSelectYesNoControl,
 
