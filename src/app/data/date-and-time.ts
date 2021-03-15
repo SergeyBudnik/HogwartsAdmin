@@ -13,16 +13,16 @@ export class DateAndTimeUtils {
   }
 
   public static fromMilliseconds(milliseconds: number): DateAndTime {
-    let dirtyDate = new Date(milliseconds);
+    const dirtyDate = new Date(milliseconds);
 
-    let date = new Date(
+    const date = new Date(
       dirtyDate.getFullYear(),
       dirtyDate.getMonth(),
       dirtyDate.getDate(),
       0, 0, 0, 0
     );
 
-    let hourAndMinutes = new Date(
+    const hourAndMinutes = new Date(
       0, 0, 0,
       dirtyDate.getHours(),
       dirtyDate.getMinutes(),

@@ -108,7 +108,7 @@
             [dateLabel]="'Дата'"
             [timeLabel]="'Время'"
             [dateAndTime]="getDateAndTime(studentOnBoarding.action.info.actionTime)"
-            (onChange)="onActionDateAndTimeChange($event)">
+            (onChange)="studentOnBoarding.action.info.actionTime = fromDateAndTime($event)">
           </app-form-date-and-time-control>
         </app-form-input-control>
 

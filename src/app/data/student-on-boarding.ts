@@ -32,8 +32,6 @@ export class StudentOnBoardingResult {
   ) {}
 }
 
-export type StudentOnBoardingType = 'PROGRESS' | 'ON_BOARDED' | 'CANCELED';
-
 export class NewStudentOnBoardingAction {
   constructor(
     public info: StudentOnBoardingActionInfo = new StudentOnBoardingActionInfo()
@@ -54,4 +52,12 @@ export class StudentOnBoardingActionInfo {
     public actionTime: number = new Date().getTime(),
     public description: string = ''
   ) {}
+}
+
+export type StudentOnBoardingType = 'PROGRESS' | 'ON_BOARDED' | 'CANCELED';
+
+export class StudentOnBoardingTypeUtils {
+  public static values: Array<StudentOnBoardingType> = [
+    'PROGRESS', 'ON_BOARDED', 'CANCELED'
+  ];
 }

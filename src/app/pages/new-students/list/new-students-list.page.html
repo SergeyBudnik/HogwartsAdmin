@@ -2,21 +2,28 @@
   <app-header [activeSection]="'NEW_STUDENTS'"></app-header>
 
   <div class="app-list-header">
-    <div class="new-students-list-column-student-name app-list-header-label">
-      Имя студента
-    </div>
+    <app-text-control
+      class="new-students-list-column-student-name"
+      [icon]="'fa-search'"
+      [placeholder]="'Имя или номер телефона'"
+      (onChange)="onFilterChange($event, undefined, undefined)">
+    </app-text-control>
 
-    <div class="new-students-list-column-manager-name app-list-header-label">
-      Имя менеджера
-    </div>
+    <app-select-staff-member-control
+      class="new-students-list-column-manager-name"
+      [items]="getAllStaffMembers()"
+      (onChange)="onFilterChange(undefined, $event, undefined)">
+    </app-select-staff-member-control>
 
     <div class="new-students-list-column-action-date app-list-header-label">
       Время исполнения
     </div>
 
-    <div class="new-students-list-column-status app-list-header-label">
-      Статус
-    </div>
+    <app-select-student-on-boarding-type-control
+      class="new-students-list-column-status"
+      [studentOnBoardingType]="'PROGRESS'"
+      (onChange)="onFilterChange(undefined, undefined, $event)">
+    </app-select-student-on-boarding-type-control>
 
     <div class="new-students-list-column-actions">
       <button class="app-button-primary pull-right" (click)="navigationService.newStudents().new().go()">
@@ -25,7 +32,7 @@
     </div>
   </div>
 
-  <div *ngFor="let studentOnBoarding of getNewStudents()" class="list-row-clickable"
+  <div *ngFor="let studentOnBoarding of studentOnBoardings" class="list-row-clickable"
        (click)="navigationService.newStudents().card(studentOnBoarding.info.login).information().go()">
     <div class="new-students-list-column-student-name list-row-item">
       {{studentOnBoarding.info.person.name}}
@@ -36,7 +43,7 @@
     </div>
 
     <div class="new-students-list-column-action-date list-row-item">
-      {{studentOnBoarding.actions[0].info.actionTime | date: 'dd.MM.yyyy HH:mm'}}
+      {{studentOnBoarding.actions[studentOnBoarding.actions.length - 1].info.actionTime | date: 'dd.MM.yyyy HH:mm'}}
     </div>
 
     <div class="new-students-list-column-status list-row-item">
