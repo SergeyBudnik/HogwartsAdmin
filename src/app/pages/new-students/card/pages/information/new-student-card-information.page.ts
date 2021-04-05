@@ -35,7 +35,7 @@ export class NewStudentCardInformationPage {
     if (this.loadingInProgress) {
       return false;
     } else {
-      return this.studentOnBoarding.result.type !== 'PROGRESS'
+      return this.studentOnBoarding.result.type !== 'PROGRESS';
     }
   }
 
@@ -60,7 +60,7 @@ export class NewStudentCardInformationPage {
   public complete() {
     NewStudentCardInformationCompletePopupManager.showPopup(
       this.studentOnBoarding.info.login,
-      this.studentOnBoarding.result
+      (newResult) => this.onOnBoardingCompleted(newResult)
     );
   }
 
@@ -82,5 +82,13 @@ export class NewStudentCardInformationPage {
 
       this.loadingInProgress = false;
     });
+  }
+
+  private onOnBoardingCompleted(newResult: StudentOnBoardingResult): void {
+    this.studentOnBoarding = new ExistingStudentOnBoarding(
+      this.studentOnBoarding.info,
+      this.studentOnBoarding.actions,
+      newResult
+    );
   }
 }
