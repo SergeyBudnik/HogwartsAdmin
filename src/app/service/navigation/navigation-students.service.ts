@@ -16,6 +16,10 @@ export class NavigationStudentsService {
     return new NavigationExecutor(this.router, `students/new`, {queryParams: {groupId: groupId}});
   }
 
+  public newForOnBoarding(login: string): NavigationExecutor {
+    return new NavigationExecutor(this.router, `students/new`, {queryParams: {studentOnBoardingLogin: login}});
+  }
+
   public login(login: string): NavigationStudentService {
     return new NavigationStudentService(this.router, login);
   }

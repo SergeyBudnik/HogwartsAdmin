@@ -144,6 +144,14 @@
     </button>
 
     <button
+      *ngIf="isCompleted()"
+      [disabled]="loadingInProgress"
+      class="app-button-secondary app-card-page-footer-button"
+      (click)="migrateToStudents()">
+      Перенести в студенты
+    </button>
+
+    <button
       *ngIf="!isCompleted()"
       [disabled]="loadingInProgress"
       class="app-button-primary app-card-page-footer-button"
