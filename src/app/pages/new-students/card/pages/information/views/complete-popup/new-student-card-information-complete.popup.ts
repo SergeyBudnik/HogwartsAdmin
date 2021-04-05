@@ -1,4 +1,4 @@
-import {StudentOnBoardingResult, StudentOnBoardingType,} from '../../../../../../../data';
+import {StudentOnBoardingResult, StudentOnBoardingType} from '../../../../../../../data';
 import {Component} from '@angular/core';
 import {StudentOnBoardingHttp} from '../../../../../../../http';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';

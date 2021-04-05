@@ -39,6 +39,10 @@ export class NewStudentCardInformationPage {
     }
   }
 
+  public migrateToStudents(): void {
+    this.navigationService.students().newForOnBoarding(this.studentOnBoarding.info.login).go();
+  }
+
   public save() {
     this.loadingInProgress = true;
 
