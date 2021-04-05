@@ -1,8 +1,5 @@
-import {
-  ExistingStudentOnBoardingAction,
-  NewStudentOnBoardingAction, StudentOnBoardingResult, StudentOnBoardingType,
-} from '../../../../../../../data';
-import {Component, Input} from '@angular/core';
+import {StudentOnBoardingResult, StudentOnBoardingType,} from '../../../../../../../data';
+import {Component} from '@angular/core';
 import {StudentOnBoardingHttp} from '../../../../../../../http';
 import {ModalStatus} from '../../../../../../../templates/modal/modal.template';
 import {SelectItem} from '../../../../../../../controls/select-item';
@@ -10,23 +7,24 @@ import {TranslationService} from '../../../../../../../service';
 
 export class NewStudentCardInformationCompletePopupManager {
   private static popup: NewStudentCardInformationCompletePopup = null;
+  private static saveListener: (StudentOnBoardingResult) => void = null;
 
   public static register(popup: NewStudentCardInformationCompletePopup) {
     this.popup = popup;
   }
 
-  public static showPopup(login: string, result: StudentOnBoardingResult) {
+  public static showPopup(login: string, saveListener: (StudentOnBoardingResult) => void) {
     if (!!this.popup) {
-      this.popup.onInit(login, result);
+      this.popup.onInit(login);
 
-      // this.saveListener = saveListener;
+      this.saveListener = saveListener;
     }
   }
 
-  public static notifySaved(oldAction: ExistingStudentOnBoardingAction, newAction: NewStudentOnBoardingAction) {
-    // if (this.popup != null && this.saveListener != null) {
-      // this.saveListener(oldAction, newAction);
-    // }
+  public static notifySaved(newResult: StudentOnBoardingResult) {
+    if (this.popup != null && this.saveListener != null) {
+      this.saveListener(newResult);
+    }
   }
 }
 
@@ -38,10 +36,11 @@ export class NewStudentCardInformationCompletePopupManager {
 export class NewStudentCardInformationCompletePopup {
   public modalStatus = new ModalStatus(false);
 
-  public login: string = '';
+  public login = '';
+
   public result = new StudentOnBoardingResult(
-    'PROGRESS',
-    ''
+    'ON_BOARDED',
+    'Вступил в группу'
   );
 
   public constructor(
@@ -51,12 +50,8 @@ export class NewStudentCardInformationCompletePopup {
     NewStudentCardInformationCompletePopupManager.register(this);
   }
 
-  public onInit(login: string, result: StudentOnBoardingResult) {
+  public onInit(login: string) {
     this.login = login;
-    this.result = new StudentOnBoardingResult(
-      result.type,
-      result.comment
-    );
 
     this.modalStatus = new ModalStatus(true);
   }
@@ -76,8 +71,10 @@ export class NewStudentCardInformationCompletePopup {
     this.studentOnBoardingHttp
       .complete(this.login, this.result)
       .then(() => {
+        NewStudentCardInformationCompletePopupManager.notifySaved(this.result);
+
         this.hideModal();
-      })
+      });
   }
 
   public cancel() {
